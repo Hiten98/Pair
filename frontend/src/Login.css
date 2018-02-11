@@ -1,0 +1,19 @@
+.info{
+  width:60%;
+  height:95%;
+  position: absolute;
+  top:5%;
+  left:0%;
+  border-width: 0 2px 0 0;
+  border-color: black;
+  border-style: solid;
+}
+
+.loginForm{
+  background-color: var(--l3);
+  width:40%;
+  height:95%;
+  position: absolute;
+  top:5%;
+  left: 60%;
+}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {NavLink, Switch, Route} from 'react-router-dom'
 import Login from './Login.js'
 import Register from './Register.js'
-//import './WelcomeScreen.css';
+import './WelcomeScreen.css';
 
 class WelcomeScreen extends Component {
   render() {

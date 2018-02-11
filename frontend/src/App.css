@@ -1,3 +1,12 @@
+:root{
+  --hpink:#EB347F;
+  --l1:#D8DBE2;
+  --l2:#A9BCD0;
+  --l3:#58A4B0;
+  --vblue:#50C2C4;
+  --hc:#F95498;
+}
+
 .App {
   text-align: center;
 }
