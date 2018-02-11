@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import {NavLink, Switch, Route} from 'react-router-dom'
+import Login from './Login.js'
+import Register from './Register.js'
 //import './WelcomeScreen.css';
 
 class WelcomeScreen extends Component {
   render() {
     return (
       <div>
+        <div className="topBar">
+        </div>
+        <div className="mainBox">
+          <Switch>
+            <Route path='/' component={Login}/>
+            <Route path='/register' component={Register}/>
+          </Switch>
+        </div>
       </div>
     );
   }
