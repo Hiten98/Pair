@@ -19,10 +19,13 @@
     var defaultApp = firebase.initializeApp(config);
     var defaultDatabase = defaultApp.database();
     var ref = firebase.database().ref();
-    ref.child("Chat").set({
-    username: "Name",
-    email: "name@gmail.com",
-  });
+    var companyRef = ref.child("Company");
+    function createCompany(companyName) {
+      companyRef.update({
+        [companyName]: "novalue"
+      });
+    }
+    createCompany("Test Company");
   </script>
 
 </html>
