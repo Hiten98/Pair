@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 
 <html>
+
+  <body>
+
+      <pre id="object">
+
+      </pre>
+
+  </body>
+
+
+
   
   <script src="/__/firebase/4.9.0/firebase-app.js"></script>
   <script src="/__/firebase/4.9.0/firebase-auth.js"></script>
@@ -8,8 +19,18 @@
   
   <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
   <script>
+
+    function writeUserData(userId, name, email, imageUrl) {
+      firebase.database().ref("pair-ab7d0"/"User").set({
+        username: name,
+        email: email,
+        profile_picture : imageUrl
+      });
+    }
+
+
     // Initialize Firebase
-    var config = {
+    const config = {
       apiKey: "AIzaSyCpow5onc7CzR9ekowLsK_VA_UbK1FnWoM",
       authDomain: "pair-ab7d0.firebaseapp.com",
       databaseURL: "https://pair-ab7d0.firebaseio.com",
@@ -18,9 +39,26 @@
       messagingSenderId: "553932382090"
     };
     firebase.initializeApp(config);
-    var database = firebase.database();
-    database.nasdf = "PAI";
-    document.write(database.nasdf);
+    const object = document.getElementById('object');
+    const database = firebase.database().ref().child('object');
+
+    database.on('value',  snap => {preObject.innerText = JSON.stringify(snap.val(), null, 3); });
+
+
+    //writeUserData(1201, "Jack Strings", "jack@gaml.com", "htpps?sdfl4@");
+
+
+    /*var userId = firebase.auth().currentUser.uid;
+    return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+      var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+      // ...
+    });*/
+
+    document.write("end of code");
+
+
+
+
   </script>
 
 </html>
