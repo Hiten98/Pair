@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello, playground")
 	opt := option.WithCredentialsFile("path/to/key.json")
 	app, err := firebase.NewApp(context.Background(), nil, opt)
 	
