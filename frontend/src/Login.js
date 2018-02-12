@@ -5,20 +5,22 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import './Login.css';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import PasswordField from 'material-ui-password-field'
+import backgroundImg from './tallest-3093955_1920.jpg'
 
 class Login extends Component {
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
+      <div>
         <div className="info">
+          <img src={backgroundImg} alt={"Building Image"} className="backgroundImg"/>
         </div>
         <div className="loginForm">
           <PasswordField
             hintText="At least 8 characters"
             floatingLabelText="Enter your password"
-            errorText="Your password is too short"/>
+            color="#000"/>
         </div>
-      </MuiThemeProvider>
+      </div>
     );
   }
 }
