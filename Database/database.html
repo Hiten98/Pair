@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
 <html>
+  
+  <!-- Necessary imports for firbase -->
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
@@ -16,10 +18,23 @@
       storageBucket: "pair-ab7d0.appspot.com",
       messagingSenderId: "553932382090"
     };
+
+    //Setup references to database
     var defaultApp = firebase.initializeApp(config);
     var defaultDatabase = defaultApp.database();
     var ref = firebase.database().ref();
+    // @Arvindh what do these lines do? Are all 3 necessary?
+
+    //Setup references to Object headers
     var companyRef = ref.child("Company");
+    var internRef = ref.child("User/Interns");
+    //Would this work?
+
+
+    //TODO @Darwin clean up and organize code
+    //TODO @Darwin move functions to appropriate place
+    //TODO @Darwin make separate javascript file
+    //Why is there a comma on line 40
     function createCompany(companyName) {
       companyRef.update({
         [companyName]: "novalue",
@@ -29,8 +44,21 @@
         "pin": pin
       });
     }
-    createCompany("Test Company");
-    createCompany("Test Company1");
+    //createCompany("Test Company");
+    //createCompany("Test Company1");
+
+
+    //Why does update function create? Or can it do both?
+    function createIntern(name, email, location) {
+      internRef.update({
+        [name]:"novalue"
+      })
+      internRef.child(name).set({"email":location});
+      internRef.child(name).set({"location":location});
+    }
+    createIntern("Andrew", "bass1purduedu", "Hawaii");
+
+
   </script>
 
 </html>
