@@ -21,42 +21,41 @@
 
     //Setup references to database
     var defaultApp = firebase.initializeApp(config);
-    var defaultDatabase = defaultApp.database();
     var ref = firebase.database().ref();
-    // @Arvindh what do these lines do? Are all 3 necessary?
 
     //Setup references to Object headers
     var companyRef = ref.child("Company");
     var internRef = ref.child("User/Interns");
-    //Would this work?
 
 
     //TODO @Darwin clean up and organize code
     //TODO @Darwin move functions to appropriate place
     //TODO @Darwin make separate javascript file
-    //Why is there a comma on line 40
     function createCompany(companyName) {
       companyRef.update({
-        [companyName]: "novalue",
+        [companyName]: "novalue"
       });
       var pin = Math.floor(Math.random() * 9000) + 1000;
-      companyRef.child(companyName).set({
+      companyRef.child(companyName).update({
         "pin": pin
       });
     }
-    //createCompany("Test Company");
+    //createCompany("Test Company2");
     //createCompany("Test Company1");
 
 
-    //Why does update function create? Or can it do both?
+    //Set replaces all links
     function createIntern(name, email, location) {
       internRef.update({
         [name]:"novalue"
       })
-      internRef.child(name).set({"email":location});
-      internRef.child(name).set({"location":location});
+      internRef.child(name).update({
+        "email":email,
+        "location":location
+      });
     }
-    createIntern("Andrew", "bass1purduedu", "Hawaii");
+    //createIntern("Andrew", "bass1purduedu", "Hawaii");
+    createIntern("Mihir", "tiwar@purdue.d", "NeYrok");
 
 
   </script>
