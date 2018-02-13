@@ -22,10 +22,15 @@
     var companyRef = ref.child("Company");
     function createCompany(companyName) {
       companyRef.update({
-        [companyName]: "novalue"
+        [companyName]: "novalue",
+      });
+      var pin = Math.floor(Math.random() * 9000) + 1000;
+      companyRef.child(companyName).set({
+        "pin": pin
       });
     }
     createCompany("Test Company");
+    createCompany("Test Company1");
   </script>
 
 </html>
