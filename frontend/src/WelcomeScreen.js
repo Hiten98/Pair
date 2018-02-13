@@ -8,8 +8,6 @@ class WelcomeScreen extends Component {
   render() {
     return (
       <div>
-        <div className="topBar">
-        </div>
         <div className="mainBox">
           <Switch>
             <Route path='/' component={Login}/>
