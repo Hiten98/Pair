@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 
 <html>
-  
-  <!-- Necessary imports for firbase -->
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
@@ -18,46 +16,39 @@
       storageBucket: "pair-ab7d0.appspot.com",
       messagingSenderId: "553932382090"
     };
-
-    //Setup references to database
     var defaultApp = firebase.initializeApp(config);
     var ref = firebase.database().ref();
-
-    //Setup references to Object headers
     var companyRef = ref.child("Company");
-    var internRef = ref.child("User/Interns");
-
-
-    //TODO @Darwin clean up and organize code
-    //TODO @Darwin move functions to appropriate place
-    //TODO @Darwin make separate javascript file
     function createCompany(companyName) {
       companyRef.update({
         [companyName]: "novalue"
       });
       var pin = Math.floor(Math.random() * 9000) + 1000;
       companyRef.child(companyName).update({
-        "pin": pin
+        "pin": pin,
+        "listOfLocations": "novalue",
+        "listOfEmployees": "novalue"
       });
-    }
-    //createCompany("Test Company2");
-    //createCompany("Test Company1");
-
-
-    //Set replaces all links
-    function createIntern(name, email, location) {
-      internRef.update({
-        [name]:"novalue"
-      })
-      internRef.child(name).update({
-        "email":email,
-        "location":location
+    };
+    function updateCompany(companyName, locations, employees) {
+      companyRef.child(companyName).update({ // change function to be like +=
+        "listOfLocations": locations,
+        "listOfEmployees": employees
       });
-    }
-    //createIntern("Andrew", "bass1purduedu", "Hawaii");
-    createIntern("Mihir", "tiwar@purdue.d", "NeYrok");
-
-
+    };
+    // Code to Retrive Company locations
+    var companyLocationRef = companyRef.child("Carrot").child('listOfLocations');
+    companyLocationRef.once("value")
+  . then(function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      var key = childSnapshot.val(); // "ada"
+      document.write(key);
+    });
+  });
+    //createCompany("Test Company");
+    //createCompany("Carrot");
+    updateCompany("Carrot", ["Cali", "L1", "L2"], ["Elon", "Muskrat"]);
+    //updateCompany("Test Company1", ["Mountain View", "Redwood"], ["Kunal", "Adam"]);
   </script>
 
 </html>
