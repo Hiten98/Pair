@@ -1,13 +1,69 @@
 <!DOCTYPE html>
-
+    <!--TODO @Darwin clean up and organize code
+        TODO @Darwin move functions to appropriate place
+        TODO @Darwin make separate javascript files-->
 <html>
+  
+  <!-- Necessary imports for firbase -->
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
 
   <script>
-    // Initialize Firebase
+
+    //All functions
+
+    function createCompany(companyName, listOfLocations = "novalue", listOfEmployees = "novalue") {
+      companyRef.update({
+        [companyName]: "novalue"
+      });
+      var pin = Math.floor(Math.random() * 9000) + 1000;
+      companyRef.child(companyName).update({
+        "pin": pin,
+        "listOfLocations": listOfLocations,
+        "listOfEmployees": listOfEmployees
+      });
+    }
+
+    function updateCompany(companyName, locations, employees) {
+      var companyLocationRef = companyRef.child(companyName).child('listOfLocations');
+      companyLocationRef.once("value").then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var listOfLocations = childSnapshot.val();
+        });
+      });
+
+      var companyEmployeeRef = companyRef.child(companyName).child('listOfEmployees');
+      companyEmployeeRef.once("value").then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var listOfEmployees = childSnapshot.val();
+        });
+      });
+
+      //Add concat function here
+
+      companyRef.child(companyName).update({
+        "listOfLocations": locations,
+        "listOfEmployees": employees
+      });
+    };
+
+    function createIntern(name, email, location) {
+      internRef.update({
+        [name]:"novalue"
+      })
+      internRef.child(name).update({
+        "email": email,
+        "location": location
+      });
+    }
+
+
+
+
+
+    //Initialize Firebase
     const config = {
       apiKey: "AIzaSyCpow5onc7CzR9ekowLsK_VA_UbK1FnWoM",
       authDomain: "pair-ab7d0.firebaseapp.com",
@@ -16,39 +72,29 @@
       storageBucket: "pair-ab7d0.appspot.com",
       messagingSenderId: "553932382090"
     };
+
+    //Setup references to database
     var defaultApp = firebase.initializeApp(config);
     var ref = firebase.database().ref();
+
+    //Setup references to Object headers
     var companyRef = ref.child("Company");
-    function createCompany(companyName) {
-      companyRef.update({
-        [companyName]: "novalue"
-      });
-      var pin = Math.floor(Math.random() * 9000) + 1000;
-      companyRef.child(companyName).update({
-        "pin": pin,
-        "listOfLocations": "novalue",
-        "listOfEmployees": "novalue"
-      });
-    };
-    function updateCompany(companyName, locations, employees) {
-      companyRef.child(companyName).update({ // change function to be like +=
-        "listOfLocations": locations,
-        "listOfEmployees": employees
-      });
-    };
-    // Code to Retrive Company locations
-    var companyLocationRef = companyRef.child("Carrot").child('listOfLocations');
-    companyLocationRef.once("value")
-  . then(function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-      var key = childSnapshot.val(); // "ada"
-      document.write(key);
-    });
-  });
-    //createCompany("Test Company");
-    //createCompany("Carrot");
-    updateCompany("Carrot", ["Cali", "L1", "L2"], ["Elon", "Muskrat"]);
-    //updateCompany("Test Company1", ["Mountain View", "Redwood"], ["Kunal", "Adam"]);
+    var internRef = ref.child("User/Interns");
+
+
+    createCompany("Mind Readers Inc", ["France", "Trace", "Drance"], ["P1", "P2"]);
+    createCompany("Telefrags");
+    //updateCompany("Mind Readers Inc", ["Fra", "Tra", "Dra"], ["Person", "Persona"]);
+
+    //createIntern("Andrew", "bass1purduedu", "Hawaii");
+    //createIntern("Mihir", "tiwar@purdue.d", "NeYrok");
+
+    // Code to retreive company locations
+    
+
+    
+
+
   </script>
 
 </html>
