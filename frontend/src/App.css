@@ -5,11 +5,11 @@
   --l3:#58A4B0;
   --vblue:#50C2C4;
   --hc:#F95498;
+  /*overflow: hidden;*/
 }
 
 .App {
   text-align: center;
-  background-color: #000;
 }
 
 .App-logo {

@@ -1,25 +1,26 @@
-.info{
-  width:60%;
-  height:99.55%;
-  position: absolute;
-  top:0%;
-  left:0%;
-  border-width: 0 2px 0 0;
-  border-color: black;
-  border-style: solid;
-}
-
-.backgroundImg{
-  filter: brightness(50%);
-  height: 100%;
-}
-
 .loginForm{
+  vertical-align: middle;
   background-color: var(--l1);
-  width:40%;
-  height:99.55%;
-  position: absolute;
-  top:0%;
-  left: 60%;
-  background-image: linear-gradient(-45deg,var(--hpink),/*var(--l1),var(--l2),*/var(--l3),var(--vblue));
+  background-image: linear-gradient(-45deg,var(--hpink),/*var(--l1),var(--l2),*/var(--l3),var(--vblue)); 
+  height:100vh;
+}
+
+.co{
+  position: relative;
+  top:20%;
+}
+
+.title{
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  position: relative;
+  left:-3.1vw;
+  font-size: 475%;
+}
+
+@media all and (max-width:767px){
+  .item{display: block;}
+}
+
+@media all and (min-width:768px){
+  .item{display: none;}
 }
