@@ -28,20 +28,23 @@
 
     function updateCompany(companyName, locations, employees) {
       var companyLocationRef = companyRef.child(companyName).child('listOfLocations');
+      var listOfLocations;
       companyLocationRef.once("value").then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
-          var listOfLocations = childSnapshot.val();
+          listOfLocations = childSnapshot.val();
         });
       });
 
       var companyEmployeeRef = companyRef.child(companyName).child('listOfEmployees');
+      var listOfEmployees
       companyEmployeeRef.once("value").then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
-          var listOfEmployees = childSnapshot.val();
+          listOfEmployees = childSnapshot.val();
         });
       });
 
-      //Add concat function here
+      locations = listOfLocations.concat(locations);
+      employees = listOfEmployees.concat(employees);
 
       companyRef.child(companyName).update({
         "listOfLocations": locations,
@@ -82,8 +85,8 @@
     var internRef = ref.child("User/Interns");
 
 
-    createCompany("Mind Readers Inc", ["France", "Trace", "Drance"], ["P1", "P2"]);
-    createCompany("Telefrags");
+    updateCompany("Mind Readers Inc", ["Franc", "Trce", "Drace"], ["P", "Puhy2"]);
+    createCompany("Telefrags", ["apple", "pear", "grape"]);
     //updateCompany("Mind Readers Inc", ["Fra", "Tra", "Dra"], ["Person", "Persona"]);
 
     //createIntern("Andrew", "bass1purduedu", "Hawaii");
