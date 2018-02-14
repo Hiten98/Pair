@@ -1,6 +1,7 @@
 <!DOCTYPE html>
     <!--TODO @Darwin clean up and organize code
         TODO @Darwin move functions to appropriate place
+        TODO @Darwin database security
         TODO @Darwin make separate javascript files-->
 <html>
   
@@ -28,34 +29,37 @@
 
     function updateCompany(companyName, locations, employees) {
       var companyLocationRef = companyRef.child(companyName).child('listOfLocations');
-      var listOfLocations;
+      var listOfLocations = new Array();
       companyLocationRef.once("value").then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
-          listOfLocations = childSnapshot.val();
+          var item = childSnapshot.val();
+          listOfLocations.push(item);
         });
       });
 
       var companyEmployeeRef = companyRef.child(companyName).child('listOfEmployees');
-      var listOfEmployees
+      var listOfEmployees = new Array();
       companyEmployeeRef.once("value").then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
-          listOfEmployees = childSnapshot.val();
+          var item = childSnapshot.val()
+          listOfEmployees.push(item);
         });
       });
 
-      locations = listOfLocations.concat(locations);
-      employees = listOfEmployees.concat(employees);
+      var newLocations = listOfLocations.concat(locations);
+      var newEmployees = listOfEmployees.concat(employees);
+      document.write(listOfEmployees.length);
 
       companyRef.child(companyName).update({
-        "listOfLocations": locations,
-        "listOfEmployees": employees
+        "listOfLocations": newLocations,
+        "listOfEmployees": newEmployees
       });
     };
 
     function createIntern(name, email, location) {
       internRef.update({
         [name]:"novalue"
-      })
+      })//set?
       internRef.child(name).update({
         "email": email,
         "location": location
@@ -85,9 +89,9 @@
     var internRef = ref.child("User/Interns");
 
 
-    updateCompany("Mind Readers Inc", ["Franc", "Trce", "Drace"], ["P", "Puhy2"]);
-    createCompany("Telefrags", ["apple", "pear", "grape"]);
-    //updateCompany("Mind Readers Inc", ["Fra", "Tra", "Dra"], ["Person", "Persona"]);
+    createCompany("Mind Readers Inc", ["Place1", "Drace1", "Trace1"], ["P1", "P2"]);
+    //createCompany("Telefrags", ["apple", "pear", "grape"]);
+    updateCompany("Mind Readers Inc", ["France", "Trance", "Drance"], ["Person", "Persona"]);
 
     //createIntern("Andrew", "bass1purduedu", "Hawaii");
     //createIntern("Mihir", "tiwar@purdue.d", "NeYrok");
