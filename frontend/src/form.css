@@ -16,6 +16,13 @@
   font-size: 475%;
 }
 
+.rtitle{
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  position: relative;
+  left:-1.1vw;
+  font-size: 475%;
+}
+
 @media all and (max-width:767px){
   .item{display: block;}
 }
