@@ -27,32 +27,26 @@
       });
     }
 
-    function updateCompany(companyName, locations, employees) {
-      var companyLocationRef = companyRef.child(companyName).child('listOfLocations');
-      var listOfLocations = [];
-      companyLocationRef.once("value").then(function(snapshot) {
+    //Secret function : do not understand
+    function getSnapshot(ref, companyName, stringItem, newValue) {
+      var list = [];
+      ref.once("value").then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
           var item = childSnapshot.val();
-          listOfLocations.push(item);
+          list.push(item);
         });
-        var newLocations = listOfLocations.concat(locations);
+        var newList = list.concat(newValue);
         companyRef.child(companyName).update({
-          "listOfLocations": newLocations
+          [stringItem]: newList
         })
       });
+    }
 
+    function updateCompany(companyName, locations, employees) {
+      var companyLocationRef = companyRef.child(companyName).child('listOfLocations');
+      getSnapshot(companyLocationRef, companyName, "listOfLocations", locations);
       var companyEmployeeRef = companyRef.child(companyName).child('listOfEmployees');
-      var listOfEmployees = new Array();
-      companyEmployeeRef.once("value").then(function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-          var item = childSnapshot.val()
-          listOfEmployees.push(item);
-        });
-        var newEmployees = listOfEmployees.concat(employees);
-        companyRef.child(companyName).update({
-          "listOfEmployees": newEmployees
-        });
-      });
+      getSnapshot(companyEmployeeRef, companyName, "listOfEmployees", employees);
     };
 
     function createIntern(name, email, location) {
