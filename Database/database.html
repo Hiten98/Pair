@@ -34,8 +34,12 @@
         snapshot.forEach(function(childSnapshot) {
           var item = childSnapshot.val();
           listOfLocations.push(item);
-          document.write(listOfLocations);
         });
+        var newLocations = listOfLocations.concat(locations);
+        document.write(newLocations);
+        companyRef.child(companyName).update({
+          "listOfLocations": newLocations
+        })
       });
 
       var companyEmployeeRef = companyRef.child(companyName).child('listOfEmployees');
@@ -47,14 +51,12 @@
         });
       });
 
-      var newLocations = listOfLocations.concat(locations);
       var newEmployees = listOfEmployees.concat(employees);
-      //document.write(listOfLocations.length);
 
-      companyRef.child(companyName).update({
+      /*companyRef.child(companyName).update({
         "listOfLocations": newLocations,
         "listOfEmployees": newEmployees
-      });
+      });*/
     };
 
     function createIntern(name, email, location) {
