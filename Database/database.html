@@ -36,7 +36,6 @@
           listOfLocations.push(item);
         });
         var newLocations = listOfLocations.concat(locations);
-        document.write(newLocations);
         companyRef.child(companyName).update({
           "listOfLocations": newLocations
         })
@@ -49,14 +48,11 @@
           var item = childSnapshot.val()
           listOfEmployees.push(item);
         });
+        var newEmployees = listOfEmployees.concat(employees);
+        companyRef.child(companyName).update({
+          "listOfEmployees": newEmployees
+        });
       });
-
-      var newEmployees = listOfEmployees.concat(employees);
-
-      /*companyRef.child(companyName).update({
-        "listOfLocations": newLocations,
-        "listOfEmployees": newEmployees
-      });*/
     };
 
     function createIntern(name, email, location) {
