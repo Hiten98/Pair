@@ -29,11 +29,12 @@
 
     function updateCompany(companyName, locations, employees) {
       var companyLocationRef = companyRef.child(companyName).child('listOfLocations');
-      var listOfLocations = new Array();
+      var listOfLocations = [];
       companyLocationRef.once("value").then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
           var item = childSnapshot.val();
           listOfLocations.push(item);
+          document.write(listOfLocations);
         });
       });
 
@@ -48,7 +49,7 @@
 
       var newLocations = listOfLocations.concat(locations);
       var newEmployees = listOfEmployees.concat(employees);
-      document.write(listOfEmployees.length);
+      //document.write(listOfLocations.length);
 
       companyRef.child(companyName).update({
         "listOfLocations": newLocations,
