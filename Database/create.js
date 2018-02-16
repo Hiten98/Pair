@@ -18,6 +18,9 @@
 		for (var i = 0; i < size; i++) {
 		    id += characters.charAt(Math.floor(Math.random() * characters.length));
 		}
+		if(length < 10) {
+			id += 0;
+		}
 		id += length;
 		return(id);
     }
