@@ -57,12 +57,13 @@
       getSnapshot(companyRef, companyName, "listOfEmployees", employees);
     };
 
-    function createIntern(name, email = "novalue", location = "novalue") {
+    function createIntern(name, password, email = "novalue", location = "novalue") {
       internRef.update({
         [name]:"novalue"
       })
       internRef.child(name).update({
         "email": email,
+        "password": password,
         "location": location
       });
     }
@@ -108,10 +109,10 @@
     //updateCompany("Mind Readers Inc", ["France", "Trance", "Drance"], ["Person", "Persona"]);
     //updateCompany("Telefrags", [] , "Atlan");
 
-    createIntern("Andrew", "bass1purduedu", "Hawaii");
-    createIntern("Mihir", "tiwar@purdue.d", "NeYrok");
-    createIntern("Hiten");
-    updateIntern("Hiten", null, "India");
+    createIntern("Andrew", "$!@#$","bass1purduedu", "Hawaii");
+    createIntern("Mihir", "paswrod", "tiwar@purdue.d", "NeYrok");
+    createIntern("Hiten", "SEX");
+    updateIntern("Mihir", null, "Cali");
 
     
 
