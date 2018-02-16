@@ -11,7 +11,21 @@
       });
     }
 
+    function getID(length) {
+    	var characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		var size = 3;
+		var id = '';
+		for (var i = 0; i < size; i++) {
+		    id += characters.charAt(Math.floor(Math.random() * characters.length));
+		}
+		id += length;
+		return(id);
+    }
+
     function createIntern(name, password, email = "novalue", location = "novalue") {
+      internRef.update({
+        [name]:"novalue"
+      })
       var newLength = 0;
       internRef.child('AAlength').once('value', function(snapshot) {
         newLength = snapshot.val();
@@ -19,15 +33,13 @@
         internRef.update({
           "AAlength": newLength
         });
-      });
-      internRef.update({
-        [name]:"novalue"
-      })
-      internRef.child(name).update({
-        "email": email,
-        "password": password,
-        "location": location
+      	var id = getID(newLength);
+      	internRef.child(name).update({
+      		"id": id,
+      		"email": email,
+        	"password": password,
+        	"location": location
+	    });
       });
     }
 
-    

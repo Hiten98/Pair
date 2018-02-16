@@ -36,6 +36,6 @@
     createIntern("Andrew", "$!@#$","bass1purduedu", "Hawaii");
     createIntern("Mihir", "paswrod", "tiwar@purdue.d", "NeYrok");
     createIntern("Hitena", "Sseptu", "rarho@prud.2");
-    updateIntern("Mihir", null, "Cali");
+    updateIntern("Mihir", null, "Calif");
 
     
