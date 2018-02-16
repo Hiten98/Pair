@@ -4,7 +4,7 @@
         TODO @Darwin database security
         TODO @Darwin make separate javascript files-->
 <html>
-  
+
   <!-- Necessary imports for firbase -->
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
@@ -58,9 +58,19 @@
     };
 
     function createIntern(name, password, email = "novalue", location = "novalue") {
+      var newLength = 0;
+      internRef.child('AAlength').once('value', function(snapshot) {
+        newLength = snapshot.val();
+        newLength = newLength + 1;
+        document.write(newLength);
+        internRef.update({
+          "AAlength": newLength
+        });
+      });
+
       internRef.update({
         [name]:"novalue"
-      })
+      });
       internRef.child(name).update({
         "email": email,
         "password": password,
@@ -109,14 +119,18 @@
     //updateCompany("Mind Readers Inc", ["France", "Trance", "Drance"], ["Person", "Persona"]);
     //updateCompany("Telefrags", [] , "Atlan");
 
+      internRef.update({
+        "AAlength": 0
+      });
+
     createIntern("Andrew", "$!@#$","bass1purduedu", "Hawaii");
     createIntern("Mihir", "paswrod", "tiwar@purdue.d", "NeYrok");
-    createIntern("Hiten", "SEX");
-    updateIntern("Mihir", null, "Cali");
+    createIntern("Hiten", "pass2");
+    updateIntern("Mihir", "sdsa", "dsa");
 
-    
 
-    
+
+
 
 
   </script>
