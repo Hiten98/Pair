@@ -10,7 +10,7 @@
     / @param newValue the values you want to add
     */
     function getSnapshot(relevantRef, childName, itemName, newValue) {
-      var ref = relevantRef.child(childName).child(itemName)
+      var ref = relevantRef.child(childName).child(itemName);
       var oldlist = [];
       ref.once("value").then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
