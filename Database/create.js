@@ -11,24 +11,25 @@
       });
     }
 
+    function pad(n, width, z) {
+	  z = z || '0';
+	  n = n + '';
+	  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+	}
+
     function getID(length) {
     	var characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		var size = 3;
+		var size = 5;
 		var id = '';
 		for (var i = 0; i < size; i++) {
 		    id += characters.charAt(Math.floor(Math.random() * characters.length));
 		}
-		if(length < 10) {
-			id += 0;
-		}
+		length = pad(length, 4);
 		id += length;
 		return(id);
     }
 
-    function createIntern(name, password, email = "novalue", location = "novalue") {
-      internRef.update({
-        [name]:"novalue"
-      })
+    function createIntern(firstName, lastName, password, email, location = "novalue") {
       var newLength = 0;
       internRef.child('AAlength').once('value', function(snapshot) {
         newLength = snapshot.val();
@@ -37,8 +38,12 @@
           "AAlength": newLength
         });
       	var id = getID(newLength);
-      	internRef.child(name).update({
-      		"id": id,
+      	internRef.update({
+       		[id]:"novalue"
+      	})
+      	internRef.child(id).update({
+      		"firstName": firstName,
+      		"lastName": lastName,
       		"email": email,
         	"password": password,
         	"location": location

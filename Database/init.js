@@ -29,13 +29,13 @@
     //updateCompany("Mind Readers Inc", ["France", "Trance", "Drance"], ["Person", "Persona"]);
     //updateCompany("Telefrags", [] , "Atlan");
 
-    /*internRef.update({
+    internRef.update({
       "AAlength": 0
-    });*/
+    });
 
-    createIntern("Andrew", "$!@#$","bass1purduedu", "Hawaii");
-    createIntern("Mihir", "paswrod", "tiwar@purdue.d", "NeYrok");
-    createIntern("Hitena", "Sseptu", "rarho@prud.2");
-    updateIntern("Mihir", null, "Calif");
+    // createIntern("Andrew", "Bass", "$!@#$", "bass1purduedu", "Hawaii");
+    // createIntern("Mihir", "Tirwrai", "paswrod", "tiwar@purdue.d", "NeYrok");
+    // createIntern("Hitena", "Rathod", "Sseptu", "rarho@prud.2");
+    // updateIntern("QxRAi0003", null, "Calif");
 
     
