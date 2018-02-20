@@ -8,17 +8,19 @@ import Form from './form.js'
 
 
 
-const Login = () => {
-  return (
-    <Grid fluid={true}>
-      <Row>
-        <Col xsHidden={true} sm={8}>
-          <LoginParagraph />
-        </Col>
-        <Form/>
-      </Row>
-    </Grid>
-  );
+class Login extends Component {
+  render() {
+    return (
+      <Grid fluid={true}>
+        <Row>
+          <Col xsHidden={true} sm={8}>
+            <LoginParagraph />
+          </Col>
+          <Form updateUid={this.props.updateUid} />
+        </Row>
+      </Grid>
+    );
+  }
 }
 
 export default Login;

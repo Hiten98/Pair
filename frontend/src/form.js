@@ -36,10 +36,11 @@ class form extends Component {
     //where classification is whether it is an employee or intern, change the variable however you want
   }
 
-  redirect=(classification)=>{
+  redirect=(uid)=>{
     this.setState({username:null})
     this.setState({password:null})
-    if(classification==1)
+    this.props.updateUid(uid)
+    if(uid==1)
       return<Redirect to='/employee-landing'/>
     else
       return<Redirect to='/intern-landing'/>

@@ -13,7 +13,7 @@ class Register extends Component {
         <Col xsHidden={true} sm={8}>
           <RegisterParagraph />
         </Col>
-        <RegisterForm/>
+        <RegisterForm updateUid={this.props.updateUid}/>
       </Row>
     </Grid>
     );

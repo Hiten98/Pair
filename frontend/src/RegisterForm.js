@@ -37,11 +37,12 @@ class RegisterForm extends Component {
     //where classification is whether it is an employee or intern, change the variable however you want
   }
 
-  redirect=(classification)=>{
+  redirect=(uid)=>{
     this.setState({username:null})
     this.setState({password:null})
     this.setState({companyCode:null})
-    return<Redirect to='/company-creation'/>
+    this.props.updateUid(uid)
+    history.push('/register/account')
   }
 
   goToLogin=()=>{
