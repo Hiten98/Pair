@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {NavLink, Switch, Route} from 'react-router-dom'
+import {NavLink, Switch, Route, Redirect} from 'react-router-dom'
 import Login from './bootstrap-login.js'
 import Register from './Register.js'
 import './WelcomeScreen.css';
@@ -16,8 +16,9 @@ class WelcomeScreen extends Component {
       <div>
         <div className="mainBox">
           <Switch>
-            <Route exact path='/' component={Login}/>
-            <Route path='/register' component={Register}/>
+            <Route exact path='/' render={()=><Redirect to='/login'/>}/>
+            <Route exact path='/login' component={Login}/>
+            <Route exact path='/register' component={Register}/>
           </Switch>
         </div>
       </div>

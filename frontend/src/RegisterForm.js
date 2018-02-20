@@ -6,6 +6,7 @@ import { TextField, RaisedButton } from 'material-ui'
 import RegisterFormField from './RegisterFormField.js'
 import RegisterParagraph from './RegisterParagraph.js'
 import './form.css';
+import history from './history'
 
 class RegisterForm extends Component {
   state={
@@ -43,6 +44,10 @@ class RegisterForm extends Component {
     return<Redirect to='/company-creation'/>
   }
 
+  goToLogin=()=>{
+    history.push('/login')
+  }
+
   render() {
     return (
       <Col xs={12} sm={4} md={4} className="loginForm">
@@ -58,6 +63,14 @@ class RegisterForm extends Component {
               label="Register"
               primary={true}
               onClick={this.handleLogin}
+            />
+          </Row>
+
+          <Row className='row-sm lbutton'>
+            <RaisedButton
+              label="Login Page"
+              primary={true}
+              onClick={this.goToLogin}
             />
           </Row>
 
