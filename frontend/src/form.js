@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import {withRouter} from 'react-router'
 import { NavLink, Switch, Route, Redirect } from 'react-router-dom'
 import { Grid, Row, Col, Image } from 'react-bootstrap'
 import PasswordField from 'material-ui-password-field'
 import { TextField, RaisedButton } from 'material-ui'
 import LoginFormField from './loginFormField.js'
 import LoginParagraph from './loginParagraph.js'
+import {pinkA200, black} from 'material-ui/styles/colors'
 import './form.css';
+import history from './history'
 
 class form extends Component {
   state={
@@ -42,6 +45,10 @@ class form extends Component {
       return<Redirect to='/intern-landing'/>
   }
 
+  goToEmployee=()=>{
+    history.push('/register')
+  }
+
   render() {
     return (
       <Col xs={12} sm={4} md={4} className="loginForm">
@@ -55,8 +62,16 @@ class form extends Component {
           <Row className='row-sm lbutton'>
             <RaisedButton
               label="Login"
-              primary={true}
+              primary
               onClick={this.handleLogin}
+            />
+          </Row>
+
+          <Row className='row-sm lbutton'>
+            <RaisedButton
+              label="Company Page"
+              primary
+              onClick={this.goToEmployee}
             />
           </Row>
 
