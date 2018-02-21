@@ -32,9 +32,11 @@
       "AAlength": 0
     });*/
 
-    createIntern("Andrew", "Bass", "$!@#$", "bass1purduedu", "Dicks:", "Hawaii");
-    createIntern("Mihir", "Tirwrai", "paswrod", "tiwar@purdue.d", "Evernote", "NeYrok");
-    createIntern("Hiten", "Rathod", "Sseptu", "rarho@prud.2", "Hiten is jobless LOLOLOLOL");
+    createIntern("Andrew", "Bass", "bass1@purduedu", "Dicks", "Hawaii");
+    createIntern("Mihir", "Tirwrai", "tiwar@purdue.d", "Evernote", "NeYrok");
+    createIntern("Hiten", "Rathod", "rarho@prud.2", "Hiten is jobless LOLOLOLOL");
+    createPassword("rarho", "!@#$");
+    updatePassword("rarho", "new", "!@#$");
     //updateIntern("QxRAi0003", null, "Calif");
 
     //createPreferences("QxRAi0003", ["soup", "noddles", 12, "chess", "etc."]);

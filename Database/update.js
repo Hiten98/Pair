@@ -29,20 +29,26 @@
       getSnapshot(companyRef, companyName, "listOfEmployees", employees);
     };
 
-    function updateIntern(ID, email, location, phone) {
-      if(email != null) {
-        internRef.child(ID).update({
-          "email": email
-        })
-      }
+    function updateIntern(ID, location, phone) {
       if(location != null) {
         internRef.child(ID).update({
           "location": location
-        })
+        });
       }
       if(phone != null) {
       	internRef.child(ID).update({
       		"phone": phone
-      	})
+      	});
       }
+    }
+
+    function updatePassword(ID, newPassword, oldPassword) {
+    	var ref = internRef.child(ID).child("password");
+    	ref.once("value").then(function(snapshot) {
+    		var item = snapshot.val();
+    		if(item == oldPassword)
+    			internRef.child(ID).update({
+    				"password": newPassword
+    			});
+    	});
     }

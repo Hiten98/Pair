@@ -43,8 +43,14 @@
 	  		"lastName": lastName,
 	  		"email": email,
 	  		"company": company,
-	    	"location": location,
+	    	"location": location
 	    });
+    }
+
+    function createPassword(ID, password) {
+    	internRef.child(ID).update({
+    		"password": password
+    	})
     }
 
     function createPreferences(ID, options) {
