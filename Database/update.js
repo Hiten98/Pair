@@ -29,7 +29,7 @@
       getSnapshot(companyRef, companyName, "listOfEmployees", employees);
     };
 
-    function updateIntern(ID, email, location) {
+    function updateIntern(ID, email, location, phone) {
       if(email != null) {
         internRef.child(ID).update({
           "email": email
@@ -39,5 +39,10 @@
         internRef.child(ID).update({
           "location": location
         })
+      }
+      if(phone != null) {
+      	internRef.child(ID).update({
+      		"phone": phone
+      	})
       }
     }

@@ -1,9 +1,13 @@
 
 	function getMasterListOfInterns() {
-		return internRef;
+		internRef.once("value").then(function(snapshot) {
+			document.write(snapshot.val());
+		});
 	}
 
 	function getIntern(ID) {
-		return internRef.child(ID);
+		internRef.child(ID).once.then(function(snapshot) {
+			document.write(snapshot.val());
+		});
 		//Figure out how to return a JSON
 	}

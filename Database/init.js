@@ -23,7 +23,6 @@
     var companyRef = ref.child("Company");
     var internRef = ref.child("User/Interns");
 
-
     //createCompany("Mind Readers Inc", ["Place1", "Drace1", "Trace1"], ["P1", "P2"]);
     //createCompany("Telefrags", ["US", "UK", "UV"]);
     //updateCompany("Mind Readers Inc", ["France", "Trance", "Drance"], ["Person", "Persona"]);
@@ -33,9 +32,9 @@
       "AAlength": 0
     });*/
 
-    // createIntern("Andrew", "Bass", "$!@#$", "bass1purduedu", "Hawaii");
-    // createIntern("Mihir", "Tirwrai", "paswrod", "tiwar@purdue.d", "NeYrok");
-    // createIntern("Hitena", "Rathod", "Sseptu", "rarho@prud.2");
-    // updateIntern("QxRAi0003", null, "Calif");
+    createIntern("Andrew", "Bass", "$!@#$", "bass1purduedu", "Dicks:", "Hawaii");
+    createIntern("Mihir", "Tirwrai", "paswrod", "tiwar@purdue.d", "Evernote", "NeYrok");
+    createIntern("Hiten", "Rathod", "Sseptu", "rarho@prud.2", "Hiten is jobless LOLOLOLOL");
+    //updateIntern("QxRAi0003", null, "Calif");
 
-    getIntern("QxRAi0003");
+    //createPreferences("QxRAi0003", ["soup", "noddles", 12, "chess", "etc."]);

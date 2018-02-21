@@ -17,6 +17,10 @@
 	  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 	}
 
+	function hashCode(s) {
+		return s.substring(0, s.indexOf("@"));
+	};
+
     function getID(length) {
     	var characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		var size = 5;
@@ -29,25 +33,29 @@
 		return(id);
     }
 
-    function createIntern(firstName, lastName, password, email, location = "novalue") {
-      var newLength = 0;
-      internRef.child('AAlength').once('value', function(snapshot) {
-        newLength = snapshot.val();
-        newLength = newLength + 1;
-        internRef.update({
-          "AAlength": newLength
-        });
-      	var id = getID(newLength);
-      	internRef.update({
-       		[id]:"novalue"
-      	})
-      	internRef.child(id).update({
-      		"firstName": firstName,
-      		"lastName": lastName,
-      		"email": email,
-        	"password": password,
-        	"location": location
+    function createIntern(firstName, lastName, email, company, location = "novalue") {
+	  	var id = hashCode(email);
+	  	internRef.update({
+	   		[id]:"novalue"
+	  	});
+	  	internRef.child(id).update({
+	  		"firstName": firstName,
+	  		"lastName": lastName,
+	  		"email": email,
+	  		"company": company,
+	    	"location": location,
 	    });
-      });
+    }
+
+    function createPreferences(ID, options) {
+    	internRef.child(ID).update({
+    		"options": "novalue"
+    	});
+    	for (var i = 0; i < options.length; i++) {
+    		var name = "option" + i;
+    		internRef.child(ID).child("options").update({
+    			[name]: options[i]
+    		});
+    	}
     }
 
