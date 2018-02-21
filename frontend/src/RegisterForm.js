@@ -10,8 +10,6 @@ import history from './history'
 
 class RegisterForm extends Component {
   state={
-    username:null,
-    password:null,
     companyCode:null,
   }
 
@@ -28,18 +26,14 @@ class RegisterForm extends Component {
   }
 
   handleLogin=()=>{
-    const username=this.state.username
-    const password=this.state.password
     const companyCode=this.state.companyCode
     //kunal code submit here
-
+    this.redirect(null)
     //if doing a fetch use this at the end .then(this.redirect(classification))
     //where classification is whether it is an employee or intern, change the variable however you want
   }
 
   redirect=(uid)=>{
-    this.setState({username:null})
-    this.setState({password:null})
     this.setState({companyCode:null})
     this.props.updateUid(uid)
     history.push('/register/account')

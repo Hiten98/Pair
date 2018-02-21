@@ -27,14 +27,6 @@ class loginFormField extends Component {
     }
   }
 
-  userChange = (ev) => {
-    this.props.getUser(ev.target.value)
-  }
-
-  passChange = (ev) => {
-    this.props.getPass(ev.target.value)
-  }
-
   codeChange=(ev)=>{
     this.props.getCompanyCode(ev.target.value)
   }
@@ -53,7 +45,7 @@ class loginFormField extends Component {
             underlineStyle={this.styles.underlineStyle}
             visibilityIconStyle={this.styles.visibilityIconStyle}
             hintStyle={this.styles.hintStyle}
-            onChange={this.codeChange}
+            onClick={this.codeChange}
           />
         </Row>
       </div>
