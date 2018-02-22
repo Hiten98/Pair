@@ -3,7 +3,6 @@
         TODO @Darwin move functions to appropriate place
         TODO @Darwin database security
         TODO @Darwin make separate javascript files*/
-  
 
     //Initialize Firebase
     const config = {
@@ -43,7 +42,8 @@
       resolve(getMasterListOfInterns("Evernote"));
       reject(getMasterListOfInterns("Evernote"));
     });*/
-    var x = getMasterListOfInterns("Evernote") => document.write("DONE");
+    //var x = getMasterListOfInterns("Evernote") => document.write("DONE");
+    document.write(verifyIntern("rarho", "new"));
     //document.write(promise1);
     //document.write(JSON.stringify(getMasterListOfInterns("Evernote")));
     // removeIntern("QxRAi0003", "Sseptu")

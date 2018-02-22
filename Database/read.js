@@ -40,3 +40,18 @@
 			document.write(snapshot.val());
 		});
 	}
+
+	function verifyIntern(ID, password) {
+		var ref = internRef.child(ID).child("password");
+		var correctPassword;
+		ref.once("value").then(function(snapshot) {
+			correctPassword = snapshot.val();
+			//document.write(correctPassword);
+			if (password === correctPassword) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		});
+	}
