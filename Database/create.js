@@ -1,4 +1,4 @@
-
+	
 	function createCompany(companyName, listOfLocations = "novalue", listOfEmployees = "novalue") {
       companyRef.update({
         [companyName]: "novalue"
@@ -45,15 +45,15 @@
 	    	"location": location
 	    });
     }
-
-		function createEmployee(id, firstName, lastName, password, email, company, location = "novalue") {
+    //do employees need to register with pin?
+    function createEmployee(id, firstName, lastName, password, email, company, location = "novalue") {
 	  	employeeRef.update({
 	   		[id]:"novalue"
 	  	});
 	  	employeeRef.child(id).update({
 	  		"firstName": firstName,
 	  		"lastName": lastName,
-				"password": password,
+			"password": password,
 	  		"email": email,
 	  		"company": company,
 	    	"location": location
@@ -77,3 +77,4 @@
     		});
     	}
     }
+

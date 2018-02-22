@@ -3,6 +3,7 @@
         TODO @Darwin move functions to appropriate place
         TODO @Darwin database security
         TODO @Darwin make separate javascript files*/
+  
 
     //Initialize Firebase
     const config = {
@@ -21,7 +22,7 @@
     //Setup references to Object headers
     var companyRef = ref.child("Company");
     var internRef = ref.child("User/Interns");
-    var employeeRef = ref.child("User/Employees")
+    var employeeRef = ref.child("User/Employees");
 
     //createCompany("Mind Readers Inc", ["Place1", "Drace1", "Trace1"], ["P1", "P2"]);
     //createCompany("Telefrags", ["US", "UK", "UV"]);
@@ -43,18 +44,16 @@
       resolve(getMasterListOfInterns("Evernote"));
       reject(getMasterListOfInterns("Evernote"));
     });*/
-    //var x = getMasterListOfInterns("Evernote") => document.write("DONE");
+    // var x = getMasterListOfInterns("Evernote") => document.write("DONE");
+    //document.write(promise1);
+    //document.write(JSON.stringify(getMasterListOfInterns("Evernote")));
+    // removeIntern("QxRAi0003", "Sseptu")
+    // createPreferences("rarho", ["soup", "noddles", 12, "chess", "etc."]);
+    // getLocations("Telefrags");
 
-    //document.write(verifyIntern("rarho", "new"));
     createEmployee("masonid", "mason", "herky", "secretpass", "masonherky@salesforce.com", "SalesForce", "San Francisco");
     //createIntern("dvaz", "darwin", "vaz", "dvaz@gmail.com", "Blizzard", "LA");
 
     var data = getEmployee("masonid");
     //document.write(data);
     verifyEmployee("masonid", "secretpass");
-
-    //document.write(promise1);
-    //document.write(JSON.stringify(getMasterListOfInterns("Evernote")));
-    // removeIntern("QxRAi0003", "Sseptu")
-    //createPreferences("rarho", ["soup", "noddles", 12, "chess", "etc."]);
-    // getLocations("Telefrags");
