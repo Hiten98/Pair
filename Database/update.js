@@ -52,3 +52,12 @@
     			});
     	});
     }
+
+    function removeIntern(ID, password) {
+    	var ref = internRef.child(ID).child("password");
+    	ref.once("value").then(function(snapshot) {
+    		var item = snapshot.val();
+    		if(item == password)
+    			internRef.child(ID).remove();
+    	});
+    }

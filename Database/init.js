@@ -38,5 +38,7 @@
     // createPassword("rarho", "!@#$");
     // updatePassword("rarho", "new", "!@#$");
     //updateIntern("QxRAi0003", null, "Calif");
-    getIntern("bass1");
+    //getIntern("bass1");
+    getMasterListOfInterns("Evernote");
+    //removeIntern("QxRAi0003", "Sseptu")
     //createPreferences("QxRAi0003", ["soup", "noddles", 12, "chess", "etc."]);
