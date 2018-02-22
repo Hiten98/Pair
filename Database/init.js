@@ -37,8 +37,10 @@
     // createIntern("Hiten", "Rathod", "rarho@prud.2", "Hiten is jobless LOLOLOLOL");
     // createPassword("rarho", "!@#$");
     // updatePassword("rarho", "new", "!@#$");
-    //updateIntern("QxRAi0003", null, "Calif");
-    //getIntern("bass1");
-    getMasterListOfInterns("Evernote");
-    //removeIntern("QxRAi0003", "Sseptu")
-    //createPreferences("QxRAi0003", ["soup", "noddles", 12, "chess", "etc."]);
+    // updateIntern("QxRAi0003", null, "Calif");
+    // getIntern("bass1");
+    var promise1 = new Promise(getMasterListOfInterns("Evernote"));
+    document.write(JSON.stringify(getMasterListOfInterns("Evernote")));
+    // removeIntern("QxRAi0003", "Sseptu")
+    // createPreferences("QxRAi0003", ["soup", "noddles", 12, "chess", "etc."]);
+    // getLocations("Telefrags");

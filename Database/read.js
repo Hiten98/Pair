@@ -14,12 +14,24 @@
     			}
     		});
     		document.write(JSON.stringify(master));
+    		return master;
     	});
+	}
+
+	function getLocations(company) {
+		var list = [];
+		companyRef.child(company).child("listOfLocations").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+	          var item = childSnapshot.val();
+	          list.push(item);
+	        });
+	        document.write(list);
+		});
+		document.write(list);
 	}
 
 	function getIntern(ID) {
 		internRef.child(ID).once("value").then(function(snapshot) {
 			document.write(snapshot.val());
 		});
-		//Figure out how to return a JSON
 	}
