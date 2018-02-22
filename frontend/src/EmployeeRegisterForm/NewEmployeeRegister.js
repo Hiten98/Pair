@@ -19,47 +19,49 @@ import hiistory from '../history.js'
 //links
 
 class NewEmployeeRegister extends Component {
-  state={
-    username:null,
-    password:null,
-    checked:[],
-    description:null,
-    links:[],
-    stupid:0,
+  state = {
+    username: null,
+    password: null,
+    checked: [],
+    description: null,
+    facebook:null,
+    linkedin:null,
   }
 
-
-  item = []
-  constructor(props) {
-    super(props)
-    let i=0;
-    for (let a of props.companyLocationList()) {
-      this.item.push(<Checkbox label={a} key={i} onCheck={this.handleCheck.bind(this)}/>)
-      i++;
+  handleCheck = (ev) => {
+    console.log(ev.target.value)
+    let arr=this.state.checked
+    if(arr.indexOf(`${ev.target.value}`)>-1){
+      arr.splice(arr.indexOf(`${ev.target.value}`),1)
+    } else {
+      arr.push(`${ev.target.value}`)
     }
+    this.setState({checked:arr})
+    console.log(this.state.checked)
   }
 
-  handleCheck=(i,checked)=>{
-    if(this.state.checked.indexOf(`${i}`)>-1){
-      
-    }
-  }
-
-  userChange=(ev)=>{
-    this.setState({username:ev.target.value})
+  userChange = (ev) => {
+    this.setState({ username: ev.target.value })
     //console.log(this.state.username)
   }
 
-  passChange=(ev)=>{
-    this.setState({password:ev.target.value})
+  passChange = (ev) => {
+    this.setState({ password: ev.target.value })
     //console.log(this.state.password)
   }
 
-  descriptionChange=(ev)=>{
-    this.setState({description:ev.target.value})
+  descriptionChange = (ev) => {
+    this.setState({ description: ev.target.value })
+    //console.log(this.state.description)
   }
 
-
+  componentWillMount(){
+    let i=0
+    for(let a of this.props.companyLocationList()){
+      this.props.item.push(<Checkbox label={a} key={i} value={a} onCheck={this.handleCheck}/>)
+      i++
+    }
+  }
 
   styles = {
     underlineStyle: {
@@ -73,7 +75,7 @@ class NewEmployeeRegister extends Component {
     },
     hintStyle: {
       color: grey800,
-      fontWeight:"bold",
+      fontWeight: "bold",
       textAlign: 'left',
     },
     visibilityIconStyle: {
@@ -95,19 +97,18 @@ class NewEmployeeRegister extends Component {
           </Col>
           <Col xs={12} sm={8} className="midCol">
             <Row>
-              <Username styles={this.styles} userChange={this.userChange.bind(this)}/>
+              <Username styles={this.styles} userChange={this.userChange.bind(this)} />
             </Row>
             <Row>
-              <Password styles={this.styles} passChange={this.passChange.bind(this)}/>
+              <Password styles={this.styles} passChange={this.passChange.bind(this)} />
             </Row>
             <Row className="checkboxes">
               Company Locations:<br />
-              {this.item}
-
+              {this.props.item}
             </Row>
 
             <Row>
-              <Description styles={this.styles} descriptionChange={this.descriptionChange.bind(this)}/>
+              <Description styles={this.styles} descriptionChange={this.descriptionChange.bind(this)} />
             </Row>
           </Col>
           <Col xsHidden sm={2}>
