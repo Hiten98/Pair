@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {NavLink, Switch, Route} from 'react-router-dom'
-import logo from './images/original_logo.png'
-import './paragraph.css'
+import logo from '../images/original_logo.png'
+import '../paragraph.css'
 
 class loginParagraph extends Component {
   render() {

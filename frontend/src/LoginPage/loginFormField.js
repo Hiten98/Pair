@@ -42,7 +42,7 @@ class loginFormField extends Component {
         <Row className="row-sm">
           <PasswordField
             className="username"
-            floatingLabelText="Enter your username"
+            floatingLabelText="Enter your email"
             visible
             disableButton={true}
             floatingLabelStyle={this.styles.floatingLabelStyle}

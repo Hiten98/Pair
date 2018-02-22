@@ -5,8 +5,8 @@ import PasswordField from 'material-ui-password-field'
 import { TextField, RaisedButton } from 'material-ui'
 import RegisterFormField from './RegisterFormField.js'
 import RegisterParagraph from './RegisterParagraph.js'
-import './form.css';
-import history from './history'
+import '../LoginPage/form.css';
+import history from '../history'
 
 class RegisterForm extends Component {
   state={
@@ -33,9 +33,13 @@ class RegisterForm extends Component {
     //where classification is whether it is an employee or intern, change the variable however you want
   }
 
-  redirect=(uid)=>{
+  redirect=(stuff)=>{
+    //parse it here
+    const uid=null
+    const loc=[]
     this.setState({companyCode:null})
     this.props.updateUid(uid)
+    this.props.updateCompanyLocations(loc)
     history.push('/register/account')
   }
 
