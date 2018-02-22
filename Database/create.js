@@ -1,4 +1,4 @@
-	
+
 	function createCompany(companyName, listOfLocations = "novalue", listOfEmployees = "novalue") {
       companyRef.update({
         [companyName]: "novalue"
@@ -47,6 +47,19 @@
 	    });
     }
 
+		function createEmployee(id, firstName, lastName, email, company, location = "novalue") {
+	  	employeeRef.update({
+	   		[id]:"novalue"
+	  	});
+	  	employeeRef.child(id).update({
+	  		"firstName": firstName,
+	  		"lastName": lastName,
+	  		"email": email,
+	  		"company": company,
+	    	"location": location
+	    });
+    }
+
     function createPassword(ID, password) {
     	internRef.child(ID).update({
     		"password": password
@@ -64,4 +77,3 @@
     		});
     	}
     }
-

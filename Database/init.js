@@ -21,6 +21,7 @@
     //Setup references to Object headers
     var companyRef = ref.child("Company");
     var internRef = ref.child("User/Interns");
+    var employeeRef = ref.child("User/Employees")
 
     //createCompany("Mind Readers Inc", ["Place1", "Drace1", "Trace1"], ["P1", "P2"]);
     //createCompany("Telefrags", ["US", "UK", "UV"]);
@@ -43,7 +44,9 @@
       reject(getMasterListOfInterns("Evernote"));
     });*/
     //var x = getMasterListOfInterns("Evernote") => document.write("DONE");
+
     document.write(verifyIntern("rarho", "new"));
+    createEmployee("masonid", "mason", "herky", "masonherky@salesforce.com", "SalesForce", "San Francisco");
     //document.write(promise1);
     //document.write(JSON.stringify(getMasterListOfInterns("Evernote")));
     // removeIntern("QxRAi0003", "Sseptu")
