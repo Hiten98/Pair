@@ -7,6 +7,9 @@ import history from './history'
 import NewEmployeeRegister from './EmployeeRegisterForm/NewEmployeeRegister.js'
 import { Checkbox } from 'material-ui';
 import InternRegPart1 from './InternRegister/InternRegPart1'
+import UserDetails from './InternRegister/DetailsP1.js'
+import RoommatePreferences from './InternRegister/DetailsP2'
+import HousingPreferences from './InternRegister/DetailsP3'
 
 class WelcomeScreen extends Component {
   state = {
@@ -51,6 +54,9 @@ class WelcomeScreen extends Component {
             <Route exact path='/register' render={() => <Register updateUid={this.updateUid.bind(this)} updateCompanyLocations={this.updateCompanyLocations.bind(this)} />} />
             <Route path='/register/employee' render={() => <NewEmployeeRegister companyLocationList={this.getCompanyLocations.bind(this)} item={this.item} />} />
             <Route path='/register/intern/part1' render={()=><InternRegPart1 uid={history.location.pathname.substring(history.location.pathname.lastIndexOf('/')+1)} updateUid={this.updateUid.bind(this)}/>}/>
+            <Route path='/intern/user-details' render={()=><UserDetails uid={this.state.uid}/>}/>
+            <Route path='/intern/roommate-preferences' render={()=><RoommatePreferences uid={this.state.uid}/>}/>
+            <Route path='/intern/housing-preferences' render={()=><HousingPreferences uid={this.state.uid}/>}/>
           </Switch>
         </div>
       </div>

@@ -6,6 +6,7 @@ import Password from '../EmployeeRegisterForm/password'
 import '../EmployeeRegisterForm/NewEmployeeRegister.css';
 import { grey800, black, pink900, white } from 'material-ui/styles/colors';
 import { Checkbox, RaisedButton } from 'material-ui';
+import history from '../history'
 
 class LandingScreen extends Component {
   constructor(props){
@@ -28,6 +29,7 @@ class LandingScreen extends Component {
 
     //KUNAL PUT YOUR CODE HERE
     //check to make sure password exists
+    history.push('/intern/user-details')
   }
 
   passChange = (ev) => {
@@ -68,7 +70,7 @@ class LandingScreen extends Component {
 
           </Col>
           <Col xs={10} sm={8} className="midCol">
-            <Row className="Title"> Intern Registration Part 1</Row>
+            <Row className="Title"> Intern Registration</Row>
             <Row>
               <Username styles={this.styles} email={this.state.username}/>
             </Row>
