@@ -33,20 +33,18 @@
 		return(id);
     }
 
-    function createIntern(id, firstName, lastName, email, company, location = "novalue") {
+    function createIntern(id, email, company, location = "novalue") {
 	  	internRef.update({
 	   		[id]:"novalue"
 	  	});
 	  	internRef.child(id).update({
-	  		"firstName": firstName,
-	  		"lastName": lastName,
 	  		"email": email,
 	  		"company": company,
 	    	"location": location
 	    });
     }
-    //do employees need to register with pin?
-    function createEmployee(id, firstName, lastName, password, email, company, location = "novalue") {
+
+    function createEmployee(id, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter) {
 	  	employeeRef.update({
 	   		[id]:"novalue"
 	  	});
@@ -56,7 +54,9 @@
 			"password": password,
 	  		"email": email,
 	  		"company": company,
-	    	"location": location
+	  		"description": description,
+	    	"location": location,
+	    	"links": [facebook, linkedin, twitter]
 	    });
     }
 
@@ -68,13 +68,13 @@
 
     function createPreferences(ID, options) {
     	internRef.child(ID).update({
-    		"options": "novalue"
+    		"options": options
     	});
-    	for (var i = 0; i < options.length; i++) {
+    	/*for (var i = 0; i < options.length; i++) {
     		var name = "option" + i;
     		internRef.child(ID).child("options").update({
     			[name]: options[i]
     		});
-    	}
+    	}*/
     }
 

@@ -29,11 +29,47 @@
       getSnapshot(companyRef, companyName, "listOfEmployees", employees);
     };
 
-    function updateIntern(ID, location, phone) {
-      if(location != null) {
+    function updateEmployee(id, firstName, lastName, location, description, facebook, linkedin, twitter) {
+	  	if(firstName != null)
+	  		employeeRef.child(id).update({
+	  			"firstName": firstName
+	  		});
+	    if(lastName != null)
+	  		employeeRef.child(id).update({
+	  			"lastName": lastName
+	  		});
+	  	if(description != null)
+	  		employeeRef.child(id).update({
+	  			"description": description
+	  		});
+	  	if(location != null)
+	  		employeeRef.child(id).update({
+	    		"location": location
+	    	});
+	  	if(facebook != null)
+	  		employeeRef.child(id).child("links").update({
+	  			"0": facebook
+	  		});
+	  	if(twitter != null)
+	  		employeeRef.child(id).child("links").update({
+	  			"2": twitter
+	  		});
+	  	if(linkedin != null)
+	  		employeeRef.child(id).child("links").update({
+	  			"1": linkedin
+	  		});
+    }
+
+    function updateIntern(ID, firstName, lastName, phone) {
+      if(firstName != null) {
         internRef.child(ID).update({
-          "location": location
+          "firstName": firstName
         });
+      }
+      if(lastName != null) {
+      	internRef.child(ID).update({
+      		"lastName": lastName
+      	})
       }
       if(phone != null) {
       	internRef.child(ID).update({
@@ -42,11 +78,12 @@
       }
     }
 
+    //this only works for interns
     function updatePassword(ID, newPassword, oldPassword) {
     	var ref = internRef.child(ID).child("password");
     	ref.once("value").then(function(snapshot) {
     		var item = snapshot.val();
-    		if(item === oldPassword)
+    		if(item == oldPassword)
     			internRef.child(ID).update({
     				"password": newPassword
     			});

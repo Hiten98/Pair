@@ -24,9 +24,12 @@
 	          var item = childSnapshot.val();
 	          list.push(item);
 	        });
-	        document.write(list);
+	        return list;
 		});
-		document.write(list);
+	}
+
+	function getCompany(pin) {
+		
 	}
 
 	function getIntern(ID) {
