@@ -45,12 +45,13 @@
     });*/
     //var x = getMasterListOfInterns("Evernote") => document.write("DONE");
 
-    document.write(verifyIntern("rarho", "new"));
-    //createEmployee("masonid", "mason", "herky", "masonherky@salesforce.com", "SalesForce", "San Francisco");
+    //document.write(verifyIntern("rarho", "new"));
+    createEmployee("masonid", "mason", "herky", "secretpass", "masonherky@salesforce.com", "SalesForce", "San Francisco");
     //createIntern("dvaz", "darwin", "vaz", "dvaz@gmail.com", "Blizzard", "LA");
 
     var data = getEmployee("masonid");
-    document.write(data);
+    //document.write(data);
+    verifyEmployee("masonid", "secretpass");
 
     //document.write(promise1);
     //document.write(JSON.stringify(getMasterListOfInterns("Evernote")));

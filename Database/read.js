@@ -43,7 +43,7 @@
 				var data = childSnapshot.val();
 				list.push(data);
 			});
-			document.write(list);
+			//document.write(list);
 			return list;
 		});
 	}
@@ -71,7 +71,22 @@
 				var data = childSnapshot.val();
 				list.push(data);
 			});
-			document.write(list);
+			//document.write(list);
 			return list;
+		});
+	}
+
+	function verifyEmployee(ID, password) {
+		var ref = employeeRef.child(ID).child("password");
+		var correctPassword;
+		ref.once("value").then(function(snapshot) {
+			correctPassword = snapshot.val();
+			//document.write(correctPassword);
+			if (password === correctPassword) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		});
 	}
