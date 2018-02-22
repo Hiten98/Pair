@@ -15,6 +15,7 @@ import FacebookLink from './FacebookLink'
 import LinkedInLink from './LinkedInLink'
 import Firstname from './Firstname'
 import Lastname from './Lastname'
+import history from '../history'
 
 //needed in here
 //email
@@ -47,6 +48,23 @@ class NewEmployeeRegister extends Component {
     }
     this.setState({ checked: arr })
     //console.log(this.state.checked)
+  }
+
+  buttonSubmit=()=>{
+    let email=this.state.username
+    let password=this.state.password
+    let locations=this.state.checked
+    let description=this.state.description
+    let facebook=this.state.facebook
+    let twitter=this.state.twitter
+    let linkedin=this.state.linkedin
+    let firstname=this.state.firstname
+    let lastname=this.state.lastname
+
+    //KUNAL PUT CODE HERE
+    //dont forget to check that email, password, firstname, and lastname are not null
+    //check to make sure that the locations array size !=0
+    //when successfully submits use this code history.push('/employee-landing/interns')
   }
 
   userChange = (ev) => {
@@ -170,6 +188,7 @@ class NewEmployeeRegister extends Component {
                 label="Register Account"
                 style={{ marginTop: "20px", }}
                 primary
+                onClick={this.buttonSubmit}
               />
             </Row>
           </Col>

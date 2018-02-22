@@ -31,7 +31,7 @@ class RegisterForm extends Component {
     const loc=[]
     this.setState({companyCode:null})
     this.props.updateCompanyLocations(loc)
-    history.push('/register/account')
+    history.push('/register/employee')
   }
 
   goToLogin=()=>{

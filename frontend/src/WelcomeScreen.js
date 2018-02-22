@@ -6,17 +6,21 @@ import './WelcomeScreen.css';
 import history from './history'
 import NewEmployeeRegister from './EmployeeRegisterForm/NewEmployeeRegister.js'
 import { Checkbox } from 'material-ui';
+import InternRegPart1 from './InternRegister/InternRegPart1'
 
 class WelcomeScreen extends Component {
   state = {
     uid: null,
-    companyLocationList: ["place1", "place2", "place3"],
+    companyLocationList: [],
+    moderator:false,
   }
 
   item = []
 
   updateUid = (uid) => {
     this.setState({ uid })
+    if(uid.charAt(3)==1)
+      this.setState({moderator:true})
   }
 
   updateCompanyLocations = (companyLocationList) => {
@@ -45,7 +49,8 @@ class WelcomeScreen extends Component {
             <Route exact path='/' render={() => <Redirect to='/login' />} />
             <Route exact path='/login' render={() => <Login updateUid={this.updateUid.bind(this)} />} />
             <Route exact path='/register' render={() => <Register updateUid={this.updateUid.bind(this)} updateCompanyLocations={this.updateCompanyLocations.bind(this)} />} />
-            <Route path='/register/account' render={() => <NewEmployeeRegister companyLocationList={this.getCompanyLocations.bind(this)} item={this.item} />} />
+            <Route path='/register/employee' render={() => <NewEmployeeRegister companyLocationList={this.getCompanyLocations.bind(this)} item={this.item} />} />
+            <Route path='/register/intern/part1' render={()=><InternRegPart1 uid={history.location.pathname.substring(history.location.pathname.lastIndexOf('/')+1)} updateUid={this.updateUid.bind(this)}/>}/>
           </Switch>
         </div>
       </div>
