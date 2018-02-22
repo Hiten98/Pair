@@ -47,6 +47,7 @@
 
     document.write(verifyIntern("rarho", "new"));
     createEmployee("masonid", "mason", "herky", "masonherky@salesforce.com", "SalesForce", "San Francisco");
+    createIntern("dvaz", "darwin", "vaz", "dvaz@gmail.com", "Blizzard", "LA");
     //document.write(promise1);
     //document.write(JSON.stringify(getMasterListOfInterns("Evernote")));
     // removeIntern("QxRAi0003", "Sseptu")

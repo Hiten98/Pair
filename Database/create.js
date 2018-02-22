@@ -33,8 +33,7 @@
 		return(id);
     }
 
-    function createIntern(firstName, lastName, email, company, location = "novalue") {
-	  	var id = hashCode(email);
+    function createIntern(id, firstName, lastName, email, company, location = "novalue") {
 	  	internRef.update({
 	   		[id]:"novalue"
 	  	});
