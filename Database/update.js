@@ -46,7 +46,7 @@
     	var ref = internRef.child(ID).child("password");
     	ref.once("value").then(function(snapshot) {
     		var item = snapshot.val();
-    		if(item == oldPassword)
+    		if(item === oldPassword)
     			internRef.child(ID).update({
     				"password": newPassword
     			});

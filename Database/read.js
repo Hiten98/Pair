@@ -1,5 +1,5 @@
 
-	function getMasterListOfInterns(company) {
+	function getMasterListOfInterns(company, callback) {
 		var master = {};
 		internRef.once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
@@ -13,14 +13,8 @@
     				master[key]["phone"] = childSnapshot.val().phone;
     			}
     		});
-    		///document.write(JSON.stringify(master));
-    		//document.write("\n!!!\n");
-    		return master;
+    		callback(master);
     	});
-	}
-
-	function getEmployees(company) {
-
 	}
 
 	function getLocations(company) {

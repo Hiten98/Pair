@@ -51,9 +51,12 @@
     // createPreferences("rarho", ["soup", "noddles", 12, "chess", "etc."]);
     // getLocations("Telefrags");
 
-    createEmployee("masonid", "mason", "herky", "secretpass", "masonherky@salesforce.com", "SalesForce", "San Francisco");
+    // createEmployee("masonid", "mason", "herky", "secretpass", "masonherky@salesforce.com", "SalesForce", "San Francisco");
     //createIntern("dvaz", "darwin", "vaz", "dvaz@gmail.com", "Blizzard", "LA");
 
-    var data = getEmployee("masonid");
+    // var data = getEmployee("masonid");
     //document.write(data);
-    verifyEmployee("masonid", "secretpass");
+    // verifyEmployee("masonid", "secretpass");
+    var x = getMasterListOfInterns("Hiten is jobless LOLOLOLOL", function(x) {
+      document.write(JSON.stringify(x));
+    });
