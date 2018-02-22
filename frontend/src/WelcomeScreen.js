@@ -10,21 +10,31 @@ import { Checkbox } from 'material-ui';
 class WelcomeScreen extends Component {
   state = {
     uid: null,
-    companyLocationList:["place1","place2","place3"],
+    companyLocationList: ["place1", "place2", "place3"],
   }
 
-  item=[]
+  item = []
 
   updateUid = (uid) => {
     this.setState({ uid })
   }
 
-  updateCompanyLocations=(companyLocationList)=>{
-    this.setState({companyLocationList})
+  updateCompanyLocations = (companyLocationList) => {
+    this.setState({ companyLocationList })
   }
 
-  getCompanyLocations=()=>{
+  getCompanyLocations = () => {
     return this.state.companyLocationList;
+  }
+
+  componentDidMount() {
+    if (this.item.length == 0) {
+      let i = 0
+      for (let a of this.getCompanyLocations()) {
+        this.item.push(<Checkbox label={a} key={i} value={a} onCheck={this.handleCheck} />)
+        i++
+      }
+    }
   }
 
   render() {
@@ -34,8 +44,8 @@ class WelcomeScreen extends Component {
           <Switch>
             <Route exact path='/' render={() => <Redirect to='/login' />} />
             <Route exact path='/login' render={() => <Login updateUid={this.updateUid.bind(this)} />} />
-            <Route exact path='/register' render={() => <Register updateUid={this.updateUid.bind(this)} updateCompanyLocations={this.updateCompanyLocations.bind(this)}/>} />
-            <Route path='/register/account' render={() => <NewEmployeeRegister companyLocationList={this.getCompanyLocations.bind(this)} item={this.item}/>} />
+            <Route exact path='/register' render={() => <Register updateUid={this.updateUid.bind(this)} updateCompanyLocations={this.updateCompanyLocations.bind(this)} />} />
+            <Route path='/register/account' render={() => <NewEmployeeRegister companyLocationList={this.getCompanyLocations.bind(this)} item={this.item} />} />
           </Switch>
         </div>
       </div>

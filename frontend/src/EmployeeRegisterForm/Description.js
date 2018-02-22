@@ -7,7 +7,7 @@ class Description extends Component {
   render() {
     return (
       <TextField
-        hintText="Description"
+        hintText="Description (Optional)"
         className="Description"
         fullWidth
         multiLine
