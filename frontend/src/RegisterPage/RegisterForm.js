@@ -13,16 +13,8 @@ class RegisterForm extends Component {
     companyCode:null,
   }
 
-  getUser=(username)=>{
-    this.setState({username})
-  }
-
   getCompanyCode=(companyCode)=>{
     this.setState({companyCode})
-  }
-
-  getPass=(password)=>{
-    this.setState({password})
   }
 
   handleLogin=()=>{
@@ -38,7 +30,6 @@ class RegisterForm extends Component {
     const uid=null
     const loc=[]
     this.setState({companyCode:null})
-    this.props.updateUid(uid)
     this.props.updateCompanyLocations(loc)
     history.push('/register/account')
   }
@@ -55,7 +46,7 @@ class RegisterForm extends Component {
             Register
           </Row>
 
-          <RegisterFormField getUser={this.getUser} getPass={this.getPass} getCompanyCode={this.getCompanyCode}/>
+          <RegisterFormField getCompanyCode={this.getCompanyCode}/>
 
           <Row className='row-sm lbutton'>
             <RaisedButton

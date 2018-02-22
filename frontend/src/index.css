@@ -4,4 +4,6 @@ body {
   font-family: sans-serif;
   background-image:  url('./images/dark-tallest-3093955_1920.png');
   background-size: cover;
+  background-repeat: no-repeat;
+  background-color:rgb(53, 173, 175);
 }

@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
 import { Grid, Row, Col, Image } from 'react-bootstrap'
 import './NewEmployeeRegister.css';
-import { TextField, Checkbox } from 'material-ui';
+import { Checkbox } from 'material-ui';
 import PasswordField from 'material-ui-password-field'
 import { grey800, black, pink900, white } from 'material-ui/styles/colors';
+import Username from './Username.js'
+import Password from './password.js';
+import Description from './Description';
+import hiistory from '../history.js'
 
 //needed in here
 //email
@@ -15,6 +19,16 @@ import { grey800, black, pink900, white } from 'material-ui/styles/colors';
 //links
 
 class NewEmployeeRegister extends Component {
+  state={
+    username:null,
+    password:null,
+    checked:[],
+    description:null,
+    links:[],
+    stupid:0,
+  }
+
+
   item = []
   constructor(props) {
     super(props)
@@ -26,10 +40,26 @@ class NewEmployeeRegister extends Component {
   }
 
   handleCheck=(i,checked)=>{
-    if(checked){
-      console.log(i)
+    if(this.state.checked.indexOf(`${i}`)>-1){
+      
     }
   }
+
+  userChange=(ev)=>{
+    this.setState({username:ev.target.value})
+    //console.log(this.state.username)
+  }
+
+  passChange=(ev)=>{
+    this.setState({password:ev.target.value})
+    //console.log(this.state.password)
+  }
+
+  descriptionChange=(ev)=>{
+    this.setState({description:ev.target.value})
+  }
+
+
 
   styles = {
     underlineStyle: {
@@ -43,7 +73,7 @@ class NewEmployeeRegister extends Component {
     },
     hintStyle: {
       color: grey800,
-      fontSize: '10vw',
+      fontWeight:"bold",
       textAlign: 'left',
     },
     visibilityIconStyle: {
@@ -65,49 +95,19 @@ class NewEmployeeRegister extends Component {
           </Col>
           <Col xs={12} sm={8} className="midCol">
             <Row>
-              <PasswordField
-                className="username"
-                floatingLabelText="Email"
-                visible
-                fullWidth
-                disableButton={true}
-                floatingLabelStyle={this.styles.floatingLabelStyle}
-                floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
-                underlineStyle={this.styles.underlineStyle}
-                hintStyle={this.styles.hintStyle}
-                visibilityIconStyle={this.styles.visibilityIconStyle}
-                onChange={this.userChange}
-              />
+              <Username styles={this.styles} userChange={this.userChange.bind(this)}/>
             </Row>
             <Row>
-              <PasswordField
-                className="password"
-                hintText="At least 8 characters"
-                floatingLabelText="Password"
-                floatingLabelStyle={this.styles.floatingLabelStyle}
-                floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
-                underlineStyle={this.styles.underlineStyle}
-                visibilityIconStyle={{ opacity: '0.8' }}
-                fullWidth
-                hintStyle={this.styles.hintStyle}
-                onChange={this.passChange}
-              />
+              <Password styles={this.styles} passChange={this.passChange.bind(this)}/>
             </Row>
-            <Row>
+            <Row className="checkboxes">
               Company Locations:<br />
               {this.item}
 
             </Row>
 
             <Row>
-              <TextField
-                hintText="Description"
-                className="Description"
-                fullWidth
-                multiLine
-                hintStyle={this.styles.floatingLabelStyle}
-                underlineStyle={this.styles.teztfietextFieldStyle}
-              />
+              <Description styles={this.styles} descriptionChange={this.descriptionChange.bind(this)}/>
             </Row>
           </Col>
           <Col xsHidden sm={2}>
