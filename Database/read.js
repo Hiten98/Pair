@@ -36,8 +36,14 @@
 	}
 
 	function getIntern(ID) {
-		internRef.child(ID).once("value").then(function(snapshot) {
-			document.write(snapshot.val());
+		var list = [];
+		var ref = internRef.child(ID);
+		ref.once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				var data = childSnapshot.val();
+				list.push(data);
+				return list;
+			});
 		});
 	}
 

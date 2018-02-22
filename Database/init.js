@@ -46,10 +46,14 @@
     //var x = getMasterListOfInterns("Evernote") => document.write("DONE");
 
     document.write(verifyIntern("rarho", "new"));
-    createEmployee("masonid", "mason", "herky", "masonherky@salesforce.com", "SalesForce", "San Francisco");
-    createIntern("dvaz", "darwin", "vaz", "dvaz@gmail.com", "Blizzard", "LA");
+    //createEmployee("masonid", "mason", "herky", "masonherky@salesforce.com", "SalesForce", "San Francisco");
+    //createIntern("dvaz", "darwin", "vaz", "dvaz@gmail.com", "Blizzard", "LA");
+
+    var tiwarData = getIntern("tiwar");
+    document.write(tiwarData);
+
     //document.write(promise1);
     //document.write(JSON.stringify(getMasterListOfInterns("Evernote")));
     // removeIntern("QxRAi0003", "Sseptu")
-    createPreferences("rarho", ["soup", "noddles", 12, "chess", "etc."]);
+    //createPreferences("rarho", ["soup", "noddles", 12, "chess", "etc."]);
     // getLocations("Telefrags");
