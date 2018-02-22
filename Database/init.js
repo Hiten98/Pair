@@ -39,8 +39,13 @@
     // updatePassword("rarho", "new", "!@#$");
     // updateIntern("QxRAi0003", null, "Calif");
     // getIntern("bass1");
-    var promise1 = new Promise(getMasterListOfInterns("Evernote"));
-    document.write(JSON.stringify(getMasterListOfInterns("Evernote")));
+    /*var promise1 = new Promise(function(resolve, reject){
+      resolve(getMasterListOfInterns("Evernote"));
+      reject(getMasterListOfInterns("Evernote"));
+    });*/
+    var x = getMasterListOfInterns("Evernote") => document.write("DONE");
+    //document.write(promise1);
+    //document.write(JSON.stringify(getMasterListOfInterns("Evernote")));
     // removeIntern("QxRAi0003", "Sseptu")
-    // createPreferences("QxRAi0003", ["soup", "noddles", 12, "chess", "etc."]);
+    createPreferences("rarho", ["soup", "noddles", 12, "chess", "etc."]);
     // getLocations("Telefrags");

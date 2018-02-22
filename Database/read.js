@@ -13,9 +13,14 @@
     				master[key]["phone"] = childSnapshot.val().phone;
     			}
     		});
-    		document.write(JSON.stringify(master));
+    		//document.write(JSON.stringify(master));
+    		//document.write("\n!!!\n");
     		return master;
     	});
+	}
+
+	function getEmployees(company) {
+
 	}
 
 	function getLocations(company) {
