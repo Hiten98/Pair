@@ -49,8 +49,8 @@
     //createEmployee("masonid", "mason", "herky", "masonherky@salesforce.com", "SalesForce", "San Francisco");
     //createIntern("dvaz", "darwin", "vaz", "dvaz@gmail.com", "Blizzard", "LA");
 
-    var tiwarData = getIntern("tiwar");
-    document.write(tiwarData);
+    var data = getEmployee("masonid");
+    document.write(data);
 
     //document.write(promise1);
     //document.write(JSON.stringify(getMasterListOfInterns("Evernote")));

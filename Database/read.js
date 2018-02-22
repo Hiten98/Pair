@@ -42,8 +42,9 @@
 			snapshot.forEach(function(childSnapshot) {
 				var data = childSnapshot.val();
 				list.push(data);
-				return list;
 			});
+			document.write(list);
+			return list;
 		});
 	}
 
@@ -59,5 +60,18 @@
 			else {
 				return false;
 			}
+		});
+	}
+
+	function getEmployee(ID) {
+		var list = [];
+		var ref = employeeRef.child(ID);
+		ref.once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				var data = childSnapshot.val();
+				list.push(data);
+			});
+			document.write(list);
+			return list;
 		});
 	}
