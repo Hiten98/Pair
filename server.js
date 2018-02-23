@@ -1,5 +1,7 @@
 //dependencies:
-
+module.exports = {
+  UID
+}
 //server dependencies
 var express = require('express');
 var app = express();
@@ -168,12 +170,62 @@ app.post('/GET-COMPANY', function(req, res) {
   var pin = req.body.pid;
   console.log(pin);
 
-  //create intern uid
   getCompany(companyRef, pin, (x) => {
   if(x != null)
     res.json({
         "status": true
       });
+    });
+});
+
+//get basic preferences
+app.post('/GET-PREFERENCES/BASIC-PREFERENCES', function(req, res) {
+  console.log('Received request for BAISC PREFERENCES:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("UID received:");
+  var uid = req.body.uid;
+  console.log(uid);
+
+  //create intern uid
+  read.getBasicPreferences(internRef, uid, (x) => {
+  if(x != null)
+    res = x;
+    });
+});
+
+//get housing PREFERENCES
+app.post('/GET-PREFERENCES/HOUSING-PREFERENCES', function(req, res) {
+  console.log('Received request for HOUSING PREFERENCES:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("UID received:");
+  var uid = req.body.uid;
+  console.log(uid);
+
+  //create intern uid
+  read.getHousingPreferences(internRef, uid, (x) => {
+  if(x != null)
+    res = x;
+    });
+});
+
+//get roommate preferences
+app.post('/GET-PREFERENCES/ROOMMATE-PREFERENCES', function(req, res) {
+  console.log('Received request for ROOMMATE PREFERENCES:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("UID received:");
+  var uid = req.body.uid;
+  console.log(uid);
+
+  //create intern uid
+  read.getRoommatePreferences(internRef, uid, (x) => {
+  if(x != null)
+    res = x;
     });
 });
 
