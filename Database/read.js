@@ -1,4 +1,17 @@
 
+	module.exports = {
+		getMasterListOfInterns,
+		getLocations,
+		getCompany,
+		getEmployee,
+		getIntern,
+		getBasicPreferences,
+		getHousingPreferences,
+		getRoommatePreferences,
+		verifyEmployee,
+		verifyIntern
+	}
+
 	function getMasterListOfInterns(internRef, company, callback) {
 		var master = {};
 		internRef.once("value").then(function(snapshot) {
@@ -24,7 +37,7 @@
 	          var item = childSnapshot.val();
 	          list.push(item);
 	        });
-	        return callback(list);
+	        callback(list);
 		});
 	}
 
@@ -37,7 +50,7 @@
 					});
 				}
 			});
-			return null;
+			callback(null);
 		});
 	}
 
@@ -65,41 +78,80 @@
 		});
 	}
 
-	function getPreferences(internRef, ID) {
-		var options = [];
-		var ref = internRef.child(ID).child("options");
+	function getBasicPreferences(internRef, ID, callback) {
+		var options = {};
+		var ref = internRef.child(ID).child("basic");
 		ref.once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
-				options.push(childSnapshot.val());
+				options["description"] = childSnapshot.val().description;
+				options["fbLink"] = childSnapshot.val().fbLink;
+				options["firstName"] = childSnapshot.val().firstName;
+				options["lastName"] = childSnapshot.val().lastName;
+				options["linkedInLink"] = childSnapshot.val().linkedInLink;
+				options["twitterLink"] = childSnapshot.val().twitterLink;
 			});
-			return options;
+			callback(options);
 		});
 	}
 
-	function verifyEmployee(employeeRef, ID, password) {
+	function getHousingPreferences(internRef, ID, callback) {
+		var options = {};
+		var ref = internRef.child(ID).child("basic");
+		ref.once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				options["desiredDistance"] = childSnapshot.val().desiredDistance;
+				options["desiredDuration"] = childSnapshot.val().desiredDuration;
+				options["desiredPrice"] = childSnapshot.val().desiredPrice;
+				options["desiredRoommate"] = childSnapshot.val().desiredRoommate;
+			});
+			callback(options);
+		});
+	}
+
+	function getRoommatePreferences(internRef, ID, callback) {
+		var options = {};
+		var ref = internRef.child(ID).child("basic");
+		ref.once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				options["bedtime"] = childSnapshot.val().bedtime;
+				options["clean"] = childSnapshot.val().clean;
+				options["lights"] = childSnapshot.val().lights;
+				options["sharing"] = childSnapshot.val().sharing;
+				options["smoke"] = childSnapshot.val().smoke;
+				options["themguest"] = childSnapshot.val().themguest;
+				options["youguest"] = childSnapshot.val().youguest;
+				options["thempet"] = childSnapshot.val().thempet;
+				options["youpet"] = childSnapshot.val().youpet;
+				options["waketime"] = childSnapshot.val().waketime;
+			});
+			callback(options);
+		});
+	}
+
+	function verifyEmployee(employeeRef, ID, password, callback) {
 		var ref = employeeRef.child(ID).child("password");
 		var correctPassword;
 		ref.once("value").then(function(snapshot) {
 			correctPassword = snapshot.val();
 			if (password == correctPassword) {
-				return ID;
+				callback(ID);
 			}
 			else {
-				return null;
+				callback(null);
 			}
 		});
 	}
 
-	function verifyIntern(internRef, ID, password) {
+	function verifyIntern(internRef, ID, password, callback) {
 		var ref = internRef.child(ID).child("password");
 		var correctPassword;
 		ref.once("value").then(function(snapshot) {
 			correctPassword = snapshot.val();
 			if (password == correctPassword) {
-				return ID;
+				callback(ID);
 			}
 			else {
-				return null;
+				callback(null);
 			}
 		});
 	}

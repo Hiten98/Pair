@@ -1,4 +1,13 @@
 	
+    module.exports = {
+        getSnapshot,
+        updateCompany,
+        updateEmployee,
+        updateIntern,
+        updatePassword,
+        removeIntern
+    }
+
 	/*
     / @brief this function retrieves the already existent
     /        items from a list and adds the new ones to it
@@ -60,6 +69,7 @@
 	  		});
     }
 
+    //this function is useless
     function updateIntern(internRef, ID, firstName, lastName, phone) {
       if(firstName != null) {
         internRef.child(ID).update({

@@ -47,9 +47,12 @@
     //   document.write(JSON.stringify(x));
     // });
 
-    getCompany(companyRef, "9566", (x) => {
+    // getCompany(companyRef, "9566", (x) => {
+    //   document.write(x);
+    // });
+    
+    verifyIntern(internRef, "VFgf21wF", "password", (x) => {
       document.write(x);
     });
-  
 
     //document.write(getLocations(companyRef, "Goggle"));
