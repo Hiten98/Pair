@@ -256,6 +256,31 @@ app.post('/UPDATE-PREFERENCES/HOUSING-PREFERENCES', function(req, res) {
   });
 });
 
+function revUID(uid) {
+  var email = "";
+  while(uid != 0) {
+    var char = uid%62;
+    email = email + String.fromCharCode(char);
+    uid = (uid/62>>0);
+  }
+}
+//get email back from uid
+app.post('/GET-EMAIL', function(req, res) {
+  console.log('Received request for /GET-EMAIL:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("email generated:");
+  var uid = req.body.userID;
+  uid = uid.substring(1,uid.length);
+  var email = revUID(uid);
+  console.log(email);
+
+  //create intern uid
+  res.json({
+      "email": email
+  });
+});
 
 //forgot password for employee
 app.post('/FORGOT-EMPLOYEE-PASSWORD', function(req, res) {
