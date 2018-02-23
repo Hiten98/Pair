@@ -24,12 +24,12 @@
       });
     }
 
-    function updateCompany(companyName, employees, locations = null) {
+    function updateCompany(companyRef, companyName, employees, locations = null) {
       getSnapshot(companyRef, companyName, "listOfLocations", locations);
       getSnapshot(companyRef, companyName, "listOfEmployees", employees);
     };
 
-    function updateEmployee(id, firstName, lastName, location, description, facebook, linkedin, twitter) {
+    function updateEmployee(employeeRef, id, firstName, lastName, location, description, facebook, linkedin, twitter) {
 	  	if(firstName != null)
 	  		employeeRef.child(id).update({
 	  			"firstName": firstName
@@ -60,7 +60,7 @@
 	  		});
     }
 
-    function updateIntern(ID, firstName, lastName, phone) {
+    function updateIntern(internRef, ID, firstName, lastName, phone) {
       if(firstName != null) {
         internRef.child(ID).update({
           "firstName": firstName
@@ -78,8 +78,10 @@
       }
     }
 
-    //this only works for interns
-    function updatePassword(ID, newPassword, oldPassword) {
+    /*
+    /	this function only works for interns. talk to hiten to find out code in ID
+    */
+    function updatePassword(internRef, ID, newPassword, oldPassword) {
     	var ref = internRef.child(ID).child("password");
     	ref.once("value").then(function(snapshot) {
     		var item = snapshot.val();
@@ -87,14 +89,18 @@
     			internRef.child(ID).update({
     				"password": newPassword
     			});
+    		else
+    			return false;
     	});
     }
 
-    function removeIntern(ID, password) {
+    function removeIntern(internRef, ID, password) {
     	var ref = internRef.child(ID).child("password");
     	ref.once("value").then(function(snapshot) {
     		var item = snapshot.val();
     		if(item == password)
     			internRef.child(ID).remove();
+    		else
+    			return false;
     	});
     }

@@ -24,6 +24,8 @@
     var internRef = ref.child("User/Interns");
     var employeeRef = ref.child("User/Employees");
 
+    createCompany(companyRef, )
+
     //createCompany("Mind Readers Inc", ["Place1", "Drace1", "Trace1"], ["P1", "P2"]);
     //createCompany("Telefrags", ["US", "UK", "UV"]);
     //updateCompany("Mind Readers Inc", ["France", "Trance", "Drance"], ["Person", "Persona"]);
@@ -57,9 +59,9 @@
     // var data = getEmployee("masonid");
     //document.write(data);
     // verifyEmployee("masonid", "secretpass");
-    // var x = getMasterListOfInterns("Hiten is jobless LOLOLOLOL", function(x) {
-    //   document.write(JSON.stringify(x));
-    // });
+    /*var x = getMasterListOfInterns("Hiten is jobless LOLOLOLOL", function(x) {
+      document.write(JSON.stringify(x));
+    });*/
 
-    createEmployee("SDARf1", "Case", "Moolss", "@WGREBR", "case@box.docm", "Savavge Inc", ["China", "Beijing", "Pyeongcheng"], "I like chipotle", "case.5", "case-mool", "case");
-    updateEmployee("SDARf1", "Cash", "Mads", ["India", "Beijing", "Pyeongcheng"], "I like chipotle", "not on facebook", "linekd.com/case-mool", "@twitter");
+    // createEmployee("SDARf1", "Case", "Moolss", "@WGREBR", "case@box.docm", "Savavge Inc", ["China", "Beijing", "Pyeongcheng"], "I like chipotle", "case.5", "case-mool", "case");
+    // updateEmployee("SDARf1", "Cash", "Mads", ["India", "Beijing", "Pyeongcheng"], "I like chipotle", "not on facebook", "linekd.com/case-mool", "@twitter");

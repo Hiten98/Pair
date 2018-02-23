@@ -1,5 +1,5 @@
 
-	function getMasterListOfInterns(company, callback) {
+	function getMasterListOfInterns(internRef, company, callback) {
 		var master = {};
 		internRef.once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
@@ -17,7 +17,7 @@
     	});
 	}
 
-	function getLocations(company) {
+	function getLocations(companyRef, company) {
 		var list = [];
 		companyRef.child(company).child("listOfLocations").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
@@ -28,11 +28,29 @@
 		});
 	}
 
-	function getCompany(pin) {
-		
+	function getCompany(companyRef, pin) {
+		companyRef.once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				if(childSnapshot.val().pin == pin)
+					return childSnapshot.key;
+			});
+			return false;
+		});
 	}
 
-	function getIntern(ID) {
+	function getEmployee(employeeRef, ID) {
+		var list = [];
+		var ref = employeeRef.child(ID);
+		ref.once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				var data = childSnapshot.val();
+				list.push(data);
+			});
+			return list;
+		});
+	}
+
+	function getIntern(internRef, ID) {
 		var list = [];
 		var ref = internRef.child(ID);
 		ref.once("value").then(function(snapshot) {
@@ -40,18 +58,27 @@
 				var data = childSnapshot.val();
 				list.push(data);
 			});
-			//document.write(list);
 			return list;
 		});
 	}
 
-	function verifyIntern(ID, password) {
-		var ref = internRef.child(ID).child("password");
+	function getPreferences(internRef, ID) {
+		var options = [];
+		var ref = internRef.child(ID).child("options");
+		ref.once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				options.push(childSnapshot.val());
+			})
+			return options;
+		})
+	}
+
+	function verifyEmployee(employeeRef, ID, password) {
+		var ref = employeeRef.child(ID).child("password");
 		var correctPassword;
 		ref.once("value").then(function(snapshot) {
 			correctPassword = snapshot.val();
-			//document.write(correctPassword);
-			if (password === correctPassword) {
+			if (password == correctPassword) {
 				return true;
 			}
 			else {
@@ -60,26 +87,12 @@
 		});
 	}
 
-	function getEmployee(ID) {
-		var list = [];
-		var ref = employeeRef.child(ID);
-		ref.once("value").then(function(snapshot) {
-			snapshot.forEach(function(childSnapshot) {
-				var data = childSnapshot.val();
-				list.push(data);
-			});
-			//document.write(list);
-			return list;
-		});
-	}
-
-	function verifyEmployee(ID, password) {
-		var ref = employeeRef.child(ID).child("password");
+	function verifyIntern(internRef, ID, password) {
+		var ref = internRef.child(ID).child("password");
 		var correctPassword;
 		ref.once("value").then(function(snapshot) {
 			correctPassword = snapshot.val();
-			//document.write(correctPassword);
-			if (password === correctPassword) {
+			if (password == correctPassword) {
 				return true;
 			}
 			else {
