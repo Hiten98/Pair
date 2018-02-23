@@ -40,15 +40,18 @@ class DetailsP1 extends Component {
   }
 
   buttonSubmit = () => {
-    let bio = this.state.bio
-    let facebook = this.state.facebook
-    let twitter = this.state.twitter
-    let linkedin = this.state.linkedin
-    let firstname = this.state.firstname
-    let lastname = this.state.lastname
+    if (this.state.changed) {
+      let bio = this.state.bio
+      let facebook = this.state.facebook
+      let twitter = this.state.twitter
+      let linkedin = this.state.linkedin
+      let firstname = this.state.firstname
+      let lastname = this.state.lastname
 
-    //KUNAL PUT CODE HERE to submit the page to the server
-    //dont forget to check that firstname, and lastname are not null
+      //KUNAL PUT CODE HERE to submit the page to the server
+      //dont forget to check that firstname, and lastname are not null
+    }
+    history.push('/intern/roommate-preferences')
   }
 
   firstnameChange = (ev) => {
@@ -76,10 +79,6 @@ class DetailsP1 extends Component {
   twitterChange = (ev) => {
     this.setState({ twitter: ev.target.value, changed: true })
     //console.log(this.state.twitter)
-  }
-
-  hasChanged = () => {
-    return this.state.changed
   }
 
   styles = {

@@ -22,7 +22,7 @@ class WelcomeScreen extends Component {
 
   updateUid = (uid) => {
     this.setState({ uid })
-    if(uid.charAt(3)==1)
+    if(uid.charAt(0)==1)
       this.setState({moderator:true})
   }
 
