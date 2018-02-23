@@ -44,28 +44,42 @@ function test2() {
 //test-function
 function test() {
   //create an intern
-  create.createIntern(internRef, UID("darwin@gmail.com"), "darwin@gmail.com", "Goggle", "San Fran");
+  create.createIntern(internRef, "1" + UID("darwin@gmail.com"), "darwin@gmail.com", "Goggle", "San Fran");
 
   //create a basic password
   var pass_shasum = encrypt("something");//crypto.createHash('sha256').update("vaz").digest('hex');
 
   //create psuedo preferences
-  create.createBasicPreferences(internRef, UID("darwin@gmail.com"), "Darwin", "Vaz", "yeah, cool description", "dv@fb.com", "dv@t.com", "dv@linked.in");
+  create.createBasicPreferences(internRef,"1" + UID("darwin@gmail.com"), "Darwin", "Vaz", "yeah, cool description", "dv@fb.com", "dv@t.com", "dv@linked.in");
 
   //create basic employee
-  create.createEmployee(employeeRef, companyRef, UID("hiten@gmail.com"), "hiten", "rathod", pass_shasum, "hiten@gmail.com", "Goggle", "San Fran", "bio, gotta be fast like Sanic", "hiten@fb.com", "hiten@linkedin.com", "hiten@twit.com");
+  create.createEmployee(employeeRef, companyRef,"2" + UID("hiten@gmail.com"), "hiten", "rathod", pass_shasum, "hiten@gmail.com", "Goggle", "San Fran", "bio, gotta be fast like Sanic", "hiten@fb.com", "hiten@linkedin.com", "hiten@twit.com");
 
   //create a psuedo intern
-  create.createIntern(internRef, UID("arvindh@gmail.com"), "arvindh@gmail.com", "Carrot", "novalue");
+  create.createIntern(internRef, "1" + UID("arvindh@gmail.com"), "arvindh@gmail.com", "Carrot", "novalue");
 
   //create basic preferences for a different intern
-  create.createBasicPreferences(internRef, UID("arvindh@gmail.com"), "ED", "Bob", "not yeah", "asv@fb.com", "asv@t.com", "asv@linkedin.com");
+  create.createBasicPreferences(internRef,"1" + UID("arvindh@gmail.com"), "ED", "Bob", "not yeah", "asv@fb.com", "asv@t.com", "asv@linkedin.com");
 
   //create password for arvindh
-  create.createPassword(internRef, UID("arvindh@gmail.com"), pass_shasum);
+  create.createPassword(internRef, "1" + UID("arvindh@gmail.com"), pass_shasum);
 
   //create possword for darwin:
   create.createPassword(internRef, "1" + UID("darwin@gmail.com"), pass_shasum);
+
+  console.log('reading preferences for:');
+  console.log("1" + UID("darwin@gmail.com"));
+  console.log('basic preferences:');
+  read.getBasicPreferences(internRef, "1" + UID("darwin@gmail.com"), (x) => {
+    console.log('Printing out prefs');
+    console.log(x);
+  });
+  console.log('reading company: pin 3135');
+  read.getCompany(companyRef, "3135", (x) =>{
+    console.log('Printing out company name');
+    console.log(x[0]);
+  });
+
 }
 
 //encrypt password
@@ -272,6 +286,7 @@ app.post('/GET-COMPANY', function (req, res) {
   read.getCompany(companyRef, pin, (x) => {
     if (x != null)
       res.json({
+        "company": x[0],
         "status": true
       });
   });
@@ -393,7 +408,7 @@ app.post('/UPDATE-PREFERENCES/BASIC-PREFERENCES', function (req, res) {
 
   //create UID (0 for interns)
   console.log("UID generated:");
-  var uid = req.body.username;
+  var uid = req.body.userID;
   console.log(uid);
 
   //create intern uid
