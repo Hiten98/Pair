@@ -51,14 +51,6 @@ function test() {
     });
 }
 
-function verifyIntern(username, password) {
-  return read.verifyIntern(internRef, username, password);
-}
-
-function verifyEmployee(username, password) {
-  return read.verifyIntern(employeeRef, username, password);
-}
-
 function UID(username) {
   var uid = 0;
   for (i = 0; i < username.length; i++) {
@@ -108,19 +100,23 @@ app.post('/LOGIN', function(req, res) {
   {
     console.log(x);
     //make the login token
-    /*res.json({
+    if(x != null)
+      res.json({
       "userID": actual_uid_intern
-    });*/
+    });
+    console.log("updated");
   });
   read.verifyEmployee(employeeRef, actual_uid_employee, "vaz", (x) =>
   {
     console.log(x);
     //make the login token
-    /*res.json({
+    if(x != null)
+      res.json({
       "userID": actual_uid_employee
-    });*/
+    });
   });
 
+  //return null
   console.log('Done handling login');
 });
 
@@ -162,6 +158,59 @@ app.post('/SET-EMPLOYEE-PASSWORD', function(req, res) {
   });
 });
 
+//get company
+app.post('/GET-COMPANY', function(req, res) {
+  console.log('Received request for GET-COMPANY:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("UID generated:");
+  var pin = req.body.pid;
+  console.log(pin);
+
+  //create intern uid
+  getCompany(companyRef, pin, (x) =>
+  if(x!= null)
+    res.json({
+        "status": true
+      });
+    );
+});
+
+//create employee hadnler
+app.post('/CREATE-EMPLOYEE', function(req, res) {
+  console.log('Received request for CREATE-EMPLOYEE:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("UID generated:");
+  console.log(uid);
+
+  //create intern uid
+  var employee_uid = "2" + uid;
+  var pass = req.body.password;
+
+  //store variables
+  var uid = UID(req.body.username);
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var password =  req.body.password;
+  var email = req.body.email;
+  var company = req.body.company;
+  var location = req.body.location;
+  var description = req.body.description;
+  var facebook = req.body.facebook;
+  var linkedin = req.body.linkedin;
+  var twitter = req.body.twitter;
+
+  create.createEmployee(employeeRef, uid, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter);
+
+  //create.createEmployee(employeeRef, employee_uid, req.body.password);
+  res.json({
+      "status": true
+  });
+});
+
 //initial create intern
 app.post('/CREATE-INTERN', function(req, res) {
   console.log('Received request for CREATE-INTERN:');
@@ -176,24 +225,6 @@ app.post('/CREATE-INTERN', function(req, res) {
   create.createIntern(internRef, uid, req.body.username, company, location);
   res.json({
       "status": true
-  });
-});
-
-//register handler
-app.post('/REGISTER',function( req, res) {
-
-  //verifyUserExists();
-  //if(!verifyUserExists())
-  //do registering shit
-
-
-  var STATUS = false;
-  res.json({
-    //check for errors from database:
-    //if(!error)
-    "STATUS": "SUCCESSFUL"
-    //else
-    //"STATUS": "ERROR CODE" + error
   });
 });
 
@@ -327,9 +358,20 @@ app.post('/GET-MASTER-LIST',function( req, res) {
     //check for authority
     //if(authority)
     //get appropriate master list
-    "LIST": ["Adam", "Arvindh", "Darwin", "Hiten", "Kunal"]
-    //else
-    //"STATUS": "ERROR CODE" + error
+    if(req.userID.charAt(0) == '1')
+    {
+      res.json({
+        "status": false;
+      });
+      return;
+    }
+    else
+    {
+      read.getMasterListOfInterns(internRef, res.data.company, (x) => {
+        res = x;
+      }
+    );
+    }
   });
 });
 
@@ -337,7 +379,7 @@ var y;
 app.listen(port, function () {
   create.createIntern(internRef, 11711362612, "r@pur.c", "company", "novalue");
   var pass_shasum = "vaz";//crypto.createHash('sha256').update("vaz").digest('hex');
-  create.createEmployee(employeeRef, 21711362612,"hey", "rathod",pass_shasum, "r@pur.c", "company", "loc", "bio", "fb", "linkin", "twit");
+  //create.createEmployee(employeeRef, 21711362612,"hey", "rathod",pass_shasum, "r@pur.c", "company", "loc", "bio", "fb", "linkin", "twit");
   create.createPassword(internRef, 11711362612, pass_shasum);
 //test();
   var z = read.verifyIntern(internRef, "DJW3e123", "password", function(z) {
