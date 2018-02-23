@@ -68,7 +68,7 @@ class DetailsP1 extends Component {
         alert("Missing required fields")
       } else {
         axios.post('/UPDATE-PREFERENCES/BASIC-PREFERENCES', {
-          "username": this.props.uid,
+          "userID": this.props.uid,
           firstName: firstname,
           lastName: lastname,
           description: bio,

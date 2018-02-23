@@ -36,13 +36,6 @@ class DetailsP2 extends Component {
     changed: false,
   }
 
-  constructor(props) {
-    super(props)
-
-
-    /**/
-  }
-
   componentWillMount() {
     let that = this
     //KUNAL PUT CODE HERE to get preferences from server
@@ -85,6 +78,7 @@ class DetailsP2 extends Component {
     let lights = this.state.lights
     let clean = this.state.clean
 
+    console.log(this.state.uid)
     let that = this
     axios.post('/UPDATE-PREFERENCES/ROOMMATE-PREFERENCES', {
       "userID": this.state.uid,

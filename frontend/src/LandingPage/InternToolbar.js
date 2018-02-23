@@ -18,13 +18,17 @@ class LandingScreen extends Component {
         //Tell them it was successful
         //Take them to the login page
         alert("Success")
-        localStorage.setItem('uid',"")
-        localStorage.setItem('moderator','')
+        localStorage.setItem('uid', "")
+        localStorage.setItem('moderator', '')
         history.push('/')
       }
     }).catch((error) => {
       console.log(error);
     });
+  }
+
+  changePassword=()=>{
+    history.push('/register/intern/part1')
   }
 
   updateClick = () => {
@@ -34,6 +38,10 @@ class LandingScreen extends Component {
   render() {
     return (
       <div style={{ textAlign: 'right' }}>
+        <RaisedButton
+          label='Change Password'
+          onClick={this.changePassword}
+        />
         <RaisedButton
           label="Delete Account"
           onClick={this.deleteClick}

@@ -31,15 +31,15 @@ axios.defaults.baseURL = 'http://localhost:9090'
 
 class NewEmployeeRegister extends Component {
   state = {
-    username: null,
-    password: null,
+    username: '',
+    password: '',
     checked: [],
-    description: null,
-    facebook: null,
-    twitter: null,
-    linkedin: null,
-    firstname: null,
-    lastname: null,
+    description: '',
+    facebook: '',
+    twitter: '',
+    linkedin: '',
+    firstname:'',
+    lastname: '',
   }
 
   handleCheck = (ev) => {
@@ -65,13 +65,15 @@ class NewEmployeeRegister extends Component {
     let firstname = this.state.firstname
     let lastname = this.state.lastname
     let companyCode=this.props.companyCode
-    let company=null
+    let company=this.props.company
+    //console.log(companyCode)
 
     //KUNAL PUT CODE HERE
     //dont forget to check that email, password, firstname, and lastname are not null
     //check to make sure that the locations array size !=0
     //when successfully submits use this code history.push('/landing/employee/interns')
 
+    let that=this
     axios.post('/CREATE-EMPLOYEE', {
       "username": email,
       "password": password,
@@ -89,11 +91,22 @@ class NewEmployeeRegister extends Component {
       } else {
         console.log("Created account password!");
         //Go to employee page
-        this.redirect(1);
+        console.log(response)
+        let parsed = JSON.parse(JSON.stringify(response.data))
+        let i=0;
+        for(let a in parsed){
+          if(i==0){
+            console.log(parsed[a])
+            that.props.updateUid(`${parsed[a]}`)
+            history.push('/landing/employee/interns')
+          }
+        }
+
+        //history.push('/landing/employee/interns')
       }
     }).catch(function (error) {
       console.log(error);
-    });
+    })
   }
 
   userChange = (ev) => {

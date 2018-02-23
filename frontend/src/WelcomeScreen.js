@@ -27,9 +27,14 @@ class WelcomeScreen extends Component {
     companyLocationList: [],
     moderator: false,
     companyCode:null,
+    company:null,
   }
 
   item = []
+
+  updateCompany=(company)=>{
+    this.setState({company})
+  }
 
   updateUid = (uid) => {
     this.setState({ uid })
@@ -71,8 +76,8 @@ class WelcomeScreen extends Component {
         <Switch>
           <Route exact path='/' render={() => <Redirect to='/login' />} />
           <Route exact path='/login' render={() => <Login updateUid={this.updateUid.bind(this)} />} />
-          <Route exact path='/register' render={() => <Register updateUid={this.updateUid.bind(this)} updateCompanyCode={this.updateCompanyCode} updateCompanyLocations={this.updateCompanyLocations.bind(this)} />} />
-          <Route path='/register/employee' render={() => <NewEmployeeRegister companyLocationList={this.getCompanyLocations.bind(this)} item={this.item} companyCode={this.state.companyCode}/>} />
+          <Route exact path='/register' render={() => <Register updateUid={this.updateUid.bind(this)} updateCompanyCode={this.updateCompanyCode} updateCompanyLocations={this.updateCompanyLocations.bind(this)} updateCompany={this.updateCompany}/>} />
+          <Route path='/register/employee' render={() => <NewEmployeeRegister updateUid={this.updateUid} companyLocationList={this.getCompanyLocations.bind(this)} item={this.item} companyCode={this.state.companyCode} company={this.state.company}/>} />
           <Route path='/register/intern/part1' render={() => <InternRegPart1 uid={history.location.pathname.substring(history.location.pathname.lastIndexOf('/') + 1)} updateUid={this.updateUid.bind(this)} />} />
           <Route path='/intern/user-details' render={() => <UserDetails uid={this.state.uid} />} />
           <Route path='/intern/roommate-preferences' render={() => <RoommatePreferences uid={this.state.uid} />} />
