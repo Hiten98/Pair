@@ -32,37 +32,37 @@ class DetailsStepper extends Component {
 
   changeToUser = () => {
     if (this.props.pos != 1) {
+      this.potato='/intern/user-details'
       this.setState({ place: '/intern/user-details' })
       if (this.props.hasChanged) {
         this.handleOpen()
       } else {
         this.leave('/intern/user-details')
       }
-      this.setState({place:null})
     }
   }
 
   changeToRoommate = () => {
     if (this.props.pos != 2) {
+      this.potato='/intern/roommate-preferences'
       this.setState({ place: '/intern/roommate-preferences' })
       if (this.props.hasChanged) {
         this.handleOpen()
       } else {
         this.leave('/intern/roommate-preferences')
       }
-      this.setState({place:null})
     }
   }
 
   changeToHousing = () => {
     if (this.props.pos != 3) {
+      this.potato='/intern/housing-preferences'
       this.setState({ place: '/intern/housing-preferences' })
       if (this.props.hasChanged) {
         this.handleOpen()
       } else {
         this.leave('/intern/housing-preferences')
       }
-      this.setState({place:null})
     }
   }
 

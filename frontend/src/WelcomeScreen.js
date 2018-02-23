@@ -10,6 +10,9 @@ import InternRegPart1 from './InternRegister/InternRegPart1'
 import UserDetails from './InternRegister/DetailsP1.js'
 import RoommatePreferences from './InternRegister/DetailsP2'
 import HousingPreferences from './InternRegister/DetailsP3'
+import axios from 'axios'
+
+axios.defaults.baseURL='http://localhost:9090'
 
 class WelcomeScreen extends Component {
   state = {
@@ -22,7 +25,7 @@ class WelcomeScreen extends Component {
 
   updateUid = (uid) => {
     this.setState({ uid })
-    if(uid.charAt(0)==1)
+    if(uid.charAt(0)==2)
       this.setState({moderator:true})
   }
 

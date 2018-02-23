@@ -10,36 +10,51 @@ import LinkedInLink from '../EmployeeRegisterForm/LinkedInLink'
 import DetailsStepper from './DetailsStepper'
 import { grey800, black, pink900, white } from 'material-ui/styles/colors';
 import { Checkbox, RaisedButton } from 'material-ui';
-
 import history from '../history'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:9090'
+
+
 //import './LandingScreen.css';
 
 class DetailsP1 extends Component {
   state = {
-    firstname: null,
-    lastname: null,
-    bio: null,
-    facebook: null,
-    twitter: null,
-    linkedin: null,
+    firstname: '',
+    lastname: '',
+    bio: '',
+    facebook: '',
+    twitter: '',
+    linkedin: '',
     changed: false,
   }
 
-  constructor(props) {
-    super(props)
+  componentWillMount() {
     //KUNAL PUT CODE HERE to get preferences from server
     //put them in the nulls that are below
-    this.setState({
-      firstname: null,
-      lastname: null,
-      bio: null,
-      facebook: null,
-      twitter: null,
-      linkedin: null,
-    })
+    axios.post('/GET-PREFERENCES/BASIC-PREFERENCES', {
+      "userID": this.props.uid,
+    }).then(function (response) {
+      if (response.data.status == false) {
+        console.log("Something went wrong :(")
+      } else {
+        this.setState({
+          firstname: response.data.firstName,
+          lastname: response.data.lastName,
+          bio: response.data.description,
+          facebook: response.data.fbLink,
+          twitter: response.data.twitterLink,
+          linkedin: response.data.linkedInLink,
+        })
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
+
   }
 
   buttonSubmit = () => {
+    //console.log(this.state.firstname)
     if (this.state.changed) {
       let bio = this.state.bio
       let facebook = this.state.facebook
@@ -48,9 +63,40 @@ class DetailsP1 extends Component {
       let firstname = this.state.firstname
       let lastname = this.state.lastname
 
+      //console.log(firstname)
+      if (lastname == '' || firstname == '') {
+        alert("Missing required fields")
+      } else {
+        axios.post('/UPDATE-PREFERENCES/BASIC-PREFERENCES', {
+          "userID": this.props.uid,
+          firstName: firstname,
+          lastName: lastname,
+          description: bio,
+          fbLink: facebook,
+          twitterLink: twitter,
+          linkedInLink: linkedin
+        }).then(function (response) {
+          if (response.data.status == false) {
+            console.log("Something went wrong :(")
+          } else {
+            console.log("Preferences updated!");
+            //Go to preferences p2
+            this.setState({changed:false})
+          }
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
+
       //KUNAL PUT CODE HERE to submit the page to the server
       //dont forget to check that firstname, and lastname are not null
     }
+
+  }
+
+  bSubmit=()=>{
+    this.buttonSubmit()
+    if(!this.state.changed)
     history.push('/intern/roommate-preferences')
   }
 
@@ -140,7 +186,7 @@ class DetailsP1 extends Component {
                 label="Next"
                 style={{ marginTop: "20px", }}
                 primary
-                onClick={this.buttonSubmit}
+                onClick={this.bSubmit}
               />
             </Row>
           </Col>

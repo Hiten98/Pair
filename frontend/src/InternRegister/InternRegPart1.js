@@ -7,29 +7,60 @@ import '../EmployeeRegisterForm/NewEmployeeRegister.css';
 import { grey800, black, pink900, white } from 'material-ui/styles/colors';
 import { Checkbox, RaisedButton } from 'material-ui';
 import history from '../history'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:9090'
 
 class LandingScreen extends Component {
-  constructor(props){
-    super(props)
-    props.updateUid(props.uid)
+  componentWillMount() {
+    this.props.updateUid(this.props.uid)
+    let email=null
 
     //KUNAL put code here to get the email and put it in the following variable
-    let email=null
-    this.setState({username:email})
+    axios.post('/GET-EMAIL', {
+      "userID": this.props.uid
+    }).then(function (response) {
+      if (response.data.email != null) {
+        email=response.data.email
+        //Put it in the email field
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
+    this.setState({ username: email })
   }
 
-  state={
-    username:null,
-    password:null,
+  state = {
+    username: null,
+    password: null,
   }
 
-  buttonSubmit=()=>{
-    let email=this.state.username
-    let password=this.state.password
+  buttonSubmit = () => {
+    let email = this.state.username
+    let password = this.state.password
 
     //KUNAL PUT YOUR CODE HERE
     //check to make sure password exists
-    history.push('/intern/user-details')
+    if (password!=null&&password.length < 8) {
+      alert("Password is shorter than 8 characters")
+    } else {
+      axios.post('/SET-INTERN-PASSWORD', {
+        "username": email,
+        "password": password,
+      }).then(function (response) {
+        if (response.data.status == false) {
+          console.log("Something went wrong :(")
+        } else {
+          console.log("Created account password!");
+          //Go to preferences p1
+          history.push('/intern/user-details')
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+
+    }
+    
   }
 
   passChange = (ev) => {
@@ -72,7 +103,7 @@ class LandingScreen extends Component {
           <Col xs={10} sm={8} className="midCol">
             <Row className="Title"> Intern Registration</Row>
             <Row>
-              <Username styles={this.styles} email={this.state.username}/>
+              <Username styles={this.styles} email={this.state.username} />
             </Row>
             <Row>
               <Password styles={this.styles} passChange={this.passChange.bind(this)} />

@@ -7,8 +7,10 @@ import PriceInput from './HousingInputs/PriceInput'
 import DistanceInput from './HousingInputs/DistanceInput'
 import DurationInput from './HousingInputs/DurationInput'
 import RoommatesInput from './HousingInputs/RoommatesInput'
-
 import history from '../history'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:9090'
 //import './LandingScreen.css';
 
 class DetailsP1 extends Component {
@@ -23,12 +25,23 @@ class DetailsP1 extends Component {
   componentWillMount() {
     //KUNAL PUT CODE HERE to get preferences from server
     //put them in the nulls that are below
-    this.setState({
-      price: null,
-      roommates: null,
-      distance: null,
-      duration: null,
-    })
+    axios.post('/GET-PREFERENCES/HOUSING-PREFERENCES', {
+      "userID": this.props.uid
+    }).then(function (response) {
+      if (response.data.status == false) {
+        console.log("Something went wrong :(")
+      } else {
+        this.setState({
+          price: response.data.desiredPrice,
+          roommates: response.data.desiredRoomate,
+          distance: response.data.desiredDistance,
+          duration: response.data.desiredDuration,
+        })
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
+
   }
 
   bSubmit = () => {
@@ -40,32 +53,51 @@ class DetailsP1 extends Component {
 
       //KUNAL PUT CODE HERE to submit the page to the server
       //dont forget to check that all are not null
+      axios.post('/UPDATE-PREFERENCES/HOUSING-PREFERENCES', {
+        "userID": this.props.uid,
+        desiredPrice: price,
+        desiredRoommate: roommates,
+        desiredDistance: distance,
+        desiredDuration: duration
+      }).then(function (response) {
+        if (response.data.status == false) {
+          console.log("Something went wrong :(")
+        } else {
+          console.log("Preferences updated!");
+          //Go to landing page
+          this.setState({changed:false})
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   }
 
-  distanceChange=(distance)=>{
-    this.setState({distance})
+  distanceChange = (distance) => {
+    this.setState({ distance })
   }
 
-  priceChange=(price)=>{
-    this.setState({price})
+  priceChange = (price) => {
+    this.setState({ price })
   }
 
-  durationChange=(duration)=>{
-    this.setState({duration})
+  durationChange = (duration) => {
+    this.setState({ duration })
   }
 
-  roommateChange=(roommates)=>{
-    this.setState({roommates})
+  roommateChange = (roommates) => {
+    this.setState({ roommates })
   }
 
   backButtonSubmit = () => {
     this.bSubmit()
+    if(!this.state.changed)
     history.push('/intern/roommate-preferences')
   }
 
   buttonSubmit = () => {
     this.bSubmit()
+    if(!this.state.changed)
     history.push('/intern-landing/chats')
   }
 

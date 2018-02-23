@@ -16,6 +16,9 @@ import ThemPet from './RoommateInputs/ThemPetInput'
 import Waketime from './RoommateInputs/WaketimeInput'
 import YouPet from './RoommateInputs/YouPetInput'
 import ImageUpload from '../EmployeeRegisterForm/ImageUpload'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:9090'
 
 
 class DetailsP2 extends Component {
@@ -43,18 +46,28 @@ class DetailsP2 extends Component {
   componentWillMount() {
     //KUNAL PUT CODE HERE to get preferences from server
     //put them in the nulls that are below
-    this.setState({
-      youguest: null,
-      themguest: null,
-      youpet: null,
-      thempet: null,
-      sharing: null,
-      smoke: null,
-      bedtime: null,
-      waketime: null,
-      lights: null,
-      clean: null,
-    })
+    axios.post('/GET-PREFERENCES/ROOMMATE-PREFERENCES', {
+      "userID": this.props.uid
+    }).then(function (response) {
+      if (response.data.status == false) {
+        console.log("Something went wrong :(")
+      } else {
+        this.setState({
+          youguest: response.data.youguest,
+          themguest: response.data.themguest,
+          youpet: response.data.youpet,
+          thempet: response.data.thempet,
+          sharing: response.data.sharing,
+          smoke: response.data.smoke,
+          bedtime: response.data.bedtime,
+          waketime: response.data.waketime,
+          lights: response.data.lights,
+          clean: response.data.clean,
+        })
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 
   bSubmit = () => {
@@ -70,6 +83,30 @@ class DetailsP2 extends Component {
       let lights = this.state.lights
       let clean = this.state.clean
 
+      axios.post('/UPDATE-PREFERENCES/ROOMMATE-PREFERENCES', {
+        "userID": this.state.uid,
+        "youguest": youguest,
+        "themguest": themguest,
+        "youpet": youpet,
+        "thempet": thempet,
+        "sharing": sharing,
+        "smoke": smoke,
+        "bedtime": bedtime,
+        "waketime": waketime,
+        "lights": lights,
+        "clean": clean
+      }).then(function (response) {
+        if (response.data.status == false) {
+          console.log("Something went wrong :(")
+        } else {
+          console.log("Preferences updated!");
+          //Go to preferences p3
+          this.setState({ changed: false })
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+
       //KUNAL PUT CODE HERE to submit the page to the server
       //dont forget to check that all are not null
     }
@@ -77,12 +114,14 @@ class DetailsP2 extends Component {
 
   backButtonSubmit = () => {
     this.bSubmit()
-    history.push('/intern/user-details')
+    if (!this.state.changed)
+      history.push('/intern/user-details')
   }
 
   buttonSubmit = () => {
     this.bSubmit()
-    history.push('/intern/housing-preferences')
+    if (!this.state.changed)
+      history.push('/intern/housing-preferences')
   }
 
   bedtimeChange = (bedtime) => {
@@ -143,19 +182,19 @@ class DetailsP2 extends Component {
                 <Row>
                   <Bedtime changing={this.bedtimeChange.bind(this)} dv={this.state.bedtime} />
                 </Row>
-                <hr/>
+                <hr />
                 <Row>
                   <Lights changing={this.lightChange.bind(this)} dv={this.state.lights} />
                 </Row>
-                <hr/>
+                <hr />
                 <Row>
                   <Sharing changing={this.shareChange.bind(this)} dv={this.state.sharing} />
                 </Row>
-                <hr/>
+                <hr />
                 <Row>
                   <YouGuest changing={this.youguestChange.bind(this)} dv={this.state.youguest} />
                 </Row>
-                <hr/>
+                <hr />
                 <Row>
                   <YouPet changing={this.youpetChange.bind(this)} dv={this.state.youpet} />
                 </Row>
@@ -165,19 +204,19 @@ class DetailsP2 extends Component {
                 <Row>
                   <Waketime changing={this.waketimeChange.bind(this)} dv={this.state.waketime} />
                 </Row>
-                <hr/>
+                <hr />
                 <Row>
                   <Clean changing={this.cleanChange.bind(this)} dv={this.state.clean} />
                 </Row>
-                <hr/>
+                <hr />
                 <Row>
                   <Smoke changing={this.smokeChange.bind(this)} dv={this.state.smoke} />
                 </Row>
-                <hr/>
+                <hr />
                 <Row>
                   <ThemGuest changing={this.themguestChange.bind(this)} dv={this.state.themguest} />
                 </Row>
-                <hr/>
+                <hr />
                 <Row>
                   <ThemPet changing={this.thempetChange.bind(this)} dv={this.state.thempet} />
                 </Row>
@@ -191,7 +230,13 @@ class DetailsP2 extends Component {
                 onClick={this.backButtonSubmit}
               />
               <span className="hiddenText">Th</span>
-
+              <RaisedButton
+                label="Save"
+                style={{ marginTop: "20px", }}
+                primary
+                onClick={this.bSubmit}
+              />
+              <span className="hiddenText">Th</span>
               <RaisedButton
                 label="Next"
                 style={{ marginTop: "20px", }}
