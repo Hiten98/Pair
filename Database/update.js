@@ -90,7 +90,7 @@
     				"password": newPassword
     			});
     		else
-    			return false;
+    			return null;
     	});
     }
 
@@ -101,6 +101,6 @@
     		if(item == password)
     			internRef.child(ID).remove();
     		else
-    			return false;
+    			return null;
     	});
     }

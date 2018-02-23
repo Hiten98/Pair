@@ -3,7 +3,7 @@
         TODO @Darwin move functions to appropriate place
         TODO @Darwin database security
         TODO @Darwin make separate javascript files*/
-
+  
 
     //Initialize Firebase
     const config = {
@@ -24,45 +24,32 @@
     var internRef = ref.child("User/Interns");
     var employeeRef = ref.child("User/Employees");
 
-    createCompany(companyRef, );
-    createProfilePicture(internRef, "VFgf21wF", );
+    // createCompany(companyRef, "Goggle", ["GA", "MI", "CA"], ["Jack Stone", "Jake Harden"]);
+    // createCompany(companyRef, "Carrot", ["IN", "MO", "CA"], ["Chef Curry", "Mike Tyson"]);
+    // updateCompany(companyRef, "Carrot", ["Scott Jones"], ["IN2", "MO2"]);
 
-    //createCompany("Mind Readers Inc", ["Place1", "Drace1", "Trace1"], ["P1", "P2"]);
-    //createCompany("Telefrags", ["US", "UK", "UV"]);
-    //updateCompany("Mind Readers Inc", ["France", "Trance", "Drance"], ["Person", "Persona"]);
-    //updateCompany("Telefrags", [] , "Atlan");
+    // createIntern(internRef, "DJW3e123", "hiten@purdue.edu", "Goggle", "CA");
+    // createIntern(internRef, "VFgf21wF", "tiwari7@purdue.edu", "Goggle", "MA");
+    // createPassword(internRef, "DJW3e123", "password");
+    // createPassword(internRef, "VFgf21wF", "password");
+    // updateIntern(internRef, "DJW3e123", "Hiten", "Rathod", "765412333");
+    // updateIntern(internRef, "VFgf21wF", "Mihir", "Tiwari", "328934443");
 
-    /*internRef.update({
-      "AAlength": 0
-    });*/
+    // createEmployee(employeeRef, "S1we4ed", "Case", "Right", "password", "case@box.com", "Goggle", ["China", "Beijing", "Seoul"], "I like chipotle", "case.5", "case-right", "@case");
+    // createEmployee(employeeRef, "Kdl3rf", "Johnnyy", "Cash", "password", "cash@goggle.com", "Goggle", ["India", "Beijing", "Pyeongcheng"], "I like chipotle", null, "linkedin.com/cash", "@Cash");
+    // updateEmployee(employeeRef, "Kdl3rf", null, null, null, null, "face.book", null, "@newTwit");
 
-    // createIntern("Andrew", "Bass", "bass1@purduedu", "Dicks", "Hawaii");
-    // createIntern("Mihir", "Tirwrai", "tiwar@purdue.d", "Evernote", "NeYrok");
-    // createIntern("Hiten", "Rathod", "rarho@prud.2", "Hiten is jobless LOLOLOLOL");
-    // createPassword("rarho", "!@#$");
-    // updatePassword("rarho", "new", "!@#$");
-    // updateIntern("QxRAi0003", null, "Calif");
-    // getIntern("bass1");
-    /*var promise1 = new Promise(function(resolve, reject){
-      resolve(getMasterListOfInterns("Evernote"));
-      reject(getMasterListOfInterns("Evernote"));
-    });*/
-    // var x = getMasterListOfInterns("Evernote") => document.write("DONE");
-    //document.write(promise1);
-    //document.write(JSON.stringify(getMasterListOfInterns("Evernote")));
-    // removeIntern("QxRAi0003", "Sseptu")
-    // createPreferences("rarho", ["soup", "noddles", 12, "chess", "etc."]);
-    // getLocations("Telefrags");
+    // createPreferences(internRef, "DJW3e123", ["chess", "dogs", "soup", "12", "trump", "sauce"]);
+    // createIntern(internRef, "VFgf213wF", "tiwari7@purdue.edu", "Goggle", "MA");
+    // removeIntern(internRef, "VFgf213wF", null);
+  
+    // var x = getMasterListOfInterns(internRef, "Goggle", function(x) {
+    //   document.write(JSON.stringify(x));
+    // });
 
-    // createEmployee("masonid", "mason", "herky", "secretpass", "masonherky@salesforce.com", "SalesForce", "San Francisco");
-    //createIntern("dvaz", "darwin", "vaz", "dvaz@gmail.com", "Blizzard", "LA");
+    getCompany(companyRef, "9566", (x) => {
+      document.write(x);
+    });
+  
 
-    // var data = getEmployee("masonid");
-    //document.write(data);
-    // verifyEmployee("masonid", "secretpass");
-    /*var x = getMasterListOfInterns("Hiten is jobless LOLOLOLOL", function(x) {
-      document.write(JSON.stringify(x));
-    });*/
-
-    // createEmployee("SDARf1", "Case", "Moolss", "@WGREBR", "case@box.docm", "Savavge Inc", ["China", "Beijing", "Pyeongcheng"], "I like chipotle", "case.5", "case-mool", "case");
-    // updateEmployee("SDARf1", "Cash", "Mads", ["India", "Beijing", "Pyeongcheng"], "I like chipotle", "not on facebook", "linekd.com/case-mool", "@twitter");
+    //document.write(getLocations(companyRef, "Goggle"));

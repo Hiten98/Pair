@@ -1,4 +1,4 @@
-
+	
 	function createCompany(companyRef, companyName, listOfLocations = "novalue", listOfEmployees = "novalue") {
       companyRef.update({
         [companyName]: "novalue"
@@ -9,28 +9,6 @@
         "listOfLocations": listOfLocations,
         "listOfEmployees": listOfEmployees
       });
-    }
-
-    function pad(n, width, z) {
-	  z = z || '0';
-	  n = n + '';
-	  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-	}
-
-	function hashCode(s) {
-		return s.substring(0, s.indexOf("@"));
-	};
-
-    function getID(length) {
-    	var characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		var size = 5;
-		var id = '';
-		for (var i = 0; i < size; i++) {
-		    id += characters.charAt(Math.floor(Math.random() * characters.length));
-		}
-		length = pad(length, 4);
-		id += length;
-		return(id);
     }
 
     function createIntern(internRef, id, email, company, location = "novalue") {
@@ -58,6 +36,7 @@
 	    	"location": location,
 	    	"links": [facebook, linkedin, twitter]
 	    });
+	    updateCompany(companyRef, company, firstName + " " + lastName);
     }
 
     function createPassword(internRef, ID, password) {
@@ -77,3 +56,4 @@
     		});
     	}*/
     }
+
