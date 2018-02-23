@@ -79,7 +79,7 @@ class DetailsStepper extends Component {
     ]
     return (
       <div>
-        <Stepper linear={false} activeStep={0}>
+        <Stepper linear={false} activeStep={this.props.pos-1}>
           <Step>
             <StepButton onClick={this.changeToUser}> User Details </StepButton>
           </Step>

@@ -10,6 +10,7 @@ class Password extends Component {
         className="password"
         hintText="At least 8 characters"
         floatingLabelText="Password"
+        defaultValue={this.props.dv}
         floatingLabelStyle={this.props.styles.floatingLabelStyle}
         floatingLabelShrinkStyle={this.props.styles.floatingLabelShrinkStyle}
         underlineStyle={this.props.styles.underlineStyle}

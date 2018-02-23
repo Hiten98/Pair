@@ -11,6 +11,7 @@ class Username extends Component {
         floatingLabelText="LinkedIn Link (Optional)"
         visible
         fullWidth
+        defaultValue={this.props.dv}
         disableButton={true}
         floatingLabelStyle={this.props.styles.floatingLabelStyle}
         floatingLabelShrinkStyle={this.props.styles.floatingLabelShrinkStyle}

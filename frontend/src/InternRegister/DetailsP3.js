@@ -9,12 +9,10 @@ import history from '../history'
 
 class DetailsP1 extends Component {
   state={
-    firstname:null,
-    lastname:null,
-    bio:null,
-    facebook: null,
-    twitter: null,
-    linkedin: null,
+    price:null,
+    roommates:null,
+    distance:null,
+    duration:null,
     changed:false,
   }
 

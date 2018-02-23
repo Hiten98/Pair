@@ -12,6 +12,7 @@ class Username extends Component {
         visible
         fullWidth
         disableButton={true}
+        defaultValue={this.props.dv}
         floatingLabelStyle={this.props.styles.floatingLabelStyle}
         floatingLabelShrinkStyle={this.props.styles.floatingLabelShrinkStyle}
         underlineStyle={this.props.styles.underlineStyle}
