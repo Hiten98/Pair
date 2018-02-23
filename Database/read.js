@@ -17,28 +17,28 @@
     	});
 	}
 
-	function getLocations(companyRef, company) {
+	function getLocations(companyRef, company, callback) {
 		var list = [];
 		companyRef.child(company).child("listOfLocations").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 	          var item = childSnapshot.val();
 	          list.push(item);
 	        });
-	        return list;
+	        callback(list);
 		});
 	}
 
-	function getCompany(companyRef, pin) {
+	function getCompany(companyRef, pin, callback) {
 		companyRef.once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				if(childSnapshot.val().pin == pin)
 					return childSnapshot.key;
 			});
-			return false;
+			callback(false);
 		});
 	}
 
-	function getEmployee(employeeRef, ID) {
+	function getEmployee(employeeRef, ID, callback) {
 		var list = [];
 		var ref = employeeRef.child(ID);
 		ref.once("value").then(function(snapshot) {
@@ -46,11 +46,11 @@
 				var data = childSnapshot.val();
 				list.push(data);
 			});
-			return list;
+			callback(list);
 		});
 	}
 
-	function getIntern(internRef, ID) {
+	function getIntern(internRef, ID, callback) {
 		var list = [];
 		var ref = internRef.child(ID);
 		ref.once("value").then(function(snapshot) {
@@ -58,45 +58,45 @@
 				var data = childSnapshot.val();
 				list.push(data);
 			});
-			return list;
+			callback(list);
 		});
 	}
 
-	function getPreferences(internRef, ID) {
+	function getPreferences(internRef, ID, callback) {
 		var options = [];
 		var ref = internRef.child(ID).child("options");
 		ref.once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				options.push(childSnapshot.val());
 			})
-			return options;
+			callback(options);
 		})
 	}
 
-	function verifyEmployee(employeeRef, ID, password) {
+	function verifyEmployee(employeeRef, ID, password, callback) {
 		var ref = employeeRef.child(ID).child("password");
 		var correctPassword;
 		ref.once("value").then(function(snapshot) {
 			correctPassword = snapshot.val();
 			if (password == correctPassword) {
-				return true;
+				callback(true);
 			}
 			else {
-				return false;
+				callback(false);
 			}
 		});
 	}
 
-	function verifyIntern(internRef, ID, password) {
+	function verifyIntern(internRef, ID, password, callback) {
 		var ref = internRef.child(ID).child("password");
 		var correctPassword;
 		ref.once("value").then(function(snapshot) {
 			correctPassword = snapshot.val();
 			if (password == correctPassword) {
-				return true;
+				callback(true);
 			}
 			else {
-				return false;
+				callback(false);
 			}
 		});
 	}

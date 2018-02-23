@@ -1,4 +1,4 @@
-	
+
 	function createCompany(companyRef, companyName, listOfLocations = "novalue", listOfEmployees = "novalue") {
       companyRef.update({
         [companyName]: "novalue"
@@ -77,4 +77,3 @@
     		});
     	}*/
     }
-

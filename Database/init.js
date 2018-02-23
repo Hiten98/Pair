@@ -3,7 +3,7 @@
         TODO @Darwin move functions to appropriate place
         TODO @Darwin database security
         TODO @Darwin make separate javascript files*/
-  
+
 
     //Initialize Firebase
     const config = {
@@ -24,7 +24,8 @@
     var internRef = ref.child("User/Interns");
     var employeeRef = ref.child("User/Employees");
 
-    createCompany(companyRef, )
+    createCompany(companyRef, );
+    createProfilePicture(internRef, "VFgf21wF", );
 
     //createCompany("Mind Readers Inc", ["Place1", "Drace1", "Trace1"], ["P1", "P2"]);
     //createCompany("Telefrags", ["US", "UK", "UV"]);
