@@ -32,6 +32,7 @@
 
 	function getLocations(companyRef, company, callback) {
 		var list = [];
+		list.push(company);
 		companyRef.child(company).child("listOfLocations").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 	          var item = childSnapshot.val();
@@ -45,6 +46,7 @@
 		companyRef.once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				if(childSnapshot.val().pin == pin) {
+					//console.log(childSnapshot.val());
 					getLocations(companyRef, childSnapshot.key, (list) => {
 						callback(list);
 					});
