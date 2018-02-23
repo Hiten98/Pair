@@ -1,12 +1,12 @@
 	
-    module.exports = {
+    /*module.exports = {
         getSnapshot,
         updateCompany,
         updateEmployee,
         updateIntern,
         updatePassword,
         removeIntern
-    }
+    }*/
 
 	/*
     / @brief this function retrieves the already existent

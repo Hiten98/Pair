@@ -1,5 +1,5 @@
 
-	module.exports = {
+	/*module.exports = {
 		getMasterListOfInterns,
 		getLocations,
 		getCompany,
@@ -10,7 +10,7 @@
 		getRoommatePreferences,
 		verifyEmployee,
 		verifyIntern
-	}
+	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
 		var master = {};

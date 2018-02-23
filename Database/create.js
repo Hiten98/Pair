@@ -1,5 +1,5 @@
 	
-	module.exports = {
+	/*module.exports = {
 		createCompany,
 		createIntern,
 		createEmployee,
@@ -8,7 +8,7 @@
 		createRoommatePreferences,
 		createHousingPreferences,
 		createProfilePicture
-	}
+	}*/
 
 	function createCompany(companyRef, companyName, listOfLocations = "novalue", listOfEmployees = "novalue") {
       companyRef.update({
