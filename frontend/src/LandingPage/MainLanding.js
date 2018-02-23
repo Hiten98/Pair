@@ -7,6 +7,7 @@ import history from '../history'
 import AddInternButton from './AddInternButton'
 import DisplayInterns from './DisplayInterns'
 import InternToolbar from './InternToolbar'
+import InternProfile from './InternProfile'
 
 class LandingScreen extends Component {
   render() {
@@ -25,6 +26,7 @@ class LandingScreen extends Component {
             <Row className='textDisplay'>
               <Switch>
                 <Route path='/landing/employee/interns' render={() => <DisplayInterns uid={this.props.uid} />} />
+                <Route path='/landing/interns' render={()=><InternProfile uid={this.props.uid}/>}/>
               </Switch>
             </Row>
             <Row className='searchBar'>

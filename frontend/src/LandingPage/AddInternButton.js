@@ -4,11 +4,12 @@ import { Card, CardHeader, Paper, RaisedButton, TextField, Dialog, RadioButtonGr
 import { Grid, Row, Col, Image } from 'react-bootstrap'
 //import './LandingScreen.css';
 import axios from 'axios'
+import emailjs from 'emailjs-com'
 
 axios.defaults.baseURL = 'http://localhost:9090'
 
 class LandingScreen extends Component {
-  locs = ["hi","What"]
+  locs = []
   sh = []
   state = {
     open: false,
@@ -19,9 +20,26 @@ class LandingScreen extends Component {
 
   componentWillMount() {
     //KUNAL GET LOCATIONS
-    for (let i = 0; i < this.locs.length; i++) {
-      this.sh.push(<RadioButton value={i} key={i} label={this.locs[i]}/>)
-    }
+    let that = this
+    axios.post('/GET-EMPLOYEE', {
+      "userID": this.props.uid
+    }).then(function (response) {
+      let i = 0
+      let parsed = JSON.parse(JSON.stringify(response.data))
+      console.log(parsed.employee[6])
+      that.locs = parsed.employee[6]
+      that.setState({company:parsed.employee[0]})
+      that.forceUpdate()
+
+    }).catch(function (error) {
+      console.log(error);
+    })/*.then(function(){
+      for (let i = 0; i < that.locs.length; i++) {
+        that.sh.push(<RadioButton value={i} key={i} label={that.locs[i]} />)
+      }
+    })*/
+
+
   }
 
   handleClick = () => {
@@ -32,8 +50,8 @@ class LandingScreen extends Component {
     this.setState({ open: false })
   }
 
-  locChange=(ev,value)=>{
-    this.setState({loc:value})
+  locChange = (ev, value) => {
+    this.setState({ loc: value })
   }
 
   handleSubmit = () => {
@@ -42,11 +60,30 @@ class LandingScreen extends Component {
     } else {
       axios.post('/CREATE-INTERN', {
         "username": this.state.intern,
-        "location": this.state.loc,
+        "location": this.locs,
         "company": this.state.company
       }).then((response) => {
         if (response.data.userID != null) {
           console.log("Success! ID CREATED:" + response.data.userID);
+
+          let url = "http://localhost:3000/register/intern/part1/" + response.data.userID;
+          emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
+
+
+          emailjs.send("default_service", "welcome_to_pair", {
+            toemail: this.state.intern,
+            company_name: this.state.company,
+            action_url: url
+          }).then(
+            function (response) {
+              console.log("SUCCESS", response);
+            },
+            function (error) {
+              console.log("FAILED", error);
+            }
+          );
+
+
           /*this.props.updateUid(response.data.querySelectorID);
           //Redirect to preferences page
           this.redirect(1);*/
@@ -60,6 +97,8 @@ class LandingScreen extends Component {
       }).catch((error) => {
         console.log(error);
       });
+
+
 
     }
     this.setState({ open: false })

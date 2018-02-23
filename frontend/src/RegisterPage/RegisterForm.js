@@ -7,34 +7,50 @@ import RegisterFormField from './RegisterFormField.js'
 import RegisterParagraph from './RegisterParagraph.js'
 import '../LoginPage/form.css';
 import history from '../history'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:9090'
 
 class RegisterForm extends Component {
-  state={
-    companyCode:null,
+  loc=[]
+  state = {
+    companyCode: null,
   }
 
-  getCompanyCode=(companyCode)=>{
-    this.setState({companyCode})
+  getCompanyCode = (companyCode) => {
+    this.setState({ companyCode })
+    this.props.updateCompanyCode(companyCode)
   }
 
-  handleLogin=()=>{
-    const companyCode=this.state.companyCode
+  handleLogin = () => {
+    const companyCode = this.state.companyCode
+    axios.post('/GET-LOCATIONS-BY-COMPANY', {
+      "companyCode": companyCode
+    }).then(function (response) {
+      console.log(response.data.locations);
+      for (var location in response.data.locations) {
+        //Make a locations item
+
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
     //kunal code submit here
     this.redirect(null)
     //if doing a fetch use this at the end .then(this.redirect(classification))
     //where classification is whether it is an employee or intern, change the variable however you want
   }
 
-  redirect=(stuff)=>{
+  redirect = (stuff) => {
     //parse it here
-    const uid=null
-    const loc=[]
-    this.setState({companyCode:null})
+    const uid = null
+    const loc = []
+    this.setState({ companyCode: null })
     this.props.updateCompanyLocations(loc)
     history.push('/register/employee')
   }
 
-  goToLogin=()=>{
+  goToLogin = () => {
     history.push('/login')
   }
 
@@ -46,7 +62,7 @@ class RegisterForm extends Component {
             Register
           </Row>
 
-          <RegisterFormField getCompanyCode={this.getCompanyCode}/>
+          <RegisterFormField getCompanyCode={this.getCompanyCode} />
 
           <Row className='row-sm lbutton'>
             <RaisedButton

@@ -20,13 +20,23 @@ class LandingScreen extends Component {
     axios.post('/GET-MASTER-LIST', {
       userID: this.props.uid
     }).then(function (response) {
-      if (response.data.UserId.charAt(0) == 2) {
-        console.log(response);
-        that.people = response.data.interns
-        that.forceUpdate()
-        for (var intern in response.data.interns) {
-          //Show intern titles
+      //console.log(response.data)
+      if (response.data.userId.charAt(0) == 2) {
+        //console.log(response);
+        let i = 0
+        let parsed = JSON.parse(JSON.stringify(response.data.list))
+        //console.log(response.data.list)
+        for (var intern in parsed) {
+          //console.log(parsed[intern])
 
+          //Show intern titles
+          //for(let th in intern)
+          //console.log(JSON.parse(JSON.stringify(th)))
+          //if (!(parsed[intern].firstName == null || parsed[intern].lastName == null)) {
+            that.people[i] = parsed[intern].firstName + ' ' + parsed[intern].lastName
+            //i++
+          //}
+          that.forceUpdate()
         }
       }
     }).catch(function (error) {
@@ -48,7 +58,7 @@ class LandingScreen extends Component {
         <Card style={this.style}>
           <CardHeader
             title={this.people[i]}
-            subtitle={this.company}
+          //subtitle={this.company}
           />
         </Card>
       )

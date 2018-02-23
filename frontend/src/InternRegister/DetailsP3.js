@@ -15,14 +15,15 @@ axios.defaults.baseURL = 'http://localhost:9090'
 
 class DetailsP1 extends Component {
   state = {
-    price: null,
-    roommates: null,
-    distance: null,
-    duration: null,
+    price: 1,
+    roommates: 0,
+    distance: 1,
+    duration: 1,
     changed: false,
   }
 
   componentWillMount() {
+    let that = this
     //KUNAL PUT CODE HERE to get preferences from server
     //put them in the nulls that are below
     axios.post('/GET-PREFERENCES/HOUSING-PREFERENCES', {
@@ -31,12 +32,13 @@ class DetailsP1 extends Component {
       if (response.data.status == false) {
         console.log("Something went wrong :(")
       } else {
-        this.setState({
-          price: response.data.desiredPrice,
-          roommates: response.data.desiredRoomate,
-          distance: response.data.desiredDistance,
-          duration: response.data.desiredDuration,
-        })
+        if (response.data.desiredPrice != null)
+          that.setState({
+            price: response.data.desiredPrice,
+            roommates: response.data.desiredRoomate,
+            distance: response.data.desiredDistance,
+            duration: response.data.desiredDuration,
+          })
       }
     }).catch(function (error) {
       console.log(error);
@@ -45,60 +47,64 @@ class DetailsP1 extends Component {
   }
 
   bSubmit = () => {
-    if (this.state.changed) {
-      let price = this.state.price
-      let roommates = this.state.roommates
-      let distance = this.state.distance
-      let duration = this.state.duration
 
-      //KUNAL PUT CODE HERE to submit the page to the server
-      //dont forget to check that all are not null
-      axios.post('/UPDATE-PREFERENCES/HOUSING-PREFERENCES', {
-        "userID": this.props.uid,
-        desiredPrice: price,
-        desiredRoommate: roommates,
-        desiredDistance: distance,
-        desiredDuration: duration
-      }).then(function (response) {
-        if (response.data.status == false) {
-          console.log("Something went wrong :(")
-        } else {
-          console.log("Preferences updated!");
-          //Go to landing page
-          this.setState({changed:false})
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
-    }
+    let price = this.state.price
+    let roommates = this.state.roommates
+    let distance = this.state.distance
+    let duration = this.state.duration
+    let that = this
+    //KUNAL PUT CODE HERE to submit the page to the server
+    //dont forget to check that all are not null
+    axios.post('/UPDATE-PREFERENCES/HOUSING-PREFERENCES', {
+      "userID": this.props.uid,
+      desiredPrice: price,
+      desiredRoommate: roommates,
+      desiredDistance: distance,
+      desiredDuration: duration
+    }).then(function (response) {
+      if (response.data.status == false) {
+        console.log("Something went wrong :(")
+      } else {
+        console.log("Preferences updated!");
+        //Go to landing page
+        that.setState({ changed: false })
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
+
   }
 
   distanceChange = (distance) => {
     this.setState({ distance })
+    this.setState({changed:true})
   }
 
   priceChange = (price) => {
     this.setState({ price })
+    this.setState({changed:true})
   }
 
   durationChange = (duration) => {
     this.setState({ duration })
+    this.setState({changed:true})
   }
 
   roommateChange = (roommates) => {
     this.setState({ roommates })
+    this.setState({changed:true})
   }
 
   backButtonSubmit = () => {
     this.bSubmit()
-    if(!this.state.changed)
-    history.push('/intern/roommate-preferences')
+    if (!this.state.changed)
+      history.push('/intern/roommate-preferences')
   }
 
   buttonSubmit = () => {
     this.bSubmit()
-    if(!this.state.changed)
-    history.push('/landing/interns')
+    if (!this.state.changed)
+      history.push('/landing/interns')
   }
 
   render() {

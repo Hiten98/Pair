@@ -29,15 +29,15 @@ class DetailsP1 extends Component {
   }
 
   componentWillMount() {
-    //KUNAL PUT CODE HERE to get preferences from server
-    //put them in the nulls that are below
+    let that=this
     axios.post('/GET-PREFERENCES/BASIC-PREFERENCES', {
       "uid": this.props.uid,
     }).then(function (response) {
       if (response.data.status == false) {
         console.log("Something went wrong :(")
       } else {
-        this.setState({
+        if(response.data.firstName!=null)
+        that.setState({
           firstname: response.data.firstName,
           lastname: response.data.lastName,
           bio: response.data.description,
@@ -62,6 +62,7 @@ class DetailsP1 extends Component {
       let firstname = this.state.firstname
       let lastname = this.state.lastname
 
+      let that=this
       //console.log(firstname)
       if (lastname == '' || firstname == '') {
         alert("Missing required fields")
@@ -80,22 +81,21 @@ class DetailsP1 extends Component {
           } else {
             console.log("Preferences updated!");
             //Go to preferences p2
-            this.setState({changed:false})
+            that.setState({changed:false})
           }
         }).catch(function (error) {
           console.log(error);
         });
       }
 
-      //KUNAL PUT CODE HERE to submit the page to the server
-      //dont forget to check that firstname, and lastname are not null
+      
     }
 
   }
 
   bSubmit=()=>{
     this.buttonSubmit()
-    if(!this.state.changed)
+    
     history.push('/intern/roommate-preferences')
   }
 

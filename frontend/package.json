@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "emailjs": "^2.0.0",
+    "emailjs-com": "^1.5.14",
     "material-ui": "^0.20.0",
     "material-ui-toggle-icon": "^0.2.1",
     "prop-types": "^15.6.0",

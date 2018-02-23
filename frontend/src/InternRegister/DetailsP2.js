@@ -23,16 +23,16 @@ axios.defaults.baseURL = 'http://localhost:9090'
 
 class DetailsP2 extends Component {
   state = {
-    youguest: null,
-    themguest: null,
-    youpet: null,
-    thempet: null,
-    sharing: null,
-    smoke: null,
-    bedtime: null,
-    waketime: null,
-    lights: null,
-    clean: null,
+    youguest: 1,
+    themguest: 1,
+    youpet: 1,
+    thempet: 1,
+    sharing: 1,
+    smoke: 1,
+    bedtime: 21,
+    waketime: 9,
+    lights: 1,
+    clean: 1,
     changed: false,
   }
 
@@ -44,6 +44,7 @@ class DetailsP2 extends Component {
   }
 
   componentWillMount() {
+    let that = this
     //KUNAL PUT CODE HERE to get preferences from server
     //put them in the nulls that are below
     axios.post('/GET-PREFERENCES/ROOMMATE-PREFERENCES', {
@@ -52,18 +53,19 @@ class DetailsP2 extends Component {
       if (response.data.status == false) {
         console.log("Something went wrong :(")
       } else {
-        this.setState({
-          youguest: response.data.youguest,
-          themguest: response.data.themguest,
-          youpet: response.data.youpet,
-          thempet: response.data.thempet,
-          sharing: response.data.sharing,
-          smoke: response.data.smoke,
-          bedtime: response.data.bedtime,
-          waketime: response.data.waketime,
-          lights: response.data.lights,
-          clean: response.data.clean,
-        })
+        if (response.data.smoke != null)
+          that.setState({
+            youguest: response.data.youguest,
+            themguest: response.data.themguest,
+            youpet: response.data.youpet,
+            thempet: response.data.thempet,
+            sharing: response.data.sharing,
+            smoke: response.data.smoke,
+            bedtime: response.data.bedtime,
+            waketime: response.data.waketime,
+            lights: response.data.lights,
+            clean: response.data.clean,
+          })
       }
     }).catch(function (error) {
       console.log(error);
@@ -71,45 +73,46 @@ class DetailsP2 extends Component {
   }
 
   bSubmit = () => {
-    if (this.state.changed) {
-      let youguest = this.state.youguest
-      let themguest = this.state.themguest
-      let youpet = this.state.youpet
-      let thempet = this.state.thempet
-      let sharing = this.state.sharing
-      let smoke = this.state.smoke
-      let bedtime = this.state.bedtime
-      let waketime = this.state.waketime
-      let lights = this.state.lights
-      let clean = this.state.clean
 
-      axios.post('/UPDATE-PREFERENCES/ROOMMATE-PREFERENCES', {
-        "userID": this.state.uid,
-        "youguest": youguest,
-        "themguest": themguest,
-        "youpet": youpet,
-        "thempet": thempet,
-        "sharing": sharing,
-        "smoke": smoke,
-        "bedtime": bedtime,
-        "waketime": waketime,
-        "lights": lights,
-        "clean": clean
-      }).then(function (response) {
-        if (response.data.status == false) {
-          console.log("Something went wrong :(")
-        } else {
-          console.log("Preferences updated!");
-          //Go to preferences p3
-          this.setState({ changed: false })
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
+    let youguest = this.state.youguest
+    let themguest = this.state.themguest
+    let youpet = this.state.youpet
+    let thempet = this.state.thempet
+    let sharing = this.state.sharing
+    let smoke = this.state.smoke
+    let bedtime = this.state.bedtime
+    let waketime = this.state.waketime
+    let lights = this.state.lights
+    let clean = this.state.clean
 
-      //KUNAL PUT CODE HERE to submit the page to the server
-      //dont forget to check that all are not null
-    }
+    let that = this
+    axios.post('/UPDATE-PREFERENCES/ROOMMATE-PREFERENCES', {
+      "userID": this.state.uid,
+      "youguest": youguest,
+      "themguest": themguest,
+      "youpet": youpet,
+      "thempet": thempet,
+      "sharing": sharing,
+      "smoke": smoke,
+      "bedtime": bedtime,
+      "waketime": waketime,
+      "lights": lights,
+      "clean": clean
+    }).then(function (response) {
+      if (response.data.status == false) {
+        console.log("Something went wrong :(")
+      } else {
+        console.log("Preferences updated!");
+        //Go to preferences p3
+        that.setState({ changed: false })
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
+
+    //KUNAL PUT CODE HERE to submit the page to the server
+    //dont forget to check that all are not null
+
   }
 
   backButtonSubmit = () => {
