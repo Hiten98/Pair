@@ -11,22 +11,23 @@ import UserDetails from './InternRegister/DetailsP1.js'
 import RoommatePreferences from './InternRegister/DetailsP2'
 import HousingPreferences from './InternRegister/DetailsP3'
 import axios from 'axios'
+import Landing from './LandingPage/MainLanding'
 
-axios.defaults.baseURL='http://localhost:9090'
+axios.defaults.baseURL = 'http://localhost:9090'
 
 class WelcomeScreen extends Component {
   state = {
     uid: null,
     companyLocationList: [],
-    moderator:false,
+    moderator: false,
   }
 
   item = []
 
   updateUid = (uid) => {
     this.setState({ uid })
-    if(uid.charAt(0)==2)
-      this.setState({moderator:true})
+    if (uid.charAt(0) == 2)
+      this.setState({ moderator: true })
   }
 
   updateCompanyLocations = (companyLocationList) => {
@@ -49,19 +50,18 @@ class WelcomeScreen extends Component {
 
   render() {
     return (
-      <div>
-        <div className="mainBox">
-          <Switch>
-            <Route exact path='/' render={() => <Redirect to='/login' />} />
-            <Route exact path='/login' render={() => <Login updateUid={this.updateUid.bind(this)} />} />
-            <Route exact path='/register' render={() => <Register updateUid={this.updateUid.bind(this)} updateCompanyLocations={this.updateCompanyLocations.bind(this)} />} />
-            <Route path='/register/employee' render={() => <NewEmployeeRegister companyLocationList={this.getCompanyLocations.bind(this)} item={this.item} />} />
-            <Route path='/register/intern/part1' render={()=><InternRegPart1 uid={history.location.pathname.substring(history.location.pathname.lastIndexOf('/')+1)} updateUid={this.updateUid.bind(this)}/>}/>
-            <Route path='/intern/user-details' render={()=><UserDetails uid={this.state.uid}/>}/>
-            <Route path='/intern/roommate-preferences' render={()=><RoommatePreferences uid={this.state.uid}/>}/>
-            <Route path='/intern/housing-preferences' render={()=><HousingPreferences uid={this.state.uid}/>}/>
-          </Switch>
-        </div>
+      <div className="mainBox">
+        <Switch>
+          <Route exact path='/' render={() => <Redirect to='/login' />} />
+          <Route exact path='/login' render={() => <Login updateUid={this.updateUid.bind(this)} />} />
+          <Route exact path='/register' render={() => <Register updateUid={this.updateUid.bind(this)} updateCompanyLocations={this.updateCompanyLocations.bind(this)} />} />
+          <Route path='/register/employee' render={() => <NewEmployeeRegister companyLocationList={this.getCompanyLocations.bind(this)} item={this.item} />} />
+          <Route path='/register/intern/part1' render={() => <InternRegPart1 uid={history.location.pathname.substring(history.location.pathname.lastIndexOf('/') + 1)} updateUid={this.updateUid.bind(this)} />} />
+          <Route path='/intern/user-details' render={() => <UserDetails uid={this.state.uid} />} />
+          <Route path='/intern/roommate-preferences' render={() => <RoommatePreferences uid={this.state.uid} />} />
+          <Route path='/intern/housing-preferences' render={() => <HousingPreferences uid={this.state.uid} />} />
+          <Route path='/landing' render={() => <Landing uid={this.state.uid} employee={this.state.moderator} companyLocationList={this.state.companyLocationList}/>} />
+        </Switch>
       </div>
     );
   }

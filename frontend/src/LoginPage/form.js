@@ -38,8 +38,8 @@ class form extends Component {
     }).then((response) => {
       console.log(response.data.userID);
       if (response.data.userID != null && username != null && password != null) {
-        this.props.updateUid(response.data.querySelectorID);
-        if (response.data.UserId.charAt(0) == 2) {
+        this.props.updateUid(response.data.userID);
+        if (response.data.userID.charAt(0) == 2) {
           //GO TO EMPLOYEE Landing Page
           this.redirect(1);
         } else {
@@ -64,9 +64,9 @@ class form extends Component {
     this.setState({ username: null })
     this.setState({ password: null })
     if (uid == 1)
-      return <Redirect to='/employee-landing' />
+      return <Redirect to='/landing/employee/interns' />
     else
-      return <Redirect to='/intern-landing' />
+      return <Redirect to='/landing/intern/chat' />
   }
 
   goToEmployee = () => {

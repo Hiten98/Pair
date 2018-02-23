@@ -12,22 +12,39 @@ import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:9090'
 
 class LandingScreen extends Component {
+  constructor(props) {
+    super(props)
+    
+    
+  }
+  username = null
   componentWillMount() {
-    this.props.updateUid(this.props.uid)
-    let email=null
+    if (this.state.username == null) {
+      this.props.updateUid(this.props.uid)
+    let email = null
+    let that=this
 
     //KUNAL put code here to get the email and put it in the following variable
     axios.post('/GET-EMAIL', {
       "userID": this.props.uid
     }).then(function (response) {
       if (response.data.email != null) {
-        email=response.data.email
+        email = response.data.email
         //Put it in the email field
       }
     }).catch(function (error) {
       console.log(error);
-    });
-    this.setState({ username: email })
+    }).then(function(){
+      while (true) {
+        if (email != null) {
+          console.log(email)
+          that.username=email
+          that.forceUpdate()
+          break
+        }
+      }
+    }).then(that.forceUpdate())
+    }
   }
 
   state = {
@@ -36,15 +53,16 @@ class LandingScreen extends Component {
   }
 
   buttonSubmit = () => {
-    let email = this.state.username
+    let email = this.username
     let password = this.state.password
 
     //KUNAL PUT YOUR CODE HERE
     //check to make sure password exists
-    if (password!=null&&password.length < 8) {
+    if (password == null || password.length < 8) {
       alert("Password is shorter than 8 characters")
     } else {
       axios.post('/SET-INTERN-PASSWORD', {
+        "userID":this.props.uid,
         "username": email,
         "password": password,
       }).then(function (response) {
@@ -60,7 +78,7 @@ class LandingScreen extends Component {
       });
 
     }
-    
+
   }
 
   passChange = (ev) => {
@@ -103,7 +121,7 @@ class LandingScreen extends Component {
           <Col xs={10} sm={8} className="midCol">
             <Row className="Title"> Intern Registration</Row>
             <Row>
-              <Username styles={this.styles} email={this.state.username} />
+              <Username styles={this.styles} email={this.username} />
             </Row>
             <Row>
               <Password styles={this.styles} passChange={this.passChange.bind(this)} />

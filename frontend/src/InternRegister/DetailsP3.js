@@ -98,7 +98,7 @@ class DetailsP1 extends Component {
   buttonSubmit = () => {
     this.bSubmit()
     if(!this.state.changed)
-    history.push('/intern-landing/chats')
+    history.push('/landing/interns')
   }
 
   render() {

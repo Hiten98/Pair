@@ -32,7 +32,7 @@ class DetailsP1 extends Component {
     //KUNAL PUT CODE HERE to get preferences from server
     //put them in the nulls that are below
     axios.post('/GET-PREFERENCES/BASIC-PREFERENCES', {
-      "userID": this.props.uid,
+      "uid": this.props.uid,
     }).then(function (response) {
       if (response.data.status == false) {
         console.log("Something went wrong :(")
@@ -67,7 +67,7 @@ class DetailsP1 extends Component {
         alert("Missing required fields")
       } else {
         axios.post('/UPDATE-PREFERENCES/BASIC-PREFERENCES', {
-          "userID": this.props.uid,
+          "username": this.props.uid,
           firstName: firstname,
           lastName: lastname,
           description: bio,

@@ -64,7 +64,7 @@ class NewEmployeeRegister extends Component {
     //KUNAL PUT CODE HERE
     //dont forget to check that email, password, firstname, and lastname are not null
     //check to make sure that the locations array size !=0
-    //when successfully submits use this code history.push('/employee-landing/interns')
+    //when successfully submits use this code history.push('/landing/employee/interns')
   }
 
   userChange = (ev) => {
