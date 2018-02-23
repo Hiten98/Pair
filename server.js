@@ -80,7 +80,7 @@ app.post('/LOGIN', function(req, res) {
   //verify the values:
   //send UID and ENCRYPTED PASSWORD to verify
   //create ENCRYPTED PASSWORD
-  var pass_shasum = crypto.createHash('sha256').update(req.body.password).digest('hex');
+  var pass_shasum = req.body.password;//crypto.createHash('sha256').update(req.body.password).digest('hex');
 
   //print things out
   console.log("ENCRYPTED PASSWORD");
@@ -93,35 +93,33 @@ app.post('/LOGIN', function(req, res) {
 
   //create uids for interns and employees
   //for interns:
-  var actual_uid_intern = "0" + uid;
+  var actual_uid_intern = "1" + uid;
   //for employees:
-  var actual_uid_employee = "1" + uid;
+  var actual_uid_employee = "2" + uid;
 
   //print out values
   console.log("UID FOR INTERN");
-  console.log(actual_pass_intern);
+  console.log(actual_uid_intern);
   console.log("UID FOR EMPLOYEE");
-  console.log(actual_pass_employee);
+  console.log(actual_uid_employee);
 
   //check and return
-  if(verifyIntern(actual_uid_intern, pass_shasum))
+  read.verifyIntern(internRef, actual_uid_intern, "vaz", (x) =>
   {
+    console.log(x);
     //make the login token
-    res.json({
+    /*res.json({
       "userID": actual_uid_intern
-    });
-  } else if(verifyEmployee(actual_uid_employee, pass_shasum))
+    });*/
+  });
+  read.verifyEmployee(employeeRef, actual_uid_employee, "vaz", (x) =>
   {
+    console.log(x);
     //make the login token
-    res.json({
+    /*res.json({
       "userID": actual_uid_employee
-    });
-  }
-  else {
-    res.json({
-      "userID": null
-    });
-  }
+    });*/
+  });
 
   console.log('Done handling login');
 });
@@ -256,6 +254,7 @@ app.post('/UPDATE-PREFERENCES/HOUSING-PREFERENCES', function(req, res) {
   });
 });
 
+//reverse hashing
 function revUID(uid) {
   var email = "";
   while(uid != 0) {
@@ -264,6 +263,7 @@ function revUID(uid) {
     uid = (uid/62>>0);
   }
 }
+
 //get email back from uid
 app.post('/GET-EMAIL', function(req, res) {
   console.log('Received request for /GET-EMAIL:');
@@ -335,11 +335,11 @@ app.post('/GET-MASTER-LIST',function( req, res) {
 
 var y;
 app.listen(port, function () {
-  console.log('Testing adding to database');
-  create.createBasicPreferences(internRef, "12345", "Hiten", "Rathod", "EHHHHHH", "fb.com", "t.com", "l.com");
-  create.createRoommatePreferences(internRef, "12345", 1, 3, true, false, true, false, "9:00", "10:00", true,  true);
-  create.createHousingPreferences(internRef, 12345, 100, 2345, 10, 1000);
-  //test();
+  create.createIntern(internRef, 11711362612, "r@pur.c", "company", "novalue");
+  var pass_shasum = "vaz";//crypto.createHash('sha256').update("vaz").digest('hex');
+  create.createEmployee(employeeRef, 21711362612,"hey", "rathod",pass_shasum, "r@pur.c", "company", "loc", "bio", "fb", "linkin", "twit");
+  create.createPassword(internRef, 11711362612, pass_shasum);
+//test();
   var z = read.verifyIntern(internRef, "DJW3e123", "password", function(z) {
     console.log(z);
     //some shit on z
