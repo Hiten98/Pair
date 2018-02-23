@@ -131,7 +131,7 @@ app.post('/SET-INTERN-PASSWORD', function(req, res) {
   console.log(uid);
 
   //create intern uid
-  var intern_uid = "0" + uid;
+  var intern_uid = "1" + uid;
   var pass = req.body.password;
   create.createPassword(internRef, intern_uid, req.body.password);
   res.json({
@@ -150,7 +150,7 @@ app.post('/SET-EMPLOYEE-PASSWORD', function(req, res) {
   console.log(uid);
 
   //create intern uid
-  var employee_uid = "1" + uid;
+  var employee_uid = "2" + uid;
   var pass = req.body.password;
   create.createPassword(employeeRef, employee_uid, req.body.password);
   res.json({
@@ -218,7 +218,7 @@ app.post('/CREATE-INTERN', function(req, res) {
 
   //create UID (0 for interns)
   console.log("UID generated:");
-  var uid = "0" + UID(req.body.username);
+  var uid = "1" + UID(req.body.username);
   console.log(uid);
   var location = req.body.location;
   var company = req.body.company;
@@ -239,7 +239,7 @@ app.post('/UPDATE-PREFERENCES/BASIC-PREFERENCES', function(req, res) {
   console.log(uid);
 
   //create intern uid
-  var intern_uid = "0" + uid;
+  var intern_uid = "1" + uid;
   var pass = req.body.password;
   create.createBasicPreferences(internRef, intern_uid, options);
   res.json({
@@ -258,7 +258,7 @@ app.post('/UPDATE-PREFERENCES/ROOMMATE-PREFERENCES', function(req, res) {
   console.log(uid);
 
   //create intern uid
-  var intern_uid = "0" + uid;
+  var intern_uid = "1" + uid;
   var pass = req.body.password;
   create.createRoommatePreferences(internRef, intern_uid, options);
   res.json({
@@ -277,7 +277,7 @@ app.post('/UPDATE-PREFERENCES/HOUSING-PREFERENCES', function(req, res) {
   console.log(uid);
 
   //create intern uid
-  var intern_uid = "0" + uid;
+  var intern_uid = "1" + uid;
   var pass = req.body.password;
   create.createHousingPreferences(internRef, intern_uid, options);
   res.json({
@@ -349,7 +349,7 @@ app.post('/FORGOT-EMPLOYEE-PASSWORD', function(req, res) {
   console.log(uid);
 
   //create intern uid
-  var employee_uid = "1" + uid;
+  var employee_uid = "2" + uid;
   var pass = req.body.password;
   create.createPassword(employeeRef, employee_uid, req.body.password);
   res.json({
@@ -368,7 +368,7 @@ app.post('/FORGOT-INTERN-PASSWORD', function(req, res) {
   console.log(uid);
 
   //create intern uid
-  var intern_uid = "0" + uid;
+  var intern_uid = "1" + uid;
   var pass = req.body.password;
   create.createPassword(internRef, intern_uid, req.body.password);
   res.json({
@@ -400,10 +400,10 @@ app.post('/GET-MASTER-LIST',function( req, res) {
 
 var y;
 app.listen(port, function () {
-  create.createIntern(internRef, 669732542619, "r@pur.c", "company", "novalue");
+  create.createIntern(internRef, 1669732542619, "r@pur.c", "company", "novalue");
   var pass_shasum = "vaz";//crypto.createHash('sha256').update("vaz").digest('hex');
   //create.createEmployee(employeeRef, 21711362612,"hey", "rathod",pass_shasum, "r@pur.c", "company", "loc", "bio", "fb", "linkin", "twit");
-  create.createPassword(internRef, 669732542619, pass_shasum);
+  create.createPassword(internRef, 1669732542619, pass_shasum);
   //test();
   var z = read.verifyIntern(internRef, "DJW3e123", "password", function(z) {
     console.log(z);
