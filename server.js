@@ -53,7 +53,7 @@ function test() {
   create.createBasicPreferences(internRef, UID("darwin@gmail.com"), "Darwin", "Vaz", "yeah, cool description", "dv@fb.com", "dv@t.com", "dv@linked.in");
 
   //create basic employee
-  create.createEmployee(employeeRef, UID("hiten@gmail.com"), "hiten", "rathod", pass_shasum, "hiten@gmail.com", "Goggle", "San Fran", "bio, gotta be fast like Sanic", "hiten@fb.com", "hiten@linkedin.com", "hiten@twit.com");
+  create.createEmployee(employeeRef, companyRef, UID("hiten@gmail.com"), "hiten", "rathod", pass_shasum, "hiten@gmail.com", "Goggle", "San Fran", "bio, gotta be fast like Sanic", "hiten@fb.com", "hiten@linkedin.com", "hiten@twit.com");
 
   //create a psuedo intern
   create.createIntern(internRef, UID("arvindh@gmail.com"), "arvindh@gmail.com", "Carrot", "novalue");
@@ -65,7 +65,7 @@ function test() {
   create.createPassword(internRef, UID("arvindh@gmail.com"), pass_shasum);
 
   //create possword for darwin:
-  create.createPassword(internRef, UID("darwin@gmail.com"), pass_shasum);
+  create.createPassword(internRef, "1" + UID("darwin@gmail.com"), pass_shasum);
 }
 
 //encrypt password
