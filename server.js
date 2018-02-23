@@ -56,7 +56,7 @@ function UID(username) {
   for (i = 0; i < username.length; i++) {
     var char = username.charCodeAt(i);
     //52 chars (lower and upper letters + 10 digits)
-    uid = (uid * 62) + char;
+    uid = (uid * 281) + char;
   }
   return(String(uid));
 }
@@ -169,12 +169,12 @@ app.post('/GET-COMPANY', function(req, res) {
   console.log(pin);
 
   //create intern uid
-  getCompany(companyRef, pin, (x) =>
-  if(x!= null)
+  getCompany(companyRef, pin, (x) => {
+  if(x != null)
     res.json({
         "status": true
       });
-    );
+    });
 });
 
 //create employee hadnler
@@ -195,7 +195,7 @@ app.post('/CREATE-EMPLOYEE', function(req, res) {
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var password =  req.body.password;
-  var email = req.body.email;
+  var email = req.body.username;
   var company = req.body.company;
   var location = req.body.location;
   var description = req.body.description;
@@ -287,11 +287,14 @@ app.post('/UPDATE-PREFERENCES/HOUSING-PREFERENCES', function(req, res) {
 
 //reverse hashing
 function revUID(uid) {
+  console.log(uid);
   var email = "";
   while(uid != 0) {
-    var char = uid%62;
+    var char = uid%281;
+    console.log(char);
     email = email + String.fromCharCode(char);
-    uid = (uid/62>>0);
+    console.log(email);
+    uid = (uid/281 >> 0);
   }
 }
 
@@ -303,13 +306,35 @@ app.post('/GET-EMAIL', function(req, res) {
   //create UID (0 for interns)
   console.log("email generated:");
   var uid = req.body.userID;
-  uid = uid.substring(1,uid.length);
-  var email = revUID(uid);
-  console.log(email);
+  //uid = uid.substring(1,uid.length);
+  //var email = revUID(uid);
 
   //create intern uid
-  res.json({
-      "email": email
+  read.getIntern(internRef, uid, (x) => {
+    console.log(x[1]);
+    res.json({
+        "email": x[1]
+    });
+  });
+});
+
+//get intern handler
+app.post('/GET-INTERN', function(req, res) {
+  console.log('Received request for /GET-INTERN:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("email generated:");
+  var uid = req.body.userID;
+  //uid = uid.substring(1,uid.length);
+  //var email = revUID(uid);
+
+  //create intern uid
+  read.getIntern(internRef, uid, (x) => {
+    console.log(x);
+    res.json({
+        "email": x
+    });
   });
 });
 
@@ -354,14 +379,13 @@ app.post('/FORGOT-INTERN-PASSWORD', function(req, res) {
 //master list handler
 app.post('/GET-MASTER-LIST',function( req, res) {
   console.log("Master list request received");
-  res.json({
     //check for authority
     //if(authority)
     //get appropriate master list
-    if(req.userID.charAt(0) == '1')
+    if(req.body.userID.charAt(0) == '1')
     {
       res.json({
-        "status": false;
+        "status": false
       });
       return;
     }
@@ -373,15 +397,14 @@ app.post('/GET-MASTER-LIST',function( req, res) {
     );
     }
   });
-});
 
 var y;
 app.listen(port, function () {
-  create.createIntern(internRef, 11711362612, "r@pur.c", "company", "novalue");
+  create.createIntern(internRef, 669732542619, "r@pur.c", "company", "novalue");
   var pass_shasum = "vaz";//crypto.createHash('sha256').update("vaz").digest('hex');
   //create.createEmployee(employeeRef, 21711362612,"hey", "rathod",pass_shasum, "r@pur.c", "company", "loc", "bio", "fb", "linkin", "twit");
-  create.createPassword(internRef, 11711362612, pass_shasum);
-//test();
+  create.createPassword(internRef, 669732542619, pass_shasum);
+  //test();
   var z = read.verifyIntern(internRef, "DJW3e123", "password", function(z) {
     console.log(z);
     //some shit on z
