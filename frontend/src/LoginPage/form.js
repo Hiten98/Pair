@@ -8,7 +8,7 @@ import LoginFormField from './loginFormField.js'
 import LoginParagraph from './loginParagraph.js'
 import {pinkA200, black} from 'material-ui/styles/colors'
 import './form.css';
-import history from './history'
+import history from '../history'
 
 class form extends Component {
   state={

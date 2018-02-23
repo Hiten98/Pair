@@ -5,44 +5,33 @@ import PasswordField from 'material-ui-password-field'
 import { TextField, RaisedButton } from 'material-ui'
 import RegisterFormField from './RegisterFormField.js'
 import RegisterParagraph from './RegisterParagraph.js'
-import './form.css';
-import history from './history'
+import '../LoginPage/form.css';
+import history from '../history'
 
 class RegisterForm extends Component {
   state={
-    username:null,
-    password:null,
     companyCode:null,
-  }
-
-  getUser=(username)=>{
-    this.setState({username})
   }
 
   getCompanyCode=(companyCode)=>{
     this.setState({companyCode})
   }
 
-  getPass=(password)=>{
-    this.setState({password})
-  }
-
   handleLogin=()=>{
-    const username=this.state.username
-    const password=this.state.password
     const companyCode=this.state.companyCode
     //kunal code submit here
-
+    this.redirect(null)
     //if doing a fetch use this at the end .then(this.redirect(classification))
     //where classification is whether it is an employee or intern, change the variable however you want
   }
 
-  redirect=(uid)=>{
-    this.setState({username:null})
-    this.setState({password:null})
+  redirect=(stuff)=>{
+    //parse it here
+    const uid=null
+    const loc=[]
     this.setState({companyCode:null})
-    this.props.updateUid(uid)
-    history.push('/register/account')
+    this.props.updateCompanyLocations(loc)
+    history.push('/register/employee')
   }
 
   goToLogin=()=>{
@@ -57,7 +46,7 @@ class RegisterForm extends Component {
             Register
           </Row>
 
-          <RegisterFormField getUser={this.getUser} getPass={this.getPass} getCompanyCode={this.getCompanyCode}/>
+          <RegisterFormField getCompanyCode={this.getCompanyCode}/>
 
           <Row className='row-sm lbutton'>
             <RaisedButton

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {NavLink, Switch, Route} from 'react-router-dom'
 //import './LandingScreen.css';
 
-class NewEmployeeRegister extends Component {
+class LandingScreen extends Component {
   render() {
     return (
       <div>
@@ -11,4 +11,4 @@ class NewEmployeeRegister extends Component {
   }
 }
 
-export default NewEmployeeRegister;
+export default LandingScreen;
