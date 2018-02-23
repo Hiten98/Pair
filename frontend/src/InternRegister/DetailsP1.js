@@ -12,11 +12,10 @@ import { grey800, black, pink900, white } from 'material-ui/styles/colors';
 import { Checkbox, RaisedButton } from 'material-ui';
 import history from '../history'
 import axios from 'axios'
+import './Details.css';
 
 axios.defaults.baseURL = 'http://localhost:9090'
 
-
-//import './LandingScreen.css';
 
 class DetailsP1 extends Component {
   state = {
@@ -182,6 +181,13 @@ class DetailsP1 extends Component {
               <TwitterLink styles={this.styles} twitterChange={this.twitterChange.bind(this)} dv={this.state.twitter} />
             </Row>
             <Row className="notThis">
+              <RaisedButton
+                label="Save"
+                style={{ marginTop: "20px", }}
+                primary
+                onClick={this.buttonSubmit}
+              />
+              <span className="hiddenText">Th</span>
               <RaisedButton
                 label="Next"
                 style={{ marginTop: "20px", }}
