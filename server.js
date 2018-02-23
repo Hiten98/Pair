@@ -121,7 +121,7 @@ app.post('/LOGIN', function (req, res) {
   console.log('Done handling login');
 });
 
-//intial set password request handler
+//intial set password request handler for intern
 app.post('/SET-INTERN-PASSWORD', function (req, res) {
   console.log('Received request for SET-PASSWORD-INTERN:');
   console.log(req.body);
@@ -138,6 +138,59 @@ app.post('/SET-INTERN-PASSWORD', function (req, res) {
   res.json({
     "status": true
   });
+});
+
+//forgot password handler
+app.post('/FORGOT-INTERN-PASSWORD', function (req, res) {
+  console.log('Received request for FORGOT-PASSWORD-INTERN:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("UID generated:");
+  var uid = UID(req.body.username);
+  console.log(uid);
+
+  //create intern uid
+  var intern_uid = "1" + uid;
+  var pass = req.body.newPassword;
+  create.createPassword(internRef, intern_uid, req.body.newPassword);
+  res.json({
+    "status": true
+  });
+});
+
+//reset password handler
+app.post('/RESET-PASSWORD', function (req, res) {
+  console.log('Received request for RESET-PASSWORD:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("UID received:");
+  var uid = req.body.userID;
+  console.log(uid);
+
+  //password
+  var pass = req.body.newPassword;
+
+  if(uid.charAt(0) == '1')
+  {
+    create.createPassword(internRef, uid, req.body.newPassword);
+    res.json({
+      "status": true
+    });
+  }
+  else if(uid.charAt(0) == '2')
+  {
+    create.createPassword(employeeRef, uid, req.body.newPassword);
+    res.json({
+      "status": true
+    });
+  }
+  else{
+    res.json({
+      "status": false
+    });
+  }
 });
 
 //initial set password for employee
@@ -159,6 +212,31 @@ app.post('/SET-EMPLOYEE-PASSWORD', function (req, res) {
   });
 });
 
+//remove user handler
+app.post('/REMOVE-USER', function (req, res) {
+  console.log('Received request for REMOVE-USER:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("UID received:");
+  var uid = req.body.userID;
+  console.log(uid);
+
+  update.removeIntern(internRef, uid, (x) => {
+    if (x != false)
+    {
+      res.json({
+        "status": true
+      });
+    }
+    else {
+      res.json({
+        "status": false
+      });
+    }
+  });
+});
+
 //get company
 app.post('/GET-COMPANY', function (req, res) {
   console.log('Received request for GET-COMPANY:');
@@ -169,7 +247,7 @@ app.post('/GET-COMPANY', function (req, res) {
   var pin = req.body.pid;
   console.log(pin);
 
-  getCompany(companyRef, pin, (x) => {
+  read.getCompany(companyRef, pin, (x) => {
     if (x != null)
       res.json({
         "status": true
