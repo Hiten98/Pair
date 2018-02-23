@@ -11,6 +11,7 @@ module.exports = {
 }
 
 var update = require('./update.js');
+var create = require('./create.js');
 
 function createCompany(companyRef, companyName, listOfLocations = "novalue", listOfEmployees = "novalue") {
 		companyRef.update({
@@ -42,7 +43,7 @@ function createCompany(companyRef, companyName, listOfLocations = "novalue", lis
 		employeeRef.child(id).update({
 			"firstName": firstName,
 			"lastName": lastName,
-		"password": password,
+			"password": password,
 			"email": email,
 			"company": company,
 			"description": description,
@@ -58,13 +59,14 @@ function createCompany(companyRef, companyName, listOfLocations = "novalue", lis
 		})
 	}
 
-	function createBasicPreferences(internRef, ID, description,fbLink, twitterLink, linkedin) {
+	function createBasicPreferences(internRef, ID, firstName, lastName, description,fbLink, twitterLink, linkedin) {
 		internRef.child(ID).child('basic').update({
 		"description": description,
 		"fbLink": fbLink,
 		"twitterLink": twitterLink,
 		"linkedInLink": linkedin
 	});
+	update.updateIntern(internRef, ID, firstName, lastName, "phone")
 }
 
 function createRoommatePreferences(internRef, ID, youguest, themguest, youpet, thempet, sharing, smoke, bedtime, waketime, lights, clean) {
