@@ -10,6 +10,9 @@
 		createProfilePicture
 	}*/
 
+	//var update = require('./update.js');
+	//var create = require('./create.js');
+
 	function createCompany(companyRef, companyName, listOfLocations = "novalue", listOfEmployees = "novalue") {
       companyRef.update({
         [companyName]: "novalue"
@@ -47,7 +50,7 @@
 	    	"location": location,
 	    	"links": [facebook, linkedin, twitter]
 	    });
-	    updateCompany(companyRef, company, firstName + " " + lastName);
+	    /*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
     }
 
     function createPassword(internRef, ID, password) {
@@ -56,15 +59,14 @@
     	})
     }
 
-    function createBasicPreferences(internRef, ID, firstName, lastName, description,fbLink, twitterLink, linkedin) {
+    function createBasicPreferences(internRef, ID, firstName, lastName, description, fbLink, twitterLink, linkedin) {
 	  	internRef.child(ID).child('basic').update({
-	  		"firstName": firstName,
-			"lastName": lastName,
 			"description": description,
 			"fbLink": fbLink,
 			"twitterLink": twitterLink,
 			"linkedInLink": linkedin
-	  });
+	  	});
+	  	update.updateIntern(internRef, ID, firstName, lastName, "novalue");
 	}
 
 	function createRoommatePreferences(internRef, ID, youguest, themguest, youpet, thempet, sharing, smoke, bedtime, waketime, lights, clean) {

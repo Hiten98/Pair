@@ -32,6 +32,7 @@
 
 	function getLocations(companyRef, company, callback) {
 		var list = [];
+		list.push(company);
 		companyRef.child(company).child("listOfLocations").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 	          var item = childSnapshot.val();
@@ -82,48 +83,40 @@
 		var options = {};
 		var ref = internRef.child(ID).child("basic");
 		ref.once("value").then(function(snapshot) {
-			snapshot.forEach(function(childSnapshot) {
-				options["description"] = childSnapshot.val().description;
-				options["fbLink"] = childSnapshot.val().fbLink;
-				options["firstName"] = childSnapshot.val().firstName;
-				options["lastName"] = childSnapshot.val().lastName;
-				options["linkedInLink"] = childSnapshot.val().linkedInLink;
-				options["twitterLink"] = childSnapshot.val().twitterLink;
-			});
+			options["description"] = snapshot.val().description;
+			options["fbLink"] = snapshot.val().fbLink;
+			options["linkedInLink"] = snapshot.val().linkedInLink;
+			options["twitterLink"] = snapshot.val().twitterLink;
 			callback(options);
 		});
 	}
 
 	function getHousingPreferences(internRef, ID, callback) {
 		var options = {};
-		var ref = internRef.child(ID).child("basic");
+		var ref = internRef.child(ID).child("housing");
 		ref.once("value").then(function(snapshot) {
-			snapshot.forEach(function(childSnapshot) {
-				options["desiredDistance"] = childSnapshot.val().desiredDistance;
-				options["desiredDuration"] = childSnapshot.val().desiredDuration;
-				options["desiredPrice"] = childSnapshot.val().desiredPrice;
-				options["desiredRoommate"] = childSnapshot.val().desiredRoommate;
-			});
+			options["desiredDistance"] = snapshot.val().desiredDistance;
+			options["desiredDuration"] = snapshot.val().desiredDuration;
+			options["desiredPrice"] = snapshot.val().desiredPrice;
+			options["desiredRoommate"] = snapshot.val().desiredRoommate;
 			callback(options);
 		});
 	}
 
 	function getRoommatePreferences(internRef, ID, callback) {
 		var options = {};
-		var ref = internRef.child(ID).child("basic");
+		var ref = internRef.child(ID).child("roommate");
 		ref.once("value").then(function(snapshot) {
-			snapshot.forEach(function(childSnapshot) {
-				options["bedtime"] = childSnapshot.val().bedtime;
-				options["clean"] = childSnapshot.val().clean;
-				options["lights"] = childSnapshot.val().lights;
-				options["sharing"] = childSnapshot.val().sharing;
-				options["smoke"] = childSnapshot.val().smoke;
-				options["themguest"] = childSnapshot.val().themguest;
-				options["youguest"] = childSnapshot.val().youguest;
-				options["thempet"] = childSnapshot.val().thempet;
-				options["youpet"] = childSnapshot.val().youpet;
-				options["waketime"] = childSnapshot.val().waketime;
-			});
+			options["bedtime"] = snapshot.val().bedtime;
+			options["clean"] = snapshot.val().clean;
+			options["lights"] = snapshot.val().lights;
+			options["sharing"] = snapshot.val().sharing;
+			options["smoke"] = snapshot.val().smoke;
+			options["themguest"] = snapshot.val().themguest;
+			options["youguest"] = snapshot.val().youguest;
+			options["thempet"] = snapshot.val().thempet;
+			options["youpet"] = snapshot.val().youpet;
+			options["waketime"] = snapshot.val().waketime;
 			callback(options);
 		});
 	}

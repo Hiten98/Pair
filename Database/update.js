@@ -69,7 +69,6 @@
 	  		});
     }
 
-    //this function is useless
     function updateIntern(internRef, ID, firstName, lastName, phone) {
       if(firstName != null) {
         internRef.child(ID).update({
@@ -104,6 +103,7 @@
     	});
     }
 
+    // deal with this
     function removeIntern(internRef, ID, password) {
     	var ref = internRef.child(ID).child("password");
     	ref.once("value").then(function(snapshot) {
