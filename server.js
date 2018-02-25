@@ -84,8 +84,14 @@ function test() {
 
 //encrypt password
 function encrypt(password) {
-  cipher = password;
-  return cipher;
+  var cipher = password;
+  var actual = "";
+  for(i = 0; i < password.length;i++) {
+    console.log((password.charCodeAt(i)*941)%16);
+    actual = actual + ((password.charCodeAt(i)*941)%16).toString(16);
+  }
+  //return cipher
+  return actual;
 }
 
 //create UID
@@ -286,7 +292,7 @@ app.post('/GET-COMPANY', function (req, res) {
   read.getCompany(companyRef, pin, (x) => {
     if (x != null)
       res.json({
-        "company": x[0],
+        "company": x,
         "status": true
       });
   });
@@ -364,7 +370,7 @@ app.post('/CREATE-EMPLOYEE', function (req, res) {
   var pass = encrypt(req.body.password);
 
   //store variables
-  var uid = UID(req.body.username);
+  var uid = "2"+UID(req.body.username);
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var password = encrypt(req.body.password);
@@ -376,10 +382,11 @@ app.post('/CREATE-EMPLOYEE', function (req, res) {
   var linkedin = req.body.linkedin;
   var twitter = req.body.twitter;
 
-  create.createEmployee(employeeRef, uid, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter);
+  create.createEmployee(employeeRef,companyRef, uid, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter);
 
   //create.createEmployee(employeeRef, employee_uid, req.body.password);
   res.json({
+    "userID": uid,
     "status": true
   });
 });
