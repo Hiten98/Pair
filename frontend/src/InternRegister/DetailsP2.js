@@ -78,10 +78,12 @@ class DetailsP2 extends Component {
     let lights = this.state.lights
     let clean = this.state.clean
 
-    console.log(this.state.uid)
+    //console.log("state"+this.state.uid)
+    console.log("props"+this.props.uid)
+
     let that = this
     axios.post('/UPDATE-PREFERENCES/ROOMMATE-PREFERENCES', {
-      "userID": this.state.uid,
+      "userID": this.props.uid,
       "youguest": youguest,
       "themguest": themguest,
       "youpet": youpet,
