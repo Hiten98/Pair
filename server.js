@@ -20,6 +20,26 @@ var create = require('./Pair-Database-Setup/Database/create.js');
 //setting up dtaabase
 var admin = require("firebase-admin");
 
+//setting up CORS
+//app.use(express.methodOverride());
+// ## CORS middleware
+//
+// see: http://stackoverflow.com/questions/7067966/how-to-allow-cors-in-express-nodejs
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.send(200);
+    }
+    else {
+      next();
+    }
+};
+app.use(allowCrossDomain);
+
 //uncomment if first time
 //var firebase_app = admin.initializeApp();
 //serviceAccount
@@ -37,10 +57,6 @@ var companyRef = db.ref("/Company");
 var internRef = db.ref("/User/Interns");
 var employeeRef = db.ref("/User/Employees");
 
-
-function test2() {
-
-}
 //test-function
 function test() {
   //create an intern
@@ -53,7 +69,7 @@ function test() {
   create.createBasicPreferences(internRef,"1" + UID("darwin@gmail.com"), "Darwin", "Vaz", "yeah, cool description", "dv@fb.com", "dv@t.com", "dv@linked.in");
 
   //create basic employee
-  create.createEmployee(employeeRef, companyRef,"2" + UID("hiten@gmail.com"), "hiten", "rathod", pass_shasum, "hiten@gmail.com", "Goggle", "San Fran", "bio, gotta be fast like Sanic", "hiten@fb.com", "hiten@linkedin.com", "hiten@twit.com");
+  create.createEmployee(employeeRef, companyRef,"2" + UID("hiten@gmail.com"), "hiten", "rathod", pass_shasum, "hiten@gmail.com", "Goggle", "San Fran", "bio, gotta be fast like Sanic", "hiten@fb.com", "hiten@linkedin.com", "");
 
   //create a psuedo intern
   create.createIntern(internRef, "1" + UID("arvindh@gmail.com"), "arvindh@gmail.com", "Carrot", "novalue");
@@ -77,9 +93,33 @@ function test() {
   console.log('reading company: pin 3135');
   read.getCompany(companyRef, "3135", (x) =>{
     console.log('Printing out company name');
-    console.log(x[0]);
+    var name = x[0];
+    console.log(name);
+    var location = x.splice(1);
+    console.log('Printing names');
+    console.log(location);
   });
 
+  console.log('adding random names');
+
+  //create an intern2
+  create.createIntern(internRef, "1" + UID("adam@gmail.com"), "adam@gmail.com", "Carrot", "IN");
+  create.createPassword(internRef, "1" + UID("adam@gmail.com"), pass_shasum);
+  //create psuedo preferences
+  create.createBasicPreferences(internRef,"1" + UID("adam@gmail.com"), "Adam", "Kogut", "yeah, bro I am ded", "ak@fb.com", "ak@t.com", "ak@linked.in");
+
+
+  //create an intern3
+  create.createIntern(internRef, "1" + UID("kunal@gmail.com"), "kunal@gmail.com", "Goggle", "San Fran");
+  create.createPassword(internRef, "1" + UID("kunal@gmail.com"), pass_shasum);
+
+  //create psuedo preferences
+  create.createBasicPreferences(internRef,"1" + UID("kunal@gmail.com"), "Kunal", "Sinha", "yeah, bro", "ks@fb.com", "ks@t.com", "ks@linked.in");
+
+  //delete intern
+  /*update.removeIntern(internRef, 1258, encrypt("something"), (x) => {
+    console.log("success");
+  });*/
 }
 
 //encrypt password
@@ -87,7 +127,7 @@ function encrypt(password) {
   var cipher = password;
   var actual = "";
   for(i = 0; i < password.length;i++) {
-    console.log((password.charCodeAt(i)*941)%16);
+    //console.log((password.charCodeAt(i)*941)%16);
     actual = actual + ((password.charCodeAt(i)*941)%16).toString(16);
   }
   //return cipher
@@ -100,7 +140,7 @@ function UID(username) {
   for (i = 0; i < username.length; i++) {
     var char = username.charCodeAt(i);
     //52 chars (lower and upper letters + 10 digits)
-    uid = (uid * 941) % 742 + char;
+    uid = (uid * 941) % 741 + char;
   }
   return (String(uid));
 }
@@ -290,11 +330,16 @@ app.post('/GET-COMPANY', function (req, res) {
   console.log(pin);
 
   read.getCompany(companyRef, pin, (x) => {
-    if (x != null)
-      res.json({
-        "company": x,
+    if (x != null) {
+        console.log(x[0]);
+        var y = x.splice(1);
+        console.log(y);
+        res.json({
+        "company": x[0],
+        "location": y,
         "status": true
-      });
+        });
+    }
   });
 });
 
@@ -370,7 +415,7 @@ app.post('/CREATE-EMPLOYEE', function (req, res) {
   var pass = encrypt(req.body.password);
 
   //store variables
-  var uid = "2"+UID(req.body.username);
+  var uid = "2" + UID(req.body.username);
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var password = encrypt(req.body.password);
@@ -382,7 +427,7 @@ app.post('/CREATE-EMPLOYEE', function (req, res) {
   var linkedin = req.body.linkedin;
   var twitter = req.body.twitter;
 
-  create.createEmployee(employeeRef,companyRef, uid, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter);
+  create.createEmployee(employeeRef, companyRef, uid, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter);
 
   //create.createEmployee(employeeRef, employee_uid, req.body.password);
   res.json({
@@ -570,6 +615,7 @@ app.post('/FORGOT-INTERN-PASSWORD', function (req, res) {
   });
 });
 
+//initial get employee request handler
 app.post('/GET-EMPLOYEE', function (req, res) {
   console.log('Received request for EMPLOYEE:');
   console.log(req.body);
@@ -620,13 +666,14 @@ app.post('/GET-MASTER-LIST', function (req, res) {
   }
 });
 
-var y;
+//actual main function
 app.listen(port, function () {
 
   //call test
   console.log('Testing begins, check database');
   test();
   console.log('Testing done');
+
   console.log('Database setup done');
   console.log('App listening on port: ' + port + '!');
 });
