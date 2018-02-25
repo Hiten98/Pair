@@ -10,8 +10,7 @@ class BedtimeInput extends Component {
   }
 
   componentWillMount() {
-    if (this.props.dv != null)
-      this.setState({ value: this.props.div })
+    this.setState({ value: this.props.div })
   }
 
   handleChange = (event, index, value) => {

@@ -16,6 +16,10 @@ import LinkedInLink from './LinkedInLink'
 import Firstname from './Firstname'
 import Lastname from './Lastname'
 import history from '../history'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:9090'
+
 
 //needed in here
 //email
@@ -27,15 +31,15 @@ import history from '../history'
 
 class NewEmployeeRegister extends Component {
   state = {
-    username: null,
-    password: null,
+    username: '',
+    password: '',
     checked: [],
-    description: null,
-    facebook: null,
-    twitter: null,
-    linkedin: null,
-    firstname: null,
-    lastname: null,
+    description: '',
+    facebook: '',
+    twitter: '',
+    linkedin: '',
+    firstname:'',
+    lastname: '',
   }
 
   handleCheck = (ev) => {
@@ -50,21 +54,59 @@ class NewEmployeeRegister extends Component {
     //console.log(this.state.checked)
   }
 
-  buttonSubmit=()=>{
-    let email=this.state.username
-    let password=this.state.password
-    let locations=this.state.checked
-    let description=this.state.description
-    let facebook=this.state.facebook
-    let twitter=this.state.twitter
-    let linkedin=this.state.linkedin
-    let firstname=this.state.firstname
-    let lastname=this.state.lastname
+  buttonSubmit = () => {
+    let email = this.state.username
+    let password = this.state.password
+    let locations = this.state.checked
+    let description = this.state.description
+    let facebook = this.state.facebook
+    let twitter = this.state.twitter
+    let linkedin = this.state.linkedin
+    let firstname = this.state.firstname
+    let lastname = this.state.lastname
+    let companyCode=this.props.companyCode
+    let company=this.props.company
+    //console.log(companyCode)
 
     //KUNAL PUT CODE HERE
     //dont forget to check that email, password, firstname, and lastname are not null
     //check to make sure that the locations array size !=0
-    //when successfully submits use this code history.push('/employee-landing/interns')
+    //when successfully submits use this code history.push('/landing/employee/interns')
+
+    let that=this
+    axios.post('/CREATE-EMPLOYEE', {
+      "username": email,
+      "password": password,
+      "firstName": firstname,
+      "lastName": lastname,
+      "company": company,
+      "location": locations,
+      "description": description,
+      "facebook": facebook,
+      "linkedin": linkedin,
+      "twitter": twitter
+    }).then(function (response) {
+      if (response.data.status == false) {
+        console.log("Something went wrong :(")
+      } else {
+        console.log("Created account password!");
+        //Go to employee page
+        console.log(response)
+        let parsed = JSON.parse(JSON.stringify(response.data))
+        let i=0;
+        for(let a in parsed){
+          if(i==0){
+            console.log(parsed[a])
+            that.props.updateUid(`${parsed[a]}`)
+            history.push('/landing/employee/interns')
+          }
+        }
+
+        //history.push('/landing/employee/interns')
+      }
+    }).catch(function (error) {
+      console.log(error);
+    })
   }
 
   userChange = (ev) => {

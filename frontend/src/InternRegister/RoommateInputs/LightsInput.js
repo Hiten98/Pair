@@ -27,7 +27,7 @@ class LightsInput extends Component {
     }
     return (
       <div>
-        <Col xs={8}>How clean do you like to be?</Col>
+        <Col xs={8}>How much do you care if the lights are on?</Col>
         <Col xs={4}>
           <DropDownMenu maxHeight={250} value={this.state.value} onChange={this.handleChange}>
             {items}
