@@ -181,22 +181,34 @@ app.post('/LOGIN', function (req, res) {
 
   //check and return
   read.verifyIntern(internRef, actual_uid_intern, pass_shasum, (x) => {
-    console.log(x);
     //make the login token
     if (x != null)
+    {
       res.json({
-        "userID": actual_uid_intern
+        "userID": actual_uid_intern,
+        "status": true
       });
-    console.log("updated from intern");
-  });
-  read.verifyEmployee(employeeRef, actual_uid_employee, pass_shasum, (x) => {
-    console.log(x);
-    //make the login token
-    if (x != null)
-      res.json({
-        "userID": actual_uid_employee
+      console.log("intern: " + x);
+    }
+    else
+    {
+      read.verifyEmployee(employeeRef, actual_uid_employee, pass_shasum, (y) => {
+        //make the login token
+        if (y != null)
+        {
+          res.json({
+            "userID": actual_uid_employee,
+            "status": true
+          });
+          console.log("employee: " + y);
+        }
+        else {
+          res.json({
+            "status": false
+          });
+        }
       });
-    console.log("updated from employee");
+    }
   });
 
   //return null
@@ -670,6 +682,7 @@ app.post('/GET-MASTER-LIST', function (req, res) {
 app.listen(port, function () {
 
   //call test
+  console.log("SERVER STARTS");
   console.log('Testing begins, check database');
   test();
   console.log('Testing done');
