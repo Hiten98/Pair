@@ -29,22 +29,22 @@ class DetailsP1 extends Component {
   }
 
   componentWillMount() {
-    let that=this
+    let that = this
     axios.post('/GET-PREFERENCES/BASIC-PREFERENCES', {
       "uid": this.props.uid,
     }).then(function (response) {
       if (response.data.status == false) {
         console.log("Something went wrong :(")
       } else {
-        if(response.data.firstName!=null)
-        that.setState({
-          firstname: response.data.firstName,
-          lastname: response.data.lastName,
-          bio: response.data.description,
-          facebook: response.data.fbLink,
-          twitter: response.data.twitterLink,
-          linkedin: response.data.linkedInLink,
-        })
+        if (response.data.firstName != null)
+          that.setState({
+            firstname: response.data.firstName,
+            lastname: response.data.lastName,
+            bio: response.data.description,
+            facebook: response.data.fbLink,
+            twitter: response.data.twitterLink,
+            linkedin: response.data.linkedInLink,
+          })
       }
     }).catch(function (error) {
       console.log(error);
@@ -62,7 +62,7 @@ class DetailsP1 extends Component {
       let firstname = this.state.firstname
       let lastname = this.state.lastname
 
-      let that=this
+      let that = this
       //console.log(firstname)
       if (lastname == '' || firstname == '') {
         alert("Missing required fields")
@@ -81,21 +81,21 @@ class DetailsP1 extends Component {
           } else {
             console.log("Preferences updated!");
             //Go to preferences p2
-            that.setState({changed:false})
+            that.setState({ changed: false })
           }
         }).catch(function (error) {
           console.log(error);
         });
       }
 
-      
+
     }
 
   }
 
-  bSubmit=()=>{
+  bSubmit = () => {
     this.buttonSubmit()
-    
+
     history.push('/intern/roommate-preferences')
   }
 
@@ -124,6 +124,20 @@ class DetailsP1 extends Component {
   twitterChange = (ev) => {
     this.setState({ twitter: ev.target.value, changed: true })
     //console.log(this.state.twitter)
+  }
+
+  createProfilePicture = (internRef, ID, image) => {
+    /*var filename = [ID]; // image's name would be the intern's ID
+    var storageRef = firebase.storage().ref('/ProfilePictures' + filename);
+    var uploadTask = storageRef.put(image);
+    uploadTask.on('state_changed', function (snapshot) {
+
+    }, function () {
+      var downloadURL = uploadTask.snapshot.downloadURL;
+      internRef.child(ID).update({
+        "ProfilePicture": downloadURL
+      });
+    })*/
   }
 
   styles = {
@@ -179,6 +193,11 @@ class DetailsP1 extends Component {
             </Row>
             <Row>
               <TwitterLink styles={this.styles} twitterChange={this.twitterChange.bind(this)} dv={this.state.twitter} />
+            </Row>
+            <Row>
+              <form>
+                <input type="file" accept="image/*" onChange={this.createProfilePicture} />
+              </form>
             </Row>
             <Row className="notThis">
               <RaisedButton

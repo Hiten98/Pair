@@ -1,29 +1,42 @@
-import React, { Component } from 'react';
-import {NavLink, Switch, Route} from 'react-router-dom'
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom'
 import WelcomeScreen from './WelcomeScreen.js'
 import LandingScreen from './LandingScreen.js'
+import { Grid } from 'react-bootstrap'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import './App.css';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import darkBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
-import { black, grey700, pink500, green900, white, blue500, pink700 } from 'material-ui/styles/colors';
+import { black } from 'material-ui/styles/colors';
 
 
-const muiTheme=getMuiTheme({
-  palette:{
-    primary1Color:black,
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: black,
   }
 });
 
-const App=()=>{
+const state = {
+  uid: null,
+  type: null,
+}
+
+const updateUid = (uid, type) => {
+  state.uid = uid;
+  state.type = type;
+}
+
+const App = () => {
+  //updateUid("hi","")
+  //console.log(state.uid)
   return (
     <MuiThemeProvider muiTheme={muiTheme}>
-      <div className="App">
+      <Grid className="App">
         <Switch>
-          <Route path='/' component={WelcomeScreen}/>
-          <Route path='/home' component={LandingScreen}/>
+          <Route exact path="/" render={() => <Redirect to='/home/login' />} />
+          <Route path='/home' render={() => <WelcomeScreen updateUid={updateUid} />} />
+          <Route path='/landing' component={LandingScreen} uid={state.uid} type={state.type} />
         </Switch>
-      </div>
+      </Grid>
     </MuiThemeProvider>
   );
 }
