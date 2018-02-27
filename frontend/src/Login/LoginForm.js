@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {NavLink, Switch, Route} from 'react-router-dom'
 import { Row } from 'react-bootstrap'
 import Email from './Email'
 import Password from './Password'

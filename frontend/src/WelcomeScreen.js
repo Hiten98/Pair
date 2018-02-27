@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
-import './WelcomeScreen.css';
 import Login from './Login/LoginForm'
 import LoginParagraph from './Login/LoginParagraph'
+import RegisterForm from './Register/RegisterForm'
+import './WelcomeScreen.css';
+import RegisterParagraph from './Register/RegisterParagraph';
+
 
 class LandingScreen extends Component {
   render() {
@@ -14,7 +17,7 @@ class LandingScreen extends Component {
           <Col xsHidden={true} sm={8}>
             <Switch>
               <Route path='/home/login' render={() => <LoginParagraph />} />
-              <Route path='/home/register' />
+              <Route path='/home/register' render={() => <RegisterParagraph />} />
             </Switch>
           </Col>
           {/* the actual forms */}
@@ -22,14 +25,14 @@ class LandingScreen extends Component {
             <Row>
               <Switch>
                 <Route path='/home/login' render={() => <Login updateUid={this.props.updateUid} />} />
-                <Route path='/home/register' updateUid={this.props.updateUid} />
+                <Route path='/home/register' render={() => <RegisterForm updateUid={this.props.updateUid} updateCompany={this.props.updateCompany} updateLocations={this.props.updateLocations} />} />
               </Switch>
             </Row>
             {/* descriptive paragraph again */}
             <Row className='item'>
               <Switch>
                 <Route path='/home/login' render={() => <LoginParagraph />} />
-                <Route path='/home/register' />
+                <Route path='/home/register' render={() => <RegisterParagraph />} />
               </Switch>
             </Row>
           </Col>

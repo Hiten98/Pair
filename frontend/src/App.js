@@ -18,6 +18,16 @@ const muiTheme = getMuiTheme({
 const state = {
   uid: null,
   type: null,
+  company:null,
+  locations:null,
+}
+
+const updateCompany=(company)=>{
+  state.company=company
+}
+
+const updateLocations=(locations)=>{
+  state.locations=locations
 }
 
 const updateUid = (uid, type) => {
@@ -33,7 +43,7 @@ const App = () => {
       <Grid className="App">
         <Switch>
           <Route exact path="/" render={() => <Redirect to='/home/login' />} />
-          <Route path='/home' render={() => <WelcomeScreen updateUid={updateUid} />} />
+          <Route path='/home' render={() => <WelcomeScreen updateUid={updateUid} updateCompany={updateCompany} updateLocations={updateLocations}/>} />
           <Route path='/landing' component={LandingScreen} uid={state.uid} type={state.type} />
         </Switch>
       </Grid>
