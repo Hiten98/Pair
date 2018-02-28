@@ -87,23 +87,25 @@
       }
     }
 
-    /*
-    /	this function only works for interns. talk to hiten to find out code in ID
-    */
-    function updatePassword(internRef, ID, newPassword, oldPassword) {
-    	var ref = internRef.child(ID).child("password");
+    function updatePassword(relevantRef, ID, newPassword, oldPassword) {
+    	var ref = relevantRef.child(ID).child("password");
     	ref.once("value").then(function(snapshot) {
     		var item = snapshot.val();
     		if(item == oldPassword)
-    			internRef.child(ID).update({
+    			relevantRef.child(ID).update({
     				"password": newPassword
+                    var json = {};
+                    json["status"] = "success";
+                    return json;
     			});
-    		else
-    			return null;
+    		else {
+                var json = {};
+                json["status"] = "failure";
+    			return json;
+            }
     	});
     }
 
-    // deal with this
     function removeIntern(internRef, ID, password) {
     	var ref = internRef.child(ID).child("password");
     	ref.once("value").then(function(snapshot) {
