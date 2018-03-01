@@ -91,13 +91,14 @@
     	var ref = relevantRef.child(ID).child("password");
     	ref.once("value").then(function(snapshot) {
     		var item = snapshot.val();
-    		if(item == oldPassword)
+    		if(item == oldPassword) {
     			relevantRef.child(ID).update({
     				"password": newPassword
-                    var json = {};
-                    json["status"] = "success";
-                    return json;
-    			});
+                });
+                var json = {};
+                json["status"] = "success";
+                return json;
+            }
     		else {
                 var json = {};
                 json["status"] = "failure";
