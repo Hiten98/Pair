@@ -95,25 +95,15 @@
     			relevantRef.child(ID).update({
     				"password": newPassword
                 });
-                var json = {};
-                json["status"] = "success";
-                return json;
+                return "success";
             }
     		else {
-                var json = {};
-                json["status"] = "failure";
-    			return json;
+    			return "failure";
             }
     	});
     }
 
-    function removeIntern(internRef, ID, password) {
-    	var ref = internRef.child(ID).child("password");
-    	ref.once("value").then(function(snapshot) {
-    		var item = snapshot.val();
-    		if(item == password)
-    			internRef.child(ID).remove();
-    		else
-    			return null;
-    	});
+    function removeIntern(internRef, ID) {
+		internRef.child(ID).remove();
+        return true;
     }

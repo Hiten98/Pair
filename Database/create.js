@@ -98,7 +98,6 @@
 		var storageRef = firebase.storage().ref('/ProfilePictures' + filename);
 		var uploadTask = storageRef.put(image);
 		uploadTask.on('state_changed', function(snapshot) {
-
 		}, function() {
 			var downloadURL = uploadTask.snapshot.downloadURL;
 			internRef.child(ID).update({
