@@ -23,6 +23,7 @@
         "listOfLocations": listOfLocations,
         "listOfEmployees": listOfEmployees
       });
+
     }
 
     function createIntern(internRef, id, email, company, location = "novalue") {
@@ -104,5 +105,23 @@
     			"ProfilePicture": downloadURL
     		});
 		})
+	}
+
+	function createCompanyChat(chatRoomRef, company, listOfEmployees) {
+		chatRoomRef.child(name).update({
+			"listOfUsers": listOfEmployees
+		});
+	}
+
+
+	function createLocationChat(chatRoomRef, company, location, user) {
+		
+	}
+
+	//make sure room names dont overlap
+	function createChat(chatRoomRef, ID, name) {
+		chatRoomRef.child(name).update({
+			"listOfUsers": [name]
+		});
 	}
 

@@ -17,8 +17,9 @@
     var companyRef = ref.child("Company");
     var internRef = ref.child("User/Interns");
     var employeeRef = ref.child("User/Employees");
+    var chatRoomRef = ref.child("ChatRooms");
 
-    //
+    
 
 
 
