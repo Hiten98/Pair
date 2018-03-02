@@ -56,7 +56,7 @@
     function createPassword(internRef, ID, password) {
     	internRef.child(ID).update({
     		"password": password
-    	})
+    	});
     }
 
     function createBasicPreferences(internRef, ID, firstName, lastName, description, fbLink, twitterLink, linkedin) {
@@ -66,7 +66,7 @@
 			"twitterLink": twitterLink,
 			"linkedInLink": linkedin
 	  	});
-	  	update.updateIntern(internRef, ID, firstName, lastName, "novalue");
+	  	/*update.*/updateIntern(internRef, ID, firstName, lastName, "novalue");
 	}
 
 	function createRoommatePreferences(internRef, ID, youguest, themguest, youpet, thempet, sharing, smoke, bedtime, waketime, lights, clean) {
@@ -98,7 +98,6 @@
 		var storageRef = firebase.storage().ref('/ProfilePictures' + filename);
 		var uploadTask = storageRef.put(image);
 		uploadTask.on('state_changed', function(snapshot) {
-
 		}, function() {
 			var downloadURL = uploadTask.snapshot.downloadURL;
 			internRef.child(ID).update({
