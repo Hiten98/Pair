@@ -28,20 +28,17 @@ class LoginButtons extends Component {
         } else if (response.data.userID != null) {
          // this.props.updateUid(response.data.userID);
           //console.log(response.data.userID)
+          that.props.updateUid(response.data.userID)
           if (response.data.userID.charAt(0) == 4){
             history.push('/landing/admin-landing')
-            that.props.updateUid(response.data.userID,"admin")
           }if (response.data.userID.charAt(0) == 3){
             history.push('/landing/company-landing')
-            that.props.updateUid(response.data.userID,"company")
           }else if (response.data.userID.charAt(0) == 2) {
             //GO TO EMPLOYEE Landing Page
             history.push('/landing/employee-landing')
-            that.props.updateUid(response.data.userID,"employee")
           } else if (response.data.userID.charAt(0) == 1){
             //GO TO INTERN Landing Page
             history.push('/landing/intern-landing')
-            this.props.updateUid(response.data.userID,"intern")
           }
         }
       }).catch((error) => {
