@@ -11,6 +11,8 @@ import axios from 'axios'
 
 axios.defaults.baseURL='http://localhost:9090'
 
+//NEEDS TESTING
+
 class UserDetailsForm extends Component {
   constructor(props){
     super(props)
@@ -92,7 +94,7 @@ class UserDetailsForm extends Component {
 
         <Twitter dv={this.state.twitter} twitterChange={this.twitterChange}/>
 
-        <SubmitButtons {...this.state} changePage={this.props.changePage}/>
+        <SubmitButtons {...this.state} changePage={this.props.changePage} changeChanged={this.props.changeChanged}/>
       </div>
     );
   }

@@ -46,6 +46,7 @@ class SubmitButton extends Component {
               this.props.changePage(2)
               history.push('/register/intern/preferences/roommate')
             }
+            this.props.changeChange(false)
           }
         }).catch(function (error) {
           console.log(error);

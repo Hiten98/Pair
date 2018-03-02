@@ -1,0 +1,154 @@
+import React, { Component } from 'react'
+import axios from 'axios'
+import {Row} from 'react-bootstrap'
+import Bedtime from './Bedtime'
+import Waketime from './Waketime'
+import Lights from './Lights'
+import Clean from './Clean'
+import Sharing from './Sharing'
+import Smoke from './Smoke'
+import YouBringGuest from './YouBringGuest'
+import ThemBringGuest from './ThemBringGuest'
+import YouBringPet from './YouBringPet'
+import ThemBringPet from './ThemBringPet'
+import RoommateSubmitButtons from './RoommateSubmitButtons'
+
+axios.defaults.baseURL='http://localhost:9090'
+
+//NEEDS TESTING
+
+class RoommatePreferencesForm extends Component{
+  constructor(props){
+    super(props)
+    this.state={
+      bedtime:21,
+      waketime:9,
+      lights:3,
+      clean:3,
+      sharing:3,
+      smoke:2,
+      youBringGuest:3,
+      themBringGuest:1,
+      youBringPet:1,
+      themBringPet:1,
+    }
+  }
+
+  componentDidMount(){
+    let that = this
+    axios.post('/GET-PREFERENCES/ROOMMATE-PREFERENCES', {
+      "userID": this.props.uid
+    }).then(function (response) {
+      if (response.data.status == false) {
+        console.log("Something went wrong :(")
+      } else {
+        if (response.data.smoke != null)
+          that.setState({
+            youBringGuest: response.data.youguest,
+            themBringGuest: response.data.themguest,
+            youBringPet: response.data.youpet,
+            themBringPet: response.data.thempet,
+            sharing: response.data.sharing,
+            smoke: response.data.smoke,
+            bedtime: response.data.bedtime,
+            waketime: response.data.waketime,
+            lights: response.data.lights,
+            clean: response.data.clean,
+          })
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  bedtimeChange=(event,index,value)=>{
+    this.setState({bedtime:value})
+    this.props.changeChanged(true)
+  }
+
+  waketimeChange=(event,index,value)=>{
+    this.setState({waketime:value})
+    this.props.changeChanged(true)
+  }
+
+  lightsChange=(event,index,value)=>{
+    this.setState({lights:value})
+    this.props.changeChanged(true)
+  }
+
+  cleanChange=(event,index,value)=>{
+    this.setState({clean:value})
+    this.props.changeChanged(true)
+  }
+
+  sharingChange=(event,index,value)=>{
+    this.setState({sharing:value})
+    this.props.changeChanged(true)
+  }
+
+  smokeChange=(event,index,value)=>{
+    this.setState({smoke:value})
+    this.props.changeChanged(true)
+  }
+
+  youBringGuestChange=(event,index,value)=>{
+    this.setState({youBringGuest:value})
+    this.props.changeChanged(true)
+  }
+
+  themBringGuestChange=(event,index,value)=>{
+    this.setState({themBringGuest:value})
+    this.props.changeChanged(true)
+  }
+
+  youBringPetChange=(event,index,value)=>{
+    this.setState({youBringPet:value})
+    this.props.changeChanged(true)
+  }
+
+  themBringPetChange=(event,index,value)=>{
+    this.setState({themBringPet:value})
+    this.props.changeChanged(true)
+  }
+
+  render(){
+    return (
+      <div>
+        <hr/>
+        <Row>
+          <Bedtime dv={this.state.bedtime} bedtimeChange={this.bedtimeChange}/>
+
+          <Waketime dv={this.state.waketime} waketimeChange={this.waketimeChange}/>
+        </Row>
+        <hr />
+        <Row>
+          <Lights dv={this.state.lights} lightsChange={this.lightsChange}/>
+
+          <Clean dv={this.state.clean} cleanChange={this.cleanChange}/>
+        </Row>
+        <hr />
+        <Row>
+          <Sharing dv={this.state.sharing} sharingChange={this.sharingChange}/>
+
+          <Smoke dv={this.state.smoke} smokeChange={this.smokeChange}/>
+        </Row>
+        <hr />
+        <Row>
+          <YouBringGuest dv={this.state.youBringGuest} youBringGuestChange={this.youBringGuestChange}/>
+
+          <ThemBringGuest dv={this.state.themBringGuest} themBringGuestChange={this.themBringGuestChange}/>
+        </Row>
+        <hr />
+        <Row>
+          <YouBringPet dv={this.state.youBringPet} youBringPetChange={this.youBringPetChange}/>
+
+          <ThemBringPet dv={this.state.themBringPet} themBringPetChange={this.themBringPetChange}/>
+        </Row>
+        <hr />
+        <RoommateSubmitButtons {...this.state} changePage={this.props.changePage}/>
+      </div>
+    )
+  }
+}
+
+export default RoommatePreferencesForm

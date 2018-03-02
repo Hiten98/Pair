@@ -5,6 +5,7 @@ import history from '../../../history'
 import UserDetailsForm from './UserDetails/UserDetailsForm'
 import UserPreferencesStepper from './UserPreferencesStepper'
 import './PreferencesLayout.css'
+import RoommatePreferencesForm from './RoommatePreferences/RoommatePreferencesForm';
 
 class PreferencesLayout extends Component {
   constructor(props) {
@@ -58,7 +59,7 @@ class PreferencesLayout extends Component {
 
         <Switch>
           <Route path="/register/intern/preferences/user-details" render={()=><UserDetailsForm uid={this.props.uid} changePage={this.changePage} changeChanged={this.changeChanged}/>}/>
-          <Route path="/register/intern/preferences/roommate" />
+          <Route path="/register/intern/preferences/roommate" render={()=><RoommatePreferencesForm uid={this.props.uid} changePage={this.changePage} changeChanged={this.changeChanged}/>}/>
           <Route path="/register/intern/preferences/housing" />
         </Switch>
       </div>
