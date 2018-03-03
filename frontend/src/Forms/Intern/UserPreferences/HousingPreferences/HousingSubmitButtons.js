@@ -3,11 +3,12 @@ import { Row } from 'react-bootstrap'
 import { RaisedButton } from 'material-ui'
 import history from '../../../../history'
 import axios from 'axios'
-import './RoommateSubmitButtons.css';
+import '../RoommatePreferences/RoommateSubmitButtons.css';
 
 axios.defaults.baseURL='http://localhost:9090'
+//import './HousingSubmitButtons.css';
 
-class RoommateSubmitButtons extends Component {
+class HousingSubmitButtons extends Component {
   constructor(props){
     super(props)
     this.state={
@@ -26,42 +27,30 @@ class RoommateSubmitButtons extends Component {
   }
 
   bSubmit=()=>{
-    let youguest = this.props.youBringGuest
-    let themguest = this.props.themBringGuest
-    let youpet = this.props.youBringPet
-    let thempet = this.props.themBringPet
-    let sharing = this.props.sharing
-    let smoke = this.props.smoke
-    let bedtime = this.props.bedtime
-    let waketime = this.props.waketime
-    let lights = this.props.lights
-    let clean = this.props.clean
+    let price=this.props.price
+    let roommates=this.props.roommates
+    let distance=this.props.distance
+    let duration=this.props.duration
 
     let that = this
-    axios.post('/UPDATE-PREFERENCES/ROOMMATE-PREFERENCES', {
+    axios.post('/UPDATE-PREFERENCES/HOUSING-PREFERENCES', {
       "userID": this.props.uid,
-      "youguest": youguest,
-      "themguest": themguest,
-      "youpet": youpet,
-      "thempet": thempet,
-      "sharing": sharing,
-      "smoke": smoke,
-      "bedtime": bedtime,
-      "waketime": waketime,
-      "lights": lights,
-      "clean": clean
+      desiredPrice: price,
+      desiredRoommate: roommates,
+      desiredDistance: distance,
+      desiredDuration: duration
     }).then(function (response) {
       if (response.data.status == false) {
         console.log("Something went wrong :(")
       } else {
         console.log("Preferences updated!");
-        //Go to preferences p3
+        //Go to landing page
         if(that.state.willRedirect===1){
           this.props.changePage(1)
-          history.push('/register/intern/preferences/user-details')
+          history.push('/register/intern/preferences/roommate')
         }else if(that.state.willRedirect===2){
           this.props.changePage(3)
-          history.push('/register/intern/preferences/housing')
+          history.push('/landing')
         }
         this.props.changeChange(false)
       }
@@ -86,7 +75,7 @@ class RoommateSubmitButtons extends Component {
           onClick={this.bSubmit}
         />
         <RaisedButton
-          label="Next"
+          label="Submit"
           style={{ marginTop: "20px", marginLeft:"10px" }}
           primary
           onClick={this.buttonSubmit}
@@ -96,4 +85,4 @@ class RoommateSubmitButtons extends Component {
   }
 }
 
-export default RoommateSubmitButtons;
+export default HousingSubmitButtons;

@@ -4,12 +4,17 @@ import { Row } from 'react-bootstrap'
 import history from '../../../history'
 import UserDetailsForm from './UserDetails/UserDetailsForm'
 import UserPreferencesStepper from './UserPreferencesStepper'
+import HousingPreferencesForm from './HousingPreferences/HousingPreferencesForm'
 import './PreferencesLayout.css'
 import RoommatePreferencesForm from './RoommatePreferences/RoommatePreferencesForm';
 
 class PreferencesLayout extends Component {
   constructor(props) {
     super(props)
+    if(this.props.uid==null){
+      //history.push('/home/login')
+    }
+
     let tempPage = 0
     let path = history.location.pathname.substring(history.location.pathname.lastIndexOf('/') + 1)
     if (path == 'user-details') {
@@ -60,7 +65,7 @@ class PreferencesLayout extends Component {
         <Switch>
           <Route path="/register/intern/preferences/user-details" render={()=><UserDetailsForm uid={this.props.uid} changePage={this.changePage} changeChanged={this.changeChanged}/>}/>
           <Route path="/register/intern/preferences/roommate" render={()=><RoommatePreferencesForm uid={this.props.uid} changePage={this.changePage} changeChanged={this.changeChanged}/>}/>
-          <Route path="/register/intern/preferences/housing" />
+          <Route path="/register/intern/preferences/housing"render={()=><HousingPreferencesForm uid={this.props.uid} changePage={this.changePage} changeChanged={this.changeChanged}/>} />
         </Switch>
       </div>
     );

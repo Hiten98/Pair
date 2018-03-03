@@ -55,7 +55,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" render={() => <Redirect to='/home/login' />} />
           <Route path='/home' render={() => <WelcomeScreen updateUid={updateUid} updateCompany={updateCompany} updateLocations={updateLocations} />} />
-          <Route path='/landing' component={LandingScreen} uid={state.uid} type={state.type} />
+          <Route path='/landing' render={() => <LandingScreen uid={state.uid} type={state.type} />} />
           <Route path='/register' render={() => <RegisterLayout company={state.company} locations={state.locations} updateUid={updateUid} />} />
         </Switch>
       </Grid>

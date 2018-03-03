@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
-import { Row, Col } from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 import { DropDownMenu, MenuItem } from 'material-ui'
 //import './Bedtime.css';
 

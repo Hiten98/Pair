@@ -12,6 +12,7 @@ import ThemBringGuest from './ThemBringGuest'
 import YouBringPet from './YouBringPet'
 import ThemBringPet from './ThemBringPet'
 import RoommateSubmitButtons from './RoommateSubmitButtons'
+//import './RoommatePreferencesForm.css'
 
 axios.defaults.baseURL='http://localhost:9090'
 
@@ -113,7 +114,7 @@ class RoommatePreferencesForm extends Component{
 
   render(){
     return (
-      <div>
+      <div className='preferences-container'>
         <hr/>
         <Row>
           <Bedtime dv={this.state.bedtime} bedtimeChange={this.bedtimeChange}/>
