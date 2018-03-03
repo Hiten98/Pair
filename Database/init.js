@@ -19,7 +19,7 @@
     var employeeRef = ref.child("User/Employees");
     var chatRoomRef = ref.child("ChatRooms");
 
-    
+    addLocationChat(chatRoomRef, "Gog-gle", "CA", "Swami");
 
 
 

@@ -7,7 +7,9 @@
 		createBasicPreferences,
 		createRoommatePreferences,
 		createHousingPreferences,
-		createProfilePicture
+		createProfilePicture,
+		addEmployeeToCompanyChat,
+		addInternToCompanyChat
 	}*/
 
 	//var update = require('./update.js');
@@ -23,7 +25,6 @@
         "listOfLocations": listOfLocations,
         "listOfEmployees": listOfEmployees
       });
-
     }
 
     function createIntern(internRef, id, email, company, location = "novalue") {
@@ -34,6 +35,7 @@
 	  		"email": email,
 	  		"company": company,
 	    	"location": location
+	    	"listofChatRooms": [company, company + ", " + location]
 	    });
     }
 
@@ -50,6 +52,7 @@
 	  		"description": description,
 	    	"location": location,
 	    	"links": [facebook, linkedin, twitter]
+	    	"listOfChatRooms": [company, company + ", " + location]
 	    });
 	    /*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
     }
@@ -107,15 +110,27 @@
 		})
 	}
 
-	function createCompanyChat(chatRoomRef, company, listOfEmployees) {
-		chatRoomRef.child(name).update({
-			"listOfUsers": listOfEmployees
-		});
+	/*
+    / @brief this function add employees/moderators to the
+    /        main company chat room
+    /
+    / @usage call this function after createEmployee to add
+    /        them to the company chat room
+    */
+	function addEmployeeToCompanyChat(chatRoomRef, company, listOfEmployees) {
+		/*update.*/getSnapshot(chatRoomRef, company, "listOfMods", listOfEmployees);
 	}
 
+	function addInternToCompanyChat(chatRoomRef, company, user) {
+		/*update.*/getSnapshot(chatRoomRef, company, "listOfUsers", user);
+	}
 
-	function createLocationChat(chatRoomRef, company, location, user) {
-		
+	function addEmployeeToLocationChat(chatRoomRef, company, location, listOfEmployees) {
+		/*update.*/getSnapshot(chatRoomRef, company + ", " + location, "listOfMods", listOfEmployees);
+	}
+
+	function addInternToLocationChat(chatRoomRef, company, location, user) {
+		/*update.*/getSnapshot(chatRoomRef, company + ", " + location, user);
 	}
 
 	//make sure room names dont overlap

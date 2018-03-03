@@ -1,15 +1,13 @@
 
 	/*module.exports = {
 		getMasterListOfInterns,
-		getLocations,
 		getCompany,
 		getEmployee,
 		getIntern,
 		getBasicPreferences,
 		getHousingPreferences,
 		getRoommatePreferences,
-		verifyEmployee,
-		verifyIntern
+		verifyUser
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
