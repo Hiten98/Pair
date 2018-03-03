@@ -17,7 +17,9 @@ class LoginButtons extends Component {
     let password = this.props.password
     let that=this
 
-    if (email != null && password != null && email != '' && password.length>=8 && email.indexOf("@")>-1) {
+    if(email.indexOf("@")<0){
+      alert('Please enter a valid email')
+    } else if (email != null && password != null && email != '' && password.length>=8 && email.indexOf("@")>-1) {
       axios.post('/LOGIN', {
         "username": email,
         "password": password

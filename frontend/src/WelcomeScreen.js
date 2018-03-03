@@ -25,7 +25,7 @@ class LandingScreen extends Component {
             <Row>
               <Switch>
                 <Route path='/home/login' render={() => <Login updateUid={this.props.updateUid} />} />
-                <Route path='/home/register' render={() => <RegisterForm updateUid={this.props.updateUid} updateCompany={this.props.updateCompany} updateLocations={this.props.updateLocations} />} />
+                <Route path='/home/register' render={() => <RegisterForm updateUid={this.props.updateUid} uid={this.props.uid} updateCompany={this.props.updateCompany} updateLocations={this.props.updateLocations} />} />
               </Switch>
             </Row>
             {/* descriptive paragraph again */}
