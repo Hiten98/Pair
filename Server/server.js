@@ -147,6 +147,9 @@ function UID(username) {
 
 //set bodyParser
 app.use(bodyParser.json());
+app.get('/', function(req, res) {
+  res.send('Hello');
+})
 
 //login handler
 app.post('/LOGIN', function (req, res) {
@@ -180,25 +183,27 @@ app.post('/LOGIN', function (req, res) {
   console.log(actual_uid_employee);
 
   //check and return
-  read.verifyIntern(internRef, actual_uid_intern, pass_shasum, (x) => {
+  read.verifyUser(internRef, actual_uid_intern, pass_shasum, (x) => {
     //make the login token
-    if (x != null)
+    if (x == true)
     {
       res.json({
         "userID": actual_uid_intern,
-        "status": true
+        "status": true,
+        "authority": "intern"
       });
       console.log("intern: " + x);
     }
     else
     {
-      read.verifyEmployee(employeeRef, actual_uid_employee, pass_shasum, (y) => {
+      read.verifyUser(employeeRef, actual_uid_employee, pass_shasum, (y) => {
         //make the login token
-        if (y != null)
+        if (y == true)
         {
           res.json({
             "userID": actual_uid_employee,
-            "status": true
+            "status": true,
+            "authority": "employee"
           });
           console.log("employee: " + y);
         }
@@ -343,14 +348,17 @@ app.post('/GET-COMPANY', function (req, res) {
 
   read.getCompany(companyRef, pin, (x) => {
     if (x != null) {
-        console.log(x[0]);
-        var y = x.splice(1);
-        console.log(y);
-        res.json({
-        "company": x[0],
-        "location": y,
-        "status": true
-        });
+        x['status'] = 'true';
+        console.log(x);
+        //var y = x.splice(1);
+        //console.log(y);
+        res.send(x);
+    }
+    else {
+      res.json ({
+        "status": false,
+        "error": "Company does not exist"
+      });
     }
   });
 });
@@ -362,16 +370,18 @@ app.post('/GET-PREFERENCES/BASIC-PREFERENCES', function (req, res) {
 
   //create UID (0 for interns)
   console.log("UID received:");
-  var uid = req.body.uid;
+  var uid = req.body.userID;
   console.log(uid);
 
   //create intern uid
   read.getBasicPreferences(internRef, uid, (x) => {
     if (x != null)
       console.log(x);
-    res.json({
+    //res = x;
+    res.send(x);
+    /*res.json({
       "basic": x
-    });
+    });*/
   });
 });
 
@@ -388,9 +398,10 @@ app.post('/GET-PREFERENCES/HOUSING-PREFERENCES', function (req, res) {
   //create intern uid
   read.getHousingPreferences(internRef, uid, (x) => {
     if (x != null)
-      res.json({
-        "housing": x
-      });
+    {
+      console.log(x);
+      res.send(x);
+    }
   });
 });
 
@@ -407,9 +418,10 @@ app.post('/GET-PREFERENCES/ROOMMATE-PREFERENCES', function (req, res) {
   //create intern uid
   read.getRoommatePreferences(internRef, uid, (x) => {
     if (x != null)
-      res.json({
-        "roommate": x
-      });
+    {
+      console.log(x);
+      res.send(x);
+    }
   });
 });
 
@@ -418,19 +430,16 @@ app.post('/CREATE-EMPLOYEE', function (req, res) {
   console.log('Received request for CREATE-EMPLOYEE:');
   console.log(req.body);
 
-  //create UID (0 for interns)
-  console.log("UID generated:");
-  console.log(uid);
 
-  //create intern uid
-  var employee_uid = "2" + uid;
-  var pass = encrypt(req.body.password);
+  var password = encrypt(req.body.password);
 
   //store variables
-  var uid = "2" + UID(req.body.username);
+  var employee_uid = "2" + UID(req.body.username);
+  //create UID (2 for employee)
+  console.log("UID generated:");
+  console.log(employee_uid);
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
-  var password = encrypt(req.body.password);
   var email = req.body.username;
   var company = req.body.company;
   var location = req.body.location;
@@ -439,11 +448,11 @@ app.post('/CREATE-EMPLOYEE', function (req, res) {
   var linkedin = req.body.linkedin;
   var twitter = req.body.twitter;
 
-  create.createEmployee(employeeRef, companyRef, uid, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter);
+  create.createEmployee(employeeRef, companyRef, employee_uid, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter);
 
   //create.createEmployee(employeeRef, employee_uid, req.body.password);
   res.json({
-    "userID": uid,
+    "userID": employee_uid,
     "status": true
   });
 });
@@ -562,9 +571,9 @@ app.post('/GET-EMAIL', function (req, res) {
 
   //create intern uid
   read.getIntern(internRef, uid, (x) => {
-    console.log(x[1]);
+    console.log(x);
     res.json({
-      "email": x[1]
+      "email": x.email
     });
   });
 });
@@ -583,9 +592,7 @@ app.post('/GET-INTERN', function (req, res) {
   //create intern uid
   read.getIntern(internRef, uid, (x) => {
     console.log(x);
-    res.json({
-      "email": x
-    });
+    res.send(x);
   });
 });
 
@@ -640,36 +647,35 @@ app.post('/GET-EMPLOYEE', function (req, res) {
   //create intern uid
   read.getEmployee(employeeRef, uid, (x) => {
     if (x != null)
+    {
       console.log(x);
-    res.json({
-      "employee": x
-    });
+      res.send(x);
+    }
   });
 });
 
 //master list handler
 app.post('/GET-MASTER-LIST', function (req, res) {
   console.log("Master list request received");
-  console.log(req.body)
+  console.log(req.body);
+  console.log("Done printing out request");
   //check for authority
   //if(authority)
   //get appropriate master list
   if (req.body.userID.charAt(0) == '1') {
     res.json({
-      "status": false
+      "status": false,
+      "error": "intern can't get master list"
     });
     return;
   }
   else {
     read.getEmployee(employeeRef, req.body.userID, (x) => {
-      console.log(x[0]);
-      read.getMasterListOfInterns(internRef, x[0], (y) => {
+      //console.log(x);
+      read.getMasterListOfInterns(internRef, x.company, (y) => {
         console.log(y);
         console.log("Master list printed");
-        res.json({
-          "userId": req.body.userID,
-          "list": y
-        });
+        res.send(y);
       }
 
       );
@@ -684,9 +690,19 @@ app.listen(port, function () {
   //call test
   console.log("SERVER STARTS");
   console.log('Testing begins, check database');
-  test();
+  //test();
   console.log('Testing done');
 
   console.log('Database setup done');
   console.log('App listening on port: ' + port + '!');
+});
+
+//error handler
+app.use(function (err, req, res, next) {
+  console.error(err);
+  res.status(500).send({
+    "status": false,
+    "error": 'Something failed, plz check server for more details',
+    "details": err
+  });
 });
