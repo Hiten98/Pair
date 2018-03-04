@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PasswordField from 'material-ui-password-field'
 import { black, grey800 } from 'material-ui/styles/colors'
-import history from '../../history'
 //import './Email.css';
 
 
@@ -22,6 +21,9 @@ class Email extends Component {
       fontWeight: "bold",
       textAlign: 'left',
     },
+    visibilityIconStyle: {
+      opacity: '0',
+    },
   }
 
   render() {
@@ -31,6 +33,7 @@ class Email extends Component {
         floatingLabelText="Email"
         visible
         fullWidth
+        value={this.props.dv}
         disableButton={true}
         floatingLabelStyle={this.styles.floatingLabelStyle}
         floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}

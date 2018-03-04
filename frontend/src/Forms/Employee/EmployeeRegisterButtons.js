@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import { RaisedButton } from 'material-ui'
 import history from '../../history'
 import axios from 'axios'
@@ -13,14 +12,14 @@ class LandingScreen extends Component {
     let password = this.props.password
     let firstname = this.props.firstname
     let lastname = this.props.lastname
-    let location = this.props.location
+    let location = this.props.loc
     let bio = this.props.bio
     let linkedin = this.props.linkedin
     let facebook = this.props.facebook
     let twitter = this.props.twitter
-    let company=this.props.company
+    let company = this.props.company
 
-    if (email.length < 1 || email.indexOf("@") < 0) {
+    if (email.length < 1 || !(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(email)) {
       alert('Incorrect email format')
     } else if (password.length < 8) {
       alert('Invalid password')
@@ -31,7 +30,7 @@ class LandingScreen extends Component {
     } else if (location === 0) {
       alert('Please choose a location')
     } else {
-      location=this.props.locations[location]
+      location = this.props.locations[location]
       let that = this
       axios.post('/CREATE-EMPLOYEE', {
         "username": email,
@@ -45,23 +44,20 @@ class LandingScreen extends Component {
         "linkedin": linkedin,
         "twitter": twitter
       }).then(function (response) {
-        if (response.data.status == false) {
+        if (!response.data.status) {
           console.log("Something went wrong :(")
         } else {
           console.log("Created account password!");
           //Go to employee page
-          console.log(response)
-          let parsed = JSON.parse(JSON.stringify(response.data))
-          let i = 0;
-          for (let a in parsed) {
-            if (i == 0) {
-              console.log(parsed[a])
-              that.props.updateUid(`${parsed[a]}`)
-              history.push('/landing/employee/chat')
-            }
+          //console.log(response)
+          that.props.updateUid(response.data.userID,'employee')
+          try {
+            localStorage.removeItem('employee-register')
+          } catch (err) {
+            //console.log('This browser does not allow localstorage and some functionalities may be impacted')
           }
-
-          //history.push('/landing/employee/interns')
+          history.push('/landing/employee/chat')
+          
         }
       }).catch(function (error) {
         console.log(error);

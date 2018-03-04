@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PasswordField from 'material-ui-password-field'
 import { grey800, black, red900 } from 'material-ui/styles/colors';
-import { Row } from 'react-bootstrap'
 //import './Password.css';
 
 class Password extends Component {
@@ -46,6 +45,7 @@ class Password extends Component {
           className="password"
           hintText="At least 8 characters"
           floatingLabelText="Password"
+          value={this.props.dv}
           floatingLabelStyle={this.styles.floatingLabelStyle}
           floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
           underlineStyle={this.styles.underlineStyle}

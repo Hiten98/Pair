@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import WelcomeScreen from './WelcomeScreen.js'
 import LandingScreen from './LandingScreen.js'
@@ -9,58 +9,76 @@ import { black } from 'material-ui/styles/colors';
 import RegisterLayout from './Forms/RegisterLayout'
 import './App.css';
 
-
-
-const muiTheme = getMuiTheme({
-  palette: {
-    primary1Color: black,
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      uid: null,
+      type: null,
+      company: null,
+      locations: null,
+    }
+    try {
+      const serializedState = localStorage.getItem('app')
+      if (serializedState !== null) {
+        this.state = JSON.parse(serializedState)
+        //console.log(this.state)
+      }
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
   }
-});
 
-const state = {
-  uid: null,
-  type: null,
-  company: null,
-  locations: null,
-}
+  muiTheme = getMuiTheme({
+    palette: {
+      primary1Color: black,
+    }
+  });
 
-const updateCompany = (company) => {
-  state.company = company
-}
-
-const updateLocations = (locations) => {
-  state.locations = locations
-}
-
-const updateUid = (uid) => {
-  state.uid = uid;
-  if (uid.charAt(0) == 4) {
-    state.type = "admin"
-  } if (uid.charAt(0) == 3) {
-    state.type = "company"
-  } else if (uid.charAt(0) == 2) {
-    //GO TO EMPLOYEE Landing Page
-    state.type = "employee"
-  } else if (uid.charAt(0) == 1) {
-    state.type = "intern"
+  saveState = () => {
+    try {
+      const serializedState = JSON.stringify(this.state)
+      localStorage.setItem('app', serializedState)
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
   }
-}
 
-const App = () => {
+  updateCompany = (company) => {
+    //console.log(company)
+    this.setState({ company: company },()=>{this.saveState()})
+    this.saveState()
+  }
+
+  updateLocations = (locations) => {
+    this.setState({ locations: locations },()=>{this.saveState()})
+    //console.log(locations)
+    this.saveState()
+  }
+
+  updateUid = (uid, authority) => {
+    console.log(uid)
+    this.setState({ uid: uid },()=>{this.saveState()})
+    this.setState({ type: authority },()=>{this.saveState()})
+    this.saveState()
+  }
+
   //updateUid("hi","")
   //console.log(state.uid)
-  return (
-    <MuiThemeProvider muiTheme={muiTheme}>
-      <Grid className="App">
-        <Switch>
-          <Route exact path="/" render={() => <Redirect to='/home/login' />} />
-          <Route path='/home' render={() => <WelcomeScreen updateUid={updateUid} updateCompany={updateCompany} updateLocations={updateLocations} />} />
-          <Route path='/landing' render={() => <LandingScreen uid={state.uid} type={state.type} />} />
-          <Route path='/register' render={() => <RegisterLayout company={state.company} locations={state.locations} updateUid={updateUid} />} />
-        </Switch>
-      </Grid>
-    </MuiThemeProvider>
-  );
+  render() {
+    return (
+      <MuiThemeProvider muiTheme={this.muiTheme}>
+        <Grid className="App">
+          <Switch>
+            <Route exact path="/" render={() => <Redirect to='/home/login' />} />
+            <Route path='/home' render={() => <WelcomeScreen updateUid={this.updateUid} updateCompany={this.updateCompany} updateLocations={this.updateLocations} />} />
+            <Route path='/landing' render={() => <LandingScreen uid={this.state.uid} type={this.state.type} />} />
+            <Route path='/register' render={() => <RegisterLayout company={this.state.company} locations={this.state.locations} updateUid={this.updateUid} />} />
+          </Switch>
+        </Grid>
+      </MuiThemeProvider>
+    );
+  }
 }
 
 export default App;

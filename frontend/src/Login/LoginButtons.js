@@ -8,37 +8,37 @@ import './LoginButtons.css';
 axios.defaults.baseURL = 'http://localhost:9090'
 
 class LoginButtons extends Component {
-  goToEmployee=()=>{
+  goToEmployee = () => {
     history.push('/home/register')
   }
 
-  handleLogin=()=>{
+  handleLogin = () => {
     let email = this.props.email
     let password = this.props.password
-    let that=this
+    let that = this
 
-    if(email.indexOf("@")<0){
+    if (!(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(email)) {
       alert('Please enter a valid email')
-    } else if (email != null && password != null && email != '' && password.length>=8 && email.indexOf("@")>-1) {
+    } else if (email != null && password != null && email != '' && password.length >= 8 && (new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(email)) {
       axios.post('/LOGIN', {
         "username": email,
         "password": password
       }).then((response) => {
-        //console.log(response.data.userID);
-        if(!response.data.status){
+        //console.log(response.data);
+        if (!response.data.status) {
           alert('Username or password was incorrect, please try again')
         } else if (response.data.userID != null) {
-         // this.props.updateUid(response.data.userID);
+          // this.props.updateUid(response.data.userID);
           //console.log(response.data.userID)
-          that.props.updateUid(response.data.userID)
-          if (response.data.userID.charAt(0) == 4){
+          that.props.updateUid(response.data.userID, response.data.authority)
+          if (response.data.authority==='admin') {
             history.push('/landing/admin-landing')
-          }if (response.data.userID.charAt(0) == 3){
+          } if (response.data.authority==='company') {
             history.push('/landing/company-landing')
-          }else if (response.data.userID.charAt(0) == 2) {
+          } else if (response.data.authority==='employee') {
             //GO TO EMPLOYEE Landing Page
             history.push('/landing/employee-landing')
-          } else if (response.data.userID.charAt(0) == 1){
+          } else if (response.data.authority==='intern') {
             //GO TO INTERN Landing Page
             history.push('/landing/intern-landing')
           }

@@ -22,23 +22,16 @@ class RegisterButtons extends Component {
       }).then(function (response) {
         //console.log(response.data);
         if (response.data.status) {
-          let parsed = JSON.parse(JSON.stringify(response.data.company))
+          //let parsed = JSON.parse(JSON.stringify(response.data.company))
           let locat = []
-          let co = ''
-          let i = 0
-          for (var location in parsed) {
-            //Make a locations item
-            //console.log(response.data.company)
-            if (i != 0) {
-              locat.push(parsed[location])
-            } else {
-              co = parsed[location]
-            }
-            i++
-            //console.log(locat)
+          let co = false
+          that.props.updateCompany(response.data.name)
+          for (var loc in response.data.locations){
+            locat.push(response.data.locations[loc])
             that.props.updateLocations(locat)
-            that.props.updateCompany(co)
+            co=true
           }
+          //if(co)
           history.push('/register/employee')
         } else {
           alert('Invalid company code, please try again')

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import { Row } from 'react-bootstrap'
 import FirstName from '../Intern/UserPreferences/UserDetails/FirstName'
 import LastName from '../Intern/UserPreferences/UserDetails/LastName'
@@ -23,48 +22,76 @@ class EmployeeRegistrationForm extends Component {
       password: '',
       firstname: '',
       lastname: '',
-      location: 0,
+      loc: 0,
       bio: '',
       linkedin: '',
       facebook: '',
       twitter: '',
     }
+    try {
+      const serializedState = localStorage.getItem('employee-register')
+      if (serializedState !== null) {
+        this.state = JSON.parse(serializedState)
+        //console.log(this.state)
+      }
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
+  }
+
+  saveState = () => {
+    try {
+      const serializedState = JSON.stringify(this.state)
+      localStorage.setItem('employee-register', serializedState)
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
   }
 
   emailChange=(ev)=>{
-    this.setState({email:ev.target.value})
+    this.setState({email:ev.target.value},()=>{this.saveState()})
+    this.saveState()
   }
 
   passwordChange=(ev)=>{
-    this.setState({password:ev})
+    this.setState({password:ev},()=>{this.saveState()})
+    this.saveState()
   }
 
   firstNameChange = (ev) => {
-    this.setState({ firstname: ev.target.value })
+    this.setState({ firstname: ev.target.value },()=>{this.saveState()})
+    this.saveState()
   }
 
   lastnameChange=(ev)=>{
-    this.setState({lastname:ev.target.value})
+    this.setState({lastname:ev.target.value},()=>{this.saveState()})
+    this.saveState()
   }
 
   locationChange=(event,index,value)=>{
-    this.setState({location:value})
+    console.log(value)
+    this.setState({loc:value},()=>{this.saveState()})
+    this.saveState()
   }
 
   bioChange=(ev)=>{
-    this.setState({bio:ev.target.value})
+    this.setState({bio:ev.target.value},()=>{this.saveState()})
+    this.saveState()
   }
 
   linkedinChange=(ev)=>{
-    this.setState({linkedin:ev.target.value})
+    this.setState({linkedin:ev.target.value},()=>{this.saveState()})
+    this.saveState()
   }
 
   facebookChange = (ev) => {
-    this.setState({ facebook: ev.target.value })
+    this.setState({ facebook: ev.target.value },()=>{this.saveState()})
+    this.saveState()
   }
 
   twitterChange=(ev)=>{
-    this.setState({twitter:ev.target.value})
+    this.setState({twitter:ev.target.value},()=>{this.saveState()})
+    this.saveState()
   }
 
   render() {
@@ -74,25 +101,25 @@ class EmployeeRegistrationForm extends Component {
           Employee Registration
         </Row>
 
-        <Email change={this.emailChange}/>
+        <Email change={this.emailChange} dv={this.state.email}/>
 
-        <Password change={this.passwordChange}/>
+        <Password change={this.passwordChange} dv={this.state.password}/>
 
-        <FirstName firstNameChange={this.firstNameChange}/>
+        <FirstName firstNameChange={this.firstNameChange} dv={this.state.firstname}/>
 
-        <LastName lastNameChange={this.lastnameChange}/>
+        <LastName lastNameChange={this.lastnameChange} dv={this.state.lastname}/>
 
-        <Location change={this.locationChange} company={this.props.company} locations={this.props.locations} dv={this.state.location}/>
+        <Location change={this.locationChange} company={this.props.company} locations={this.props.locations} dv={this.state.loc}/>
 
-        <Bio bioChange={this.bioChange}/>
+        <Bio bioChange={this.bioChange} dv={this.state.bio}/>
 
-        <LinkedIn linkedInChange={this.linkedinChange}/>
+        <LinkedIn linkedInChange={this.linkedinChange} dv={this.state.linkedin}/>
 
-        <Facebook facebookChange={this.facebookChange}/>
+        <Facebook facebookChange={this.facebookChange} dv={this.state.facebook}/>
 
-        <Twitter twitterChange={this.twitterChange}/>
+        <Twitter twitterChange={this.twitterChange} dv={this.state.twitter}/>
 
-        <EmployeeRegisterButtons {...this.state} company={this.props.company} locations={this.props.locations}/>
+        <EmployeeRegisterButtons {...this.state} company={this.props.company} locations={this.props.locations} updateUid={this.props.updateUid}/>
       </div>
     );
   }
