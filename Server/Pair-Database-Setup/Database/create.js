@@ -23,9 +23,9 @@ function createCompany(companyRef, companyName, listOfLocations = "novalue", lis
 			"listOfLocations": listOfLocations,
 			"listOfEmployees": listOfEmployees
 		});
-	}
+}
 
-	function createIntern(internRef, id, email, company, location = "novalue") {
+function createIntern(internRef, id, email, company, location = "novalue") {
 		internRef.update({
 			[id]:"novalue"
 		});
@@ -34,7 +34,7 @@ function createCompany(companyRef, companyName, listOfLocations = "novalue", lis
 			"company": company,
 			"location": location
 		});
-	}
+}
 
 	function createEmployee(employeeRef, companyRef, id, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter) {
 		employeeRef.update({
