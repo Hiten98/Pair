@@ -13,9 +13,9 @@ var bodyParser = require('body-parser');
 var crypto = require('crypto');
 
 //database dependencies
-var update = require('./Pair-Database-Setup/Database/update.js');
 var read = require('./Pair-Database-Setup/Database/read.js');
 var create = require('./Pair-Database-Setup/Database/create.js');
+var update = require('./Pair-Database-Setup/Database/update.js');
 
 //setting up dtaabase
 var admin = require("firebase-admin");
@@ -469,6 +469,9 @@ app.post('/CREATE-INTERN', function (req, res) {
   var location = req.body.location;
   var company = req.body.company;
   create.createIntern(internRef, uid, req.body.username, company, location);
+  create.createBasicPreferences(internRef, uid, "", "", "", "", "", "");
+  create.createRoommatePreferences(internRef, uid, "", "", "", "", "", "", "", "", "", "");
+  create.createHousingPreferences(internRef, uid, "", "", "", "");
   res.json({
     "status": true
   });
@@ -539,7 +542,8 @@ app.post('/UPDATE-PREFERENCES/HOUSING-PREFERENCES', function (req, res) {
   //create intern uid
   var intern_uid = uid;
 
-  create.createHousingPreferences(internRef, intern_uid, req.body.desiredPrice, req.body.desiredRoommates, req.body.desiredDistance, req.body.desiredDuration);
+  create.createHousingPreferences(internRef, intern_uid, req.body.desiredPrice, req.body.desiredRoommate, req.body.desiredDistance, req.body.desiredDuration);
+
   res.json({
     "status": true
   });
