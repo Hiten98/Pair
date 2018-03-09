@@ -1,8 +1,25 @@
-.topBar{
-  background-color: #50C2C4;
-  height:5%;
-  position: absolute;
-  top:0px;
-  left:0px;
-  width:100%;
+.forms{
+  vertical-align: middle;
+  background-color: var(--l1);
+  background-image: linear-gradient(-45deg,var(--hpink),/*var(--l1),var(--l2),*/var(--l3),var(--vblue)); 
+  height:100vh;
+}
+
+@media all and (max-width:767px){
+  .item{display: block;}
+}
+
+@media all and (min-width:768px){
+  .item{display: none;}
+}
+
+.item {
+  margin-top:40vh;
+  margin-bottom:10vh;
+  padding-left:5vw;
+  padding-right:5vw;
+}
+
+.wholePage {
+
 }

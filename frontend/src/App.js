@@ -1,31 +1,85 @@
 import React, { Component } from 'react';
-import {NavLink, Switch, Route} from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import WelcomeScreen from './WelcomeScreen.js'
-import LandingScreen from './LandingScreen.js'
+import LandingScreen from './Landing/MainLanding'
+import { Grid } from 'react-bootstrap'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import './App.css';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import darkBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
-import { black, grey700, pink500, green900, white, blue500, pink700 } from 'material-ui/styles/colors';
+import { black } from 'material-ui/styles/colors';
+import RegisterLayout from './Forms/RegisterLayout'
+import './App.css';
 
-
-const muiTheme=getMuiTheme({
-  palette:{
-    primary1Color:black,
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      uid: null,
+      type: null,
+      company: null,
+      locations: null,
+    }
+    try {
+      const serializedState = localStorage.getItem('app')
+      if (serializedState !== null) {
+        this.state = JSON.parse(serializedState)
+        //console.log(this.state)
+      }
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
   }
-});
 
-const App=()=>{
-  return (
-    <MuiThemeProvider muiTheme={muiTheme}>
-      <div className="App">
-        <Switch>
-          <Route path='/' component={WelcomeScreen}/>
-          <Route path='/home' component={LandingScreen}/>
-        </Switch>
-      </div>
-    </MuiThemeProvider>
-  );
+  muiTheme = getMuiTheme({
+    palette: {
+      primary1Color: black,
+    }
+  });
+
+  saveState = () => {
+    try {
+      const serializedState = JSON.stringify(this.state)
+      localStorage.setItem('app', serializedState)
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
+  }
+
+  updateCompany = (company) => {
+    //console.log(company)
+    this.setState({ company: company },()=>{this.saveState()})
+    this.saveState()
+  }
+
+  updateLocations = (locations) => {
+    this.setState({ locations: locations },()=>{this.saveState()})
+    //console.log(locations)
+    this.saveState()
+  }
+
+  updateUid = (uid, authority) => {
+    console.log(uid)
+    //console.log("hi")
+    this.setState({ uid: uid },()=>{this.saveState()})
+    this.setState({ type: authority },()=>{this.saveState()})
+    this.saveState()
+  }
+
+  //updateUid("hi","")
+  //console.log(state.uid)
+  render() {
+    return (
+      <MuiThemeProvider muiTheme={this.muiTheme}>
+        <Grid className="App">
+          <Switch>
+            <Route exact path="/" render={() => <Redirect to='/home/login' />} />
+            <Route path='/home' render={() => <WelcomeScreen updateUid={this.updateUid} updateCompany={this.updateCompany} updateLocations={this.updateLocations} />} />
+            <Route path='/landing' render={() => <LandingScreen uid={this.state.uid} type={this.state.type} />} />
+            <Route path='/register' render={() => <RegisterLayout company={this.state.company} uid={this.state.uid} locations={this.state.locations} updateUid={this.updateUid} />} />
+          </Switch>
+        </Grid>
+      </MuiThemeProvider>
+    );
+  }
 }
 
 export default App;

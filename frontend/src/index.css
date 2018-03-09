@@ -6,4 +6,5 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-color:rgb(53, 173, 175);
+  overflow-x:hidden;
 }

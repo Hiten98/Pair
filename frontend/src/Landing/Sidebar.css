@@ -1,0 +1,9 @@
+.side-bar{
+  background-color: var(--l3);
+  height: 100vh;
+}
+
+.no-word-logo{
+  width:60%;
+  margin-top:-22%;
+}
