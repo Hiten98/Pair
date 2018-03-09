@@ -35,7 +35,7 @@ class FirstName extends Component {
         className="Description"
         fullWidth
         multiLine
-        defaultValue={this.props.dv}
+        value={this.props.dv}
         hintStyle={this.styles.hintStyle}
         floatingLabelStyle={this.styles.floatingLabelStyle}
         floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}

@@ -6,20 +6,10 @@ import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:9090'
 
-
-
-
-//TODO: NEED TO BE TESTED!!!!!!!!!!!!!!!!
-//The stopping because bad password works but don't know if redirection does
-
-
-
-
-
 class CreationButtons extends Component {
   buttonSubmit=()=>{
-    let email = this.props.username
-    let password = this.props.password
+    let email = this.props.email
+    let password = this.props.pass
 
     //KUNAL PUT YOUR CODE HERE
     //check to make sure password exists
@@ -31,12 +21,13 @@ class CreationButtons extends Component {
         "username": email,
         "password": password,
       }).then(function (response) {
+        console.log(response.data)
         if (response.data.status == false) {
           console.log("Something went wrong :(")
         } else {
           console.log("Created account password!");
           //Go to preferences p1
-          history.push('/register/intern/user-details')
+          history.push('/register/intern/preferences/user-details')
         }
       }).catch(function (error) {
         console.log(error);

@@ -57,13 +57,19 @@ class RoommateSubmitButtons extends Component {
         console.log("Preferences updated!");
         //Go to preferences p3
         if(that.state.willRedirect===1){
-          this.props.changePage(1)
+          that.props.changePage(1)
           history.push('/register/intern/preferences/user-details')
         }else if(that.state.willRedirect===2){
-          this.props.changePage(3)
+          that.props.changePage(3)
           history.push('/register/intern/preferences/housing')
         }
-        this.props.changeChange(false)
+        that.props.changeCompleted("2")
+        that.props.changeChange(false)
+        try {
+          localStorage.removeItem('roommate-preferences')
+        } catch (err) {
+          //console.log('This browser does not allow localstorage and some functionalities may be impacted')
+        }
       }
     }).catch(function (error) {
       console.log(error);

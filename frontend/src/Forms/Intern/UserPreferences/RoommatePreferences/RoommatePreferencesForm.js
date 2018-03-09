@@ -32,6 +32,26 @@ class RoommatePreferencesForm extends Component{
       themBringGuest:1,
       youBringPet:1,
       themBringPet:1,
+      change:false,
+    }
+
+    try {
+      const serializedState = localStorage.getItem('roommate-preferences')
+      if (serializedState !== null) {
+        this.state = JSON.parse(serializedState)
+        //console.log(this.state)
+      }
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
+  }
+
+  saveState = () => {
+    try {
+      const serializedState = JSON.stringify(this.state)
+      localStorage.setItem('roommate-preferences', serializedState)
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
     }
   }
 
@@ -43,7 +63,7 @@ class RoommatePreferencesForm extends Component{
       if (response.data.status == false) {
         console.log("Something went wrong :(")
       } else {
-        if (response.data.smoke != null)
+        if (!that.state.change)
           that.setState({
             youBringGuest: response.data.youguest,
             themBringGuest: response.data.themguest,
@@ -64,52 +84,57 @@ class RoommatePreferencesForm extends Component{
 
   bedtimeChange=(event,index,value)=>{
     this.setState({bedtime:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   waketimeChange=(event,index,value)=>{
     this.setState({waketime:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   lightsChange=(event,index,value)=>{
     this.setState({lights:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   cleanChange=(event,index,value)=>{
     this.setState({clean:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   sharingChange=(event,index,value)=>{
     this.setState({sharing:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   smokeChange=(event,index,value)=>{
     this.setState({smoke:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   youBringGuestChange=(event,index,value)=>{
     this.setState({youBringGuest:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   themBringGuestChange=(event,index,value)=>{
     this.setState({themBringGuest:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   youBringPetChange=(event,index,value)=>{
     this.setState({youBringPet:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   themBringPetChange=(event,index,value)=>{
     this.setState({themBringPet:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
+  }
+
+  changeChanged=(i)=>{
+    this.setState({change:i},()=>{this.saveState()})
+    this.props.changeChanged(i)
   }
 
   render(){
@@ -146,7 +171,7 @@ class RoommatePreferencesForm extends Component{
           <ThemBringPet dv={this.state.themBringPet} themBringPetChange={this.themBringPetChange}/>
         </Row>
         <hr />
-        <RoommateSubmitButtons {...this.state} changePage={this.props.changePage}/>
+        <RoommateSubmitButtons {...this.state} uid={this.props.uid} changePage={this.props.changePage} changeChange={this.changeChanged} changeCompleted={this.props.changeCompleted}/>
       </div>
     )
   }

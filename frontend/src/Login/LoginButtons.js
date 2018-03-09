@@ -8,9 +8,7 @@ import './LoginButtons.css';
 axios.defaults.baseURL = 'http://localhost:9090'
 
 class LoginButtons extends Component {
-  goToEmployee = () => {
-    history.push('/home/register')
-  }
+  
 
   handleLogin = () => {
     let email = this.props.email
@@ -60,14 +58,6 @@ class LoginButtons extends Component {
             label="Login"
             primary
             onClick={this.handleLogin}
-          />
-        </Row>
-
-        <Row className='row-sm lbutton'>
-          <RaisedButton
-            label="Employee Registration"
-            primary
-            onClick={this.goToEmployee}
           />
         </Row>
       </div>

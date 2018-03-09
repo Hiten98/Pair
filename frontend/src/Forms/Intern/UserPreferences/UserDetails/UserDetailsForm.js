@@ -9,92 +9,115 @@ import SubmitButtons from './SubmitButtons'
 import axios from 'axios'
 //import './UserDetailsForm.css';
 
-axios.defaults.baseURL='http://localhost:9090'
+axios.defaults.baseURL = 'http://localhost:9090'
 
 //NEEDS TESTING
 
 class UserDetailsForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state={
-      firstname:'',
-      lastname:'',
-      bio:'',
-      linkedin:'',
-      facebook:'',
-      twitter:'',
+    this.state = {
+      firstname: '',
+      lastname: '',
+      bio: '',
+      linkedin: '',
+      facebook: '',
+      twitter: '',
+      changed: false,
+    }
+
+    try {
+      const serializedState = localStorage.getItem('user-details')
+      if (serializedState !== null) {
+        this.state = JSON.parse(serializedState)
+        //console.log(this.state)
+      }
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
     }
   }
 
-  componentDidMount(){
+  saveState = () => {
+    try {
+      const serializedState = JSON.stringify(this.state)
+      localStorage.setItem('user-details', serializedState)
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
+  }
+
+  componentDidMount() {
     let that = this
-    axios.post('/GET-PREFERENCES/BASIC-PREFERENCES', {
-      "uid": this.props.uid,
+    axios.post("/GET-INTERN", {
+      "userID": this.props.uid
     }).then(function (response) {
-      if (response.data.status == false) {
-        console.log("Something went wrong :(")
-      } else {
-        if (response.data.firstName != null)
-          that.setState({
-            firstname: response.data.firstName,
-            lastname: response.data.lastName,
-            bio: response.data.description,
-            facebook: response.data.fbLink,
-            twitter: response.data.twitterLink,
-            linkedin: response.data.linkedInLink,
-          })
+      //console.log(response.data)
+      if (!that.state.changed) {
+        that.setState({
+          firstname: response.data.firstName,
+          lastname: response.data.lastName,
+          bio: response.data.basic.description,
+          facebook: response.data.basic.fbLink,
+          twitter: response.data.basic.twitterLink,
+          linkedin: response.data.basic.linkedInLink,
+        })
       }
     }).catch(function (error) {
       console.log(error);
-    });
+    })
   }
 
-  firstNameChange=(ev)=>{
-    this.setState({firstname:ev.target.value})
+  firstNameChange = (ev) => {
+    this.setState({ firstname: ev.target.value, changed: true }, () => { this.saveState() })
     this.props.changeChanged(true)
   }
 
-  lastNameChange=(ev)=>{
-    this.setState({lastname:ev.target.value})
+  lastNameChange = (ev) => {
+    this.setState({ lastname: ev.target.value, changed: true }, () => { this.saveState() })
     this.props.changeChanged(true)
   }
 
-  bioChange=(ev)=>{
-    this.setState({bio:ev.target.value})
+  bioChange = (ev) => {
+    this.setState({ bio: ev.target.value, changed: true }, () => { this.saveState() })
     this.props.changeChanged(true)
   }
 
-  linkedInChange=(ev)=>{
-    this.setState({linkedin:ev.target.value})
+  linkedInChange = (ev) => {
+    this.setState({ linkedin: ev.target.value, changed: true }, () => { this.saveState() })
     this.props.changeChanged(true)
   }
 
-  facebookChange=(ev)=>{
-    this.setState({facebook:ev.target.value})
+  facebookChange = (ev) => {
+    this.setState({ facebook: ev.target.value, changed: true }, () => { this.saveState() })
     this.props.changeChanged(true)
   }
 
-  twitterChange=(ev)=>{
-    this.setState({twitter:ev.target.value})
+  twitterChange = (ev) => {
+    this.setState({ twitter: ev.target.value, changed: true }, () => { this.saveState() })
     this.props.changeChanged(true)
+  }
+
+  changeChanged = (i) => {
+    this.setState({ changed: i })
+    this.props.changeChanged(i)
   }
 
   render() {
     return (
       <div>
-        <FirstName dv={this.state.firstname} firstNameChange={this.firstNameChange}/>
+        <FirstName dv={this.state.firstname} firstNameChange={this.firstNameChange}  />
 
-        <LastName dv={this.state.lastname} lastNameChange={this.lastNameChange}/>
+        <LastName dv={this.state.lastname} lastNameChange={this.lastNameChange} />
 
-        <Bio dv={this.state.bio} bioChange={this.bioChange}/>
+        <Bio dv={this.state.bio} bioChange={this.bioChange}  />
 
-        <LinkedIn dv={this.state.linkedin} linkedInChange={this.linkedInChange}/>
+        <LinkedIn dv={this.state.linkedin} linkedInChange={this.linkedInChange}  />
 
-        <Facebook dv={this.state.facebook} facebookChange={this.facebookChange}/>
+        <Facebook dv={this.state.facebook} facebookChange={this.facebookChange} />
 
-        <Twitter dv={this.state.twitter} twitterChange={this.twitterChange}/>
+        <Twitter dv={this.state.twitter} twitterChange={this.twitterChange} />
 
-        <SubmitButtons {...this.state} changePage={this.props.changePage} changeChanged={this.props.changeChanged}/>
+        <SubmitButtons {...this.state} uid={this.props.uid} changePage={this.props.changePage} changeChange={this.changeChanged} changeCompleted={this.props.changeCompleted}/>
       </div>
     );
   }

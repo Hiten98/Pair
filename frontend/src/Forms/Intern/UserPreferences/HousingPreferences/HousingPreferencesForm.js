@@ -18,6 +18,26 @@ class HousingPreferencesForm extends Component {
       roommates:1,
       distance:1,
       duration:1,
+      change:false,
+    }
+
+    try {
+      const serializedState = localStorage.getItem('housing-preferences')
+      if (serializedState !== null) {
+        this.state = JSON.parse(serializedState)
+        //console.log(this.state)
+      }
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
+  }
+
+  saveState = () => {
+    try {
+      const serializedState = JSON.stringify(this.state)
+      localStorage.setItem('housing-preferences', serializedState)
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
     }
   }
 
@@ -31,7 +51,7 @@ class HousingPreferencesForm extends Component {
       if (response.data.status == false) {
         console.log("Something went wrong :(")
       } else {
-        if (response.data.desiredPrice != null)
+        if (!that.state.change)
           that.setState({
             price: response.data.desiredPrice,
             roommates: response.data.desiredRoomate,
@@ -46,22 +66,27 @@ class HousingPreferencesForm extends Component {
 
   priceChange=(event,index,value)=>{
     this.setState({price:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   distanceChange=(event,index,value)=>{
     this.setState({distance:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   durationChange=(event,index,value)=>{
     this.setState({duration:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
   }
 
   roommatesChange=(event,index,value)=>{
     this.setState({roommates:value})
-    this.props.changeChanged(true)
+    this.changeChanged(true)
+  }
+
+  changeChanged=(i)=>{
+    this.setState({change:i},()=>{this.saveState()})
+    this.props.changeChanged(i)
   }
 
   render() {
@@ -80,7 +105,7 @@ class HousingPreferencesForm extends Component {
           <Roommates dv={this.state.roommates} roommatesChange={this.roommatesChange}/>
         </Row>
         <hr/>
-        <HousingSubmitButtons {...this.state} changePage={this.props.changePage}/>
+        <HousingSubmitButtons {...this.state} changePage={this.props.changePage} completed={this.props.completed} uid={this.props.uid} changeChange={this.props.changeChanged}/>
       </div>
     );
   }

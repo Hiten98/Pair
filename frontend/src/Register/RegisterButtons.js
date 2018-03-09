@@ -8,9 +8,7 @@ import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:9090'
 
 class RegisterButtons extends Component {
-  goToLogin = () => {
-    history.push('/home/login')
-  }
+  
 
   handleLogin = () => {
     const companyCode = this.props.companyCode
@@ -24,12 +22,10 @@ class RegisterButtons extends Component {
         if (response.data.status) {
           //let parsed = JSON.parse(JSON.stringify(response.data.company))
           let locat = []
-          let co = false
           that.props.updateCompany(response.data.name)
           for (var loc in response.data.locations){
             locat.push(response.data.locations[loc])
             that.props.updateLocations(locat)
-            co=true
           }
           //if(co)
           history.push('/register/employee')
@@ -53,14 +49,6 @@ class RegisterButtons extends Component {
             label="Register"
             primary={true}
             onClick={this.handleLogin}
-          />
-        </Row>
-
-        <Row className='row-sm lbutton'>
-          <RaisedButton
-            label="Login Page"
-            primary={true}
-            onClick={this.goToLogin}
           />
         </Row>
       </div>

@@ -9,9 +9,9 @@ class InternCreation extends Component {
   constructor(props){
     super(props)
     this.state={
-      uid:null,
-      email:null,
-      pass:null,
+      uid:0,
+      email:'',
+      pass:'',
     }
   }
 
@@ -29,7 +29,7 @@ class InternCreation extends Component {
     this.setState({
       uid:this.userID,
     })
-    this.props.updateUid(this.userID)
+    this.props.updateUid(this.userID,'intern')
   }
 
   render() {
@@ -39,7 +39,7 @@ class InternCreation extends Component {
 
         <Password changePass={this.changePass}/>
 
-        <CreationButtons username={this.state.email} password={this.state.password} uid={this.state.uid}/>
+        <CreationButtons {...this.state}/>
       </div>
     );
   }

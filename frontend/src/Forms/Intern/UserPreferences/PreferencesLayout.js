@@ -32,15 +32,34 @@ class PreferencesLayout extends Component {
       completed:[],
       changed:false,
     }
+
+    try {
+      const serializedState = localStorage.getItem('preferences')
+      if (serializedState !== null) {
+        this.state = JSON.parse(serializedState)
+        //console.log(this.state)
+      }
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
+  }
+
+  saveState = () => {
+    try {
+      const serializedState = JSON.stringify(this.state)
+      localStorage.setItem('preferences', serializedState)
+    } catch (err) {
+      console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
   }
 
   changePage=(page)=>{
     this.changeChanged(false)
-    this.setState({currPage:page})
+    this.setState({currPage:page},()=>{this.saveState()})
   }
 
   changeChanged=(v)=>{
-    this.setState({changed:v})
+    this.setState({changed:v},()=>{this.saveState()})
   }
 
   title = () => {
@@ -53,7 +72,21 @@ class PreferencesLayout extends Component {
     }
   }
 
+  changeCompleted=(i)=>{
+    let tempList=this.state.completed
+    tempList.push(i)
+    this.setState({completed:tempList},()=>{this.saveState()})
+  }
+
   render() {
+    let toPass={
+      uid:this.props.uid,
+      changePage:this.changePage,
+      changeChanged:this.changeChanged,
+      changed:this.props.changed,
+      completed:this.state.completed,
+      changeCompleted:this.changeCompleted,
+    }
     return (
       <div>
         <Row className='preferences-title'>
@@ -63,9 +96,9 @@ class PreferencesLayout extends Component {
         <UserPreferencesStepper pos={this.state.currPage} changed={this.state.changed} changeChanged={this.changeChanged} changePage={this.changePage}/>
 
         <Switch>
-          <Route path="/register/intern/preferences/user-details" render={()=><UserDetailsForm uid={this.props.uid} changePage={this.changePage} changeChanged={this.changeChanged}/>}/>
-          <Route path="/register/intern/preferences/roommate" render={()=><RoommatePreferencesForm uid={this.props.uid} changePage={this.changePage} changeChanged={this.changeChanged}/>}/>
-          <Route path="/register/intern/preferences/housing"render={()=><HousingPreferencesForm uid={this.props.uid} changePage={this.changePage} changeChanged={this.changeChanged}/>} />
+          <Route path="/register/intern/preferences/user-details" render={()=><UserDetailsForm {...toPass}/>}/>
+          <Route path="/register/intern/preferences/roommate" render={()=><RoommatePreferencesForm {...toPass}/>}/>
+          <Route path="/register/intern/preferences/housing"render={()=><HousingPreferencesForm {...toPass}/>} />
         </Switch>
       </div>
     );

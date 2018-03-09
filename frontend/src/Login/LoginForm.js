@@ -3,6 +3,7 @@ import { Row } from 'react-bootstrap'
 import Email from './Email'
 import Password from './Password'
 import LoginButtons from './LoginButtons'
+import NavButtons from './NavButtons'
 import './LoginForm.css';
 
 class LandingScreen extends Component {
@@ -25,6 +26,7 @@ class LandingScreen extends Component {
   render() {
     return (
       <div className='form'>
+        <NavButtons />
         <Row className="title">
             Login
         </Row>

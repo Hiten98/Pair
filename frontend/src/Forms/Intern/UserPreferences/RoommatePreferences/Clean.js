@@ -16,7 +16,7 @@ class Clean extends Component {
         <Col xs={6}>
           <Col xs={8}>How clean do you like to be?</Col>
           <Col xs={4}>
-            <DropDownMenu maxHeight={250} value={this.props.dv} onChange={this.props.waketimeChange}>
+            <DropDownMenu maxHeight={250} value={this.props.dv} onChange={this.props.cleanChange}>
               {items}
             </DropDownMenu>
           </Col>

@@ -58,6 +58,7 @@ class App extends Component {
 
   updateUid = (uid, authority) => {
     console.log(uid)
+    //console.log("hi")
     this.setState({ uid: uid },()=>{this.saveState()})
     this.setState({ type: authority },()=>{this.saveState()})
     this.saveState()
@@ -73,7 +74,7 @@ class App extends Component {
             <Route exact path="/" render={() => <Redirect to='/home/login' />} />
             <Route path='/home' render={() => <WelcomeScreen updateUid={this.updateUid} updateCompany={this.updateCompany} updateLocations={this.updateLocations} />} />
             <Route path='/landing' render={() => <LandingScreen uid={this.state.uid} type={this.state.type} />} />
-            <Route path='/register' render={() => <RegisterLayout company={this.state.company} locations={this.state.locations} updateUid={this.updateUid} />} />
+            <Route path='/register' render={() => <RegisterLayout company={this.state.company} uid={this.state.uid} locations={this.state.locations} updateUid={this.updateUid} />} />
           </Switch>
         </Grid>
       </MuiThemeProvider>

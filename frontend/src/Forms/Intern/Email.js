@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Row } from 'react-bootstrap'
 import PasswordField from 'material-ui-password-field'
 import grey800 from 'material-ui/styles/colors'
 import history from '../../history'
@@ -13,7 +12,7 @@ class Email extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: null,
+      email: '',
     }
   }
 
@@ -32,6 +31,7 @@ class Email extends Component {
       "userID": this.props.uid
     }).then(function (response) {
       if (response.data.email != null) {
+        //console.log(response.data)
         that.props.changeEmail(response.data.email)
         that.setState({ email: response.data.email })
         //Put it in the email field
@@ -45,19 +45,17 @@ class Email extends Component {
 
   render() {
     return (
-      <Row>
-        <PasswordField
-          className="username"
-          floatingLabelText="Email"
-          value={this.state.email}
-          visible
-          fullWidth
-          disabled
-          disableButton={true}
-          underlineStyle={this.styles.underlineStyle}
-          visibilityIconStyle={this.styles.visibilityIconStyle}
-        />
-      </Row>
+      <PasswordField
+        className="username"
+        floatingLabelText="Email"
+        value={this.state.email}
+        visible
+        fullWidth
+        disabled
+        disableButton
+        underlineStyle={this.styles.underlineStyle}
+        visibilityIconStyle={this.styles.visibilityIconStyle}
+      />
     );
   }
 }

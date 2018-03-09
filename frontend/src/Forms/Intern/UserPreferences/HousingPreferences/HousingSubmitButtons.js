@@ -5,33 +5,36 @@ import history from '../../../../history'
 import axios from 'axios'
 import '../RoommatePreferences/RoommateSubmitButtons.css';
 
-axios.defaults.baseURL='http://localhost:9090'
+axios.defaults.baseURL = 'http://localhost:9090'
 //import './HousingSubmitButtons.css';
 
+//Needs testing after hiten fixes things
+
 class HousingSubmitButtons extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state={
-      willRedirect:0,
+    this.state = {
+      willRedirect: 0,
     }
   }
 
-  backButtonSubmit=()=>{
-    this.setState({willRedirect:1})
+  backButtonSubmit = () => {
+    this.setState({ willRedirect: 1 })
     this.bSubmit()
   }
 
-  buttonSubmit=()=>{
-    this.setState({willRedirect:2})
+  buttonSubmit = () => {
+    this.setState({ willRedirect: 2 })
     this.bSubmit()
   }
 
-  bSubmit=()=>{
-    let price=this.props.price
-    let roommates=this.props.roommates
-    let distance=this.props.distance
-    let duration=this.props.duration
+  bSubmit = () => {
+    let price = this.props.price
+    let roommates = this.props.roommates
+    let distance = this.props.distance
+    let duration = this.props.duration
 
+    //console.log(duration)
     let that = this
     axios.post('/UPDATE-PREFERENCES/HOUSING-PREFERENCES', {
       "userID": this.props.uid,
@@ -45,14 +48,23 @@ class HousingSubmitButtons extends Component {
       } else {
         console.log("Preferences updated!");
         //Go to landing page
-        if(that.state.willRedirect===1){
-          this.props.changePage(1)
+        if (that.state.willRedirect === 1) {
+          that.props.changePage(2)
           history.push('/register/intern/preferences/roommate')
-        }else if(that.state.willRedirect===2){
-          this.props.changePage(3)
-          history.push('/landing')
+        } else if (that.state.willRedirect === 2) {
+          if (that.props.completed.indexOf('1') > -1 && that.props.completed.indexOf('2') > -1) {
+            history.push('/landing')
+          }else{
+            alert('Please complete all parts of this form')
+          }
         }
-        this.props.changeChange(false)
+        that.props.changeChange(false)
+        try {
+          localStorage.removeItem('roommate-preferences')
+          localStorage.removeItem('preferences')
+        } catch (err) {
+          //console.log('This browser does not allow localstorage and some functionalities may be impacted')
+        }
       }
     }).catch(function (error) {
       console.log(error);
@@ -70,13 +82,13 @@ class HousingSubmitButtons extends Component {
         />
         <RaisedButton
           label="Save"
-          style={{ marginTop: "20px", marginLeft:"10px" }}
+          style={{ marginTop: "20px", marginLeft: "10px" }}
           primary
           onClick={this.bSubmit}
         />
         <RaisedButton
           label="Submit"
-          style={{ marginTop: "20px", marginLeft:"10px" }}
+          style={{ marginTop: "20px", marginLeft: "10px" }}
           primary
           onClick={this.buttonSubmit}
         />

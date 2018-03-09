@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row } from 'react-bootstrap'
 import CodeField from './CodeField'
+import NavPage from './NavPage'
 import RegisterButtons from './RegisterButtons'
 import './RegisterForm.css';
 
@@ -19,6 +20,7 @@ class RegisterForm extends Component {
   render() {
     return (
       <div className="form">
+      <NavPage />
         <Row className="register-title row-sm">
           Register
         </Row>

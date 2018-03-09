@@ -31,7 +31,7 @@ class FirstName extends Component {
         floatingLabelText="Firstname"
         visible
         fullWidth
-        defaultValue={this.props.dv}
+        value={this.props.dv}
         disableButton={true}
         floatingLabelStyle={this.styles.floatingLabelStyle}
         floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
