@@ -1,8 +1,12 @@
 .logo{
   height: 15vh;
+  margin-top: 10vh;
 }
 
 .info{
   text-align: left;
+  margin-top:10vh;
+  font-size: 3vh;
+  color:rgb(255, 255, 255);
   vertical-align: 50%;
 }

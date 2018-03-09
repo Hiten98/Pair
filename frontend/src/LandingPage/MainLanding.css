@@ -1,0 +1,29 @@
+.sideBar{
+  background-color: var(--l3);
+  height: 100vh;
+}
+.mainArea{
+  background-color: aliceblue;
+  height:100vh;
+}
+.whole{
+  width:100vw;
+  margin-left:-13vw;
+  padding-left:0%;
+}
+.greatBar{
+  background-color: var(--vblue);
+  height:6vh;
+}
+.textDisplay{
+  height:84vh;
+  overflow: auto;
+}
+.searchBar{
+  background-color: var(--l1);
+  height:10vh;
+}
+.noWordLogo{
+  width:60%;
+  margin-top:-22%;
+}
