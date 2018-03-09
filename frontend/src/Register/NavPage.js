@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import { RaisedButton } from 'material-ui'
-import { Row, Col } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 import history from '../history'
 import '../Login/NavButtons.css';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import WelcomeScreen from './WelcomeScreen.js'
-import LandingScreen from './LandingScreen.js'
+import LandingScreen from './Landing/MainLanding'
 import { Grid } from 'react-bootstrap'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';

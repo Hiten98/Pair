@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import { RaisedButton, Dialog, TextField, Snackbar } from 'material-ui'
-import { grey800, black, red900 } from 'material-ui/styles/colors';
+import { grey800, black } from 'material-ui/styles/colors';
 import { Row } from 'react-bootstrap'
 import axios from 'axios'
 import emailjs from 'emailjs-com'
-//import './LandingScreen.css';
+//import './ForgotPasswordModal.css';
 
 axios.defaults.baseURL = 'http://localhost:9090'
 
-class LandingScreen extends Component {
+class ForgotPasswordModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -120,6 +119,7 @@ class LandingScreen extends Component {
             floatingLabelText="Enter your email"
             floatingLabelStyle={this.styles.floatingLabelStyle}
             floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
+            fullWidth
             underlineStyle={this.styles.underlineStyle}
             onChange={this.emailChange}
           />
@@ -135,4 +135,4 @@ class LandingScreen extends Component {
   }
 }
 
-export default LandingScreen;
+export default ForgotPasswordModal;
