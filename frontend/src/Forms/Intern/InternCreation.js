@@ -6,30 +6,35 @@ import CreationButtons from './CreationButtons'
 //import './InternCreation.css';
 
 class InternCreation extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state={
-      uid:0,
-      email:'',
-      pass:'',
+    this.state = {
+      uid: 0,
+      email: '',
+      pass: '',
     }
   }
 
-  userID=history.location.pathname.substring(history.location.pathname.lastIndexOf('/') + 1)
+  userID = history.location.pathname.substring(history.location.pathname.lastIndexOf('/') + 1)
 
-  changeEmail=(email)=>{
-    this.setState({email:email})
+  changeEmail = (email) => {
+    this.setState({ email: email })
   }
 
-  changePass=(pass)=>{
-    this.setState({pass:pass})
+  changePass = (pass) => {
+    this.setState({ pass: pass })
   }
 
-  componentDidMount(){
-    this.setState({
-      uid:this.userID,
-    })
-    this.props.updateUid(this.userID,'intern')
+  componentDidMount() {
+    if (this.userID == '' || this.userID == 'creation') {
+      history.push('/')
+    } else {
+
+      this.setState({
+        uid: this.userID,
+      })
+      this.props.updateUid(this.userID, 'intern')
+    }
   }
 
   render() {
@@ -37,9 +42,9 @@ class InternCreation extends Component {
       <div>
         <Email uid={this.userID} changeEmail={this.changeEmail} />
 
-        <Password changePass={this.changePass}/>
+        <Password changePass={this.changePass} />
 
-        <CreationButtons {...this.state}/>
+        <CreationButtons {...this.state} />
       </div>
     );
   }

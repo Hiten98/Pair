@@ -18,6 +18,7 @@ class LandingScreen extends Component {
     let facebook = this.props.facebook
     let twitter = this.props.twitter
     let company = this.props.company
+    let pic = this.props.pic
 
     if (email.length < 1 || !(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(email)) {
       alert('Incorrect email format')
@@ -50,19 +51,20 @@ class LandingScreen extends Component {
           console.log("Created account password!");
           //Go to employee page
           //console.log(response)
-          that.props.updateUid(response.data.userID,'employee')
+          that.props.updateUid(response.data.userID, 'employee')
           try {
             localStorage.removeItem('employee-register')
           } catch (err) {
             //console.log('This browser does not allow localstorage and some functionalities may be impacted')
           }
           history.push('/landing/employee/chat')
-          
+
         }
       }).catch(function (error) {
         console.log(error);
       })
     }
+    //ADD IN CODE TO SUBMIT PROFILE PICTURE
   }
 
   render() {

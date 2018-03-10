@@ -11,6 +11,8 @@ import Password from './Password'
 import Location from './Location'
 import EmployeeRegisterButtons from './EmployeeRegisterButtons'
 import './EmployeeRegistrationForm.css';
+import history from '../../history';
+import PicUpload from '../Intern/UserPreferences/UserDetails/PicUpload';
 
 
 class EmployeeRegistrationForm extends Component {
@@ -27,6 +29,7 @@ class EmployeeRegistrationForm extends Component {
       linkedin: '',
       facebook: '',
       twitter: '',
+      pic:'',
     }
     try {
       const serializedState = localStorage.getItem('employee-register')
@@ -94,6 +97,10 @@ class EmployeeRegistrationForm extends Component {
     this.saveState()
   }
 
+  changePic=(i)=>{
+    this.setState({pic:i})
+  }
+
   render() {
     return (
       <div>
@@ -118,6 +125,8 @@ class EmployeeRegistrationForm extends Component {
         <Facebook facebookChange={this.facebookChange} dv={this.state.facebook}/>
 
         <Twitter twitterChange={this.twitterChange} dv={this.state.twitter}/>
+
+        <PicUpload changePic={this.changePic}/>
 
         <EmployeeRegisterButtons {...this.state} company={this.props.company} locations={this.props.locations} updateUid={this.props.updateUid}/>
       </div>

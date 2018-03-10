@@ -22,6 +22,7 @@ class SubmitButton extends Component {
     let linkedin = this.props.linkedin
     let facebook = this.props.facebook
     let twitter = this.props.twitter
+    var pic = this.props.pic;
 
     //console.log(firstname)
     let that = this
@@ -36,7 +37,7 @@ class SubmitButton extends Component {
         description: bio,
         fbLink: facebook,
         twitterLink: twitter,
-        linkedInLink: linkedin
+        linkedInLink: linkedin,
       }).then(function (response) {
         //console.log(response.data)
         if (response.data.status == false) {
@@ -60,6 +61,7 @@ class SubmitButton extends Component {
         console.log(error);
       });
     }
+    //ADD IN CODE TO SUBMIT PROFILE PICTURE
   }
 
   bSubmit = () => {
