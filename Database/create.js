@@ -11,8 +11,9 @@
 		addToLocationChat,
 		addEmployeeToCompanyChat,
 		addInternToCompanyChat,
-		createChat,
-		addToChat
+		createGroupChat,
+		addToGroupChat,
+		addMessageToChat
 	}*/
 
 	//var update = require('./update.js');
@@ -38,7 +39,7 @@
 	  		"email": email,
 	  		"company": company,
 	    	"location": location,
-	    	"listOfChatRooms": [company, company + ", " + location]
+	    	"listOfChatRooms": [location, company + ", " + location]
 	    });
     }
 
@@ -55,7 +56,7 @@
 	  		"description": description,
 	    	"location": location,
 	    	"links": [facebook, linkedin, twitter],
-	    	"listOfChatRooms": [company, company + ", " + location]
+	    	"listOfChatRooms": [company + ", " + location]
 	    });
 	    /*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
     }
@@ -132,16 +133,43 @@
 		/*update.*/getSnapshot(companyChatRoomRef, company + ", " + location, "listOfUsers", user);
 	}
 
-	//make sure room names dont overlap
-	function createChat(groupChatRoomRef, internRef, ID, name) {
-		chatRoomRef.child(name).update({
-			"listOfUsers": [ID]
+	function createGroupChat(groupChatRoomRef, internRef, ID, name, callback) {
+		groupChatRoomRef.child(name).once("value").then(function(snapshot) {
+			if(snapshot.exists()) {
+				callback(false);
+			}
+			else {
+				groupChatRoomRef.child(name).update({
+					"listOfUsers": [ID]
+				});
+				/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
+				callback(true);
+			}
 		});
+	}
+
+	function addToGroupChat(groupChatRoomRef, internRef, ID, name) {
+		/*update.*/getSnapshot(groupchatRoomRef, name, "listOfUsers", ID);
 		/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
 	}
 
-	function addToChat(groupChatRoomRef, internRef, ID, name) {
-		/*update.*/getSnapshot(chatRoomRef, name, "listOfUsers", ID);
-		/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
+	function addMessageToChat(chatRoomRef, name, message) {
+		chatRoomRef.child(name).child("listOfMessages").once("value").then(function(snapshot) {
+			if(snapshot.exists()) {
+				var count = snapshot.val().number;
+				count++;
+				chatRoomRef.child(name).child("listOfMessages").update({
+					"number": count,
+					[count]: message
+				});
+			}
+			else {
+				chatRoomRef.child(name).child("listOfMessages").update({
+					"number": "1",
+					"1": message
+				});
+
+			}
+		});
 	}
 

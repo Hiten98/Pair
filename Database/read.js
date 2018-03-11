@@ -7,14 +7,15 @@
 		getBasicPreferences,
 		getHousingPreferences,
 		getRoommatePreferences,
-		verifyUser
+		verifyUser,
+		verifyUserExists
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
 		var master = {};
 		internRef.once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
-    			if(childSnapshot.val().company == company){
+    			if(childSnapshot.val().company == company) {
     				var key = childSnapshot.key;
     				master[key] = {};
     				master[key]["firstName"] = childSnapshot.val().firstName;
@@ -146,5 +147,12 @@
 			else {
 				callback(false);
 			}
+		});
+	}
+
+	function verifyUserExists(relevantRef, ID, callback) {
+		var ref = relevantRef.child(ID);
+		ref.once("value").then(function(snapshot) {
+			callback(snapshot.exists());
 		});
 	}

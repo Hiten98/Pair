@@ -27,9 +27,6 @@
           oldlist.push(item);
         });
         var newList = oldlist.concat(newValue);
-        console.log(newValue);
-        console.log(oldlist);
-        console.log(newList);
         relevantRef.child(childName).update({
           [itemName]: newList
         })

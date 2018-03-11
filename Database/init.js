@@ -21,4 +21,11 @@
     var locationChatRoomRef = ref.child("ChatRooms/Location");
     var groupChatRoomRef = ref.child("ChatRooms/Group");
 
+    addMessageToChat(locationChatRoomRef, "IN", "msg1");
+    setTimeout('addMessageToChat(locationChatRoomRef, "IN", "hs2ewa")', 1000);
+    setTimeout('addMessageToChat(locationChatRoomRef, "IN", "another one")', 2000);
+    setTimeout('addMessageToChat(locationChatRoomRef, "IN", "last one")', 3000);
+
+
+
 
