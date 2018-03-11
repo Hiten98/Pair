@@ -42,5 +42,20 @@
     addToLocationChat(locationChatRoomRef, "IN", "Bansen");
     addInternToCompanyChat(companyChatRoomRef, "ChatterBox", "IN", "Dolce");
 
+    createGroupChat(groupChatRoomRef, internRef, 1115, "Square Enix", (x) => {
+        document.write(x);
+    });
     
-    
+    addMessageToChat(locationChatRoomRef, "IN", "hey guys");
+    addMessageToChat(locationChatRoomRef, "IN", "hello");
+    addMessageToChat(locationChatRoomRef, "IN", "watsup");
+    addMessageToChat(locationChatRoomRef, "IN", "no u");
+
+    addMessageToChat(locationChatRoomRef, "IN", "msg1");
+    setTimeout('addMessageToChat(locationChatRoomRef, "IN", "hs2ewa")', 100);
+    setTimeout('addMessageToChat(locationChatRoomRef, "IN", "another one")', 200);
+    setTimeout('addMessageToChat(locationChatRoomRef, "IN", "last one")', 300);
+
+    getMessages(locationChatRoomRef, "IN", (x) => {
+        document.write(JSON.stringify(x));
+    })
