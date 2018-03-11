@@ -27,13 +27,16 @@
           oldlist.push(item);
         });
         var newList = oldlist.concat(newValue);
+        console.log(newValue);
+        console.log(oldlist);
+        console.log(newList);
         relevantRef.child(childName).update({
           [itemName]: newList
         })
       });
     }
 
-    function updateCompany(companyRef, companyName, employees, locations = null) {
+    function updateCompany(companyRef, companyName, employees, locations = []) {
       getSnapshot(companyRef, companyName, "listOfLocations", locations);
       getSnapshot(companyRef, companyName, "listOfEmployees", employees);
     };

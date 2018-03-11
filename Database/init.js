@@ -17,9 +17,8 @@
     var companyRef = ref.child("Company");
     var internRef = ref.child("User/Interns");
     var employeeRef = ref.child("User/Employees");
-    var chatRoomRef = ref.child("ChatRooms");
-
-    addLocationChat(chatRoomRef, "Gog-gle", "CA", "Swami");
-
+    var companyChatRoomRef = ref.child("ChatRooms/Company");
+    var locationChatRoomRef = ref.child("ChatRooms/Location");
+    var groupChatRoomRef = ref.child("ChatRooms/Group");
 
 

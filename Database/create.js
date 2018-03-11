@@ -8,8 +8,11 @@
 		createRoommatePreferences,
 		createHousingPreferences,
 		createProfilePicture,
+		addToLocationChat,
 		addEmployeeToCompanyChat,
-		addInternToCompanyChat
+		addInternToCompanyChat,
+		createChat,
+		addToChat
 	}*/
 
 	//var update = require('./update.js');
@@ -34,12 +37,12 @@
 	  	internRef.child(id).update({
 	  		"email": email,
 	  		"company": company,
-	    	"location": location
-	    	"listofChatRooms": [company, company + ", " + location]
+	    	"location": location,
+	    	"listOfChatRooms": [company, company + ", " + location]
 	    });
     }
 
-    function createEmployee(employeeRef, id, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter) {
+    function createEmployee(employeeRef, companyRef, id, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter) {
 	  	employeeRef.update({
 	   		[id]:"novalue"
 	  	});
@@ -51,7 +54,7 @@
 	  		"company": company,
 	  		"description": description,
 	    	"location": location,
-	    	"links": [facebook, linkedin, twitter]
+	    	"links": [facebook, linkedin, twitter],
 	    	"listOfChatRooms": [company, company + ", " + location]
 	    });
 	    /*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
@@ -111,32 +114,34 @@
 	}
 
 	/*
-    / @brief this function add employees/moderators to the
-    /        main company chat room
+    / @brief this function adds users to the area/city
+    /        chat room
     /
-    / @usage call this function after createEmployee to add
-    /        them to the company chat room
+    / @usage call this function after createIntern to add
+    /        them to the area/city chat room
     */
-	function addEmployeeToCompanyChat(chatRoomRef, company, listOfEmployees) {
-		/*update.*/getSnapshot(chatRoomRef, company, "listOfMods", listOfEmployees);
+	function addToLocationChat(lcoationChatRoomRef, location, user) {
+		/*update.*/getSnapshot(locationChatRoomRef, location, "listOfUsers", user);
 	}
 
-	function addInternToCompanyChat(chatRoomRef, company, user) {
-		/*update.*/getSnapshot(chatRoomRef, company, "listOfUsers", user);
+	function addEmployeeToCompanyChat(companyChatRoomRef, company, location, listOfEmployees) {
+		/*update.*/getSnapshot(companyChatRoomRef, company + ", " + location, "listOfMods", listOfEmployees);
 	}
 
-	function addEmployeeToLocationChat(chatRoomRef, company, location, listOfEmployees) {
-		/*update.*/getSnapshot(chatRoomRef, company + ", " + location, "listOfMods", listOfEmployees);
-	}
-
-	function addInternToLocationChat(chatRoomRef, company, location, user) {
-		/*update.*/getSnapshot(chatRoomRef, company + ", " + location, user);
+	function addInternToCompanyChat(companyChatRoomRef, company, location, user) {
+		/*update.*/getSnapshot(companyChatRoomRef, company + ", " + location, "listOfUsers", user);
 	}
 
 	//make sure room names dont overlap
-	function createChat(chatRoomRef, ID, name) {
+	function createChat(groupChatRoomRef, internRef, ID, name) {
 		chatRoomRef.child(name).update({
-			"listOfUsers": [name]
+			"listOfUsers": [ID]
 		});
+		/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
+	}
+
+	function addToChat(groupChatRoomRef, internRef, ID, name) {
+		/*update.*/getSnapshot(chatRoomRef, name, "listOfUsers", ID);
+		/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
 	}
 
