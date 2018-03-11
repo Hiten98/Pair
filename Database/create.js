@@ -160,7 +160,7 @@
 				count++;
 				chatRoomRef.child(name).child("listOfMessages").update({
 					"number": count,
-					[count]: message
+					[count]: message,
 				});
 			}
 			else {
@@ -168,7 +168,6 @@
 					"number": "1",
 					"1": message
 				});
-
 			}
 		});
 	}

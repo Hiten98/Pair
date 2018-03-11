@@ -8,7 +8,8 @@
 		getHousingPreferences,
 		getRoommatePreferences,
 		verifyUser,
-		verifyUserExists
+		verifyUserExists,
+		getMessages
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -154,5 +155,14 @@
 		var ref = relevantRef.child(ID);
 		ref.once("value").then(function(snapshot) {
 			callback(snapshot.exists());
+		});
+	}
+
+	function getMessages(chatRoomRef, name, callback) {
+		var ref = chatRoomRef.child(name).child("listOfMessages");
+		var list = {};
+		ref.once("value").then(function(snapshot) {
+			list = snapshot.val();
+			callback(list);
 		});
 	}
