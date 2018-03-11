@@ -5,7 +5,7 @@ module.exports = {
 //server dependencies
 var express = require('express');
 var app = express();
-var port = 9090;
+var port =  (process.env.PORT || 9090);
 var axios = require('axios');
 var bodyParser = require('body-parser');
 
@@ -53,6 +53,7 @@ admin.initializeApp({
 //get a database reference
 var db = admin.database();
 var baseRef = db.ref("/");
+
 var companyRef = db.ref("/Company");
 var internRef = db.ref("/User/Interns");
 var employeeRef = db.ref("/User/Employees");
@@ -549,18 +550,48 @@ app.post('/UPDATE-PREFERENCES/HOUSING-PREFERENCES', function (req, res) {
   });
 });
 
-//reverse hashing
-function revUID(uid) {
-  console.log(uid);
-  var email = "";
-  while (uid != 0) {
-    var char = uid % 281;
-    console.log(char);
-    email = email + String.fromCharCode(char);
-    console.log(email);
-    uid = (uid / 281 >> 0);
+//check if user exists
+app.post('/VERIFY-USER-EXISTS', function(req,res) {
+  console.log("Received request for VERIFY-USER-EXISTS:");
+  console.log(req.body);
+  var uid = req.body.userID;
+  if(uid.charAt(0) == '1')
+  {
+    read.verifyUserExists(internRef,uid, (x) =>{
+      if(x == true)
+      {
+        res.json({
+          "status": true
+        });
+      }
+      else {
+        {
+          res.json({
+            "status": false
+          });
+        }
+      }
+    });
   }
-}
+  else if(uid.charAt(0) == 2)
+  {
+    read.verifyUserExists(employeeRef,uid, (x) =>{
+      if(x == true)
+      {
+        res.json({
+          "status": true
+        });
+      }
+      else {
+        {
+          res.json({
+            "status": false
+          });
+        }
+      }
+    });
+  }
+});
 
 //get email back from uid
 app.post('/GET-EMAIL', function (req, res) {
@@ -568,19 +599,35 @@ app.post('/GET-EMAIL', function (req, res) {
   console.log(req.body);
 
   //create UID (0 for interns)
-  console.log("email generated:");
+  console.log("uid received:");
   var uid = req.body.userID;
   //uid = uid.substring(1,uid.length);
   //var email = revUID(uid);
 
   //create intern uid
-  read.getIntern(internRef, uid, (x) => {
-    console.log(x);
-    res.json({
-      "email": x.email
+  if(uid.charAt(0) == '1')
+  {
+    read.verifyUserExists(internRef,uid, (x) =>{
+      read.getIntern(internRef, uid, (x) => {
+        console.log(x);
+        res.json({
+          "email": x.email
+        });
+      });
     });
+  }
+  else if(uid.charAt(0) == 2)
+  {
+    read.verifyUserExists(employeeRef,uid, (x) =>{
+      read.getIntern(internRef, uid, (x) => {
+        console.log(x);
+        res.json({
+          "email": x.email
+        });
+      });
+    });
+    }
   });
-});
 
 //get intern handler
 app.post('/GET-INTERN', function (req, res) {
