@@ -150,3 +150,48 @@
 			}
 		});
 	}
+
+	function compareInterns(internRef, ID1, ID2, callback) {
+		var score = 0;
+		var housing1 = getHousingPreferences(internRef, ID1, function(housing1) {
+      document.write(JSON.stringify(housing1));
+			document.write(housing1["desiredPrice"]);
+    })
+		var housing2 = getHousingPreferences(internRef, ID2, function(housing2) {
+      document.write(JSON.stringify(housing2));
+    })
+		// Code below is executed before housing1 and housing2 values are retrieved
+		document.write(housing1["desiredPrice"]);
+		document.write(housing1["desiredPrice"]);
+		if (housing1["desiredDuration"] === housing2["desiredDuration"])
+			score += 15;
+		document.write(score);
+		score += 10 - Math.abs(parseInt(housing1["desiredPrice"]) - parseInt(housing2["desiredPrice"]));
+		score += 10 - Math.abs(parseInt(housing1["desiredDistance"]) - parseInt(housing2["desiredDistance"]));
+		score += 10 - Math.abs(parseInt(housing1["desiredRoommate"]) - parseInt(housing2["desiredRoommate"]));
+		document.write(score);
+
+    var roommate1 = getRoommatePreferences(internRef, ID1, function(roommate1) {
+      document.write(JSON.stringify(roommate1));
+    })
+		var roommate2 = getRoommatePreferences(internRef, ID2, function(roommate2) {
+      document.write(JSON.stringify(roommate2));
+    })
+		// Code below is executed before roommate1 and roommate2 values are retrieved
+		score += (24 - Math.abs(parseInt(roommate1["bedtime"]) - parseInt(roommate2["bedtime"])))/4;
+		document.write(score);
+		score += (24 - Math.abs(parseInt(roommate1["waketime"]) - parseInt(roommate2["waketime"])))/4;
+		score += 5 - Math.abs(parseInt(roommate1["lights"]) - parseInt(roommate2["lights"]));
+		score += (5 - Math.abs(parseInt(roommate1["clean"]) - parseInt(roommate2["clean"]))) * 2;
+		score += 5 - Math.abs(parseInt(roommate1["sharing"]) - parseInt(roommate2["sharing"]));
+		score += 3 - Math.abs(parseInt(roommate1["smoke"]) - parseInt(roommate2["smoke"]));
+		score += 5 - Math.abs(parseInt(roommate1["youscore"]) - parseInt(roommate2["youscore"]));
+		if (roommate1["themguest"] === roommate2["themguest"])
+			score += 5;
+		if (roommate1["youpet"] === roommate2["thempet"])
+			score += 5;
+		if (roommate2["youpet"] === roommate1["thempet"])
+			score += 5;
+		document.write(score);
+		callback(score);
+	}

@@ -20,5 +20,7 @@
 
     //
 
-
-
+    //compareInterns(internRef, 1502, 1600);
+    var score = compareInterns(internRef, 1502, 1600, function(score) {
+      document.write(score);
+    })
