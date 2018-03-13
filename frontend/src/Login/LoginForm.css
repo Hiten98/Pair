@@ -1,0 +1,13 @@
+.title{
+  position: relative;
+  left:-3.1vw;
+  font-size: 475%;
+}
+
+@media all and (max-width:767px){
+  .form{width: 97vw;}
+}
+
+@media all and (min-width:768px){
+  .form{width: 30vw;}
+}
