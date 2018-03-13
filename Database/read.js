@@ -184,24 +184,23 @@
 				score += 10 - Math.abs(parseInt(housing1["desiredPrice"]) - parseInt(housing2["desiredPrice"]));
 				score += 10 - Math.abs(parseInt(housing1["desiredDistance"]) - parseInt(housing2["desiredDistance"]));
 				score += 10 - Math.abs(parseInt(housing1["desiredRoommate"]) - parseInt(housing2["desiredRoommate"]));
-				document.write(score + "!\n");
+				// document.write(score + "!\n");
     		});
   		});
-		
+
     	var roommate1 = getRoommatePreferences(internRef, ID1, function(roommate1) {
       		// document.write(JSON.stringify(roommate1));
       		var roommate2 = getRoommatePreferences(internRef, ID2, function(roommate2) {
-      			// document.write(JSON.stringify(roommate2));
+      			//document.write(JSON.stringify(roommate2));
       			// Code below is executed before roommate1 and roommate2 values are retrieved
 				score += (24 - Math.abs(parseInt(roommate1["bedtime"]) - parseInt(roommate2["bedtime"])))/4;
-				// document.write(score);
-				/* Works as expected till here, after this score becomes NaN, probably an error in the lines below*/
+				// document.write(score + "!\n");
 				score += (24 - Math.abs(parseInt(roommate1["waketime"]) - parseInt(roommate2["waketime"])))/4;
 				score += 5 - Math.abs(parseInt(roommate1["lights"]) - parseInt(roommate2["lights"]));
 				score += (5 - Math.abs(parseInt(roommate1["clean"]) - parseInt(roommate2["clean"]))) * 2;
 				score += 5 - Math.abs(parseInt(roommate1["sharing"]) - parseInt(roommate2["sharing"]));
 				score += 3 - Math.abs(parseInt(roommate1["smoke"]) - parseInt(roommate2["smoke"]));
-				score += 5 - Math.abs(parseInt(roommate1["youscore"]) - parseInt(roommate2["youscore"]));
+				score += 5 - Math.abs(parseInt(roommate1["youpet"]) - parseInt(roommate2["youpet"]));
 				if (roommate1["themguest"] === roommate2["themguest"])
 					score += 5;
 				if (roommate1["youpet"] === roommate2["thempet"])
@@ -212,6 +211,5 @@
 				callback(score);
     		});
     	});
-		
-		
+
 	}
