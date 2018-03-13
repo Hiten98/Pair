@@ -21,12 +21,15 @@
     var locationChatRoomRef = ref.child("ChatRooms/Location");
     var groupChatRoomRef = ref.child("ChatRooms/Group");
 
-    addMessageToChat(groupChatRoomRef, "Sqaure Ensix", "hey guys");
-    addMessageToChat(groupChatRoomRef, "Sqaure Ensx", "hello");
+    // addMessageToChat(groupChatRoomRef, "Sqaure Ensix", "hey guys");
+    // addMessageToChat(groupChatRoomRef, "Sqaure Ensx", "hello");
 
-    
+    //compareInterns(internRef, 1502, 1600);
+    var score = compareInterns(internRef, 1502, 1600, function(score) {
+        document.write(score);
+    })
 
-    
+
 
 
 
