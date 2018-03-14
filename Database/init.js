@@ -17,8 +17,20 @@
     var companyRef = ref.child("Company");
     var internRef = ref.child("User/Interns");
     var employeeRef = ref.child("User/Employees");
+    var companyChatRoomRef = ref.child("ChatRooms/Company");
+    var locationChatRoomRef = ref.child("ChatRooms/Location");
+    var groupChatRoomRef = ref.child("ChatRooms/Group");
 
-    //
+    // addMessageToChat(groupChatRoomRef, "Sqaure Ensix", "hey guys");
+    // addMessageToChat(groupChatRoomRef, "Sqaure Ensx", "hello");
+
+    //compareInterns(internRef, 1502, 1600);
+    var score = compareInterns(internRef, 1502, 1600, function(score) {
+        document.write(score);
+    })
+
+
+
 
     //compareInterns(internRef, 1502, 1600);
     var score = compareInterns(internRef, 1502, 1600, function(score) {

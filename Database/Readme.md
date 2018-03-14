@@ -1,4 +1,4 @@
-Database started code written in Firebase
+Database code written for Firebase in Javascript
 
 
 Service account

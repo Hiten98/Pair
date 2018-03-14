@@ -33,7 +33,7 @@
       });
     }
 
-    function updateCompany(companyRef, companyName, employees, locations = null) {
+    function updateCompany(companyRef, companyName, employees, locations = []) {
       getSnapshot(companyRef, companyName, "listOfLocations", locations);
       getSnapshot(companyRef, companyName, "listOfEmployees", employees);
     };
