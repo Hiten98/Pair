@@ -25,14 +25,17 @@
     // addMessageToChat(groupChatRoomRef, "Sqaure Ensx", "hello");
 
     //compareInterns(internRef, 1502, 1600);
-    var score = compareInterns(internRef, 1502, 1600, function(score) {
-        document.write(score);
-    })
+    // var score = compareInterns(internRef, 1502, 1600, function(score) {
+    //     document.write(score);
+    // })
+
+    getChatrooms(internRef, 1003, (x) => {
+        document.write(JSON.stringify(x));
+    });
 
 
 
 
-    //compareInterns(internRef, 1502, 1600);
-    var score = compareInterns(internRef, 1502, 1600, function(score) {
-      document.write(score);
-    })
+
+
+

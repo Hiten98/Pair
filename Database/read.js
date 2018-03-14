@@ -10,6 +10,7 @@
 		verifyUser,
 		verifyUserExists,
 		getMessages,
+		getChatrooms,
 		compareInterns
 	}*/
 
@@ -168,6 +169,13 @@
 		});
 	}
 
+	function getChatrooms(relevantRef, ID, callback) {
+		relevantRef.child(ID).child("listOfChatRooms").once("value").then(function(snapshot) {
+			list = snapshot.val();
+			callback(list);
+		});
+	}
+
 	function compareInterns(internRef, ID1, ID2, callback) {
 		var score = 0;
 		var housing1 = getHousingPreferences(internRef, ID1, function(housing1) {
@@ -187,14 +195,14 @@
 				// document.write(score + "!\n");
     		});
   		});
-
+		
     	var roommate1 = getRoommatePreferences(internRef, ID1, function(roommate1) {
       		// document.write(JSON.stringify(roommate1));
       		var roommate2 = getRoommatePreferences(internRef, ID2, function(roommate2) {
-      			//document.write(JSON.stringify(roommate2));
+      			// document.write(JSON.stringify(roommate2));
       			// Code below is executed before roommate1 and roommate2 values are retrieved
 				score += (24 - Math.abs(parseInt(roommate1["bedtime"]) - parseInt(roommate2["bedtime"])))/4;
-				// document.write(score + "!\n");
+				// document.write(score);
 				score += (24 - Math.abs(parseInt(roommate1["waketime"]) - parseInt(roommate2["waketime"])))/4;
 				score += 5 - Math.abs(parseInt(roommate1["lights"]) - parseInt(roommate2["lights"]));
 				score += (5 - Math.abs(parseInt(roommate1["clean"]) - parseInt(roommate2["clean"]))) * 2;
@@ -211,5 +219,5 @@
 				callback(score);
     		});
     	});
-
+		
 	}
