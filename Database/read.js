@@ -170,7 +170,15 @@
 	}
 
 	function getChatrooms(relevantRef, ID, callback) {
+		//what if I initialize json here?
 		relevantRef.child(ID).child("listOfChatRooms").once("value").then(function(snapshot) {
+			list = snapshot.val();
+			callback(list);
+		});
+	}
+
+	function getUsersInChatRoom(relevantRef, name, callback) {
+		relevantRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
 			list = snapshot.val();
 			callback(list);
 		});
