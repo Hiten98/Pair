@@ -4,7 +4,8 @@ import { Row } from 'react-bootstrap'
 import { IconMenu, MenuItem, IconButton } from 'material-ui'
 import bars from '../../images/bars.svg'
 import history from '../../history'
-import { resolve } from 'url';
+import ChangePasswordModal from './ChangePasswordModal'
+import DeleteAccountModal from './DeleteAccountModal'
 // import './Menu.css';
 
 class Menu extends Component {
@@ -29,11 +30,11 @@ class Menu extends Component {
   }
 
   deleteAccount=()=>{
-    this.setState({deleteOpen:true})
+    this.setState({deleteOpen:!this.state.deleteOpen})
   }
 
   changePass=()=>{
-    this.setState({passOpen:true})
+    this.setState({passOpen:!this.state.passOpen})
   }
 
   render() {
@@ -48,6 +49,8 @@ class Menu extends Component {
           <MenuItem onClick={this.deleteAccount} primaryText='Delete account'/>
           <MenuItem onClick={this.signOut} primaryText='Sign Out' />
         </IconMenu>
+        <DeleteAccountModal deleteOpen={this.state.deleteOpen} deleteAccount={this.deleteAccount} uid={this.props.uid}/>
+        <ChangePasswordModal passOpen={this.state.passOpen} changePass={this.changePass}/>
       </div>
     );
   }
