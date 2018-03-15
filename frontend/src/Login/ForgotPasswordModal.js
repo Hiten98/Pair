@@ -47,7 +47,7 @@ class ForgotPasswordModal extends Component {
       }).then((response) => {
         if (response.data.status) {
 
-          let url = "http://localhost:3000/register/intern/part1/" + response.data.userID;
+          let url = "http://localhost:3000/register/forgot/" + response.data.userID;
           emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
 
 
