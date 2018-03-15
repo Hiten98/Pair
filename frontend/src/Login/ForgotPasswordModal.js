@@ -51,7 +51,7 @@ class ForgotPasswordModal extends Component {
           emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
 
 
-          emailjs.send("default_service", "welcome_to_pair", {
+          emailjs.send("default_service", "forgot_my_password", {
             toemail: email,
             action_url: url
           }).then(
