@@ -16,7 +16,7 @@ class Waketime extends Component {
     return (
       <div>
         <Col xs={6}>
-          <Col xs={8}>What time do you like to go to bed?</Col>
+          <Col xs={8}>What time do you like to wake up?</Col>
           <Col xs={4}>
             <DropDownMenu maxHeight={250} value={this.props.dv} onChange={this.props.waketimeChange}>
               {items}
