@@ -20,13 +20,16 @@
     var companyChatRoomRef = ref.child("ChatRooms/Company");
     var locationChatRoomRef = ref.child("ChatRooms/Location");
     var groupChatRoomRef = ref.child("ChatRooms/Group");
-    var privateChatRoomRef = ref.child("ChatRooms/Private");
 
-    
+    // addMessageToChat(groupChatRoomRef, "Sqaure Ensix", "hey guys");
+    // addMessageToChat(groupChatRoomRef, "Sqaure Ensx", "hello");
 
+    var score = compareInterns(internRef, 1502, 1600, function(score) {
+      document.write(score);
+    })
 
+    updateImage(internRef, 1000, 'base64url');
 
-
-
-
-
+    var base64url = getImage(internRef, 1000, function(base64url) {
+      document.write(base64url);
+    })
