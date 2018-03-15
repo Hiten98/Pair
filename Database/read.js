@@ -10,7 +10,9 @@
 		verifyUser,
 		verifyUserExists,
 		getMessages,
-		getChatrooms,
+		getChatRooms,
+		getUsersInChatRoom,
+		getModsInChatRoom,
 		compareInterns
 	}*/
 
@@ -169,17 +171,38 @@
 		});
 	}
 
-	function getChatrooms(relevantRef, ID, callback) {
-		//what if I initialize json here?
+	function getChatRooms(relevantRef, ID, callback) {
+		var list = {};
+		var i = 0;
 		relevantRef.child(ID).child("listOfChatRooms").once("value").then(function(snapshot) {
-			list = snapshot.val();
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
 			callback(list);
 		});
 	}
 
 	function getUsersInChatRoom(relevantRef, name, callback) {
+		var list = {};
+		var i = 0;
 		relevantRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
-			list = snapshot.val();
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
+			callback(list);
+		});
+	}
+
+	function getModsInChatRoom(companyChatRoomRef, name, callback) {
+		var list = {};
+		var i = 0;
+		companyChatRoomRef.child(name).child("listOfMods").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
 			callback(list);
 		});
 	}

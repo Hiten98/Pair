@@ -13,6 +13,7 @@
 		addInternToCompanyChat,
 		createGroupChat,
 		addToGroupChat,
+		createPrivateChat,
 		addMessageToChat
 	}*/
 
@@ -39,8 +40,11 @@
 	  		"email": email,
 	  		"company": company,
 	    	"location": location,
-	    	"listOfChatRooms": [location, company + ", " + location]
+	    	"listOfChatRooms": [2 + location, 1 + company + ", " + location]
 	    });
+	    internRef.child(id).child("listOfChatRooms").update({
+	    	"ban": 0
+	    })
     }
 
     function createEmployee(employeeRef, companyRef, id, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter) {
@@ -56,7 +60,7 @@
 	  		"description": description,
 	    	"location": location,
 	    	"links": [facebook, linkedin, twitter],
-	    	"listOfChatRooms": [company + ", " + location]
+	    	"listOfChatRooms": [1 + company + ", " + location]
 	    });
 	    /*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
     }
@@ -122,35 +126,51 @@
     /        them to the area/city chat room
     */
 	function addToLocationChat(lcoationChatRoomRef, location, user) {
-		/*update.*/getSnapshot(locationChatRoomRef, location, "listOfUsers", user);
+		/*update.*/getSnapshot(locationChatRoomRef, 2 + location, "listOfUsers", user);
 	}
 
 	function addEmployeeToCompanyChat(companyChatRoomRef, company, location, listOfEmployees) {
-		/*update.*/getSnapshot(companyChatRoomRef, company + ", " + location, "listOfMods", listOfEmployees);
+		/*update.*/getSnapshot(companyChatRoomRef, 1 + company + ", " + location, "listOfMods", listOfEmployees);
 	}
 
 	function addInternToCompanyChat(companyChatRoomRef, company, location, user) {
-		/*update.*/getSnapshot(companyChatRoomRef, company + ", " + location, "listOfUsers", user);
+		/*update.*/getSnapshot(companyChatRoomRef, 1 + company + ", " + location, "listOfUsers", user);
 	}
 
 	function createGroupChat(groupChatRoomRef, internRef, ID, name, callback) {
-		groupChatRoomRef.child(name).once("value").then(function(snapshot) {
+		groupChatRoomRef.child(3 + name).once("value").then(function(snapshot) {
 			if(snapshot.exists()) {
 				callback(false);
 			}
 			else {
-				groupChatRoomRef.child(name).update({
+				groupChatRoomRef.child(3 + name).update({
 					"listOfUsers": [ID]
 				});
-				/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
+				/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", 3 + name);
 				callback(true);
 			}
 		});
 	}
 
 	function addToGroupChat(groupChatRoomRef, internRef, ID, name) {
-		/*update.*/getSnapshot(groupchatRoomRef, name, "listOfUsers", ID);
+		/*update.*/getSnapshot(groupChatRoomRef, name, "listOfUsers", ID);
 		/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
+	}
+
+	//incomplete function, do not use it
+	function createPrivateChat(privateChatRoomRef, internRef, ID1, ID2, name, callback) {
+		privateChatRoomRef.child(4 + name).once("value").then(function(snapshot) {
+			if(snapshot.exists()) {
+				callback(false);
+			}
+			else {
+				groupChatRoomRef.child(3 + name).update({
+					"listOfUsers": [ID]
+				});
+				/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", 3 + name);
+				callback(true);
+			}
+		});
 	}
 
 	function addMessageToChat(chatRoomRef, name, message) {

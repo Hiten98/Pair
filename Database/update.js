@@ -5,7 +5,8 @@
         updateEmployee,
         updateIntern,
         updatePassword,
-        removeIntern
+        removeIntern,
+        removeFromChat
     }*/
 
 	/*
@@ -106,4 +107,23 @@
     function removeIntern(internRef, ID) {
 		internRef.child(ID).remove();
         return true;
+    }
+
+    function removeFromChat(chatRoomRef, internRef, name, ID) {
+        chatRoomRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                if(childSnapshot.val() == ID) {
+                    chatRoomRef.child(name).child("listOfUsers").child(childSnapshot.key).remove();
+                    return true;
+                }
+            });
+        });
+        internRef.child(ID).child("listOfChatRooms").once("value").then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                if(childSnapshot.val() == name) {
+                    internRef.child(ID).child("listOfChatRooms").child(childSnapshot.key).remove();
+                    return true;
+                }
+            });
+        });
     }
