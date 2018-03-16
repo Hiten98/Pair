@@ -7,6 +7,8 @@
         updatePassword,
         removeIntern,
         removeFromChat
+        banIntern
+        unbanIntern
     }*/
 
 	/*
@@ -106,6 +108,7 @@
 
     function removeIntern(internRef, ID) {
 		internRef.child(ID).remove();
+        //add chat deletion stuff here
         return true;
     }
 
@@ -125,5 +128,17 @@
                     return true;
                 }
             });
+        });
+    }
+
+    function banIntern(internRef, ID) {
+        internRef.child(ID).child("listOfChatRooms").update({
+            "ban": true
+        });
+    }
+
+    function unbanIntern(internRef, ID) {
+        internRef.child(ID).child("listOfChatRooms").update({
+            "ban": false
         });
     }

@@ -43,7 +43,7 @@
 	    	"listOfChatRooms": [2 + location, 1 + company + ", " + location]
 	    });
 	    internRef.child(id).child("listOfChatRooms").update({
-	    	"ban": 0
+	    	"ban": false
 	    })
     }
 
@@ -154,17 +154,17 @@
 		/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
 	}
 
-	//incomplete function, do not use it
 	function createPrivateChat(privateChatRoomRef, internRef, ID1, ID2, name, callback) {
 		privateChatRoomRef.child(4 + name).once("value").then(function(snapshot) {
 			if(snapshot.exists()) {
 				callback(false);
 			}
 			else {
-				groupChatRoomRef.child(3 + name).update({
-					"listOfUsers": [ID]
+				privateChatRoomRef.child(4 + name).update({
+					"listOfUsers": [ID1, ID2]
 				});
-				/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", 3 + name);
+				/*update.*/getSnapshot(internRef, ID1, "listOfChatRooms", 4 + name);
+				/*update.*/getSnapshot(internRef, ID2, "listOfChatRooms", 4 + name);
 				callback(true);
 			}
 		});

@@ -23,6 +23,10 @@
     var groupChatRoomRef = ref.child("ChatRooms/Group");
     var privateChatRoomRef = ref.child("ChatRooms/Private");
 
+    compareInterns(internRef, 1761, 1600, (x) => {
+        console.log(x);
+    });
+
 
     
 
