@@ -43,23 +43,29 @@ class SubmitButton extends Component {
         if (response.data.status == false) {
           console.log("Something went wrong :(")
         } else {
-          console.log("Preferences updated!");
-          //Go to preferences p2
-          if (that.state.willRedirect === 1) {
-            that.props.changePage(2)
-            history.push('/register/intern/preferences/roommate')
-          }
-          that.props.changeChange(false)
-          that.props.changeCompleted('1')
-          try {
-            localStorage.removeItem('user-details')
-          } catch (err) {
-            //console.log('This browser does not allow localstorage and some functionalities may be impacted')
-          }
+          axios.post('/CREATE-PROFILE-PICTURE', {
+            userID: this.props.uid,
+            image: pic,
+          }).then(function (response) {
+            console.log("Preferences updated!");
+            //Go to preferences p2
+            if (that.state.willRedirect === 1) {
+              that.props.changePage(2)
+              history.push('/register/intern/preferences/roommate')
+            }
+            that.props.changeChange(false)
+            that.props.changeCompleted('1')
+            try {
+              localStorage.removeItem('user-details')
+            } catch (err) {
+              //console.log('This browser does not allow localstorage and some functionalities may be impacted')
+            }
+          })
         }
       }).catch(function (error) {
         console.log(error);
       });
+
     }
     //ADD IN CODE TO SUBMIT PROFILE PICTURE
   }

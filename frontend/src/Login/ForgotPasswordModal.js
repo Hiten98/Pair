@@ -43,8 +43,9 @@ class ForgotPasswordModal extends Component {
       alert("Email is invalid")
     } else {
       axios.post('/VERIFY-EMAIL-EXISTS', {
-        "email": email
+        "username": email
       }).then((response) => {
+        console.log(response.data)
         if (response.data.status) {
 
           let url = "http://localhost:3000/register/forgot/" + response.data.userID;
