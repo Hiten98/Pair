@@ -90,7 +90,7 @@
       }
     }
 
-    function updatePassword(relevantRef, ID, newPassword, oldPassword) {
+    function updatePassword(relevantRef, ID, newPassword, oldPassword, callback) {
     	var ref = relevantRef.child(ID).child("password");
     	ref.once("value").then(function(snapshot) {
     		var item = snapshot.val();
@@ -98,10 +98,10 @@
     			relevantRef.child(ID).update({
     				"password": newPassword
                 });
-                return true;
+                callback(true);
             }
     		else {
-    			return false;
+    			callback(false);
             }
     	});
     }
