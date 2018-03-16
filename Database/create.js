@@ -65,8 +65,8 @@
 	    /*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
     }
 
-    function createPassword(internRef, ID, password) {
-    	internRef.child(ID).update({
+    function createPassword(relevantRef, ID, password) {
+    	relevantRef.child(ID).update({
     		"password": password
     	});
     }
@@ -106,16 +106,14 @@
 	}
 
     function createProfilePicture(internRef, ID, image) {
-		var filename = [ID]; // image's name would be the intern's ID
-		var storageRef = firebase.storage().ref('/ProfilePictures' + filename);
-		var uploadTask = storageRef.put(image);
-		uploadTask.on('state_changed', function(snapshot) {
-		}, function() {
-			var downloadURL = uploadTask.snapshot.downloadURL;
-			internRef.child(ID).update({
-    			"ProfilePicture": downloadURL
-    		});
-		})
+		var storageRef = firebase.storage().ref().child(ID + "/");
+		var imageRef = internRef.child(ID).child("images");
+	    storageRef.getDownloadURL().then(function(url) {
+	        imageRef.child("image").set(url);
+	    }); 
+	    var task = storageRef.putString(image, 'base64').then(function(snapshot) {
+	         console.log('Uploaded a base64 string!');
+	    });
 	}
 
 	/*
