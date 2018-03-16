@@ -23,6 +23,8 @@ class SubmitButton extends Component {
     let facebook = this.props.facebook
     let twitter = this.props.twitter
     var pic = this.props.pic;
+    let preferences = false
+    let picture = false
 
     //console.log(firstname)
     let that = this
@@ -43,29 +45,37 @@ class SubmitButton extends Component {
         if (response.data.status == false) {
           console.log("Something went wrong :(")
         } else {
-          axios.post('/CREATE-PROFILE-PICTURE', {
-            userID: this.props.uid,
-            image: pic,
-          }).then(function (response) {
-            console.log("Preferences updated!");
-            //Go to preferences p2
-            if (that.state.willRedirect === 1) {
-              that.props.changePage(2)
-              history.push('/register/intern/preferences/roommate')
-            }
-            that.props.changeChange(false)
-            that.props.changeCompleted('1')
-            try {
-              localStorage.removeItem('user-details')
-            } catch (err) {
-              //console.log('This browser does not allow localstorage and some functionalities may be impacted')
-            }
-          })
+          preferences = true
         }
       }).catch(function (error) {
         console.log(error);
       });
 
+      axios.post('/CREATE-PROFILE-PICTURE', {
+        'userID': this.props.uid,
+        image: pic,
+      }).then(function (response) {
+        picture = true
+
+      }).catch(function (error) {
+        console.log(error);
+      });
+
+      if (preferences && picture) {
+        console.log("Preferences updated!");
+        //Go to preferences p2
+        if (that.state.willRedirect === 1) {
+          that.props.changePage(2)
+          history.push('/register/intern/preferences/roommate')
+        }
+        that.props.changeChange(false)
+        that.props.changeCompleted('1')
+        try {
+          localStorage.removeItem('user-details')
+        } catch (err) {
+          //console.log('This browser does not allow localstorage and some functionalities may be impacted')
+        }
+      }
     }
     //ADD IN CODE TO SUBMIT PROFILE PICTURE
   }
