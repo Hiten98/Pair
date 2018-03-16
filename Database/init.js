@@ -12,6 +12,7 @@
     //Setup references to database
     var defaultApp = firebase.initializeApp(config);
     var ref = firebase.database().ref();
+    var storageRef = firebase.storage().ref();
 
     //Setup references to Object headers
     var companyRef = ref.child("Company");
@@ -22,7 +23,7 @@
     var groupChatRoomRef = ref.child("ChatRooms/Group");
     var privateChatRoomRef = ref.child("ChatRooms/Private");
 
-    
+
     
 
 

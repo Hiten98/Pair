@@ -96,10 +96,10 @@
     			relevantRef.child(ID).update({
     				"password": newPassword
                 });
-                return "success";
+                return true;
             }
     		else {
-    			return "failure";
+    			return false;
             }
     	});
     }

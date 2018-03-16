@@ -105,13 +105,12 @@
 	  });
 	}
 
-    function createProfilePicture(internRef, ID, image) {
-		var storageRef = firebase.storage().ref().child(ID + "/");
+    function createProfilePicture(storageRef, internRef, ID, image) {
 		var imageRef = internRef.child(ID).child("images");
-	    storageRef.getDownloadURL().then(function(url) {
+	    storageRef.child(ID + "/").getDownloadURL().then(function(url) {
 	        imageRef.child("image").set(url);
 	    }); 
-	    var task = storageRef.putString(image, 'base64').then(function(snapshot) {
+	    var task = storageRef.child(ID + "/").putString(image, 'base64').then(function(snapshot) {
 	         console.log('Uploaded a base64 string!');
 	    });
 	}
