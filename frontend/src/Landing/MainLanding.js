@@ -19,7 +19,7 @@ class LandingScreen extends Component {
   render() {
     return (
       <div className='whole'>
-        <Sidebar />
+        <Sidebar uid={this.props.uid}/>
         <Col xs={12} sm={10} lg={10} className='mainArea'>
           <Toolbar />
 

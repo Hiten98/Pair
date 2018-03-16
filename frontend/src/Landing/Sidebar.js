@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
 import wordLogo from '../images/word_no_logo.png'
-import { List, ListItem, Subheader, Avatar, Paper } from 'material-ui'
+import { List, ListItem, Subheader, Paper } from 'material-ui'
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble'
 
 import axios from 'axios'
@@ -15,56 +15,59 @@ class Sidebar extends Component {
     super(props)
     this.state = {
       cards: [],
-      selected: [],
+      pressed: [],
     }
   }
 
+  stylePressed= '#EB347F'
+
+  styleNoPressed='white'
+
+
   handleClick = (i) => {
-    let se = this.state.selected
-    se[i] = { style: { backgroundColor: '#EB347F' } }
-    this.setState({ selected: se })
+    let se = this.state.pressed
+    se[i] = this.stylePressed
+    this.setState({ pressed: se })
+    console.log(se)
   }
 
   componentDidMount() {
     let that = this
-    /*axios.post("/SHOULDFAIL", {
+    axios.post("/GET-CHATROOM", {
       "userID": this.props.uid
     }).then(function (response) {
       //console.log(response.data)
-      if (response.data.status) {*/
-    let tempCard = []
-    let tempSelected = []
-    let item = [{ name: "hello", }, { name: "what",  }]
-    for (let i in item) {
-      tempCard.push(
-        <Paper zDepth={2} key={i}>
-          <ListItem
-            primaryText={item[i].name}
-            rightIcon={<CommunicationChatBubble />}
-            /*leftAvatar={
-              <Avatar
-                size={32}
-              >
-                {item[i].name[0]}
-            </Avatar>
-            }*/
-            onClick={() => that.handleClick(i)}
-            //secondaryText={item[i].lastmessage}
-            value={i}
-            hoverColor='#F95498B0'
-            {...this.state.selected[i]}
-          />
-        </Paper>
-      )
-      tempSelected.push(null)
-    }
-    that.setState({ cards: tempCard, selected: tempSelected})
-    /*}
-  }).catch(function (error) {
-    console.log(error);
-  })*/
+      // if (response.data.status) {
+        let tempCard = []
+        let tempPushed = []
+        for(let i in response.data){
+          tempPushed.push(that.styleNoPressed)
+          that.setState({pressed:tempPushed})
+        }
+        
+        for (let i in response.data) {
+          //console.log(response.data[i])
+          tempCard.push(
+            <Paper zDepth={2} key={i}>
+              <ListItem
+                primaryText={response.data[i]}
+                className={`intro${i}`}
+                rightIcon={<CommunicationChatBubble />}
+                onClick={() => that.handleClick(i)}
+                value={i}
+                //style={{ backgroundColor:that.state.pressed[i]}}
+                hoverColor='#F95498B0'
+              />
+              
+            </Paper>
+          )
+          that.setState({ cards: tempCard })
+        }
+      // }
+    }).catch(function (error) {
+      console.log(error);
+    })
   }
-
 
   render() {
     return (
