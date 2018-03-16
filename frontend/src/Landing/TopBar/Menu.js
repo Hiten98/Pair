@@ -50,7 +50,7 @@ class Menu extends Component {
           <MenuItem onClick={this.signOut} primaryText='Sign Out' />
         </IconMenu>
         <DeleteAccountModal deleteOpen={this.state.deleteOpen} deleteAccount={this.deleteAccount} uid={this.props.uid}/>
-        <ChangePasswordModal passOpen={this.state.passOpen} changePass={this.changePass}/>
+        <ChangePasswordModal passOpen={this.state.passOpen} changePass={this.changePass} uid={this.props.uid}/>
       </div>
     );
   }

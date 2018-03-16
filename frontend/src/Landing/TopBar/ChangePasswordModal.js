@@ -4,6 +4,7 @@ import { grey800, black } from 'material-ui/styles/colors';
 import { Row } from 'react-bootstrap'
 import axios from 'axios'
 import emailjs from 'emailjs-com'
+import Password from '../../Forms/Intern/Password';
 //import './ChangePasswordModal.css';
 
 axios.defaults.baseURL = 'http://localhost:9090'
@@ -13,62 +14,51 @@ class ChangePasswordModal extends Component {
     super(props)
     this.state = {
       open: false,
-      email: '',
-      sopen:false,
+      sopen: false,
+      newPassword: '',
+      oldPassword: '',
     }
   }
 
-  handleOpen = () => {
-    this.setState({ open: true })
+  changeNewPass = (p) => {
+    this.setState({ newPassword: p })
+  }
+
+  changeOldPass = (p) => {
+    this.setState({ oldPassword: p })
   }
 
   handleClose = () => {
-    this.setState({ open: false })
+    this.props.changePass()
   }
 
-  emailChange = (ev) => {
-    this.setState({ email: ev.target.value })
-  }
-
-  handleRequestClose=()=>{
-    this.setState({sopen:false})
+  handleRequestClose = () => {
+    this.setState({ sopen: false })
   }
 
   handleSubmit = () => {
-    //TODO: this doesn't actually work yet, need to get email information from kunal and testing if an email is valid
-    let email = this.state.email
     let that = this
+    let op = this.state.oldPassword
+    let np = this.state.newPassword
 
-    if (!(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(email)) {
-      alert("Email is invalid")
+    if (np == op) {
+      alert('The new password cannot be a previous password')
+    } else if (np.length < 8 || op.length < 8) {
+      alert('Both passwords must be at least 8 characters')
     } else {
-      axios.post('/SHOULDFAIL', {
-        "email": email
+      axios.post('/RESET-PASSWORD', {
+        "userID": that.props.uid,
+        "newPassword": np,
+        "oldPassword": op,
       }).then((response) => {
-        if (response.data.userID!=null) {
-
-          let url = "http://localhost:3000/register/intern/part1/" + response.data.userID;
-          emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
-
-
-          emailjs.send("default_service", "welcome_to_pair", {
-            toemail: email,
-            action_url: url
-          }).then(
-            function (response) {
-              console.log("SUCCESS", response);
-              that.setState({sopen:true})
-              that.handleClose()
-            },
-            function (error) {
-              console.log("FAILED", error);
-              alert('Email did not send, try again')
-            }
-          );
+        console.log(response.data)
+        if (response.data.status) {
+          that.setState({ sopen: true })
+          that.handleClose()
         } else {
           //Create intern failed
           console.log("Failure!");
-          alert('There is no account under this email')
+          alert('Error: wrong old password')
         }
       }).catch((error) => {
         console.log(error);
@@ -94,7 +84,7 @@ class ChangePasswordModal extends Component {
       onClick={this.handleClose}
     />,
     <RaisedButton
-      label="Send Email"
+      label="Submit"
       onClick={this.handleSubmit}
     />
   ]
@@ -102,31 +92,21 @@ class ChangePasswordModal extends Component {
   render() {
     return (
       <Row>
-        <RaisedButton
-          label='Forgot Password'
-          primary
-          onClick={this.handleOpen}
-          style={{ marginTop: '5%' }}
-        />
         <Dialog
-          title='Forgot Password'
+          title='Delete Account'
           modal
           actions={this.actions}
-          open={this.state.open}
+          open={this.props.passOpen}
         >
-          <h4>An email with a link to reset your password will be sent to this email</h4>
-          <TextField
-            floatingLabelText="Enter your email"
-            floatingLabelStyle={this.styles.floatingLabelStyle}
-            floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
-            fullWidth
-            underlineStyle={this.styles.underlineStyle}
-            onChange={this.emailChange}
-          />
+          <h4>To change your password please enter your new and old passwords</h4>
+          <h4>Old Password</h4>
+          <Password changePass={this.changeOldPass} />
+          <h4>New Password</h4>
+          <Password changePass={this.changeNewPass} />
         </Dialog>
         <Snackbar
           open={this.state.sopen}
-          message='Email successfully sent'
+          message='Password changed successfully'
           autoHideDuration={4000}
           onRequestClose={this.handleRequestClose}
         />
