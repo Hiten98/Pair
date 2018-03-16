@@ -19,10 +19,10 @@ class ForgotPasswordSubmit extends Component {
     if (password == null || password.length < 8) {
       alert("Password is shorter than 8 characters")
     } else {
-      axios.post('/RESET-PASSWORD', { 
+      axios.post('/FORGOT-PASSWORD', { 
         "userID":uid,
         "username": email,
-        "newPassword": password,
+        "password": password,
       }).then(function (response) {
         console.log(response.data)
         if (response.data.status == false) {
@@ -33,6 +33,8 @@ class ForgotPasswordSubmit extends Component {
           history.push('/')
         }
       }).catch(function (error) {
+        alert('Error: link broken')
+        history.push('/')
         console.log(error);
       });
 
