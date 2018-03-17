@@ -70,6 +70,10 @@
 			snapshot.child("links").forEach(function(childSnapshot) {
 				list["links"][childSnapshot.key] = childSnapshot.val();
 			});
+			list["listOfComplaints"] = {};
+			snapshot.child("listOfComplaints").forEach(function(childSnapshot) {
+				list["listOfComplaints"][childSnapshot.key] = childSnapshot.val();
+			});
 			callback(list);
 		});
 	}
@@ -227,14 +231,14 @@
 				// document.write(score + "!\n");
     		});
   		});
-		
+
     	var roommate1 = getRoommatePreferences(internRef, ID1, function(roommate1) {
       		// document.write(JSON.stringify(roommate1));
       		var roommate2 = getRoommatePreferences(internRef, ID2, function(roommate2) {
-      			// document.write(JSON.stringify(roommate2));
+      			//document.write(JSON.stringify(roommate2));
       			// Code below is executed before roommate1 and roommate2 values are retrieved
 				score += (24 - Math.abs(parseInt(roommate1["bedtime"]) - parseInt(roommate2["bedtime"])))/4;
-				// document.write(score);
+				// document.write(score + "!\n");
 				score += (24 - Math.abs(parseInt(roommate1["waketime"]) - parseInt(roommate2["waketime"])))/4;
 				score += 5 - Math.abs(parseInt(roommate1["lights"]) - parseInt(roommate2["lights"]));
 				score += (5 - Math.abs(parseInt(roommate1["clean"]) - parseInt(roommate2["clean"]))) * 2;
@@ -251,7 +255,6 @@
 				callback(score);
     		});
     	});
-		
 	}
 
 	function getImage(internRef, ID, callback) {

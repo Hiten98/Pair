@@ -142,3 +142,13 @@
             "ban": false
         });
     }
+
+    function removeComplaint(employeeRef, ID, message) {
+        employeeRef.child(ID).child("listOfComplaints").once("value").then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                if(childSnapshot.val() == message) {
+                    employeeRef.child(ID).child("listOfComplaints").child(childSnapshot.key).remove();
+                }
+            });
+        });
+    }

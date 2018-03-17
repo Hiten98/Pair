@@ -189,3 +189,7 @@
 		});
 	}
 
+	function createComplaint(employeeRef, ID, message) {
+		/*update.*/getSnapshot(employeeRef, ID, "listOfComplaints", message);
+	}
+
