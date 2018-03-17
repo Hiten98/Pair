@@ -71,10 +71,10 @@ class App extends Component {
       <MuiThemeProvider muiTheme={this.muiTheme}>
         <Grid className="App">
           <Switch>
-            <Route exact path="/" render={() => <Redirect to='/home/login' />} />
             <Route path='/home' render={() => <WelcomeScreen updateUid={this.updateUid} updateCompany={this.updateCompany} updateLocations={this.updateLocations} />} />
             <Route path='/landing' render={() => <LandingScreen uid={this.state.uid} type={this.state.type} />} />
             <Route path='/register' render={() => <RegisterLayout company={this.state.company} uid={this.state.uid} locations={this.state.locations} updateUid={this.updateUid} />} />
+            <Route path="/" render={() => <Redirect to='/home/login' />} />
           </Switch>
         </Grid>
       </MuiThemeProvider>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
 import InternCreation from './Intern/InternCreation'
 import UserPreferences from './Intern/UserPreferences/PreferencesLayout'
@@ -20,6 +20,7 @@ class RegisterLayout extends Component {
             <Route path="/register/employee"
               render={() => <EmployeeRegistrationForm updateUid={this.props.updateUid} company={this.props.company} locations={this.props.locations} />} />
             <Route path='/register/forgot' render={()=><ForgotForm />}/>
+            <Route path="/" render={() => <Redirect to='/home/login' />} />
           </Switch>
         </Col>
         <Col xs={1} s={2}>

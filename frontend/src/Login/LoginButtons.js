@@ -30,12 +30,12 @@ class LoginButtons extends Component {
           //console.log(response.data.userID)
           that.props.updateUid(response.data.userID, response.data.authority)
           if (response.data.authority==='admin') {
-            history.push('/landing/admin-landing')
+            history.push('/landing/admin')
           } if (response.data.authority==='company') {
             history.push('/landing/company-landing')
           } else if (response.data.authority==='employee') {
             //GO TO EMPLOYEE Landing Page
-            history.push('/landing/employee-landing')
+            history.push('/landing/employee/chat')
           } else if (response.data.authority==='intern') {
             //GO TO INTERN Landing Page
             history.push('/landing/interns/chat')

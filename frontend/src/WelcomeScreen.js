@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
 import Login from './Login/LoginForm'
 import LoginParagraph from './Login/LoginParagraph'
@@ -18,6 +18,7 @@ class LandingScreen extends Component {
             <Switch>
               <Route path='/home/login' render={() => <LoginParagraph />} />
               <Route path='/home/register' render={() => <RegisterParagraph />} />
+              <Route path="/" render={() => <Redirect to='/home/login' />} />
             </Switch>
           </Col>
           {/* the actual forms */}
