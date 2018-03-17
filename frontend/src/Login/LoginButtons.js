@@ -38,7 +38,7 @@ class LoginButtons extends Component {
             history.push('/landing/employee-landing')
           } else if (response.data.authority==='intern') {
             //GO TO INTERN Landing Page
-            history.push('/landing/intern-landing')
+            history.push('/landing/interns/chat')
           }
         }
       }).catch((error) => {
