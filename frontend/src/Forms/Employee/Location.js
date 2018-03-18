@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import { Col } from 'react-bootstrap'
 import { DropDownMenu, MenuItem } from 'material-ui'
+import history from '../../history'
 import './Location.css';
 
 class Location extends Component {
   render() {
+
     let items = []
     let labels = ["Choose a location"]
-    for (let i = 0; i < this.props.locations.length; i++) {
-      labels.push(this.props.locations[i])
-    }
-    
-    for (let i = 0; i < labels.length; i++) {
-      items.push(<MenuItem value={i} key={i} primaryText={labels[i]} />)
+    try {
+      for (let i = 0; i < this.props.locations.length; i++) {
+        labels.push(this.props.locations[i])
+      }
+
+      for (let i = 0; i < labels.length; i++) {
+        items.push(<MenuItem value={i} key={i} primaryText={labels[i]} />)
+      }
+    } catch (err) {
+      alert('An error occured, please try again')
+      history.push('/')
     }
 
     return (

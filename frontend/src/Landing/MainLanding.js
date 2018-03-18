@@ -5,9 +5,17 @@ import Sidebar from './Sidebar'
 import Toolbar from './Toolbar'
 import MainArea from './MainArea'
 import './MainLanding.css';
+import history from '../history';
 
 
 class LandingScreen extends Component {
+  constructor(props){
+    super(props)
+    if(props.uid==null){
+      history.push('/')
+    }
+  }
+
   render() {
     return (
       <div className='whole'>

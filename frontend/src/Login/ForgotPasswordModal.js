@@ -42,12 +42,13 @@ class ForgotPasswordModal extends Component {
     if (!(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(email)) {
       alert("Email is invalid")
     } else {
-      axios.post('/SHOULDFAIL', {
-        "email": email
+      axios.post('/VERIFY-EMAIL-EXISTS', {
+        "username": email
       }).then((response) => {
-        if (response.data.userID!=null) {
+        console.log(response.data)
+        if (response.data.status) {
 
-          let url = "http://localhost:3000/register/intern/part1/" + response.data.userID;
+          let url = "http://localhost:3000/register/forgot/" + response.data.userID;
           emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
 
 

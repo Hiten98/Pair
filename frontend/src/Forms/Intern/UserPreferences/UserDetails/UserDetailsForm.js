@@ -6,6 +6,7 @@ import LinkedIn from './LinkedIn'
 import Facebook from './Facebook'
 import Twitter from './Twitter'
 import SubmitButtons from './SubmitButtons'
+import PicUpload from './PicUpload'
 import axios from 'axios'
 //import './UserDetailsForm.css';
 
@@ -23,6 +24,7 @@ class UserDetailsForm extends Component {
       linkedin: '',
       facebook: '',
       twitter: '',
+      pic:'',
       changed: false,
     }
 
@@ -65,6 +67,15 @@ class UserDetailsForm extends Component {
     }).catch(function (error) {
       console.log(error);
     })
+    //ADD IN CODE TO GET THE PICTURE FROM THE SERVER
+    axios.post("/GET-IMAGE", {
+      "userID": this.props.uid
+    }).then(function (response) {
+      console.log(response.data)
+      
+    }).catch(function (error) {
+      console.log(error);
+    })
   }
 
   firstNameChange = (ev) => {
@@ -102,6 +113,10 @@ class UserDetailsForm extends Component {
     this.props.changeChanged(i)
   }
 
+  changePic=(i)=>{
+    this.setState({pic:i})
+  }
+
   render() {
     return (
       <div>
@@ -116,6 +131,8 @@ class UserDetailsForm extends Component {
         <Facebook dv={this.state.facebook} facebookChange={this.facebookChange} />
 
         <Twitter dv={this.state.twitter} twitterChange={this.twitterChange} />
+
+        <PicUpload changePic={this.changePic}/>
 
         <SubmitButtons {...this.state} uid={this.props.uid} changePage={this.props.changePage} changeChange={this.changeChanged} changeCompleted={this.props.changeCompleted}/>
       </div>
