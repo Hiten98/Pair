@@ -53,7 +53,7 @@ class HousingSubmitButtons extends Component {
           history.push('/register/intern/preferences/roommate')
         } else if (that.state.willRedirect === 2) {
           if (that.props.completed.indexOf('1') > -1 && that.props.completed.indexOf('2') > -1) {
-            history.push('/landing')
+            history.push('/landing/interns/chat')
           }else{
             alert('Please complete all parts of this form')
           }
