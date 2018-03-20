@@ -16,6 +16,7 @@ class Menu extends Component {
       passOpen:false,
     }
   }
+
   signOut = () => {
     try {
       localStorage.removeItem('app')
@@ -26,7 +27,7 @@ class Menu extends Component {
   }
 
   goToProfile=()=>{
-    console.log('need to add this')
+    history.push(`/landing/${this.props.type}/members/0`)
   }
 
   deleteAccount=()=>{

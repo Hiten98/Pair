@@ -93,16 +93,16 @@ class ChangePasswordModal extends Component {
     return (
       <Row>
         <Dialog
-          title='Delete Account'
+          title='Change Password'
           modal
           actions={this.actions}
           open={this.props.passOpen}
         >
           <h4>To change your password please enter your new and old passwords</h4>
-          <h4>Old Password</h4>
-          <Password changePass={this.changeOldPass} />
-          <h4>New Password</h4>
-          <Password changePass={this.changeNewPass} />
+
+          <Password changePass={this.changeOldPass} dv='Old Password'/>
+
+          <Password changePass={this.changeNewPass} dv='New Password'/>
         </Dialog>
         <Snackbar
           open={this.state.sopen}

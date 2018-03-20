@@ -2,11 +2,32 @@ import React, { Component } from 'react';
 import { RaisedButton } from 'material-ui'
 import history from '../../history'
 import axios from 'axios'
+import firebase from '../../base'
 //import './LandingScreen.css';
 
 axios.defaults.baseURL = 'http://localhost:9090'
 
 class LandingScreen extends Component {
+  submitPicture = () => {
+    //Setup references to database
+    var ref = firebase.database().ref();
+    var storageRef = firebase.storage().ref();
+    var internRef = ref.child("User/Interns");
+    let ID = this.props.uid
+    let image = this.props.pic.substring(this.props.pic.indexOf(',') + 1)
+
+    var imageRef = internRef.child(ID).child("images");
+
+    var task = storageRef.child(ID + "/").putString(image, 'base64').then(function (snapshot) {
+      console.log('Uploaded a base64 string!');
+    }).then(() => {
+      storageRef.child(ID + "/").getDownloadURL().then(function (url) {
+        imageRef.child("image").set(url);
+      });
+    })
+
+  }
+
   buttonSubmit = () => {
     let email = this.props.email
     let password = this.props.password
@@ -64,7 +85,8 @@ class LandingScreen extends Component {
         console.log(error);
       })
     }
-    //ADD IN CODE TO SUBMIT PROFILE PICTURE
+
+    this.submitPicture()
   }
 
   render() {

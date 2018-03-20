@@ -9,7 +9,7 @@ class Toolbar extends Component {
     return (
       <div>
         <Row className="tool-bar">
-          <Menu uid={this.props.uid}/>
+          <Menu uid={this.props.uid} type={this.props.type}/>
         </Row>
       </div>
     );

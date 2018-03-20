@@ -36,14 +36,20 @@ class Password extends Component {
     this.props.changePass(ev.target.value)
   }
 
-
+  defaultValue=()=>{
+    if(this.props.dv==null||this.props.dv==''){
+      return "Password"
+    }else{
+      return this.props.dv
+    }
+  }
 
   render() {
     return (
       <PasswordField
         className="password"
         hintText="At least 8 characters"
-        floatingLabelText="Password"
+        floatingLabelText={this.defaultValue()}
         floatingLabelStyle={this.styles.floatingLabelStyle}
         floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
         underlineStyle={this.styles.underlineStyle}

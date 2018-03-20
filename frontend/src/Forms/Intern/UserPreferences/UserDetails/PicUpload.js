@@ -36,7 +36,7 @@ class PicUpload extends Component {
       filesToBeSent.push(acceptedFiles);
       var filesPreview = [];
       for (var i in filesToBeSent) {
-        filesPreview.push(<div>
+        filesPreview.push(<div key={i}>
           {filesToBeSent[i][0].name}<br/>
           <img height='90vh' style={{marginBottom:'20px'}} alt='Profile Picture' src={filesToBeSent[i][0].preview} /><br/>
           <div>

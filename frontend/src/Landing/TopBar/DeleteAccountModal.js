@@ -3,7 +3,7 @@ import { RaisedButton, Dialog, TextField, Snackbar } from 'material-ui'
 import { grey800, black } from 'material-ui/styles/colors';
 import { Row } from 'react-bootstrap'
 import axios from 'axios'
-import emailjs from 'emailjs-com'
+import history from '../../history'
 //import './DeleteAccountModal.css';
 
 axios.defaults.baseURL = 'http://localhost:9090'
@@ -18,7 +18,12 @@ class DeleteAccountModal extends Component {
   }
 
   handleClose = () => {
-    this.props.deleteAccount()
+    try {
+      localStorage.removeItem('app')
+    } catch (err) {
+      //console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
+    history.go(0)
   }
 
   handleRequestClose = () => {
@@ -31,9 +36,10 @@ class DeleteAccountModal extends Component {
     axios.post('/REMOVE-USER', {
       "userID": that.props.uid
     }).then((response) => {
+      //console.log(response.data)
       if (response.data.status) {
-        that.setState({ sopen: true })
-        that.handleClose()
+        that.setState({ sopen: true },that.handleClose)
+        
       } else {
         //Create intern failed
         console.log("Failure!");

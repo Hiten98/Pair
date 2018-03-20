@@ -21,7 +21,7 @@ class LandingScreen extends Component {
       <div className='whole'>
         <Sidebar />
         <Col xs={12} sm={10} lg={10} className='mainArea'>
-          <Toolbar uid={this.props.uid}/>
+          <Toolbar uid={this.props.uid} type={this.props.type}/>
 
           <MainArea />
 
