@@ -7,7 +7,13 @@
 		createBasicPreferences,
 		createRoommatePreferences,
 		createHousingPreferences,
-		createProfilePicture
+		createProfilePicture,
+		addToLocationChat,
+		addEmployeeToCompanyChat,
+		addInternToCompanyChat,
+		createGroupChat,
+		addToGroupChat,
+		addMessageToChat
 	}*/
 
 	//var update = require('./update.js');
@@ -32,11 +38,12 @@
 	  	internRef.child(id).update({
 	  		"email": email,
 	  		"company": company,
-	    	"location": location
+	    	"location": location,
+	    	"listOfChatRooms": [location, company + ", " + location]
 	    });
     }
 
-    function createEmployee(employeeRef, id, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter) {
+    function createEmployee(employeeRef, companyRef, id, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter) {
 	  	employeeRef.update({
 	   		[id]:"novalue"
 	  	});
@@ -48,7 +55,8 @@
 	  		"company": company,
 	  		"description": description,
 	    	"location": location,
-	    	"links": [facebook, linkedin, twitter]
+	    	"links": [facebook, linkedin, twitter],
+	    	"listOfChatRooms": [company + ", " + location]
 	    });
 	    /*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
     }
@@ -104,5 +112,63 @@
     			"ProfilePicture": downloadURL
     		});
 		})
+	}
+
+	/*
+    / @brief this function adds users to the area/city
+    /        chat room
+    /
+    / @usage call this function after createIntern to add
+    /        them to the area/city chat room
+    */
+	function addToLocationChat(lcoationChatRoomRef, location, user) {
+		/*update.*/getSnapshot(locationChatRoomRef, location, "listOfUsers", user);
+	}
+
+	function addEmployeeToCompanyChat(companyChatRoomRef, company, location, listOfEmployees) {
+		/*update.*/getSnapshot(companyChatRoomRef, company + ", " + location, "listOfMods", listOfEmployees);
+	}
+
+	function addInternToCompanyChat(companyChatRoomRef, company, location, user) {
+		/*update.*/getSnapshot(companyChatRoomRef, company + ", " + location, "listOfUsers", user);
+	}
+
+	function createGroupChat(groupChatRoomRef, internRef, ID, name, callback) {
+		groupChatRoomRef.child(name).once("value").then(function(snapshot) {
+			if(snapshot.exists()) {
+				callback(false);
+			}
+			else {
+				groupChatRoomRef.child(name).update({
+					"listOfUsers": [ID]
+				});
+				/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
+				callback(true);
+			}
+		});
+	}
+
+	function addToGroupChat(groupChatRoomRef, internRef, ID, name) {
+		/*update.*/getSnapshot(groupchatRoomRef, name, "listOfUsers", ID);
+		/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
+	}
+
+	function addMessageToChat(chatRoomRef, name, message) {
+		chatRoomRef.child(name).child("listOfMessages").once("value").then(function(snapshot) {
+			if(snapshot.exists()) {
+				var count = snapshot.val().number;
+				count++;
+				chatRoomRef.child(name).child("listOfMessages").update({
+					"number": count,
+					[count]: message,
+				});
+			}
+			else {
+				chatRoomRef.child(name).child("listOfMessages").update({
+					"number": "1",
+					"1": message
+				});
+			}
+		});
 	}
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { Row } from 'react-bootstrap'
 import history from '../../../history'
 import UserDetailsForm from './UserDetails/UserDetailsForm'
@@ -11,7 +11,7 @@ import RoommatePreferencesForm from './RoommatePreferences/RoommatePreferencesFo
 class PreferencesLayout extends Component {
   constructor(props) {
     super(props)
-    if(this.props.uid==null){
+    if (this.props.uid == null) {
       //history.push('/home/login')
     }
 
@@ -29,8 +29,8 @@ class PreferencesLayout extends Component {
     }
     this.state = {
       currPage: tempPage,
-      completed:[],
-      changed:false,
+      completed: [],
+      changed: false,
     }
 
     try {
@@ -53,13 +53,13 @@ class PreferencesLayout extends Component {
     }
   }
 
-  changePage=(page)=>{
+  changePage = (page) => {
     this.changeChanged(false)
-    this.setState({currPage:page},()=>{this.saveState()})
+    this.setState({ currPage: page }, () => { this.saveState() })
   }
 
-  changeChanged=(v)=>{
-    this.setState({changed:v},()=>{this.saveState()})
+  changeChanged = (v) => {
+    this.setState({ changed: v }, () => { this.saveState() })
   }
 
   title = () => {
@@ -72,20 +72,20 @@ class PreferencesLayout extends Component {
     }
   }
 
-  changeCompleted=(i)=>{
-    let tempList=this.state.completed
+  changeCompleted = (i) => {
+    let tempList = this.state.completed
     tempList.push(i)
-    this.setState({completed:tempList},()=>{this.saveState()})
+    this.setState({ completed: tempList }, () => { this.saveState() })
   }
 
   render() {
-    let toPass={
-      uid:this.props.uid,
-      changePage:this.changePage,
-      changeChanged:this.changeChanged,
-      changed:this.props.changed,
-      completed:this.state.completed,
-      changeCompleted:this.changeCompleted,
+    let toPass = {
+      uid: this.props.uid,
+      changePage: this.changePage,
+      changeChanged: this.changeChanged,
+      changed: this.props.changed,
+      completed: this.state.completed,
+      changeCompleted: this.changeCompleted,
     }
     return (
       <div>
@@ -93,12 +93,13 @@ class PreferencesLayout extends Component {
           {this.title()}
         </Row>
 
-        <UserPreferencesStepper pos={this.state.currPage} changed={this.state.changed} changeChanged={this.changeChanged} changePage={this.changePage}/>
+        <UserPreferencesStepper pos={this.state.currPage} changed={this.state.changed} changeChanged={this.changeChanged} changePage={this.changePage} />
 
         <Switch>
-          <Route path="/register/intern/preferences/user-details" render={()=><UserDetailsForm {...toPass}/>}/>
-          <Route path="/register/intern/preferences/roommate" render={()=><RoommatePreferencesForm {...toPass}/>}/>
-          <Route path="/register/intern/preferences/housing"render={()=><HousingPreferencesForm {...toPass}/>} />
+          <Route path="/register/intern/preferences/user-details" render={() => <UserDetailsForm {...toPass} />} />
+          <Route path="/register/intern/preferences/roommate" render={() => <RoommatePreferencesForm {...toPass} />} />
+          <Route path="/register/intern/preferences/housing" render={() => <HousingPreferencesForm {...toPass} />} />
+          <Route path="/" render={() => <Redirect to='/home/login' />} />
         </Switch>
       </div>
     );

@@ -68,6 +68,14 @@ class UserDetailsForm extends Component {
       console.log(error);
     })
     //ADD IN CODE TO GET THE PICTURE FROM THE SERVER
+    axios.post("/GET-IMAGE", {
+      "userID": this.props.uid
+    }).then(function (response) {
+      console.log(response.data)
+      
+    }).catch(function (error) {
+      console.log(error);
+    })
   }
 
   firstNameChange = (ev) => {

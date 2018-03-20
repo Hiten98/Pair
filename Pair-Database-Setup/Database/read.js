@@ -7,8 +7,7 @@ module.exports = {
 		getBasicPreferences,
 		getHousingPreferences,
 		getRoommatePreferences,
-		verifyUser,
-		verifyUserExists
+		verifyUser
 }
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -148,11 +147,4 @@ module.exports = {
 				callback(false);
 			}
 		});
-	}
-
-	function verifyUserExists(relevantRef, ID, callback) {
-		var ref = relevantRef.child(ID);
-		ref.once("value").then(function(snapshot) {
-			callback(snapshot.exists());
-			});
 	}
