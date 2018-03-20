@@ -122,7 +122,7 @@
     / @usage call this function after createIntern to add
     /        them to the area/city chat room
     */
-	function addToLocationChat(lcoationChatRoomRef, location, user) {
+	function addToLocationChat(locationChatRoomRef, location, user) {
 		/*update.*/getSnapshot(locationChatRoomRef, 2 + location, "listOfUsers", user);
 	}
 
