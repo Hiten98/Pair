@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Col } from 'react-bootstrap'
 import BottomBar from './BottomBar'
 import Sidebar from './Sidebar'
-import Toolbar from './Toolbar'
+import Toolbar from './TopBar/Toolbar'
 import MainArea from './MainArea'
 import './MainLanding.css';
 import history from '../history';
@@ -44,16 +44,18 @@ class LandingScreen extends Component {
       state:this.state,
       changePage:this.changePage,
       changeChat:this.changeChat,
+      type:this.props.type,
     }
     return (
       <div className='whole'>
         <Sidebar {...toSend}/>
         <Col xs={12} sm={10} lg={10} className='mainArea'>
-          <Toolbar {...this.toSend}/>
 
-          <MainArea {...this.toSend}/>
+          <Toolbar {...toSend}/>
 
-          <BottomBar {...this.toSend}/>
+          <MainArea {...toSend}/>
+
+          <BottomBar {...toSend}/>
         </Col>
       </div>
     );

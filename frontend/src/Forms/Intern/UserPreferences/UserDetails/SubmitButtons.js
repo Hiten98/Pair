@@ -3,6 +3,7 @@ import { Row } from 'react-bootstrap'
 import { RaisedButton } from 'material-ui'
 import axios from 'axios'
 import history from '../../../../history'
+import firebase from '../../../../base'
 import './SubmitButton.css';
 
 axios.defaults.baseURL = 'http://localhost:9090'
@@ -13,6 +14,26 @@ class SubmitButton extends Component {
     this.state = {
       willRedirect: 0,
     }
+  }
+
+  submitPicture = () => {
+    //Setup references to database
+    var ref = firebase.database().ref();
+    var storageRef = firebase.storage().ref();
+    var internRef = ref.child("User/Interns");
+    let ID = this.props.uid
+    let image = this.props.pic.substring(this.props.pic.indexOf(',') + 1)
+
+    var imageRef = internRef.child(ID).child("images");
+
+    var task = storageRef.child(ID + "/").putString(image, 'base64').then(function (snapshot) {
+      console.log('Uploaded a base64 string!');
+    }).then(() => {
+      storageRef.child(ID + "/").getDownloadURL().then(function (url) {
+        imageRef.child("image").set(url);
+      });
+    })
+
   }
 
   buttonSubmit = () => {
@@ -77,7 +98,8 @@ class SubmitButton extends Component {
         }
       }
     }
-    //ADD IN CODE TO SUBMIT PROFILE PICTURE
+
+    this.submitPicture()
   }
 
   bSubmit = () => {

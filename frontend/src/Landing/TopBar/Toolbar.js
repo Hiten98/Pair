@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
-import { Row } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
+import Menu from './Menu'
 import './Toolbar.css';
 
 class Toolbar extends Component {
@@ -8,9 +9,7 @@ class Toolbar extends Component {
     return (
       <div>
         <Row className="tool-bar">
-          <Switch>
-            <Route path='/landing/interns' />
-          </Switch>
+          <Menu uid={this.props.uid} type={this.props.type}/>
         </Row>
       </div>
     );
