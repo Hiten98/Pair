@@ -23,7 +23,14 @@
     var groupChatRoomRef = ref.child("ChatRooms/Group");
     var privateChatRoomRef = ref.child("ChatRooms/Private");
 
+    // addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "hey guys");
+    // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "th is message")', 1000);
+    // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "th is messagener sd r one")', 2000);
+    // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "the")', 3000);
 
+    getMessages(groupChatRoomRef, "3Dogs and Doges", (x) => {
+        document.write(JSON.stringify(x));
+    })
 
     
 
