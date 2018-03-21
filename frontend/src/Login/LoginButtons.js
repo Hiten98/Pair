@@ -22,7 +22,7 @@ class LoginButtons extends Component {
         "username": email,
         "password": password
       }).then((response) => {
-        //console.log(response.data);
+        console.log(response.data);
         if (!response.data.status) {
           alert('Username or password was incorrect, please try again')
         } else if (response.data.userID != null) {
@@ -38,7 +38,7 @@ class LoginButtons extends Component {
             history.push('/landing/employee/chat')
           } else if (response.data.authority==='intern') {
             //GO TO INTERN Landing Page
-            history.push('/landing/interns/chat')
+            history.push('/landing/intern/chat')
           }
         }
       }).catch((error) => {

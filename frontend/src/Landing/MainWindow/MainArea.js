@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { Row } from 'react-bootstrap'
-import history from '../history'
+import history from '../../history'
+import Chats from './Chat/Chats'
+import Members from './Members/Members'
 import './MainArea.css';
 
 class MainArea extends Component {
@@ -12,6 +14,7 @@ class MainArea extends Component {
         'text-display chat-display', 'text-display'
       ],
       currPlace: 1,
+
     }
   }
 
@@ -27,8 +30,9 @@ class MainArea extends Component {
       <div>
         <Row className={this.state.classChat[this.state.currPlace]}>
           <Switch>
-            <Route path='/landing/employee' />
-            <Route path='/landing/interns' />
+            <Route path={`/landing/${this.props.type}/chat`} render={()=><Chats {...this.props}/>}/>
+            <Route path={`/landing/${this.props.type}/members`} render={()=><Members {...this.props}/>}/>
+            <Route path="/" render={() => <Redirect to='/home/login' />} />
           </Switch>
         </Row>
       </div>

@@ -1,0 +1,5 @@
+.list-column{
+  height: 84vh;
+  overflow: auto;
+  border-right-style: solid;
+}

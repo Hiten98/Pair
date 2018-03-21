@@ -72,7 +72,7 @@ class EmployeeRegistrationForm extends Component {
   }
 
   locationChange=(event,index,value)=>{
-    console.log(value)
+    // console.log(value)
     this.setState({loc:value},()=>{this.saveState()})
     this.saveState()
   }
