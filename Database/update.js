@@ -106,9 +106,33 @@
     	});
     }
 
-    function removeIntern(internRef, ID) {
-		internRef.child(ID).remove();
-        //add chat deletion stuff here
+    function removeIntern(internRef, chatRoomRef, ID) {
+		internRef.child(ID).child("listOfChatRooms").once("value").then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var ref;
+                if(childSnapshot.val()[0] == 1)
+                    ref = chatRoomRef.child("Company");
+                else if(childSnapshot.val()[0] == 2)
+                    ref = chatRoomRef.child("Location");
+                else if(childSnapshot.val()[0] == 3)
+                    ref = chatRoomRef.child("Group");
+                else if(childSnapshot.val()[0] == 4)
+                    ref = chatRoomRef.child("Private");
+                ref.child(childSnapshot.val()).child("listOfUsers").once("value").then(function(babySnapshot) {
+                    var i = 0;
+                    snapshot.forEach(function(infantSnapshot) {
+                        i++;
+                        if(childSnapshot.val()[0] == ID[0] && childSnapshot.val()[1] == ID[1] && childSnapshot.val()[2] == ID[2] && childSnapshot.val()[3] == ID[3]) {
+                            ref.child(childSnapshot.val()).child("listOfUsers").child(infantSnapshot.key).remove();
+                        }
+                    });
+                    if(i <= 1) {
+                        ref.child(childSnapshot.val()).remove();
+                    }
+                    internRef.child(ID).remove();
+                });
+            });
+        });
         return true;
     }
 

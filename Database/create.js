@@ -105,8 +105,8 @@
 	  });
 	}
 
-    function createProfilePicture(storageRef, internRef, ID, image) {
-		var imageRef = internRef.child(ID).child("images");
+    function createProfilePicture(storageRef, relevantRef, ID, image) {
+		var imageRef = relevantRef.child(ID).child("images");
 	    storageRef.child(ID + "/").getDownloadURL().then(function(url) {
 	        imageRef.child("image").set(url);
 	    }); 

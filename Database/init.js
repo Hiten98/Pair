@@ -18,6 +18,7 @@
     var companyRef = ref.child("Company");
     var internRef = ref.child("User/Interns");
     var employeeRef = ref.child("User/Employees");
+    var chatRoomRef = ref.child("ChatRooms");
     var companyChatRoomRef = ref.child("ChatRooms/Company");
     var locationChatRoomRef = ref.child("ChatRooms/Location");
     var groupChatRoomRef = ref.child("ChatRooms/Group");
@@ -28,7 +29,9 @@
     // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "th is messagener sd r one")', 2000);
     // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "the")', 3000);
 
-    
+    removeIntern(internRef, chatRoomRef, 11111);
+
+
 
     
 
