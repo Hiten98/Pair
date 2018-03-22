@@ -122,16 +122,40 @@
     / @usage call this function after createIntern to add
     /        them to the area/city chat room
     */
-	function addToLocationChat(locationChatRoomRef, location, user) {
-		/*update.*/getSnapshot(locationChatRoomRef, 2 + location, "listOfUsers", user);
+	function addToLocationChat(locationChatRoomRef, internRef, location, user) {
+		var item = user + "$:$";
+		internRef.child(user).once("value").then(function(snapshot) {
+			item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+			internRef.child(user).child("images").once("value").then(function(childSnapshot) {
+				item += childSnapshot.val().image + "$:$";
+				item += snapshot.val().description;
+				/*update.*/getSnapshot(locationChatRoomRef, 2 + location, "listOfUsers", item);
+			});
+		});
 	}
 
-	function addEmployeeToCompanyChat(companyChatRoomRef, company, location, listOfEmployees) {
-		/*update.*/getSnapshot(companyChatRoomRef, 1 + company + ", " + location, "listOfMods", listOfEmployees);
+	function addEmployeeToCompanyChat(companyChatRoomRef, employeeRef, company, location, user) {
+		var item = user + "$:$";
+		employeeRef.child(user).once("value").then(function(snapshot) {
+			item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+			employeeRef.child(user).child("images").once("value").then(function(childSnapshot) {
+				item += childSnapshot.val().image + "$:$";
+				item += snapshot.val().description;
+				/*update.*/getSnapshot(companyChatRoomRef, 1 + company + ", " + location, "listOfMods", item);
+			});
+		});
 	}
 
-	function addInternToCompanyChat(companyChatRoomRef, company, location, user) {
-		/*update.*/getSnapshot(companyChatRoomRef, 1 + company + ", " + location, "listOfUsers", user);
+	function addInternToCompanyChat(companyChatRoomRef, internRef, company, location, user) {
+		var item = user + "$:$";
+		internRef.child(user).once("value").then(function(snapshot) {
+			item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+			internRef.child(user).child("images").once("value").then(function(childSnapshot) {
+				item += childSnapshot.val().image + "$:$";
+				item += snapshot.val().description;
+				/*update.*/getSnapshot(companyChatRoomRef, 1 + company + ", " + location, "listOfUsers", item);
+			});
+		});
 	}
 
 	function createGroupChat(groupChatRoomRef, internRef, ID, name, callback) {
@@ -140,8 +164,16 @@
 				callback(false);
 			}
 			else {
-				groupChatRoomRef.child(3 + name).update({
-					"listOfUsers": [ID]
+				var item = ID + "$:$";
+				internRef.child(ID).once("value").then(function(snapshot) {
+					item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+					internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
+						item += childSnapshot.val().image + "$:$";
+						item += snapshot.val().description;
+						groupChatRoomRef.child(3 + name).update({
+							"listOfUsers": [item]
+						});
+					});
 				});
 				/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", 3 + name);
 				callback(true);
@@ -150,7 +182,15 @@
 	}
 
 	function addToGroupChat(groupChatRoomRef, internRef, ID, name) {
-		/*update.*/getSnapshot(groupChatRoomRef, name, "listOfUsers", ID);
+		var item = ID + "$:$";
+		internRef.child(ID).once("value").then(function(snapshot) {
+			item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+			internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
+				item += childSnapshot.val().image + "$:$";
+				item += snapshot.val().description;
+				/*update.*/getSnapshot(groupChatRoomRef, name, "listOfUsers", item);
+			});
+		});
 		/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
 	}
 
@@ -160,8 +200,24 @@
 				callback(false);
 			}
 			else {
-				privateChatRoomRef.child(4 + name).update({
-					"listOfUsers": [ID1, ID2]
+				var item = ID1 + "$:$";
+				var item2 = ID2 + "$:$";
+				internRef.child(ID1).once("value").then(function(snapshot) {
+					item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+					internRef.child(ID1).child("images").once("value").then(function(childSnapshot) {
+						item += childSnapshot.val().image + "$:$";
+						item += snapshot.val().description;
+						internRef.child(ID2).once("value").then(function(snapshot) {
+							item2 += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+							internRef.child(ID2).child("images").once("value").then(function(childSnapshot) {
+								item2 += childSnapshot.val().image + "$:$";
+								item2 += snapshot.val().description;
+								privateChatRoomRef.child(4 + name).update({
+									"listOfUsers": [item, item2]
+								});
+							});
+						});
+					});
 				});
 				/*update.*/getSnapshot(internRef, ID1, "listOfChatRooms", 4 + name);
 				/*update.*/getSnapshot(internRef, ID2, "listOfChatRooms", 4 + name);

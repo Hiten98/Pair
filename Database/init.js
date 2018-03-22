@@ -28,9 +28,7 @@
     // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "th is messagener sd r one")', 2000);
     // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "the")', 3000);
 
-    getMessages(groupChatRoomRef, "3Dogs and Doges", (x) => {
-        document.write(JSON.stringify(x));
-    })
+    
 
     
 
