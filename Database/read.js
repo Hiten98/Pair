@@ -230,7 +230,7 @@
 		});
 	}
 
-	function compareInterns(internRef, ID1, ID2, callback) {
+	function compareTwoInterns(internRef, ID1, ID2, callback) {
 		var score = 0;
 		var housing1 = getHousingPreferences(internRef, ID1, function(housing1) {
 			var housing2 = getHousingPreferences(internRef, ID2, function(housing2) {
@@ -260,6 +260,17 @@
 				callback(score);
     		});
     	});
+	}
+
+	function compareMultipleInterns(internRef, ID1, IDs, callback) {
+		scores = [];
+		for (var i = 0; i < IDs.length; i++) {
+			var score = compareTwoInterns(internRef, ID1, IDs[i], function(score) {
+				document.write(score);
+				scores.push(score);
+	    })
+		}
+		callback(scores);
 	}
 
 	function getImage(internRef, ID, callback) {

@@ -29,15 +29,8 @@
     // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "th is messagener sd r one")', 2000);
     // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "the")', 3000);
 
+    var scores = compareMultipleInterns(internRef, 1600, [1761, 1600, 1761], function(score) {
+      document.write(JSON.stringify(scores));
+    })
+
     removeIntern(internRef, chatRoomRef, 11111);
-
-
-
-    
-
-
-
-
-
-
-
