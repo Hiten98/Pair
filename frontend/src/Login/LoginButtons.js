@@ -4,11 +4,12 @@ import { RaisedButton } from 'material-ui'
 import history from '../history'
 import axios from 'axios'
 import './LoginButtons.css';
+import ForgotPasswordModal from './ForgotPasswordModal'
 
 axios.defaults.baseURL = 'http://localhost:9090'
 
 class LoginButtons extends Component {
-  
+
 
   handleLogin = () => {
     let email = this.props.email
@@ -59,6 +60,7 @@ class LoginButtons extends Component {
             primary
             onClick={this.handleLogin}
           />
+          <ForgotPasswordModal />
         </Row>
       </div>
     );
