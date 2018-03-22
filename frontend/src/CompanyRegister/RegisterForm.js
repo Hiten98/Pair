@@ -12,6 +12,7 @@ class RegisterForm extends Component {
       companyName:null,
       companyEmail:null,
       companyPassword:null,
+      companyLocations:null,
     }
   }
 
@@ -27,6 +28,10 @@ class RegisterForm extends Component {
     this.setState({companyPassword:password})
   }
 
+  changeLocations=(location)=>{
+    this.setState({companyLocations:location})
+  }
+
   render() {
     return (
       <div className="form">
@@ -35,9 +40,9 @@ class RegisterForm extends Component {
           Register
         </Row>
 
-        <CodeField changeName={this.changeName} changeEmail={this.changeEmail} changePassword={this.changePassword}/>
+        <CodeField changeName={this.changeName} changeEmail={this.changeEmail} changePassword={this.changePassword} changeLocations={this.changeLocations}/>
 
-        <RegisterButtons companyName={this.state.companyName} companyEmail={this.state.companyEmail} companyPassword={this.state.companyPassword}/>
+        <RegisterButtons companyName={this.state.companyName} companyEmail={this.state.companyEmail} companyPassword={this.state.companyPassword} companyLocations={this.state.companyLocations}/>
       </div>
     );
   }

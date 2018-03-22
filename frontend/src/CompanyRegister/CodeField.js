@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { grey800, black } from 'material-ui/styles/colors'
 import PasswordField from 'material-ui-password-field'
+import { TextField } from 'material-ui'
 import {Row} from 'react-bootstrap'
 import RegisterButtons from './RegisterButtons'
 //import './CodeField.css';
@@ -40,6 +41,10 @@ class CodeField extends Component {
     this.props.changePassword(ev.target.value)
   }
 
+  changeLocations=(ev)=>{
+    this.props.changeLocations(ev.target.value)
+  }
+
   render() {
     return (
       <Row className="row-sm">
@@ -77,6 +82,20 @@ class CodeField extends Component {
             visibilityIconStyle={{ opacity: '0.8' }}
             hintStyle={this.styles.hintStyle}
             onChange={this.changePassword}
+          />
+          <PasswordField
+            className="companyEmail"
+            floatingLabelText="Enter Company Locations"
+            multiLine
+            style={{textAlign: 'left'}}
+            visible
+            disableButton
+            floatingLabelStyle={this.styles.floatingLabelStyle}
+            floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
+            underlineStyle={this.styles.underlineStyle}
+            visibilityIconStyle={this.styles.visibilityIconStyle}
+            hintStyle={this.styles.hintStyle}
+            onChange={this.changeLocations}
           />
         </Row>
     );

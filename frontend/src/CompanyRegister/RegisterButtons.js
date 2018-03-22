@@ -16,21 +16,25 @@ class RegisterButtons extends Component {
     let companyName = this.props.companyName;
     let companyEmail = this.props.companyEmail;
     let companyPassword = this.props.companyPassword;
+    let companyLocations = this.props.companyLocations;
+    let companyLocationsParsed = companyLocations.split(';');
     console.log(companyName);
     console.log(companyEmail);
     console.log(companyPassword);
+    console.log(companyLocationsParsed);
 
     let that = this
 
-    if (companyName != null && companyEmail != null && companyPassword != null) {
+    if (companyName != null && companyEmail != null && companyPassword != null && companyLocations != null) {
       axios.post('/CREATE-COMPANY', {
         "companyName": companyName,
         "companyEmail": companyEmail,
-        "companyPassword": companyPassword
+        "companyPassword": companyPassword,
+        "companyLocations" companyLocationsParsed
       }).then(function (response) {
         console.log(response.data);
         if (response.data.status) {
-          history.push('/register/company')
+          //history.push('/register/company')
         } else {
           alert('Invalid company details, please try again')
         }
@@ -38,6 +42,8 @@ class RegisterButtons extends Component {
         console.log(error);
       });
 
+      // Go to Company Page?
+      history.push('/landing/company')
     } else {
       alert('Please fill in all the fields')
     }
