@@ -34,4 +34,34 @@
         document.write(JSON.stringify(x));
     });
 
-    
+    compareInterns(internRef, 1761, 1600, (x) => {
+        console.log(x);
+    });
+
+	createComplaint(employeeRef, 2509, "Complaint about Hiten");
+    createComplaint(employeeRef, 2509, "Another complaint about Hiten");
+    createComplaint(employeeRef, 2509, "More complaints about Hiten");
+    getEmployee(employeeRef, 2509, (x) => {
+        document.write(JSON.stringify(x));
+    });
+    removeComplaint(employeeRef, 2509, "Another complaint about Hiten");
+
+    getMessages(groupChatRoomRef, "3Dogs and Doges", (x) => {
+        document.write(JSON.stringify(x));
+    });
+
+    addToLocationChat(locationChatRoomRef, internRef, "Atlanta", 1822);
+    addInternToCompanyChat(companyChatRoomRef, internRef, "Scarred", "Atlanta", 1822);
+    createGroupChat(groupChatRoomRef, internRef, 1822, "Burning Hearts", (x) => {});
+    addToGroupChat(groupChatRoomRef, internRef, 1761, "3Time and other concepts");
+    addToGroupChat(groupChatRoomRef, internRef, 1822, "3Time and other concepts");
+    addToGroupChat(groupChatRoomRef, internRef, 1115, "3Time and other concepts");
+	createPrivateChat(privateChatRoomRef, internRef, 1822, 1115, "Private times", (x) => {});
+
+	
+
+
+
+
+
+
