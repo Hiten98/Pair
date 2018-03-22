@@ -13,35 +13,34 @@ class RegisterButtons extends Component {
 
   handleLogin = () => {
     // Get Values from CodeField
-    console.log(this.props);
+    let companyName = this.props.companyName;
+    let companyEmail = this.props.companyEmail;
+    let companyPassword = this.props.companyPassword;
+    console.log(companyName);
+    console.log(companyEmail);
+    console.log(companyPassword);
 
-    /*let that = this
+    let that = this
 
-    if (companyCode != null && companyCode.length == 4) {
-      axios.post('/GET-COMPANY', {
-        "pid": companyCode
+    if (companyName != null && companyEmail != null && companyPassword != null) {
+      axios.post('/CREATE-COMPANY', {
+        "companyName": companyName,
+        "companyEmail": companyEmail,
+        "companyPassword": companyPassword
       }).then(function (response) {
-        //console.log(response.data);
+        console.log(response.data);
         if (response.data.status) {
-          //let parsed = JSON.parse(JSON.stringify(response.data.company))
-          let locat = []
-          that.props.updateCompany(response.data.name)
-          for (var loc in response.data.locations){
-            locat.push(response.data.locations[loc])
-            that.props.updateLocations(locat)
-          }
-          //if(co)
-          history.push('/register/employee')
+          history.push('/register/company')
         } else {
-          alert('Invalid company code, please try again')
+          alert('Invalid company details, please try again')
         }
       }).catch(function (error) {
         console.log(error);
       });
 
     } else {
-      alert('Invalid company code, please try again')
-    }*/
+      alert('Please fill in all the fields')
+    }
   }
 
   render() {
