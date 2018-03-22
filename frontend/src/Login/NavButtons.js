@@ -9,6 +9,10 @@ class NavButtons extends Component {
     history.push('/home/register')
   }
 
+  goToCompanyRegister = () => {
+    history.push('/home/CompanyRegister')
+  }
+
   render() {
     return (
       <Row className='topBar'>
@@ -27,7 +31,7 @@ class NavButtons extends Component {
             <RaisedButton
               label="Company Registration"
               primary
-              onClick={this.goToEmployee}
+              onClick={this.goToCompanyRegister}
               style={{width:'100%',marginTop: '5%'}}
             />
           </Row>
