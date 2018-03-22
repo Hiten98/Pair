@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { grey800, black } from 'material-ui/styles/colors'
 import PasswordField from 'material-ui-password-field'
 import {Row} from 'react-bootstrap'
+import RegisterButtons from './RegisterButtons'
 //import './CodeField.css';
 
 class CodeField extends Component {
@@ -25,8 +26,18 @@ class CodeField extends Component {
     }
   }
 
-  codeChange=(ev)=>{
-    this.props.codeChange(ev.target.value)
+  //<RegisterButtons companyName={"fdsfs"} />
+
+  changeName=(ev)=>{
+    this.props.changeName(ev.target.value)
+  }
+
+  changeEmail=(ev)=>{
+    this.props.changeEmail(ev.target.value)
+  }
+
+  changePassword=(ev)=>{
+    this.props.changePassword(ev.target.value)
   }
 
   render() {
@@ -34,6 +45,7 @@ class CodeField extends Component {
       <Row className="row-sm">
           <PasswordField
             className="companyName"
+            ref="companyName"
             floatingLabelText="Enter Company Name"
             visible
             disableButton
@@ -42,7 +54,7 @@ class CodeField extends Component {
             underlineStyle={this.styles.underlineStyle}
             visibilityIconStyle={this.styles.visibilityIconStyle}
             hintStyle={this.styles.hintStyle}
-            onChange={this.codeChange}
+            onChange={this.changeName}
           />
           <PasswordField
             className="companyEmail"
@@ -54,7 +66,7 @@ class CodeField extends Component {
             underlineStyle={this.styles.underlineStyle}
             visibilityIconStyle={this.styles.visibilityIconStyle}
             hintStyle={this.styles.hintStyle}
-            onChange={this.codeChange}
+            onChange={this.changeEmail}
           />
           <PasswordField
             className="companyPassword"
@@ -64,7 +76,7 @@ class CodeField extends Component {
             underlineStyle={this.styles.underlineStyle}
             visibilityIconStyle={{ opacity: '0.8' }}
             hintStyle={this.styles.hintStyle}
-            onChange={this.passChange}
+            onChange={this.changePassword}
           />
         </Row>
     );

@@ -9,12 +9,22 @@ class RegisterForm extends Component {
   constructor(props){
     super(props)
     this.state={
-      companyCode:null,
+      companyName:null,
+      companyEmail:null,
+      companyPassword:null,
     }
   }
 
-  codeChange=(code)=>{
-    this.setState({companyCode:code})
+  changeName=(name)=>{
+    this.setState({companyName:name})
+  }
+
+  changeEmail=(email)=>{
+    this.setState({companyEmail:email})
+  }
+
+  changePassword=(password)=>{
+    this.setState({companyPassword:password})
   }
 
   render() {
@@ -24,10 +34,10 @@ class RegisterForm extends Component {
         <Row className="register-title row-sm">
           Register
         </Row>
-        
-        <CodeField codeChange={this.codeChange} />
 
-        <RegisterButtons updateCompany={this.props.updateCompany} updateLocations={this.props.updateLocations} companyCode={this.state.companyCode}/>
+        <CodeField changeName={this.changeName} changeEmail={this.changeEmail} changePassword={this.changePassword}/>
+
+        <RegisterButtons companyName={this.state.companyName} companyEmail={this.state.companyEmail} companyPassword={this.state.companyPassword}/>
       </div>
     );
   }

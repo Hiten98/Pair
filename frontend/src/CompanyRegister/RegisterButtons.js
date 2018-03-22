@@ -4,15 +4,18 @@ import { RaisedButton } from 'material-ui'
 import history from '../history'
 import axios from 'axios'
 //import './RegisterButtons.css';
+import CodeField from './CodeField'
 
 axios.defaults.baseURL = 'http://localhost:9090'
 
 class RegisterButtons extends Component {
-  
+
 
   handleLogin = () => {
-    const companyCode = this.props.companyCode
-    let that = this
+    // Get Values from CodeField
+    console.log(this.props);
+
+    /*let that = this
 
     if (companyCode != null && companyCode.length == 4) {
       axios.post('/GET-COMPANY', {
@@ -38,7 +41,7 @@ class RegisterButtons extends Component {
 
     } else {
       alert('Invalid company code, please try again')
-    }
+    }*/
   }
 
   render() {
