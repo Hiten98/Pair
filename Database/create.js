@@ -14,7 +14,8 @@
 		createGroupChat,
 		addToGroupChat,
 		createPrivateChat,
-		addMessageToChat
+		addMessageToChat,
+		createComplaint
 	}*/
 
 	//var update = require('./update.js');

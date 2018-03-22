@@ -13,7 +13,8 @@
 		getChatRooms,
 		getUsersInChatRoom,
 		getModsInChatRoom,
-		compareInterns,
+		compareTwoInterns,
+		compareMultipleInterns,
 		getImage
 	}*/
 
@@ -268,13 +269,13 @@
 			var score = compareTwoInterns(internRef, ID1, IDs[i], function(score) {
 				document.write(score);
 				scores.push(score);
-	    })
+	    	});
 		}
 		callback(scores);
 	}
 
-	function getImage(internRef, ID, callback) {
-		internRef.child(ID).child("images").once("value").then(function(snapshot) {
+	function getImage(relevantRef, ID, callback) {
+		relevantRef.child(ID).child("images").once("value").then(function(snapshot) {
 			callback(snapshot.val());
 		});
 	}

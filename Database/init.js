@@ -31,6 +31,14 @@
 
     var scores = compareMultipleInterns(internRef, 1600, [1761, 1600, 1761], function(score) {
       document.write(JSON.stringify(scores));
-    })
+    });
 
-    removeIntern(internRef, chatRoomRef, 11111);
+
+    
+
+
+
+
+
+
+

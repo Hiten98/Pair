@@ -8,7 +8,8 @@
         removeIntern,
         removeFromChat
         banIntern
-        unbanIntern
+        unbanIntern,
+        removeComplaint
     }*/
 
 	/*
@@ -120,9 +121,9 @@
                     ref = chatRoomRef.child("Private");
                 ref.child(childSnapshot.val()).child("listOfUsers").once("value").then(function(babySnapshot) {
                     var i = 0;
-                    snapshot.forEach(function(infantSnapshot) {
+                    babySnapshot.forEach(function(infantSnapshot) {
                         i++;
-                        if(childSnapshot.val()[0] == ID[0] && childSnapshot.val()[1] == ID[1] && childSnapshot.val()[2] == ID[2] && childSnapshot.val()[3] == ID[3]) {
+                        if(infantSnapshot.val()[0] == ID[0] && infantSnapshot.val()[1] == ID[1] && infantSnapshot.val()[2] == ID[2] && infantSnapshot.val()[3] == ID[3]) {
                             ref.child(childSnapshot.val()).child("listOfUsers").child(infantSnapshot.key).remove();
                         }
                     });
