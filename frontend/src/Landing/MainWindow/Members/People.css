@@ -1,5 +1,6 @@
 .list-column{
   height: 84vh;
-  overflow: auto;
+  overflow-y: auto;
   border-right-style: solid;
+  overflow-x: hidden;
 }

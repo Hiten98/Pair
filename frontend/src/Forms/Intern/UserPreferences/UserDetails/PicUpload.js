@@ -72,7 +72,8 @@ class PicUpload extends Component {
         </Col>
         <Col xs={4} md={4}>
           Previous profile picture:<br/>
-          {(this.props.pic=='')?<img src={this.props.pic} alt='Profile picture'/>:'No previous picture'}
+          {(this.props.prevpic!=''&&this.props.prevpic!=null)?<img src={this.props.prevpic} alt='Profile picture' height='200vh'/>:'No previous picture'}
+          {console.log(this.props.pic)}
         </Col>
       </Row>
     )

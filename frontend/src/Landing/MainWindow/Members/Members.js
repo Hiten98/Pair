@@ -5,10 +5,19 @@ import DisplayProfile from './DisplayProfile'
 //import './Members.css';
 
 class Members extends Component {
+
+  changeSelected=()=>{
+    console.log('hi')
+  }
+
   render() {
+    let toSend={
+      props:this.props,
+      changeSelected:this.changeSelected,
+    }
     return (
       <div>
-        <People {...this.props}/>
+        <People {...toSend}/>
         <DisplayProfile />
       </div>
     );

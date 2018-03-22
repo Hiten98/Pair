@@ -16,13 +16,11 @@ class RoommateSubmitButtons extends Component {
   }
 
   backButtonSubmit=()=>{
-    this.setState({willRedirect:1})
-    this.bSubmit()
+    this.setState({willRedirect:1},()=>{this.bSubmit()})
   }
 
   buttonSubmit=()=>{
-    this.setState({willRedirect:2})
-    this.bSubmit()
+    this.setState({willRedirect:2},()=>{this.bSubmit()})
   }
 
   bSubmit=()=>{
@@ -50,7 +48,7 @@ class RoommateSubmitButtons extends Component {
       "waketime": waketime,
       "lights": lights,
       "clean": clean
-    }).then(function (response) {
+    }).then((response)=> {
       if (response.data.status == false) {
         console.log("Something went wrong :(")
       } else {

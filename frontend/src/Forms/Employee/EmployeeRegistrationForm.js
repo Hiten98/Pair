@@ -30,6 +30,7 @@ class EmployeeRegistrationForm extends Component {
       facebook: '',
       twitter: '',
       pic:'',
+      prevpic:'',
     }
     try {
       const serializedState = localStorage.getItem('employee-register')
@@ -126,7 +127,7 @@ class EmployeeRegistrationForm extends Component {
 
         <Twitter twitterChange={this.twitterChange} dv={this.state.twitter}/>
 
-        <PicUpload changePic={this.changePic}/>
+        <PicUpload changePic={this.changePic} pic={this.state.pic} prevpic={this.state.prevpic}/>
 
         <EmployeeRegisterButtons {...this.state} company={this.props.company} locations={this.props.locations} updateUid={this.props.updateUid}/>
       </div>

@@ -4,6 +4,7 @@ import BottomBar from './BottomBar'
 import Sidebar from './Sidebar'
 import Toolbar from './TopBar/Toolbar'
 import MainArea from './MainWindow/MainArea'
+import axios from 'axios'
 import './MainLanding.css';
 import history from '../history';
 
@@ -18,6 +19,7 @@ class LandingScreen extends Component {
       currChat: 0,
       currType: 0,
       currChatName: '',
+      currIntern:{},
     }
     try {
       const serializedState = localStorage.getItem('main-area')
@@ -28,7 +30,32 @@ class LandingScreen extends Component {
     } catch (err) {
       console.log('This browser does not allow localstorage and some functionalities may be impacted')
     }
-    this.saveState()
+    
+  }
+
+  componentDidMount = () => {
+    let that = this
+    let name=''
+    let distance=''
+    let smoke=''
+    if (this.props.type == 'intern') {
+      axios.post('/GET-INTERN', {
+        userID:that.props.uid,
+      }).then(function (response) {
+        //console.log(response.data)
+        name=response.data.firstName
+        distance=response.data.housing.desiredDistance
+        smoke=response.data.roommate.smoke
+        that.setState({currIntern:response.data})
+      }).then(()=>{
+        if(name==''||distance==''||smoke==''){
+          alert('Please fill out all pages of the form before continuing to the application')
+          history.push('/register/intern/preferences/user-details')
+        }
+      }).catch(function (error) {
+        console.log(error);
+      })
+    }
   }
 
   saveState = () => {
@@ -41,7 +68,7 @@ class LandingScreen extends Component {
   }
 
   changeChat = (newChat, namem, type) => {
-    this.setState({ currChat: newChat, currChatName: namem, currType: type }, this.saveState)
+    this.setState({ currChat: newChat, currChatName: namem, currType: type }, ()=>{this.saveState()})
   }
 
   render() {

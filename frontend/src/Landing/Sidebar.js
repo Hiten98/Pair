@@ -39,7 +39,7 @@ class Sidebar extends Component {
     let that = this
     let tempCard = []
     for (let i in this.state.cards) {
-       console.log(this.state.cards[i])
+      // console.log(this.state.cards[i])
       tempCard.push(
         <Paper zDepth={2} key={i}>
           <ListItem

@@ -16,24 +16,29 @@ class SubmitButton extends Component {
     }
   }
 
-  submitPicture = () => {
+  submitPicture = (picture) => {
     //Setup references to database
-    var ref = firebase.database().ref();
-    var storageRef = firebase.storage().ref();
-    var internRef = ref.child("User/Interns");
-    let ID = this.props.uid
-    let image = this.props.pic.substring(this.props.pic.indexOf(',') + 1)
+    if (this.props.pic != '') {
+      var ref = firebase.database().ref();
+      var storageRef = firebase.storage().ref();
+      var internRef = ref.child("User/Interns");
+      let ID = this.props.uid
+      let image = this.props.pic.substring(this.props.pic.indexOf(',') + 1)
 
-    var imageRef = internRef.child(ID).child("images");
+      var imageRef = internRef.child(ID).child("images");
 
-    var task = storageRef.child(ID + "/").putString(image, 'base64').then(function (snapshot) {
-      console.log('Uploaded a base64 string!');
-    }).then(() => {
-      storageRef.child(ID + "/").getDownloadURL().then(function (url) {
-        imageRef.child("image").set(url);
-      });
-    })
-
+      var task = storageRef.child(ID + "/").putString(image, 'base64').then(function (snapshot) {
+        picture = true
+        console.log('Uploaded a base64 string!');
+      }).then(() => {
+        storageRef.child(ID + "/").getDownloadURL().then(function (url) {
+          imageRef.child("image").set(url);
+        });
+      })
+    } else {
+      picture = true
+    }
+    return picture
   }
 
   buttonSubmit = () => {
@@ -68,43 +73,31 @@ class SubmitButton extends Component {
         } else {
           preferences = true
         }
+        let picture = that.submitPicture(picture)
       }).catch(function (error) {
         console.log(error);
-      });
+      })
 
-      axios.post('/CREATE-PROFILE-PICTURE', {
-        'userID': this.props.uid,
-        image: pic,
-      }).then(function (response) {
-        picture = true
 
-      }).catch(function (error) {
-        console.log(error);
-      });
-
-      if (preferences && picture) {
-        console.log("Preferences updated!");
-        //Go to preferences p2
-        if (that.state.willRedirect === 1) {
-          that.props.changePage(2)
-          history.push('/register/intern/preferences/roommate')
-        }
-        that.props.changeChange(false)
-        that.props.changeCompleted('1')
-        try {
-          localStorage.removeItem('user-details')
-        } catch (err) {
-          //console.log('This browser does not allow localstorage and some functionalities may be impacted')
-        }
+      console.log("Preferences updated!");
+      //Go to preferences p2
+      if (that.state.willRedirect === 1) {
+        that.props.changePage(2)
+        history.push('/register/intern/preferences/roommate')
       }
-    }
+      that.props.changeChange(false)
+      that.props.changeCompleted('1')
+      try {
+        localStorage.removeItem('user-details')
+      } catch (err) {
+        //console.log('This browser does not allow localstorage and some functionalities may be impacted')
+      }
 
-    this.submitPicture()
+    }
   }
 
   bSubmit = () => {
-    this.setState({ willRedirect: 1 })
-    this.buttonSubmit()
+    this.setState({ willRedirect: 1 },()=>{this.buttonSubmit()})
   }
 
   render() {

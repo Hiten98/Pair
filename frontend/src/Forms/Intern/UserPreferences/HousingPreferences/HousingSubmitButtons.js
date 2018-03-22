@@ -19,13 +19,11 @@ class HousingSubmitButtons extends Component {
   }
 
   backButtonSubmit = () => {
-    this.setState({ willRedirect: 1 })
-    this.bSubmit()
+    this.setState({ willRedirect: 1 },()=>{this.bSubmit()})
   }
 
   buttonSubmit = () => {
-    this.setState({ willRedirect: 2 })
-    this.bSubmit()
+    this.setState({ willRedirect: 2 },()=>{this.bSubmit()})
   }
 
   bSubmit = () => {
@@ -42,7 +40,7 @@ class HousingSubmitButtons extends Component {
       desiredRoommate: roommates,
       desiredDistance: distance,
       desiredDuration: duration
-    }).then(function (response) {
+    }).then((response) => {
       if (response.data.status == false) {
         console.log("Something went wrong :(")
       } else {
@@ -53,7 +51,7 @@ class HousingSubmitButtons extends Component {
           history.push('/register/intern/preferences/roommate')
         } else if (that.state.willRedirect === 2) {
           if (that.props.completed.indexOf('1') > -1 && that.props.completed.indexOf('2') > -1) {
-            history.push('/landing/interns/chat')
+            history.push('/landing/intern/chat')
           }else{
             alert('Please complete all parts of this form')
           }
