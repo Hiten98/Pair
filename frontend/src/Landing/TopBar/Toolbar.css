@@ -2,3 +2,9 @@
   background-color: var(--vblue);
   height:6vh;
 }
+
+.hamburger-menu{
+  position: absolute;
+  top:0vh;
+  right:0vw;
+}

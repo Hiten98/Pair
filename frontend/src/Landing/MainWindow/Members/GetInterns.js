@@ -71,8 +71,6 @@ class GetInterns extends Component {
             args['leftAvatar'] = <Avatar >{splitted[1].substring(0, 1)}</Avatar>
           }
 
-          console.log(parseInt(i) + 1 + that.props.modNum)
-
           tempintern.push(
             <Paper zDepth={2} key={i} className='paper-list'>
               <ListItem

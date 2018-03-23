@@ -61,20 +61,20 @@ class PicUpload extends Component {
   render() {
     return (
       <Row style={{marginTop:'20px'}}>
-        <Col xs={6} md={3}>
+        <Col xs={3} md={3}>
           <Dropzone accept='image/*' onDrop={(files) => this.onDrop(files)}>
             <div>Please select a picture to upload by either dropping them here or click to select files</div>
           </Dropzone>
         </Col>
-        <Col xs={6} md={5}>
+        <Col xs={5} md={5}>
           Profile picture to be uploaded (Optional):
          {this.state.filesPreview}
         </Col>
+        {(this.props.prevpic!=''&&this.props.prevpic!=null)?
         <Col xs={4} md={4}>
           Previous profile picture:<br/>
           {(this.props.prevpic!=''&&this.props.prevpic!=null)?<img src={this.props.prevpic} alt='Profile picture' height='200vh'/>:'No previous picture'}
-          {console.log(this.props.pic)}
-        </Col>
+        </Col>:<p></p>}
       </Row>
     )
   }

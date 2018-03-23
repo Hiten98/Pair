@@ -8,7 +8,7 @@ class Members extends Component {
   constructor(props){
     super(props)
     this.state={
-      currProfile:0,
+      currProfile:this.props.uid,
       currPaper:0,
     }
   }
@@ -27,7 +27,7 @@ class Members extends Component {
     return (
       <div>
         <People {...toSend}/>
-        <DisplayProfile />
+        <DisplayProfile {...toSend}/>
       </div>
     );
   }

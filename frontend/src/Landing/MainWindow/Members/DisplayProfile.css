@@ -1,0 +1,10 @@
+img{
+  max-width: 20vw;
+  max-height: 20vh;
+}
+
+.entire-profile{
+  text-align: left;
+  margin-left: 1vw;
+  margin-top: 1vh;
+}

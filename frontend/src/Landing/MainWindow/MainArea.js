@@ -32,6 +32,8 @@ class MainArea extends Component {
           <Switch>
             <Route path={`/landing/${this.props.type}/chat`} render={()=><Chats {...this.props}/>}/>
             <Route path={`/landing/${this.props.type}/members`} render={()=><Members {...this.props}/>}/>
+            <Route path={`/landing/${this.props.type}/saved`} render={()=><p>Hi</p>}/>
+            <Route path={`/landing/${this.props.type}/housing`} render={()=><p>Hi</p>}/>
             <Route path="/" render={() => <Redirect to='/home/login' />} />
           </Switch>
         </Row>
