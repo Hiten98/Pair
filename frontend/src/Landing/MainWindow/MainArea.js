@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { Row } from 'react-bootstrap'
 import history from '../../history'
-import Chats from './Chat/Chats'
+import Chats from './Chat/Chatroom'
 import Members from './Members/Members'
 import './MainArea.css';
 
