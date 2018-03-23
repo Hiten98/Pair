@@ -33,6 +33,12 @@ class RegisterForm extends Component {
   }
 
   render() {
+    let toSend={
+      changeName:this.changeName,
+      changeEmail:this.changeEmail,
+      changePassword:this.changePassword,
+      changeLocations:this.changeLocations,
+    }
     return (
       <div className="form">
       <NavPage />
@@ -40,9 +46,9 @@ class RegisterForm extends Component {
           Register
         </Row>
 
-        <CodeField changeName={this.changeName} changeEmail={this.changeEmail} changePassword={this.changePassword} changeLocations={this.changeLocations}/>
+        <CodeField {...toSend}/>
 
-        <RegisterButtons companyName={this.state.companyName} companyEmail={this.state.companyEmail} companyPassword={this.state.companyPassword} companyLocations={this.state.companyLocations}/>
+        <RegisterButtons {...this.state} {...this.props}/>
       </div>
     );
   }

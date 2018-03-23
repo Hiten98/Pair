@@ -5,6 +5,7 @@ import history from '../history'
 import axios from 'axios'
 //import './RegisterButtons.css';
 import CodeField from './CodeField'
+import MainArea from '../Landing/MainArea'
 
 axios.defaults.baseURL = 'http://localhost:9090'
 
@@ -17,20 +18,24 @@ class RegisterButtons extends Component {
     let companyEmail = this.props.companyEmail;
     let companyPassword = this.props.companyPassword;
     let companyLocations = this.props.companyLocations;
-    let companyLocationsParsed = companyLocations.split(';');
-    console.log(companyName);
+    let companyLocationsParsed;
+    if (companyLocations != null)
+      companyLocationsParsed = companyLocations.split(';');
+    /*console.log(companyName);
     console.log(companyEmail);
     console.log(companyPassword);
-    console.log(companyLocationsParsed);
+    console.log(companyLocationsParsed);*/
 
     let that = this
 
-    if (companyName != null && companyEmail != null && companyPassword != null && companyLocations != null) {
+    if (!(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(companyEmail)) {
+      alert('Please enter a valid email')
+    } else if (companyName != null && companyEmail != null && companyPassword != null && companyLocations != null) {
       axios.post('/CREATE-COMPANY', {
         "companyName": companyName,
         "companyEmail": companyEmail,
         "companyPassword": companyPassword,
-        "companyLocations" companyLocationsParsed
+        "companyLocations": companyLocationsParsed
       }).then(function (response) {
         console.log(response.data);
         if (response.data.status) {
@@ -43,6 +48,8 @@ class RegisterButtons extends Component {
       });
 
       // Go to Company Page?
+      console.log(companyName);
+      that.props.updateUid(companyName, "company");
       history.push('/landing/company')
     } else {
       alert('Please fill in all the fields')

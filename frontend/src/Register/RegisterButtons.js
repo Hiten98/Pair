@@ -8,7 +8,7 @@ import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:9090'
 
 class RegisterButtons extends Component {
-  
+
 
   handleLogin = () => {
     const companyCode = this.props.companyCode
@@ -16,7 +16,7 @@ class RegisterButtons extends Component {
 
     if (companyCode != null && companyCode.length == 4) {
       axios.post('/GET-COMPANY', {
-        "pid": companyCode
+        "pid": {companyCode}
       }).then(function (response) {
         //console.log(response.data);
         if (response.data.status) {

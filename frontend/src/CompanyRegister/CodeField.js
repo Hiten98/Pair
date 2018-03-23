@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
-import { grey800, black } from 'material-ui/styles/colors'
 import PasswordField from 'material-ui-password-field'
 import { TextField } from 'material-ui'
 import {Row} from 'react-bootstrap'
 import RegisterButtons from './RegisterButtons'
+import { grey800, black, red900 } from 'material-ui/styles/colors';
 //import './CodeField.css';
 
 class CodeField extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      conditions: null,
+    }
+  }
   styles = {
     underlineStyle: {
       borderColor: grey800,
@@ -38,7 +44,12 @@ class CodeField extends Component {
   }
 
   changePassword=(ev)=>{
-    this.props.changePassword(ev.target.value)
+    if (ev.target.value.length < 8) {
+      this.setState({ conditions: { errorText: "Your password is too short", errorStyle: { color: red900 } } });
+    } else {
+      this.setState({ conditions: null });
+      this.props.changePassword(ev.target.value);
+    }
   }
 
   changeLocations=(ev)=>{
@@ -82,12 +93,13 @@ class CodeField extends Component {
             visibilityIconStyle={{ opacity: '0.8' }}
             hintStyle={this.styles.hintStyle}
             onChange={this.changePassword}
+            {...this.state.conditions}
           />
           <PasswordField
-            className="companyEmail"
-            floatingLabelText="Enter Company Locations"
+            className="companyLocations"
+            floatingLabelText="Enter Company Locations separated by semicolon"
             multiLine
-            style={{textAlign: 'left'}}
+            style={{width: 375, textAlign: 'left'}}
             visible
             disableButton
             floatingLabelStyle={this.styles.floatingLabelStyle}

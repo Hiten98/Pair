@@ -20,14 +20,14 @@ class LandingScreen extends Component {
     }
     let lastTab=history.location.pathname.substring(history.location.pathname.lastIndexOf('/')+1)
     // console.log(lastTab)
-    if(lastTab=='chat'||lastTab==''||lastTab=='people'){
+    /*if(lastTab=='chat'||lastTab==''||lastTab=='people'){
       history.push(`${history.location.pathname}/0`)
     }else{
       this.state={
         currPage:history.location.pathname.substring(0,history.location.pathname.lastIndexOf('/')),
         currChat:lastTab,
       }
-    }
+    }*/
   }
 
   changePage=(newPage)=>{

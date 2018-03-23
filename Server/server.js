@@ -154,6 +154,21 @@ app.get('/', function(req, res) {
   res.send('Hello');
 })
 
+
+//get company
+app.post('/GET-COMPANY-FROM-NAME', function(req, res) {
+  console.log('Get company from name request received');
+  console.log(req.body);
+  res.json({
+    "name": "Test Company",
+    "pin": "1234",
+    "email": "aswami@purdue.edu",
+    "password": "SomethingDumb",
+    "locations": ["San Francisco","San Jose", "Mountain View", "Redwood", "Palo Alto"],
+    "employees": ["Darwin","Hiten","Kunal","Adam","Arvindh"]
+  });
+})
+
 //login handler
 app.post('/LOGIN', function (req, res) {
   console.log('Received request for LOGIN:');
