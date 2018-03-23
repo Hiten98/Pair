@@ -33,6 +33,14 @@ class LandingScreen extends Component {
     
   }
 
+  componentWillUnmount=()=>{
+    try {
+      localStorage.removeItem('main-area')
+    } catch (err) {
+      //console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    }
+  }
+
   componentDidMount = () => {
     let that = this
     let name=''

@@ -65,7 +65,7 @@ class Sidebar extends Component {
       axios.post("/GET-CHATROOM", {
         "userID": this.props.uid
       }).then(function (response) {
-        //console.log(response.data)
+        // console.log(response.data)
         // if (response.data.status) {
         let tempCard = []
         let tempPushed = []
