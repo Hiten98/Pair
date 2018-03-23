@@ -3,7 +3,7 @@
 		getMasterListOfInterns,
 		getCompanyFromPin,
 		getCompanyFromName,
-		verifyCompany
+		verifyCompany,
 		getEmployee,
 		getIntern,
 		getBasicPreferences,
@@ -80,19 +80,23 @@
 
 	function verifyCompany(companyRef, email, password, callback) {
 		var correctPassword;
+		var flag = 0;
 		companyRef.once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				if(email == childSnapshot.val().email) {
 					correctPassword = childSnapshot.val().password;
 					if (password == correctPassword) {
+						flag = 1;
 						return callback(true);
 					}
 					else {
+						flag = 1;
 						return callback(false);
 					}
 				}
 			});
-			callback(false);
+			if(flag == 0)
+				callback(false);
 		});
 	}
 

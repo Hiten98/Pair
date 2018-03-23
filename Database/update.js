@@ -6,8 +6,9 @@
         updateIntern,
         updatePassword,
         removeIntern,
-        removeFromChat
-        banIntern
+        removeEmployee,
+        removeFromChat,
+        banIntern,
         unbanIntern,
         removeComplaint
     }*/
@@ -134,7 +135,22 @@
                 });
             });
         });
-        return true;
+    }
+
+    function removeEmployee(employeeRef, chatRoomRef, companyRef, ID) {
+        employeeRef.child(ID).child("listOfChatRooms").once("value").then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var ref = chatRoomRef.child("Company");
+                ref.child(childSnapshot.val()).child("listOfMods").once("value").then(function(babySnapshot) {
+                    babySnapshot.forEach(function(infantSnapshot) {
+                        if(infantSnapshot.val()[0] == ID[0] && infantSnapshot.val()[1] == ID[1] && infantSnapshot.val()[2] == ID[2] && infantSnapshot.val()[3] == ID[3]) {
+                            ref.child(childSnapshot.val()).child("listOfMods").child(infantSnapshot.key).remove();
+                        }
+                    });
+                    employeeRef.child(ID).remove();
+                });
+            });
+        });
     }
 
     function removeFromChat(chatRoomRef, internRef, name, ID) {

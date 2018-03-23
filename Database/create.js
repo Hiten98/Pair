@@ -68,8 +68,6 @@
 	    /*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
     }
 
-	
-
     function createPassword(relevantRef, ID, password) {
     	relevantRef.child(ID).update({
     		"password": password
@@ -250,7 +248,7 @@
 		});
 	}
 
-	function createComplaint(employeeRef, ID, message) {
-		/*update.*/getSnapshot(employeeRef, ID, "listOfComplaints", message);
+	function createComplaint(employeeRef, ID, complaint, complaintee, complainter, CID) {
+		/*update.*/getSnapshot(employeeRef, ID, "listOfComplaints", CID + "$:$" + complainter + "$:$" + complaintee + "$:$" + complaint);
 	}
 
