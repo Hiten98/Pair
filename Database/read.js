@@ -1,7 +1,9 @@
 
 	/*module.exports = {
 		getMasterListOfInterns,
-		getCompany,
+		getCompanyFromPin,
+		getCompanyFromName,
+		verifyCompany
 		getEmployee,
 		getIntern,
 		getBasicPreferences,
@@ -14,7 +16,7 @@
 		getUsersInChatRoom,
 		getModsInChatRoom,
 		compareTwoInterns,
-		compareMultipleInterns,
+		compareInterns,
 		getImage
 	}*/
 
@@ -36,13 +38,14 @@
     	});
 	}
 
-	function getCompany(companyRef, pin, callback) {
+	function getCompanyFromPin(companyRef, pin, callback) {
 		var json = {};
 		companyRef.once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				if(childSnapshot.val().pin == pin) {
 					json["name"] = childSnapshot.key;
 					json["pin"] = childSnapshot.val().pin;
+					json["email"] = childSnapshot.val().email;
 					json["locations"] = {};
 					childSnapshot.child("listOfLocations").forEach(function(babySnapshot) {
 						json["locations"][babySnapshot.key] = babySnapshot.val();
@@ -54,6 +57,42 @@
 				}
 			});
 			callback(json);
+		});
+	}
+
+	function getCompanyFromName(companyRef, name, callback) {
+		var json = {};
+		companyRef.child(name).once("value").then(function(snapshot) {
+			json["name"] = snapshot.key;
+			json["pin"] = snapshot.val().pin;
+			json["email"] = snapshot.val().email;
+			json["locations"] = {};
+			snapshot.child("listOfLocations").forEach(function(childSnapshot) {
+				json["locations"][childSnapshot.key] = childSnapshot.val();
+			});
+			json["employees"] = {};
+			snapshot.child("listOfEmployees").forEach(function(childSnapshot) {
+				json["employees"][childSnapshot.key] = childSnapshot.val();
+			});
+			callback(json);
+		});
+	}
+
+	function verifyCompany(companyRef, email, password, callback) {
+		var correctPassword;
+		companyRef.once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				if(email == childSnapshot.val().email) {
+					correctPassword = childSnapshot.val().password;
+					if (password == correctPassword) {
+						return callback(true);
+					}
+					else {
+						return callback(false);
+					}
+				}
+			});
+			callback(false);
 		});
 	}
 
@@ -266,27 +305,22 @@
 	function compareInterns(internRef, ID1, IDs, callback) {
 		let scores = {};
 		for (let i = 0, p = Promise.resolve(); i < IDs.length; i++) {
-    	p = p.then(_ => new Promise(resolve =>
-        setTimeout(function () {
-						var score = compareTwoInterns(internRef, ID1, IDs[i], function(score) {
-							//document.write(score);
-							scores[i] = score;
-							console.log(i);
-							console.log(scores);
-							if (i === IDs.length-1) {
-								console.log(scores);
-								callback(scores);
-								console.log("Done with Loop");
-							}
-				    })
-            resolve();
-        }, 100)
-    	));
+	    	p = p.then(_ => new Promise(resolve =>
+		        setTimeout(function () {
+					var score = compareTwoInterns(internRef, ID1, IDs[i], function(score) {
+						scores[i] = score;
+						if (i === IDs.length - 1) {
+							callback(scores);
+						}
+					})
+		            resolve();
+		        }, 100)
+	    	));
 		}
 	}
 
-	function getImage(internRef, ID, callback) {
-		internRef.child(ID).child("images").once("value").then(function(snapshot) {
+	function getImage(relevantRef, ID, callback) {
+		relevantRef.child(ID).child("images").once("value").then(function(snapshot) {
 			callback(snapshot.val());
 		});
 	}

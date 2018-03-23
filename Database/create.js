@@ -21,13 +21,15 @@
 	//var update = require('./update.js');
 	//var create = require('./create.js');
 
-	function createCompany(companyRef, companyName, listOfLocations = "novalue", listOfEmployees = "novalue") {
+	function createCompany(companyRef, companyName, email, password, listOfLocations = "novalue", listOfEmployees = []) {
       companyRef.update({
         [companyName]: "novalue"
       });
       var pin = Math.floor(Math.random() * 9000) + 1000;
       companyRef.child(companyName).update({
         "pin": pin,
+        "email": email,
+        "password": password,
         "listOfLocations": listOfLocations,
         "listOfEmployees": listOfEmployees
       });
@@ -45,7 +47,7 @@
 	    });
 	    internRef.child(id).child("listOfChatRooms").update({
 	    	"ban": false
-	    })
+	    });
     }
 
     function createEmployee(employeeRef, companyRef, id, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter) {
@@ -65,6 +67,8 @@
 	    });
 	    /*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
     }
+
+	
 
     function createPassword(relevantRef, ID, password) {
     	relevantRef.child(ID).update({
