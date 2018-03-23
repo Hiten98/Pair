@@ -6,7 +6,7 @@ import axios from 'axios'
 import emailjs from 'emailjs-com'
 //import './ForgotPasswordModal.css';
 
-axios.defaults.baseURL = 'http://localhost:9090'
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
 class ForgotPasswordModal extends Component {
   constructor(props) {

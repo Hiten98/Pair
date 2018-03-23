@@ -29,11 +29,12 @@ class MainArea extends Component {
     return (
       <div>
         <Row className={this.state.classChat[this.state.currPlace]}>
+          {(this.props.state.currChatName=='')?<h1>Please choose a chat from the chats on the left</h1>:
           <Switch>
             <Route path={`/landing/${this.props.type}/chat`} render={()=><Chats {...this.props}/>}/>
             <Route path={`/landing/${this.props.type}/members`} render={()=><Members {...this.props}/>}/>
             <Route path="/" render={() => <Redirect to='/home/login' />} />
-          </Switch>
+          </Switch>}
         </Row>
       </div>
     );

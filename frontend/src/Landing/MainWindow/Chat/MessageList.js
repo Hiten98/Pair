@@ -13,10 +13,10 @@ class MessageList extends Component {
     super(props);
 
     this.state = {
-      chatroomId: "0", //remove this when all together
+      chatroomId: props.chatroomId,
       uid: props.uid,
       name: props.name,
-      chatroomName: "",
+      chatroomName: props.chatroomName,
       chats: [],
       myImg: props.myImg,
       ms: 0,
@@ -25,17 +25,26 @@ class MessageList extends Component {
       newMessage: false
     };
     this.interval = setInterval(this.tick, 500);
-    console.log(props);
   }
 
   componentWillUnmount = () => {
     clearInterval(this.interval);
   };
 
+  componentWillReceiveProps = nextProps => {
+    if (this.props.state.currChatName != nextProps.state.currChatName) {
+      this.setState(
+        {
+          chatroomId: nextProps.state.currChat - 1,
+          chatroomName: nextProps.state.currChatName
+        },
+        this.componentDidMount
+      );
+    }
+  };
+
   componentDidMount() {
     let that = this;
-
-    console.log();
     if (this.state.chatroomId != "" || this.state.chatroomId != null) {
       axios
         .post("/GET-CHATROOM", {
@@ -43,14 +52,17 @@ class MessageList extends Component {
         })
         .then(response => {
           let chatroomList = response.data;
-          that.setState({ chatroomName: response.data[this.state.chatroomId] });
+          if (response.data[this.state.chatroomId] != null) {
+            that.setState({
+              chatroomName: response.data[this.state.chatroomId]
+            });
+          }
         })
         .catch(error => {
           console.log(error);
         });
     }
-
-    console.log(this.state.chatroomName);
+    console.log("Chatroom Name: " + this.state.chatroomName);
     if (this.state.chatroomName != null && this.state.chatroomName != "") {
       axios
         .post("/GET-MESSAGES", {
@@ -150,7 +162,7 @@ class MessageList extends Component {
           open={this.state.newMessage}
           message="New message(s)!"
           action="Click to view"
-          autoHideDuration="5000"
+          autoHideDuration={5000}
           onActionClick={this.handleActionClick}
           onRequestClose={this.handleRequestClose}
         />

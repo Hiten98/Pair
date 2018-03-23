@@ -8,7 +8,7 @@ import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bu
 import axios from 'axios'
 import './Sidebar.css';
 
-axios.defaults.baseURL = 'http://localhost:9090'
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
 class Sidebar extends Component {
   constructor(props) {

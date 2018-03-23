@@ -15,9 +15,9 @@ class Chatroom extends Component {
     //change uid to this.props.uid
     //change chatroom id to this.props.state.currChat-1
     this.state = {
-      uid: "1115",
+      uid: this.props.uid,
       name: "",
-      chatroomId: "0",
+      chatroomId: this.props.state.currChat - 1,
       chatroomName: "",
       chats: [],
       inputText: "",
@@ -25,9 +25,20 @@ class Chatroom extends Component {
     };
   }
 
+  componentWillReceiveProps = nextProps => {
+    if (this.props.state.currChatName != nextProps.state.currChatName) {
+      this.setState(
+        {
+          chatroomId: nextProps.state.currChat - 1,
+          chatroomName: nextProps.state.currChatName
+        },
+        this.componentDidMount
+      );
+    }
+  };
+
   componentDidMount() {
     let that = this;
-    console.log(this.state.uid);
     axios
       .post("/GET-INTERN", {
         userID: this.state.uid
@@ -48,7 +59,9 @@ class Chatroom extends Component {
       })
       .then(response => {
         let chatroomList = response.data;
-        that.setState({ chatroomName: response.data[this.state.chatroomId] });
+        if (response.data[this.state.chatroomId] != null) {
+          that.setState({ chatroomName: response.data[this.state.chatroomId] });
+        }
       })
       .catch(error => {
         console.log(error);
@@ -107,7 +120,7 @@ class Chatroom extends Component {
               <Col>{this.state.chatroomName.substring(1)}</Col>
             </h3>
           </Row>
-          <MessageList {...this.state} />
+          <MessageList {...this.state} {...this.props} />
         </div>
 
         <div className="messages">
@@ -126,7 +139,6 @@ class Chatroom extends Component {
                 hintText="Type a message..."
                 fullWidth={true}
                 multiLine={true}
-                maxlength
                 onChange={this.handleInputTextChange}
                 value={this.state.inputText}
               />
