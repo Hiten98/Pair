@@ -82,8 +82,7 @@ class MainArea extends Component {
             <Route path='/landing/interns' />
             <Route path='/landing/company' />
           </Switch>
-          <p>{this.props.uid}</p>
-          <p>Contact Email: </p>
+          <p className="companyName">{this.props.uid}</p>
           <Col xs={6} className="Employees">
           <List>
             {this.state.employeeCards}
