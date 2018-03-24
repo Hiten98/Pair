@@ -87,7 +87,7 @@
 					correctPassword = childSnapshot.val().password;
 					if (password == correctPassword) {
 						flag = 1;
-						return callback(true);
+						return callback(childSnapshot.key);
 					}
 					else {
 						flag = 1;

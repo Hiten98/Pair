@@ -129,8 +129,10 @@
 			item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
 			internRef.child(user).child("images").once("value").then(function(childSnapshot) {
 				item += childSnapshot.val().image + "$:$";
-				item += snapshot.val().description;
-				/*update.*/getSnapshot(locationChatRoomRef, 2 + location, "listOfUsers", item);
+				internRef.child(user).child("basic").once("value").then(function(babySnapshot) {
+					item += babySnapshot.val().description;
+					/*update.*/getSnapshot(locationChatRoomRef, 2 + location, "listOfUsers", item);
+				});
 			});
 		});
 	}
@@ -153,8 +155,10 @@
 			item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
 			internRef.child(user).child("images").once("value").then(function(childSnapshot) {
 				item += childSnapshot.val().image + "$:$";
-				item += snapshot.val().description;
-				/*update.*/getSnapshot(companyChatRoomRef, 1 + company + ", " + location, "listOfUsers", item);
+				internRef.child(user).child("basic").once("value").then(function(babySnapshot) {
+					item += babySnapshot.val().description;
+					/*update.*/getSnapshot(companyChatRoomRef, 1 + company + ", " + location, "listOfUsers", item);
+				});
 			});
 		});
 	}
@@ -170,9 +174,11 @@
 					item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
 					internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
 						item += childSnapshot.val().image + "$:$";
-						item += snapshot.val().description;
-						groupChatRoomRef.child(3 + name).update({
-							"listOfUsers": [item]
+						internRef.child(ID).child("basic").once("value").then(function(babySnapshot) {
+							item += babySnapshot.val().description;
+							groupChatRoomRef.child(3 + name).update({
+								"listOfUsers": [item]
+							});
 						});
 					});
 				});
@@ -188,8 +194,10 @@
 			item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
 			internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
 				item += childSnapshot.val().image + "$:$";
-				item += snapshot.val().description;
-				/*update.*/getSnapshot(groupChatRoomRef, name, "listOfUsers", item);
+				internRef.child(ID).child("basic").once("value").then(function(babySnapshot) {
+					item += babySnapshot.val().description;
+					/*update.*/getSnapshot(groupChatRoomRef, name, "listOfUsers", item);
+				});
 			});
 		});
 		/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
@@ -207,14 +215,18 @@
 					item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
 					internRef.child(ID1).child("images").once("value").then(function(childSnapshot) {
 						item += childSnapshot.val().image + "$:$";
-						item += snapshot.val().description;
-						internRef.child(ID2).once("value").then(function(snapshot) {
-							item2 += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
-							internRef.child(ID2).child("images").once("value").then(function(childSnapshot) {
-								item2 += childSnapshot.val().image + "$:$";
-								item2 += snapshot.val().description;
-								privateChatRoomRef.child(4 + name).update({
-									"listOfUsers": [item, item2]
+						internRef.child(ID1).child("basic").once("value").then(function(babySnapshot) {
+							item += babySnapshot.val().description;
+							internRef.child(ID2).once("value").then(function(snapshot) {
+								item2 += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+								internRef.child(ID2).child("images").once("value").then(function(childSnapshot) {
+									item2 += childSnapshot.val().image + "$:$";
+									internRef.child(ID2).child("images").once("value").then(function(babySnapshot) {
+										item2 += babySnapshot.val().description;
+										privateChatRoomRef.child(4 + name).update({
+											"listOfUsers": [item, item2]
+										});
+									});
 								});
 							});
 						});
