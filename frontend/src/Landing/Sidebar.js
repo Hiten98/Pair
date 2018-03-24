@@ -7,8 +7,9 @@ import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bu
 
 import axios from 'axios'
 import './Sidebar.css';
+import history from '../history';
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+axios.defaults.baseURL = "http://localhost:9090";
 
 class Sidebar extends Component {
   constructor(props) {
@@ -26,12 +27,12 @@ class Sidebar extends Component {
   styleNoPressed = 'white'
 
 
-  handleClick = (i,name,type) => {
+  handleClick = (i, name, type) => {
     let tempArr = this.state.colors
     tempArr[parseInt(this.props.state.currChat) - 1] = null
     tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
     this.setState({ colors: tempArr }, this.changeColors)
-    this.props.changeChat(parseInt(i) + 1,name,type)
+    this.props.changeChat(parseInt(i) + 1, name, type)
   }
 
   changeColors = () => {
@@ -46,7 +47,7 @@ class Sidebar extends Component {
             primaryText={this.state.cards[i].props.children.props.primaryText}
             className={this.state.cards[i].props.children.props.className}
             rightIcon={<CommunicationChatBubble />}
-            onClick={() => that.handleClick(i,this.state.cards[i].props.children.props.className,this.state.cards[i].props.children.props.className.substring(0,1))}
+            onClick={() => that.handleClick(i, this.state.cards[i].props.children.props.className, this.state.cards[i].props.children.props.className.substring(0, 1))}
             value={i}
             hoverColor='#F95498B0'
             {...that.state.colors[i]}
@@ -60,14 +61,28 @@ class Sidebar extends Component {
   }
 
   componentDidMount() {
+    let tempCard = []
+    if (history.location.pathname.indexOf('/landing/employee/members') == 0 && this.props.type == 'employee') {
+      tempCard.push(
+        <Paper zDepth={2} key={-1}>
+          <ListItem
+            primaryText='Intern Master List'
+            className='0Intern Master List'
+            rightIcon={<CommunicationChatBubble />}
+            onClick={() => this.handleClick(0, '0Intern Master List', 0)}
+            value={0}
+            hoverColor='#F95498B0'
+            {...this.state.colors[0]}
+          />
+        </Paper>
+      )
+    }
     let that = this
     if (this.props.uid != null) {
       axios.post("/GET-CHATROOM", {
         "userID": this.props.uid
       }).then(function (response) {
-        // console.log(response.data)
-        // if (response.data.status) {
-        let tempCard = []
+        console.log(response.data)
         let tempPushed = []
         for (let i in response.data) {
           tempPushed.push(that.styleNoPressed)
@@ -82,7 +97,7 @@ class Sidebar extends Component {
                 primaryText={response.data[i].substring(1)}
                 className={response.data[i]}
                 rightIcon={<CommunicationChatBubble />}
-                onClick={() => that.handleClick(i,response.data[i],response.data[i].substring(0,1))}
+                onClick={() => that.handleClick(i, response.data[i], response.data[i].substring(0, 1))}
                 value={i}
                 hoverColor='#F95498B0'
                 {...that.state.colors[i]}
@@ -92,7 +107,6 @@ class Sidebar extends Component {
           )
           that.setState({ cards: tempCard })
         }
-        // }
       }).catch(function (error) {
         console.log(error);
       })

@@ -5,7 +5,7 @@ import history from '../../../../history'
 import axios from 'axios'
 import './RoommateSubmitButtons.css';
 
-axios.defaults.baseURL='http://localhost:9090'
+axios.defaults.baseURL='http://http://localhost:9090'
 
 class RoommateSubmitButtons extends Component {
   constructor(props){

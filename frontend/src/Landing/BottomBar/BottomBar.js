@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import { Row } from 'react-bootstrap'
-import history from '../history';
+import history from '../../history';
+import SearchBar from './SearchBar'
 import './BottomBar.css';
 
 class BottomBar extends Component {

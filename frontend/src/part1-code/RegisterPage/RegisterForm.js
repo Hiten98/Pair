@@ -9,7 +9,7 @@ import '../LoginPage/form.css';
 import history from '../history'
 import axios from 'axios'
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+axios.defaults.baseURL = "http://localhost:9090";
 
 class RegisterForm extends Component {
   loc=[]

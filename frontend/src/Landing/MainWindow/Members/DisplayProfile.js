@@ -3,6 +3,7 @@ import { NavLink, Switch, Route } from 'react-router-dom'
 import { RaisedButton } from 'material-ui'
 import { Col, Row } from 'react-bootstrap'
 import axios from 'axios'
+import { lightGreenA700, yellow800, red500 } from 'material-ui/styles/colors';
 import './DisplayProfile.css';
 
 class DisplayProfile extends Component {
@@ -18,6 +19,7 @@ class DisplayProfile extends Component {
       twitter: '',
       linkedin: '',
       pic: '',
+      match: '',
     }
     // console.log(props.props.uid)
     // console.log(props.currProfile)
@@ -34,6 +36,7 @@ class DisplayProfile extends Component {
         twitter: '',
         linkedin: '',
         pic: '',
+        match: '',
       }, this.componentDidMount)
     }
   }
@@ -68,12 +71,34 @@ class DisplayProfile extends Component {
     }).catch(function (error) {
       console.log(error);
     })
+    
+    if (this.props.props.type == 'intern') {
+      let tempUid = [this.state.currProfile]
+      axios.post('/COMPARE-INTERNS', {
+        userID1: this.props.props.uid,
+        userID2: tempUid,
+      }).then(function (response) {
+        let score=''
+        if (parseInt(response.data.score[0]) > 80) {
+          score=<span style={{ color: lightGreenA700,fontSize:'20px', }}>{response.data.score[0]}% match </span>
+        } else if (parseInt(response.data.score[0]) > 50) {
+          score=<span style={{ color: yellow800,fontSize:'20px', }}>{response.data.score[0]}% match </span>
+        } else {
+          score=<span style={{ color: red500,fontSize:'20px', }}>{response.data.score[0]}% match </span>
+        }
+        that.setState({match:score})
+      }).catch(function (error) {
+        console.log(error);
+      })
+    }
   }
 
   displayPic = () => {
     if (this.state.pic != null) {
       return (
-        <img src={this.state.pic} alt={`${this.state.firstname}'s Profile Picture`} />
+        <Col xs={4}>
+          <img src={this.state.pic} alt={`${this.state.firstname}'s Profile Picture`} />
+        </Col>
       )
     } else
       return null
@@ -86,20 +111,27 @@ class DisplayProfile extends Component {
           label={link}
           className='link'
           secondary
-          onClick={()=>{this.goToLink(link)}} />
+          onClick={() => { this.goToLink(link) }} />
       )
     }
   }
 
-  goToLink=(address)=>{
-    if(this.state[address].trim().indexOf('www.')===0)
-      window.open(`http://${this.state[address]}`,true)
-    else if(this.state[address].trim().indexOf('http://www.')===0)
-      window.open(`${this.state[address]}`,true)
-    else if(this.state[address].trim().indexOf('http://')===0)
-      window.open(`http://www.${this.state[address].substring(7)}`,true)
+  goToLink = (address) => {
+    if (this.state[address].trim().indexOf('www.') === 0)
+      window.open(`http://${this.state[address]}`, true)
+    else if (this.state[address].trim().indexOf('http://www.') === 0)
+      window.open(`${this.state[address]}`, true)
+    else if (this.state[address].trim().indexOf('http://') === 0)
+      window.open(`http://www.${this.state[address].substring(7)}`, true)
     else
-      window.open(`http://www.${this.state[address]}`,true)
+      window.open(`http://www.${this.state[address]}`, true)
+  }
+
+  modSettings = () => {
+    //console.log(this.props.props.type)
+    if (this.props.props.type == 'employee') {
+      console.log('hi')
+    }
   }
 
   render() {
@@ -108,7 +140,25 @@ class DisplayProfile extends Component {
         <div className='entire-profile'>
           <Row>
             {this.displayPic()}
-            <span style={{ fontSize: '60px' }}>{`${this.state.firstname} ${this.state.lastname}`}</span>
+            <Col xs={8}>
+              <Row>
+              <span style={{ fontSize: '60px' }}>{`${this.state.firstname} ${this.state.lastname}`}</span>
+              </Row>
+              <Row>
+              {(this.props.props.type=='intern')?this.state.match:<div></div>}
+              </Row>
+            </Col>
+          </Row>
+          {this.modSettings()}
+          <Row className='row-div company-info'>
+            <Col xs={6}>
+              <h3>Company:</h3>
+              <p> {this.state.company}</p>
+            </Col>
+            <Col xs={6}>
+              <h3>Location:</h3>
+              <p> {this.state.location}</p>
+            </Col>
           </Row>
           {(this.state.bio != null) ? <Row className='row-div'><h3>Bio:</h3> <p>{this.state.bio}</p></Row> : <div></div>}
           <Row className='row-div'>

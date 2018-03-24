@@ -57,7 +57,7 @@ class App extends Component {
   }
 
   updateUid = (uid, authority) => {
-    console.log(uid)
+    //console.log(uid)
     //console.log("hi")
     this.setState({ uid: uid },()=>{this.saveState()})
     this.setState({ type: authority },()=>{this.saveState()})

@@ -5,7 +5,7 @@ import history from '../../history'
 import axios from 'axios'
 //import './Email.css';
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+axios.defaults.baseURL = "http://localhost:9090";
 
 
 class Email extends Component {

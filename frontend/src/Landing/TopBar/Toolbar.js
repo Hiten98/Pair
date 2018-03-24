@@ -42,7 +42,8 @@ class Toolbar extends Component {
     if (this.props.type == 'intern') {
       return (
         <Tabs
-          style={{ width: '90%' }}
+          style={{ width: '90%',height:'5vh' }}
+          style={{height:'5px'}}
           initialSelectedIndex={this.state.currPage}
         >
           <Tab
