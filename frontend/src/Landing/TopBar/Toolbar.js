@@ -38,6 +38,11 @@ class Toolbar extends Component {
       history.push(`/landing/${this.props.type}/housing`)
   }
 
+  changeToComplaints = () => {
+    if (history.location.pathname.indexOf(`/landing/employee/complaints`))
+      history.push(`/landing/employee/complaints`)
+  }
+
   ifIntern = () => {
     if (this.props.type == 'intern') {
       return (
@@ -82,6 +87,11 @@ class Toolbar extends Component {
           <Tab
             label='Members'
             onActive={this.changeToMembers}
+            buttonStyle={{ backgroundColor: '#50C2C4', }}
+          ></Tab>
+          <Tab
+            label='Complaints'
+            onActive={this.changeToComplaints}
             buttonStyle={{ backgroundColor: '#50C2C4', }}
           ></Tab>
         </Tabs>

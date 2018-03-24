@@ -4,6 +4,7 @@ import { Row } from 'react-bootstrap'
 import history from '../../history'
 import Chats from './Chat/Chatroom'
 import Members from './Members/Members'
+import Complaints from './Complaints/Complaints'
 import './MainArea.css';
 
 class MainArea extends Component {
@@ -43,6 +44,7 @@ class MainArea extends Component {
           <Switch>
             <Route path={`/landing/${this.props.type}/chat`} render={()=><Chats {...this.props}/>}/>
             <Route path={`/landing/${this.props.type}/members`} render={()=><Members {...this.props}/>}/>
+            <Route path='/landing/employee/complaints' render={()=><Complaints {...this.props}/>}/>
             <Route path={`/landing/${this.props.type}/saved`} render={()=><p>Hi</p>}/>
             <Route path={`/landing/${this.props.type}/housing`} render={()=><p>Hi</p>}/>
             <Route path="/" render={() => <Redirect to='/home/login' />} />

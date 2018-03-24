@@ -23,6 +23,7 @@ class DisplayProfile extends Component {
       linkedin: '',
       pic: '',
       match: '',
+      ban: false,
     }
     // console.log(props.props.uid)
     // console.log(props.currProfile)
@@ -40,31 +41,76 @@ class DisplayProfile extends Component {
         linkedin: '',
         pic: '',
         match: '',
+        ban:false,
       }, this.componentDidMount)
     }
   }
 
   componentDidMount() {
     let that = this
-    axios.post("/GET-INTERN", {
-      "userID": this.state.currProfile
-    }).then(function (response) {
-      //console.log(response.data)
-      if (!that.state.changed) {
-        that.setState({
-          firstname: response.data.firstName,
-          lastname: response.data.lastName,
-          bio: response.data.basic.description,
-          facebook: response.data.basic.fbLink,
-          twitter: response.data.basic.twitterLink,
-          linkedin: response.data.basic.linkedInLink,
-          company: response.data.company,
-          location: response.data.location,
+    //get info if intern
+    if (this.state.currProfile.substring(0, 1) == 1) {
+      axios.post("/GET-INTERN", {
+        "userID": this.state.currProfile
+      }).then(function (response) {
+        //console.log(response.data)
+        // if (!that.state.changed) {
+          that.setState({
+            firstname: response.data.firstName,
+            lastname: response.data.lastName,
+            bio: response.data.basic.description,
+            facebook: response.data.basic.fbLink,
+            twitter: response.data.basic.twitterLink,
+            linkedin: response.data.basic.linkedInLink,
+            company: response.data.company,
+            location: response.data.location,
+            ban:response.data.ban,
+          })
+        // }
+      }).catch(function (error) {
+        console.log(error);
+      })
+
+      if (this.props.props.type == 'intern' && this.state.currProfile != this.props.props.uid) {
+        let tempUid = [this.state.currProfile]
+        axios.post('/COMPARE-INTERNS', {
+          userID1: this.props.props.uid,
+          userID2: tempUid,
+        }).then(function (response) {
+          let score = ''
+          if (parseInt(response.data.score[0]) > 80) {
+            score = <span style={{ color: lightGreenA700, fontSize: '20px', }}>{response.data.score[0]}% match </span>
+          } else if (parseInt(response.data.score[0]) > 50) {
+            score = <span style={{ color: yellow800, fontSize: '20px', }}>{response.data.score[0]}% match </span>
+          } else {
+            score = <span style={{ color: red500, fontSize: '20px', }}>{response.data.score[0]}% match </span>
+          }
+          that.setState({ match: score })
+        }).catch(function (error) {
+          console.log(error);
         })
       }
-    }).catch(function (error) {
-      console.log(error);
-    })
+    } else if(this.state.currProfile.substring(0,1)==2){
+      axios.post("/GET-EMPLOYEE", {
+        "userID": this.state.currProfile
+      }).then(function (response) {
+        // console.log(response.data)
+        // if (!that.state.changed) {
+          that.setState({
+            firstname: response.data.firstName,
+            lastname: response.data.lastName,
+            bio: response.data.description,
+            facebook: response.data.links[0],
+            twitter: response.data.links[2],
+            linkedin: response.data.links[1],
+            company: response.data.company,
+            location: response.data.location,
+          })
+        // }
+      }).catch(function (error) {
+        console.log(error);
+      })
+    }
     //ADD IN CODE TO GET THE PICTURE FROM THE SERVER
     axios.post("/GET-IMAGE", {
       "userID": this.state.currProfile
@@ -74,39 +120,19 @@ class DisplayProfile extends Component {
     }).catch(function (error) {
       console.log(error);
     })
-    
-    if (this.props.props.type == 'intern' && this.state.currProfile!=this.props.props.uid) {
-      let tempUid = [this.state.currProfile]
-      axios.post('/COMPARE-INTERNS', {
-        userID1: this.props.props.uid,
-        userID2: tempUid,
-      }).then(function (response) {
-        let score=''
-        if (parseInt(response.data.score[0]) > 80) {
-          score=<span style={{ color: lightGreenA700,fontSize:'20px', }}>{response.data.score[0]}% match </span>
-        } else if (parseInt(response.data.score[0]) > 50) {
-          score=<span style={{ color: yellow800,fontSize:'20px', }}>{response.data.score[0]}% match </span>
-        } else {
-          score=<span style={{ color: red500,fontSize:'20px', }}>{response.data.score[0]}% match </span>
-        }
-        that.setState({match:score})
-      }).catch(function (error) {
-        console.log(error);
-      })
-    }
   }
 
   render() {
     return (
       <Col xs={8}>
         <div className='entire-profile'>
-          <ProfileHeader {...this.props} {...this.state}/>
-          
-          <CompanyInformation {...this.props} {...this.state}/>
-          
+          <ProfileHeader {...this.props} {...this.state} />
+
+          <CompanyInformation {...this.props} {...this.state} />
+
           {(this.state.bio != null) ? <Row className='row-div'><h3>Bio:</h3> <p>{this.state.bio}</p></Row> : <div></div>}
-          
-          <Links {...this.props} {...this.state}/>
+
+          <Links {...this.props} {...this.state} />
         </div>
       </Col>
     );
