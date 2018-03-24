@@ -50,6 +50,7 @@ class Chatroom extends Component {
           myImg: response.data.image,
           banned: response.data.banned
         });
+        console.log(this.state.myImg);
       })
       .catch(error => {
         console.log(error);

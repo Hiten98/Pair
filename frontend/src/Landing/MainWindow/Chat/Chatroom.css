@@ -27,8 +27,8 @@ p {
   background-color: var(--vblue);
   color: #fff;
   margin: 0;
-  height: 6vh;
-  font-size: 20px;
+  height: 8vh;
+  font-size: 4vh;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -42,7 +42,7 @@ p {
   box-sizing: border-box;
   padding: 0 20px;
   margin: 10px 0 0;
-  height: 75vh;
+  height: 73vh;
   overflow-y: auto;
   text-align: left;
   margin-top: 0vh;
