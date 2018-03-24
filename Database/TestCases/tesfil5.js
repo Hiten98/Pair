@@ -57,8 +57,39 @@
     addToGroupChat(groupChatRoomRef, internRef, 1822, "3Time and other concepts");
     addToGroupChat(groupChatRoomRef, internRef, 1115, "3Time and other concepts");
 	createPrivateChat(privateChatRoomRef, internRef, 1822, 1115, "Private times", (x) => {});
+    removeIntern(internRef, chatRoomRef, 11111);
 
-	
+    compareInterns(internRef, 1600, [1761, 1600, 1761], (x) => {
+      document.write(JSON.stringify(x));
+    });
+
+    getCompanyFromPin(companyRef, "3135", (x) => {
+        document.write(JSON.stringify(x));
+    });
+    getCompanyFromName(companyRef, "Carrot", (x) => {
+        document.write(JSON.stringify(x));
+    });
+
+    verifyCompany(companyRef, "head@carrot.com", "something", (x) => {
+        console.log(x);
+    });
+    verifyCompany(companyRef, "head@carrot.com", "somthing", (x) => {
+        console.log(x);
+    });
+
+    getIntern(internRef, 1822, (x) => {
+        document.write(JSON.stringify(x));
+    });
+
+    verifyCompany(companyRef, "head@carrot.com", "something", (x) => {
+        document.write(x);
+    })
+    
+    addToLocationChat(locationChatRoomRef, internRef, "Up here", 1480);
+    createPrivateChat(privateChatRoomRef, internRef, 1822, 1761, "Old school club", (x) => {
+        document.write(x);
+    });
+
 
 
 
