@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Col } from 'react-bootstrap'
-import BottomBar from './BottomBar'
+import BottomBar from './BottomBar/BottomBar'
 import Sidebar from './Sidebar'
 import Toolbar from './TopBar/Toolbar'
 import MainArea from './MainArea'
