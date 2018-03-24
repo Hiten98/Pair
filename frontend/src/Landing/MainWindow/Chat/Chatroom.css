@@ -1,0 +1,112 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans|Pacifico);
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+body,
+p {
+  margin: 0;
+}
+p {
+  display: inline-block;
+}
+
+.chatroom {
+  height: 81vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  -webkit-box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+  min-height: 81vh;
+  min-width: 100%;
+  display: inline-block;
+}
+.chatroom h3 {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--vblue);
+  color: #fff;
+  margin: 0;
+  height: 6vh;
+  font-size: 20px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.chatroom .chats {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 20px;
+  margin: 10px 0 0;
+  height: 75vh;
+  overflow-y: auto;
+  text-align: left;
+  margin-top: 0vh;
+}
+.chatroom .chats .chat {
+  background: aliceblue;
+  position: relative;
+  padding: 5px 13px;
+  font-size: 14px;
+  border-radius: 10px;
+  list-style: none;
+  float: left;
+  clear: both;
+  margin: 10px 0;
+  max-width: 50%;
+}
+.chatroom .chats .chat img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  top: -10px;
+  left: 0;
+}
+.chatroom .chats .chat.right {
+  float: right;
+  text-align: left;
+  clear: both;
+  max-width: 50%;
+}
+.chatroom .chats .chat a {
+  text-decoration: none;
+  color: #3498db;
+  display: inline-block;
+  text-align: left;
+  max-width: 50%;
+}
+
+.messages {
+  background-color: var(--vblue);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 13vh;
+  overflow-y: auto;
+}
+
+.messages input[type="submit"] {
+  background: var(--l3);
+  border: 1px solid var(--l3);
+  margin-top: 1.5vh;
+  height: 10vh;
+  width: 10vw;
+  font-size: 14px;
+  box-sizing: border-box;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: fixed;
+  right:2vw;
+}
+
+.messages input[type="submit"]:hover {
+  background: var(--hc);
+  color: #FFF;
+}

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import { Row } from 'react-bootstrap'
 import { IconMenu, MenuItem, IconButton } from 'material-ui'
-import bars from '../../images/bars.svg'
+import bars from '../../images/bars.png'
 import history from '../../history'
 import ChangePasswordModal from './ChangePasswordModal'
 import DeleteAccountModal from './DeleteAccountModal'
-// import './Menu.css';
+import './Toolbar.css';
 
 class Menu extends Component {
   constructor(props){
@@ -27,7 +27,7 @@ class Menu extends Component {
   }
 
   goToProfile=()=>{
-    history.push(`/landing/${this.props.type}/members/0`)
+    history.push(`/landing/${this.props.type}/members`)
   }
 
   deleteAccount=()=>{
@@ -41,10 +41,7 @@ class Menu extends Component {
   render() {
     return (
       <div>
-        <IconMenu
-          iconButtonElement={<IconButton><img src={bars} alt='hamburger menu' /></IconButton>}
-          style={{ position: 'absolute', right: '1vw' }}
-        >
+        <IconMenu iconButtonElement={<IconButton><img className='hamburger-menu-img' src={bars} alt='hamburger menu'/></IconButton>}>
           <MenuItem onClick={this.goToProfile} primaryText='Profile' />
           <MenuItem onClick={this.changePass} primaryText='Change Password' />
           <MenuItem onClick={this.deleteAccount} primaryText='Delete account'/>

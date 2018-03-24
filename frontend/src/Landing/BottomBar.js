@@ -9,7 +9,7 @@ class BottomBar extends Component {
       <div>
         <Switch>
           <Route path='/landing/interns/chat' />
-          <Route path='/landing/employees/chat' />
+          <Route path='/landing/employee/chat' />
           <Route path='/landing/' render={() =>
             <Row className='search-bar'>
               <Switch>
