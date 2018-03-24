@@ -4,7 +4,8 @@ import history from '../history'
 import './MainArea.css';
 import { Row, Col } from 'react-bootstrap'
 import axios from 'axios'
-import {List, ListItem, Subheader, Paper } from 'material-ui'
+import {List, ListItem, Subheader, Paper, RaisedButton, Dialog, TextField, Snackbar} from 'material-ui'
+import { grey800, black } from 'material-ui/styles/colors';
 
 class MainArea extends Component {
   constructor(props) {
@@ -18,11 +19,39 @@ class MainArea extends Component {
       locationCards: [],
       internsCard: [],
       pin: null,
+      removeInternUID: null,
+      open: false,
+      sopen:false,
     }
   }
 
   removeInternModal = (ev) => {
-    console.log("!!!!!");
+    console.log(ev);
+    this.setState({ removeInternUID: ev });
+    this.setState({ open: true })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false })
+  }
+
+  handleRequestClose=()=>{
+    this.setState({sopen:false})
+  }
+
+  removeIntern = () => {
+    console.log(this.state.removeInternUID);
+    let that = this
+    axios.post('/REMOVE-USER', {
+      "userID": this.state.removeInternUID
+    }).then((response) => {
+      console.log(response.data)
+    }).catch((error) => {
+      console.log(error);
+    });
+
+    this.setState({ open: false })
+    that.setState({sopen:true})
   }
 
   componentDidMount() {
@@ -97,7 +126,7 @@ class MainArea extends Component {
     }).then(function (response) {
       console.log(response.data);
 
-      // Make Cards for Interns
+      // Make Cards for INTERNS
       let tempCard=[]
       for (let i in response.data) {
         let temp = parseInt(i) % 2;
@@ -111,7 +140,7 @@ class MainArea extends Component {
               primaryText={response.data[i].firstName + ' ' + response.data[i].lastName}
               //style={{background:backgroundColor }}
               hoverColor='#D3D3D3'
-              onClick={() => this.removeInternModal}
+              onClick={() => that.removeInternModal(i)}
             />
           </Paper>
         )
@@ -125,6 +154,29 @@ class MainArea extends Component {
 
   }
 
+  styles = {
+    underlineStyle: {
+      borderColor: black,
+    },
+    floatingLabelStyle: {
+      color: grey800,
+    },
+    floatingLabelShrinkStyle: {
+      color: black,
+    },
+  }
+
+  actions = [
+    <RaisedButton
+      label="NO"
+      onClick={this.handleClose}
+    />,
+    <RaisedButton
+      label="YES"
+      onClick={this.removeIntern}
+    />
+  ]
+
   render() {
     return (
       <div>
@@ -137,19 +189,32 @@ class MainArea extends Component {
           <p className="companyName">{this.props.uid}</p>
           <Col xs={4} className="Employees">
           <List>
-            <p className="title">Employees</p>
+            <h3>Employees</h3>
             {this.state.employeeCards}
           </List>
           </Col>
           <Col xs={4} className="Interns">
           <List>
-            <p className="title">Interns</p>
+            <h3>Interns</h3>
             {this.state.internsCard}
           </List>
+          <Dialog
+            title='Would you like to remove this intern?'
+            modal
+            actions={this.actions}
+            open={this.state.open}
+          >
+          </Dialog>
+          <Snackbar
+            open={this.state.sopen}
+            message='Intern successfully removed'
+            autoHideDuration={4000}
+            onRequestClose={this.handleRequestClose}
+          />
           </Col>
           <Col xs={4} className="Locations">
           <List>
-            <p className="title">Locations</p>
+            <h3>Locations</h3>
             {this.state.locationCards}
           </List>
           </Col>

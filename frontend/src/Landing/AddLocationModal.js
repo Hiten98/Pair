@@ -53,6 +53,7 @@ class AddLocationModal extends Component {
       });
 
       this.setState({ open: false })
+      that.setState({sopen:true})
 
     } else {
       alert('Please Enter a Location before clicking Add')
@@ -90,7 +91,7 @@ class AddLocationModal extends Component {
           label='+ Location'
           primary
           onClick={this.handleOpen}
-          style={{ marginTop: '2.5%' }}
+          style={{ marginTop: '5%' }}
         />
         <Dialog
           title='Add Location'

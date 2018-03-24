@@ -33,7 +33,7 @@ class LoginButtons extends Component {
           if (response.data.authority==='admin') {
             history.push('/landing/admin')
           } if (response.data.authority==='company') {
-            history.push('/landing/company-landing')
+            history.push('/landing/company')
           } else if (response.data.authority==='employee') {
             //GO TO EMPLOYEE Landing Page
             history.push('/landing/employee/chat')

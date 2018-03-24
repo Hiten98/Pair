@@ -96,7 +96,7 @@ class AddEmployeeModal extends Component {
           label={'+ Employee'}
           primary
           onClick={this.handleOpen}
-          style={{ marginTop: '2.5%' }}
+          style={{ marginTop: '5%' }}
         />
         <Dialog
           title='Add Employee'
