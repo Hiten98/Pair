@@ -5,6 +5,8 @@ import './BottomBar.css';
 import { RaisedButton } from 'material-ui'
 import PasswordField from 'material-ui-password-field'
 import AddLocationModal from './AddLocationModal'
+import AddEmployeeModal from './AddEmployeeModal'
+import axios from 'axios'
 
 class BottomBar extends Component {
   constructor(props) {
@@ -12,6 +14,7 @@ class BottomBar extends Component {
     this.state = {
       employeeModal: false,
       locationModal: false,
+      pin: null,
     }
   }
 
@@ -27,18 +30,29 @@ class BottomBar extends Component {
     this.setState({ locationModal: false });
   }
 
+  componentDidMount() {
+    let that = this
+
+    axios.post('/GET-COMPANY-FROM-NAME', {
+      "name": this.props.uid
+    }).then(function (response) {
+      //console.log(response.data);
+      that.setState({ pin: response.data.pin })
+
+    }).catch(function (error) {
+      console.log(error);
+    });
+
+  }
+
   render() {
     return (
       <div>
       <Col xs={6} className="addEmployee">
-        <RaisedButton
-          label="+ Employee"
-          primary={true}
-          onClick={this.addEmployee}
-        />
+        <AddEmployeeModal pin={this.state.pin}/>
       </Col>
       <Col xs={6} className="addLocation">
-        <AddLocationModal />
+        <AddLocationModal companyName={this.props.uid} />
       </Col>
         <Switch>
           <Route path='/landing/interns/chat' />

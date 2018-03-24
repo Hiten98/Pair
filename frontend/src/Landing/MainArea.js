@@ -16,6 +16,7 @@ class MainArea extends Component {
       currPlace: 1,
       employeeCards: [],
       locationCards: [],
+      pin: null,
     }
   }
 
@@ -25,26 +26,33 @@ class MainArea extends Component {
     else
       this.setState({ currPlace: 1 })
 
-    console.log(this.props);
-    console.log(this.props.uid);
+    //console.log(this.props);
+    //console.log(this.props.uid);
     var companyName = this.props.uid;
 
     //Get Company Post Request
     let that = this
 
     axios.post('/GET-COMPANY-FROM-NAME', {
-      "companyName": {companyName}
+      "name": companyName
     }).then(function (response) {
-      console.log(response.data);
+      //console.log(response.data);
+      that.setState({ pin: response.data.pin })
 
       //Make Cards for Employees
       let tempCard=[]
       for (let i in response.data.employees) {
+        let temp = parseInt(i) % 2;
+        if (temp != 0)
+          var backgroundColor='#D3D3D3'
+        else
+          var backgroundColor='white'
         tempCard.push(
           <Paper zDepth={2} key={i}>
             <ListItem
               primaryText={response.data.employees[i]}
-              hoverColor='#F95498B0'
+              style={{background:backgroundColor }}
+              disabled={true}
             />
           </Paper>
         )
@@ -54,11 +62,17 @@ class MainArea extends Component {
       // Make Cards for Locations
       tempCard=[]
       for (let i in response.data.locations) {
+        let temp = parseInt(i) % 2;
+        if (temp != 0)
+          var backgroundColor='#D3D3D3'
+        else
+          var backgroundColor='white'
         tempCard.push(
           <Paper zDepth={2} key={i}>
             <ListItem
               primaryText={response.data.locations[i]}
-              hoverColor='#F95498B0'
+              style={{background:backgroundColor }}
+              disabled={true}
             />
           </Paper>
         )
@@ -85,11 +99,13 @@ class MainArea extends Component {
           <p className="companyName">{this.props.uid}</p>
           <Col xs={6} className="Employees">
           <List>
+            <p className="title">Employees</p>
             {this.state.employeeCards}
           </List>
           </Col>
           <Col xs={6} className="Locations">
           <List>
+            <p className="title">Locations</p>
             {this.state.locationCards}
           </List>
           </Col>

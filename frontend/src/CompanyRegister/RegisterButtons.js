@@ -30,12 +30,15 @@ class RegisterButtons extends Component {
 
     if (!(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(companyEmail)) {
       alert('Please enter a valid email')
+    } else if (!(new RegExp('[^;]+')).test(companyLocations)) {
+      alert("Locations format is invalid")
     } else if (companyName != null && companyEmail != null && companyPassword != null && companyLocations != null) {
       axios.post('/CREATE-COMPANY', {
         "companyName": companyName,
-        "companyEmail": companyEmail,
-        "companyPassword": companyPassword,
-        "companyLocations": companyLocationsParsed
+        "email": companyEmail,
+        "password": companyPassword,
+        "locations": companyLocationsParsed,
+        "employees": ""
       }).then(function (response) {
         console.log(response.data);
         if (response.data.status) {
