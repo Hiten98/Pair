@@ -43,14 +43,14 @@ class MessageList extends Component {
     }
   };
 
-  componentDidMount() {
+  componentDidMount=()=> {
     let that = this;
     if (this.state.chatroomId != "" || this.state.chatroomId != null) {
       axios
         .post("/GET-CHATROOM", {
           userID: this.state.uid
         })
-        .then(response => {
+        .then((response) => {
           let chatroomList = response.data;
           if (response.data[this.state.chatroomId] != null) {
             that.setState({
@@ -62,7 +62,7 @@ class MessageList extends Component {
           console.log(error);
         });
     }
-    console.log("Chatroom Name: " + this.state.chatroomName);
+    //console.log("Chatroom Name: " + this.state.chatroomName);
     if (this.state.chatroomName != null && this.state.chatroomName != "") {
       axios
         .post("/GET-MESSAGES", {
@@ -74,17 +74,17 @@ class MessageList extends Component {
           for (let m in messages) {
             if (m != "" && m != null && m != "number") {
               let uidEndIndex = messages[m].indexOf(":");
-              let nameEndIndex = messages[m].indexOf(":", uidEndIndex+1);
-              let imageEndIndex = messages[m].indexOf(":", nameEndIndex+1);
+              let nameEndIndex = messages[m].indexOf(":", uidEndIndex + 1);
+              let imageEndIndex = messages[m].indexOf(":", nameEndIndex + 1);
 
               chatroomMessages.push(
                 <Message
                   key={m}
                   chat={{
                     uid: messages[m].substring(0, uidEndIndex),
-                    name: messages[m].substring(uidEndIndex+1, nameEndIndex),
-                    img: messages[m].substring(nameEndIndex+1, imageEndIndex),
-                    content: messages[m].substring(imageEndIndex+1),
+                    name: messages[m].substring(uidEndIndex + 1, nameEndIndex),
+                    img: messages[m].substring(nameEndIndex + 1, imageEndIndex),
+                    content: messages[m].substring(imageEndIndex + 1),
                   }}
                   uid={that.state.uid}
                   name={that.state.name}

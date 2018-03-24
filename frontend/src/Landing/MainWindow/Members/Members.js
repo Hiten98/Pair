@@ -11,6 +11,7 @@ class Members extends Component {
       currProfile:this.props.uid,
       currPaper:0,
     }
+    props.resetPeople()
   }
 
   changeSelected=(cp,i)=>{

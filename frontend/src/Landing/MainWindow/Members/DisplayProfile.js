@@ -19,8 +19,8 @@ class DisplayProfile extends Component {
       linkedin: '',
       pic: '',
     }
-    console.log(props.props.uid)
-    console.log(props.currProfile)
+    // console.log(props.props.uid)
+    // console.log(props.currProfile)
   }
 
   componentWillReceiveProps = (nextProps) => {

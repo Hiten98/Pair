@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Col } from 'react-bootstrap'
-import BottomBar from './BottomBar'
+import BottomBar from './BottomBar/BottomBar'
 import Sidebar from './Sidebar'
 import Toolbar from './TopBar/Toolbar'
 import MainArea from './MainWindow/MainArea'
@@ -19,7 +19,8 @@ class LandingScreen extends Component {
       currChat: 0,
       currType: 0,
       currChatName: '',
-      currIntern:{},
+      currIntern: {},
+      people: [],
     }
     try {
       const serializedState = localStorage.getItem('main-area')
@@ -30,10 +31,10 @@ class LandingScreen extends Component {
     } catch (err) {
       console.log('This browser does not allow localstorage and some functionalities may be impacted')
     }
-    
+
   }
 
-  componentWillUnmount=()=>{
+  componentWillUnmount = () => {
     try {
       localStorage.removeItem('main-area')
     } catch (err) {
@@ -43,20 +44,20 @@ class LandingScreen extends Component {
 
   componentDidMount = () => {
     let that = this
-    let name=''
-    let distance=''
-    let smoke=''
+    let name = ''
+    let distance = ''
+    let smoke = ''
     if (this.props.type == 'intern') {
       axios.post('/GET-INTERN', {
-        userID:that.props.uid,
+        userID: that.props.uid,
       }).then(function (response) {
         //console.log(response.data)
-        name=response.data.firstName
-        distance=response.data.housing.desiredDistance
-        smoke=response.data.roommate.smoke
-        that.setState({currIntern:response.data})
-      }).then(()=>{
-        if(name==''||distance==''||smoke==''){
+        name = response.data.firstName
+        distance = response.data.housing.desiredDistance
+        smoke = response.data.roommate.smoke
+        that.setState({ currIntern: response.data })
+      }).then(() => {
+        if (name == '' || distance == '' || smoke == '') {
           alert('Please fill out all pages of the form before continuing to the application')
           history.push('/register/intern/preferences/user-details')
         }
@@ -75,8 +76,28 @@ class LandingScreen extends Component {
     }
   }
 
+  addPerson = (name) => {
+    let i = this.state.people
+    if (i == undefined)
+      i = []
+    i.push(name)
+    this.setState({ people: i })
+    // console.log(this.state.people)
+  }
+
+  resetPeople=()=>{
+    this.setState({people:[],})
+  }
+
   changeChat = (newChat, namem, type) => {
-    this.setState({ currChat: newChat, currChatName: namem, currType: type }, ()=>{this.saveState()})
+    this.setState({ currChat: newChat, currChatName: namem, currType: type, people: [], }, () => { this.saveState() })
+  }
+
+  ifBottomBar = (toSend) => {
+    // console.log(history.location.pathname)
+    // console.log(history.location.pathname.indexOf(`/landing/${this.props.type}/chat`))
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`) != 0)
+      return <BottomBar {...toSend} />
   }
 
   render() {
@@ -86,6 +107,8 @@ class LandingScreen extends Component {
       changePage: this.changePage,
       changeChat: this.changeChat,
       type: this.props.type,
+      addPerson: this.addPerson,
+      resetPeople:this.resetPeople,
     }
     return (
       <div className='whole'>
@@ -96,7 +119,7 @@ class LandingScreen extends Component {
 
           <MainArea {...toSend} />
 
-          <BottomBar {...toSend} />
+          {this.ifBottomBar(toSend)}
         </Col>
       </div>
     );

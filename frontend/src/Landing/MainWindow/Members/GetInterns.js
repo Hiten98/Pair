@@ -39,6 +39,7 @@ class GetInterns extends Component {
             that.props.changeUrl(splitted[2])
             continue
           }
+          that.props.props.addPerson(splitted[1])
           let tempProfileAdj = profileAdj
           let bio = ''
           for (let e = 3; e < splitted.length; e++) {
@@ -120,6 +121,7 @@ class GetInterns extends Component {
           that.props.changeUrl(splitted[2])
           continue
         }
+        that.props.props.addPerson(splitted[1])
         let tempProfileAdj = profileAdj
         let bio = ''
         for (let e = 3; e < splitted.length; e++) {

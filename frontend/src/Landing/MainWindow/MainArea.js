@@ -16,19 +16,29 @@ class MainArea extends Component {
       currPlace: 1,
 
     }
+    console.log(props)
   }
 
   componentDidMount() {
-    if (history.location.pathname.includes('/landing/interns/chat') || history.location.pathname.includes('/landing/employee/chat'))
-      this.setState({ currPlace: 0 })
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`)==0)
+      this.setState({ currPlace: 0 },()=>{console.log(this.state.classChat[this.state.currPlace])})
     else
       this.setState({ currPlace: 1 })
   }
 
+  componentWillReceiveProps=(nextProps)=>{
+
+  }
+
   render() {
+    let currPlace=0
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`)==0)
+      currPlace=0
+    else
+      currPlace=1
     return (
       <div>
-        <Row className={this.state.classChat[this.state.currPlace]}>
+        <Row className={this.state.classChat[currPlace]}>
           {(this.props.state.currChatName=='')?<h1>Please choose a chat from the chats on the left</h1>:
           <Switch>
             <Route path={`/landing/${this.props.type}/chat`} render={()=><Chats {...this.props}/>}/>
