@@ -5,8 +5,7 @@ import axios from 'axios'
 import firebase from '../../base'
 //import './LandingScreen.css';
 
-axios.defaults.baseURL = "http://localhost:9090";
-
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 class LandingScreen extends Component {
   submitPicture = (ID) => {
     //Setup references to database

@@ -7,7 +7,7 @@ import axios from "axios";
 import Message from "./Message";
 import MessageList from "./MessageList";
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
 class Chatroom extends Component {
   constructor(props) {
@@ -40,20 +40,36 @@ class Chatroom extends Component {
 
   componentDidMount() {
     let that = this;
-    axios
-      .post("/GET-INTERN", {
-        userID: this.state.uid
-      })
-      .then(response => {
-        that.setState({
-          name: response.data.firstName + " " + response.data.lastName,
-          myImg: response.data.image,
-          banned: response.data.banned
+
+    if (this.state.uid[0] == 1) {
+      axios
+        .post("/GET-INTERN", {
+          userID: this.state.uid
+        })
+        .then(response => {
+          that.setState({
+            name: response.data.firstName + " " + response.data.lastName,
+            myImg: response.data.image,
+            banned: response.data.banned
+          });
+        })
+        .catch(error => {
+          console.log(error);
         });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    } else if(this.state.uid[0] == 2) {
+      axios
+        .post("/GET-EMPLOYEE", {
+          userID: this.state.uid
+        })
+        .then(response => {
+          that.setState({
+            name: response.data.firstName + " " + response.data.lastName,
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
 
     axios
       .post("/GET-CHATROOM", {

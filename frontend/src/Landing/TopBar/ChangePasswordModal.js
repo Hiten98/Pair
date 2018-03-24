@@ -7,7 +7,7 @@ import emailjs from 'emailjs-com'
 import Password from '../../Forms/Intern/Password';
 //import './ChangePasswordModal.css';
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
 class ChangePasswordModal extends Component {
   constructor(props) {

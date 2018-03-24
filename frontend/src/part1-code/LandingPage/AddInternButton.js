@@ -6,7 +6,7 @@ import { Grid, Row, Col, Image } from 'react-bootstrap'
 import axios from 'axios'
 import emailjs from 'emailjs-com'
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
 class LandingScreen extends Component {
   locs = []
