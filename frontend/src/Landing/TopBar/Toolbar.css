@@ -5,6 +5,10 @@
 
 .hamburger-menu{
   position: absolute;
-  top:0vh;
-  right:0vw;
+  top: -0.5vh;
+  right:1vw;
+}
+
+.hamburger-menu-img{
+  height:4vh;
 }

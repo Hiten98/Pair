@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
+import { RaisedButton } from 'material-ui'
 import { Col, Row } from 'react-bootstrap'
 import axios from 'axios'
 import './DisplayProfile.css';
@@ -51,6 +52,8 @@ class DisplayProfile extends Component {
           facebook: response.data.basic.fbLink,
           twitter: response.data.basic.twitterLink,
           linkedin: response.data.basic.linkedInLink,
+          company: response.data.company,
+          location: response.data.location,
         })
       }
     }).catch(function (error) {
@@ -67,13 +70,52 @@ class DisplayProfile extends Component {
     })
   }
 
+  displayPic = () => {
+    if (this.state.pic != null) {
+      return (
+        <img src={this.state.pic} alt={`${this.state.firstname}'s Profile Picture`} />
+      )
+    } else
+      return null
+  }
+
+  displayLink = (link) => {
+    if (this.state[link] != null) {
+      return (
+        <RaisedButton
+          label={link}
+          className='link'
+          secondary
+          onClick={()=>{this.goToLink(link)}} />
+      )
+    }
+  }
+
+  goToLink=(address)=>{
+    if(this.state[address].trim().indexOf('www.')===0)
+      window.open(`http://${this.state[address]}`,true)
+    else if(this.state[address].trim().indexOf('http://www.')===0)
+      window.open(`${this.state[address]}`,true)
+    else if(this.state[address].trim().indexOf('http://')===0)
+      window.open(`http://www.${this.state[address].substring(7)}`,true)
+    else
+      window.open(`http://www.${this.state[address]}`,true)
+  }
+
   render() {
     return (
       <Col xs={8}>
         <div className='entire-profile'>
           <Row>
-            {(this.state.pic != null) ? <img src={this.state.pic} alt={`${this.state.firstname}'s Profile Picture`} /> : <div></div>}
-            <span style={{fontSize:'60px', marginLeft:'40px'}}>{`${this.state.firstname} ${this.state.lastname}`}</span>
+            {this.displayPic()}
+            <span style={{ fontSize: '60px' }}>{`${this.state.firstname} ${this.state.lastname}`}</span>
+          </Row>
+          {(this.state.bio != null) ? <Row className='row-div'><h3>Bio:</h3> <p>{this.state.bio}</p></Row> : <div></div>}
+          <Row className='row-div'>
+            {(this.state.linkedin != null || this.state.facebook != null || this.state.twitter != null) ? <h3>Social:</h3> : <div></div>}
+            {this.displayLink('linkedin')}
+            {this.displayLink('facebook')}
+            {this.displayLink('twitter')}
           </Row>
         </div>
       </Col>
