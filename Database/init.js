@@ -29,11 +29,8 @@
     // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "th is messagener sd r one")', 2000);
     // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "the")', 3000);
 
-    verifyCompany(companyRef, "head@carot.com", "something", (x) => {
-        console.log(x);
-    });
-    verifyCompany(companyRef, "head@crrot.com", "somthing", (x) => {
-        console.log(x);
+    getIntern(internRef, 1822, (x) => {
+        document.write(JSON.stringify(x));
     });
 
 

@@ -43,9 +43,7 @@
 	  		"email": email,
 	  		"company": company,
 	    	"location": location,
-	    	"listOfChatRooms": [2 + location, 1 + company + ", " + location]
-	    });
-	    internRef.child(id).child("listOfChatRooms").update({
+	    	"listOfChatRooms": [2 + location, 1 + company + ", " + location],
 	    	"ban": false
 	    });
     }

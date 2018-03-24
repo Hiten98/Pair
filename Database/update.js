@@ -173,13 +173,13 @@
     }
 
     function banIntern(internRef, ID) {
-        internRef.child(ID).child("listOfChatRooms").update({
+        internRef.child(ID).update({
             "ban": true
         });
     }
 
     function unbanIntern(internRef, ID) {
-        internRef.child(ID).child("listOfChatRooms").update({
+        internRef.child(ID).update({
             "ban": false
         });
     }

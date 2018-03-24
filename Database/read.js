@@ -141,6 +141,7 @@
 			list["email"] = snapshot.val().email;
 			list["location"] = snapshot.val().location;
 			list["phone"] = snapshot.val().phone;
+			list["banned"] = snapshot.val().ban;
 			list["basic"] = {};
 			snapshot.child("basic").forEach(function(childSnapshot) {
 				list["basic"][childSnapshot.key] = childSnapshot.val();
@@ -158,7 +159,7 @@
 			});
 			list["listOfChatRooms"] = {};
 			var i = 0;
-			snapshot.childSnapshot("listOfChatRooms").forEach(function(childSnapshot) {
+			snapshot.child("listOfChatRooms").forEach(function(childSnapshot) {
 				list["listOfChatRooms"][i] = childSnapshot.val();
 				i++;
 			});
