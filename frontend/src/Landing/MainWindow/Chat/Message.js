@@ -7,7 +7,7 @@ const Message = ({ chat, uid, name }) => (
     className={`chat ${uid === chat.uid ? "right" : "left"}`}
     style={{
       overflowX: "hidden",
-      whiteSpace: "no-wrap",
+      whiteSpace: "pre-wrap",
       wordWrap: "break-word"
     }}
   >

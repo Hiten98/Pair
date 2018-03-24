@@ -21,7 +21,8 @@ class Chatroom extends Component {
       chatroomName: "",
       chats: [],
       inputText: "",
-      myImg: ""
+      myImg: "",
+      banned: false
     };
   }
 
@@ -46,7 +47,8 @@ class Chatroom extends Component {
       .then(response => {
         that.setState({
           name: response.data.firstName + " " + response.data.lastName,
-          myImg: response.data.image
+          myImg: response.data.image,
+          banned: response.data.banned
         });
       })
       .catch(error => {
@@ -77,26 +79,28 @@ class Chatroom extends Component {
   submitMessage = e => {
     e.preventDefault();
     let that = this;
-    //console.log(this.state.inputText);
-    axios
-      .post("/SEND-MESSAGE", {
-        userID: this.state.uid,
-        name: this.state.name,
-        chatroomName: this.state.chatroomName,
-        message: this.state.inputText,
-        image: this.state.myImg
-      })
-      .then(response => {
-        console.log(response.data);
-        that.setState({ inputText: "" });
-      })
-      .catch(error => {
-        console.log(error);
-        that.setState({
-          chats: [],
-          inputText: ""
+    let msgToSubmit = this.state.inputText.trim();
+    if (msgToSubmit.length > 0) {
+      axios
+        .post("/SEND-MESSAGE", {
+          userID: this.state.uid,
+          name: this.state.name,
+          chatroomName: this.state.chatroomName,
+          message: this.state.inputText.trim(),
+          image: this.state.myImg
+        })
+        .then(response => {
+          console.log(response.data);
+          that.setState({ inputText: "" });
+        })
+        .catch(error => {
+          console.log(error);
+          that.setState({
+            chats: [],
+            inputText: ""
+          });
         });
-      });
+    }
   };
 
   //Handle Chat options
@@ -141,8 +145,13 @@ class Chatroom extends Component {
                 multiLine={true}
                 onChange={this.handleInputTextChange}
                 value={this.state.inputText}
+                disabled={this.state.banned}
               />
-              <input type="submit" value="Submit" />
+              <input
+                type="submit"
+                value="Submit"
+                disabled={this.state.banned}
+              />
             </div>
           </form>
         </div>

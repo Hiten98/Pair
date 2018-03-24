@@ -73,16 +73,18 @@ class MessageList extends Component {
           let chatroomMessages = [];
           for (let m in messages) {
             if (m != "" && m != null && m != "number") {
+              let uidEndIndex = messages[m].indexOf(":");
+              let nameEndIndex = messages[m].indexOf(":", uidEndIndex+1);
+              let imageEndIndex = messages[m].indexOf(":", nameEndIndex+1);
+
               chatroomMessages.push(
                 <Message
                   key={m}
                   chat={{
-                    name: messages[m].substring(0, messages[m].indexOf(":")),
-                    content: messages[m].substring(
-                      messages[m].indexOf(":") + 1
-                    ),
-                    uid: "1115",
-                    img: "http://i.imgur.com/Tj5DGiO.jpg"
+                    uid: messages[m].substring(0, uidEndIndex),
+                    name: messages[m].substring(uidEndIndex+1, nameEndIndex),
+                    img: messages[m].substring(nameEndIndex+1, imageEndIndex),
+                    content: messages[m].substring(imageEndIndex+1),
                   }}
                   uid={that.state.uid}
                   name={that.state.name}
@@ -112,9 +114,13 @@ class MessageList extends Component {
       this.state.numMsgs > this.state.numPrevMsgs &&
       this.state.numPrevMsgs != 0
     ) {
-      this.setState({
-        newMessage: true
-      });
+      if (this.state.chats[this.state.chats.length - 1].props.chat.uid != this.state.uid) {
+        this.setState({
+          newMessage: true
+        });
+      } else {
+        this.scrollToBottom();
+      }
     }
   }
 
