@@ -123,7 +123,7 @@
 			});
 			list["listOfChatRooms"] = {};
 			var i = 0;
-			snapshot.childSnapshot("listOfChatRooms").forEach(function(childSnapshot) {
+			snapshot.child("listOfChatRooms").forEach(function(childSnapshot) {
 				list["listOfChatRooms"][i] = childSnapshot.val();
 				i++;
 			});
