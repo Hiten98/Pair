@@ -15,19 +15,31 @@ class Chatroom extends Component {
     //change uid to this.props.uid
     //change chatroom id to this.props.state.currChat-1
     this.state = {
-      uid: "1115",
+      uid: this.props.uid,
       name: "",
-      chatroomId: "0",
+      chatroomId: this.props.state.currChat - 1,
       chatroomName: "",
       chats: [],
       inputText: "",
-      myImg: ""
+      myImg: "",
+      banned: false
     };
   }
 
+  componentWillReceiveProps = nextProps => {
+    if (this.props.state.currChatName != nextProps.state.currChatName) {
+      this.setState(
+        {
+          chatroomId: nextProps.state.currChat - 1,
+          chatroomName: nextProps.state.currChatName
+        },
+        this.componentDidMount
+      );
+    }
+  };
+
   componentDidMount() {
     let that = this;
-    console.log(this.state.uid);
     axios
       .post("/GET-INTERN", {
         userID: this.state.uid
@@ -35,7 +47,8 @@ class Chatroom extends Component {
       .then(response => {
         that.setState({
           name: response.data.firstName + " " + response.data.lastName,
-          myImg: response.data.image
+          myImg: response.data.image,
+          banned: response.data.banned
         });
       })
       .catch(error => {
@@ -48,7 +61,9 @@ class Chatroom extends Component {
       })
       .then(response => {
         let chatroomList = response.data;
-        that.setState({ chatroomName: response.data[this.state.chatroomId] });
+        if (response.data[this.state.chatroomId] != null) {
+          that.setState({ chatroomName: response.data[this.state.chatroomId] });
+        }
       })
       .catch(error => {
         console.log(error);
@@ -64,26 +79,28 @@ class Chatroom extends Component {
   submitMessage = e => {
     e.preventDefault();
     let that = this;
-    //console.log(this.state.inputText);
-    axios
-      .post("/SEND-MESSAGE", {
-        userID: this.state.uid,
-        name: this.state.name,
-        chatroomName: this.state.chatroomName,
-        message: this.state.inputText,
-        image: this.state.myImg
-      })
-      .then(response => {
-        console.log(response.data);
-        that.setState({ inputText: "" });
-      })
-      .catch(error => {
-        console.log(error);
-        that.setState({
-          chats: [],
-          inputText: ""
+    let msgToSubmit = this.state.inputText.trim();
+    if (msgToSubmit.length > 0) {
+      axios
+        .post("/SEND-MESSAGE", {
+          userID: this.state.uid,
+          name: this.state.name,
+          chatroomName: this.state.chatroomName,
+          message: this.state.inputText.trim(),
+          image: this.state.myImg
+        })
+        .then(response => {
+          console.log(response.data);
+          that.setState({ inputText: "" });
+        })
+        .catch(error => {
+          console.log(error);
+          that.setState({
+            chats: [],
+            inputText: ""
+          });
         });
-      });
+    }
   };
 
   //Handle Chat options
@@ -107,7 +124,7 @@ class Chatroom extends Component {
               <Col>{this.state.chatroomName.substring(1)}</Col>
             </h3>
           </Row>
-          <MessageList {...this.state} />
+          <MessageList {...this.state} {...this.props} />
         </div>
 
         <div className="messages">
@@ -126,11 +143,15 @@ class Chatroom extends Component {
                 hintText="Type a message..."
                 fullWidth={true}
                 multiLine={true}
-                maxlength
                 onChange={this.handleInputTextChange}
                 value={this.state.inputText}
+                disabled={this.state.banned}
               />
-              <input type="submit" value="Submit" />
+              <input
+                type="submit"
+                value="Submit"
+                disabled={this.state.banned}
+              />
             </div>
           </form>
         </div>

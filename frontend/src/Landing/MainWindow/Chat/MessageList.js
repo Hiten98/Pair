@@ -13,10 +13,10 @@ class MessageList extends Component {
     super(props);
 
     this.state = {
-      chatroomId: "0", //remove this when all together
+      chatroomId: props.chatroomId,
       uid: props.uid,
       name: props.name,
-      chatroomName: "",
+      chatroomName: props.chatroomName,
       chats: [],
       myImg: props.myImg,
       ms: 0,
@@ -25,17 +25,26 @@ class MessageList extends Component {
       newMessage: false
     };
     this.interval = setInterval(this.tick, 500);
-    console.log(props);
   }
 
   componentWillUnmount = () => {
     clearInterval(this.interval);
   };
 
+  componentWillReceiveProps = nextProps => {
+    if (this.props.state.currChatName != nextProps.state.currChatName) {
+      this.setState(
+        {
+          chatroomId: nextProps.state.currChat - 1,
+          chatroomName: nextProps.state.currChatName
+        },
+        this.componentDidMount
+      );
+    }
+  };
+
   componentDidMount() {
     let that = this;
-
-    console.log();
     if (this.state.chatroomId != "" || this.state.chatroomId != null) {
       axios
         .post("/GET-CHATROOM", {
@@ -43,14 +52,17 @@ class MessageList extends Component {
         })
         .then(response => {
           let chatroomList = response.data;
-          that.setState({ chatroomName: response.data[this.state.chatroomId] });
+          if (response.data[this.state.chatroomId] != null) {
+            that.setState({
+              chatroomName: response.data[this.state.chatroomId]
+            });
+          }
         })
         .catch(error => {
           console.log(error);
         });
     }
-
-    console.log(this.state.chatroomName);
+    console.log("Chatroom Name: " + this.state.chatroomName);
     if (this.state.chatroomName != null && this.state.chatroomName != "") {
       axios
         .post("/GET-MESSAGES", {
@@ -61,16 +73,18 @@ class MessageList extends Component {
           let chatroomMessages = [];
           for (let m in messages) {
             if (m != "" && m != null && m != "number") {
+              let uidEndIndex = messages[m].indexOf(":");
+              let nameEndIndex = messages[m].indexOf(":", uidEndIndex+1);
+              let imageEndIndex = messages[m].indexOf(":", nameEndIndex+1);
+
               chatroomMessages.push(
                 <Message
                   key={m}
                   chat={{
-                    name: messages[m].substring(0, messages[m].indexOf(":")),
-                    content: messages[m].substring(
-                      messages[m].indexOf(":") + 1
-                    ),
-                    uid: "1115",
-                    img: "http://i.imgur.com/Tj5DGiO.jpg"
+                    uid: messages[m].substring(0, uidEndIndex),
+                    name: messages[m].substring(uidEndIndex+1, nameEndIndex),
+                    img: messages[m].substring(nameEndIndex+1, imageEndIndex),
+                    content: messages[m].substring(imageEndIndex+1),
                   }}
                   uid={that.state.uid}
                   name={that.state.name}
@@ -100,9 +114,13 @@ class MessageList extends Component {
       this.state.numMsgs > this.state.numPrevMsgs &&
       this.state.numPrevMsgs != 0
     ) {
-      this.setState({
-        newMessage: true
-      });
+      if (this.state.chats[this.state.chats.length - 1].props.chat.uid != this.state.uid) {
+        this.setState({
+          newMessage: true
+        });
+      } else {
+        this.scrollToBottom();
+      }
     }
   }
 
@@ -150,7 +168,7 @@ class MessageList extends Component {
           open={this.state.newMessage}
           message="New message(s)!"
           action="Click to view"
-          autoHideDuration="5000"
+          autoHideDuration={5000}
           onActionClick={this.handleActionClick}
           onRequestClose={this.handleRequestClose}
         />
