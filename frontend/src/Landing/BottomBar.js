@@ -18,10 +18,6 @@ class BottomBar extends Component {
     }
   }
 
-  addEmployee = () => {
-
-  }
-
   addLocation = () => {
     this.setState({ locationModal: true });
   }
@@ -48,10 +44,13 @@ class BottomBar extends Component {
   render() {
     return (
       <div>
-      <Col xs={6} className="addEmployee">
+      <Col xs={4} className="addEmployee">
         <AddEmployeeModal pin={this.state.pin}/>
       </Col>
-      <Col xs={6} className="addLocation">
+      <Col xs={4}>
+
+      </Col>
+      <Col xs={4} className="addLocation">
         <AddLocationModal companyName={this.props.uid} />
       </Col>
         <Switch>

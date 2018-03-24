@@ -198,7 +198,7 @@ app.post('/LOGIN', function (req, res) {
   console.log("UID FOR EMPLOYEE");
   console.log(actual_uid_employee);
 
-  read.verifyCompany(companyRef, username, pass_shasum, (z) => {
+  read.verifyCompany(companyRef, req.body.username, pass_shasum, (z) => {
     if(z != false) {
       res.json({
         "userID" : z,
@@ -239,8 +239,8 @@ app.post('/LOGIN', function (req, res) {
       });
     }
   });
-//return null
-console.log('Done handling login');
+  //return null
+  console.log('Done handling login');
 });
 
 //intial set password request handler for intern
@@ -569,7 +569,6 @@ app.post('/CREATE-COMPANY', function (req, res) {
     "status": true
   });
 });
-
 
 //intial set preferences request handler
 app.post('/UPDATE-PREFERENCES/BASIC-PREFERENCES', function (req, res) {
@@ -1095,9 +1094,17 @@ app.post('/GET-CHATROOM', function (req, res) {
   console.log("Get chatroom request received");
   console.log(req.body);
   console.log("Done printing out request");
-  read.getChatRooms(internRef, req.body.userID, (x) => {
-    res.send(x);
-  });
+  var uid = req.body.userID;
+  if(uid.charAt(0) == '1'){
+    read.getChatRooms(internRef, req.body.userID, (x) => {
+      res.send(x);
+    });
+  }
+  else {
+    read.getChatRooms(employeeRef, req.body.userID, (x) => {
+      res.send(x);
+    });
+  }
 });
 
 //get USERS in chat:
@@ -1222,6 +1229,33 @@ app.post('/REMOVE-COMPLAINT', function(req,res) {
   })
 });
 
+//update company
+app.post('/UPDATE-COMPANY', function (req, res) {
+  console.log('Received request for UPDATE-COMPANY:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  var name = req.body.companyName;
+  var listOfLocations = req.body.locations;
+  var listOfEmployees = req.body.employees;
+  update.updateCompany(companyRef, name, listOfEmployees, listOfLocations);
+  res.json({
+    "status": true
+  });
+});
+
+//master list for companies
+app.post('/GET-MASTER-LIST-COMPANY', function (req, res) {
+  console.log("Master list request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  read.getMasterListOfInterns(internRef, req.body.companyName, (y) => {
+    console.log(y);
+    console.log("Master list printed");
+    res.send(y);
+  });
+});
+
 //actual main function
 app.listen(port, function () {
 
@@ -1242,20 +1276,5 @@ app.use(function (err, req, res, next) {
     "status": false,
     "error": 'Something failed, plz check server for more details',
     "details": err
-  });
-});
-
-
-app.post('/UPDATE-COMPANY', function (req, res) {
-  console.log('Received request for UPDATE-COMPANY:');
-  console.log(req.body);
-
-  //create UID (0 for interns)
-  var name = req.body.companyName;
-  var listOfLocations = req.body.locations;
-  var listOfEmployees = req.body.employees;
-  update.updateCompany(companyRef, name, listOfEmployees, listOfLocations);
-  res.json({
-    "status": true
   });
 });

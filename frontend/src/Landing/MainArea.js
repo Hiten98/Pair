@@ -4,7 +4,7 @@ import history from '../history'
 import './MainArea.css';
 import { Row, Col } from 'react-bootstrap'
 import axios from 'axios'
-import { List, ListItem, Subheader, Paper } from 'material-ui'
+import {List, ListItem, Subheader, Paper } from 'material-ui'
 
 class MainArea extends Component {
   constructor(props) {
@@ -16,8 +16,13 @@ class MainArea extends Component {
       currPlace: 1,
       employeeCards: [],
       locationCards: [],
+      internsCard: [],
       pin: null,
     }
+  }
+
+  removeInternModal = (ev) => {
+    console.log("!!!!!");
   }
 
   componentDidMount() {
@@ -84,6 +89,39 @@ class MainArea extends Component {
       console.log(error);
     });
 
+    // Get Master List of Interns
+    that = this
+
+    axios.post('/GET-MASTER-LIST-COMPANY', {
+      "companyName": companyName
+    }).then(function (response) {
+      console.log(response.data);
+
+      // Make Cards for Interns
+      let tempCard=[]
+      for (let i in response.data) {
+        let temp = parseInt(i) % 2;
+        if (temp != 0)
+          var backgroundColor='#D3D3D3'
+        else
+          var backgroundColor='white'
+        tempCard.push(
+          <Paper zDepth={2} key={i}>
+            <ListItem
+              primaryText={response.data[i].firstName + ' ' + response.data[i].lastName}
+              //style={{background:backgroundColor }}
+              hoverColor='#D3D3D3'
+              onClick={() => this.removeInternModal}
+            />
+          </Paper>
+        )
+      }
+      that.setState({ internsCard: tempCard })
+
+    }).catch(function (error) {
+      console.log(error);
+    });
+
 
   }
 
@@ -97,13 +135,19 @@ class MainArea extends Component {
             <Route path='/landing/company' />
           </Switch>
           <p className="companyName">{this.props.uid}</p>
-          <Col xs={6} className="Employees">
+          <Col xs={4} className="Employees">
           <List>
             <p className="title">Employees</p>
             {this.state.employeeCards}
           </List>
           </Col>
-          <Col xs={6} className="Locations">
+          <Col xs={4} className="Interns">
+          <List>
+            <p className="title">Interns</p>
+            {this.state.internsCard}
+          </List>
+          </Col>
+          <Col xs={4} className="Locations">
           <List>
             <p className="title">Locations</p>
             {this.state.locationCards}
