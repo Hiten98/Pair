@@ -10,6 +10,7 @@ class Members extends Component {
     this.state={
       currProfile:this.props.uid,
       currPaper:0,
+      temp:false,
     }
     props.resetPeople()
   }
@@ -18,12 +19,18 @@ class Members extends Component {
     this.setState({currProfile:cp,currPaper:i})
   }
 
+  updateProfile=()=>{
+    this.setState({temp:!this.state.temp})
+  }
+
   render() {
     let toSend={
       props:this.props,
       changeSelected:this.changeSelected,
       currProfile:this.state.currProfile,
       currPaper:this.state.currPaper,
+      updateProfile:this.updateProfile,
+      temp:this.state.temp,
     }
     return (
       <div>

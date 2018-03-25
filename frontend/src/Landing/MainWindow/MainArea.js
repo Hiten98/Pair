@@ -17,7 +17,7 @@ class MainArea extends Component {
       currPlace: 1,
 
     }
-    console.log(props)
+    // console.log(props)
   }
 
   componentDidMount() {

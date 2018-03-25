@@ -6,6 +6,7 @@ import RemoveInternModal from './RemoveInternModal'
 import PrivateChatModal from './PrivateChatModal'
 import GroupChatModal from './GroupChatModal'
 import axios from 'axios'
+import history from '../../../history';
 //import './ProfileHeader.css';
 
 class ProfileHeader extends Component {
@@ -17,7 +18,6 @@ class ProfileHeader extends Component {
       groupOpen: false,
       removeOpen: false,
     }
-    console.log(props)
   }
 
   displayPic = () => {
@@ -35,7 +35,7 @@ class ProfileHeader extends Component {
     if (this.props.uid != this.props.currProfile) {
       return (
         <div>
-          <div style={{marginLeft:'-14px'}}>
+          <div style={{ marginLeft: '-14px' }}>
             {this.privateChatButton()}
           </div>
           <Row className='row-div'>
@@ -47,7 +47,9 @@ class ProfileHeader extends Component {
   }
 
   modSettings = () => {
+    // console.log(this.props.currProfile)
     if (this.props.currProfile.substring(0, 1) == 1) {
+      // console.log(this.props.ban)
       return (
         <div>
           {(this.props.ban) ?
@@ -75,13 +77,27 @@ class ProfileHeader extends Component {
     }
   }
 
-  ban=()=>{
-    let that=this
+  ban = () => {
+    let that = this
     axios.post("/BAN-INTERN", {
       "userID": this.props.currProfile
     }).then(function (response) {
-      if(response.data.status){
-        that.setState({ban:true})
+      if (response.data.status) {
+        that.props.updateProfile()
+      }
+    }).catch(function (error) {
+      console.log(error);
+    })
+  }
+
+  unban = () => {
+    let that = this
+    axios.post("/UNBAN-INTERN", {
+      "userID": this.props.currProfile
+    }).then(function (response) {
+      if (response.data.status) {
+        that.props.updateProfile()
+        that.setState({ ban: that.props.ban })
       }
     }).catch(function (error) {
       console.log(error);
@@ -133,6 +149,14 @@ class ProfileHeader extends Component {
     this.setState({ privateOpen: false, groupOpen: false, removeOpen: false })
   }
 
+  editProfile = () => {
+    console.log(this.props)
+    if (this.props.props.type == 'employee')
+      history.push('register/employee/edit-profile')
+    else if (this.props.props.type == 'intern')
+      history.push('register/intern/preferences/user-details')
+  }
+
   render() {
     return (
       <Row>
@@ -143,12 +167,13 @@ class ProfileHeader extends Component {
           </Row>
           <Row>
             {(this.props.props.type == 'intern') ? this.props.match : <div></div>}
+            {(this.props.uid == this.props.currProfile) ? <RaisedButton secondary label="Edit Profile" onClick={this.editProfile} /> : <div></div>}
           </Row>
           {(this.props.props.type == 'employee') ? this.empButtons() : (this.props.props.type == 'intern') ? this.internButtons() : <div></div>}
         </Col>
-        <PrivateChatModal {...this.state} {...this.props} />
-        <GroupChatModal {...this.state} {...this.props} />
-        <RemoveInternModal {...this.state} {...this.props} />
+        <PrivateChatModal {...this.state} {...this.props} closeAll={this.closeAll} />
+        <GroupChatModal {...this.state} {...this.props} closeAll={this.closeAll} />
+        <RemoveInternModal {...this.state} {...this.props} closeAll={this.closeAll} />
       </Row>
     );
   }

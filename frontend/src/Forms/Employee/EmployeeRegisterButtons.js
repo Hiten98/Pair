@@ -78,7 +78,7 @@ class LandingScreen extends Component {
           } catch (err) {
             //console.log('This browser does not allow localstorage and some functionalities may be impacted')
           }
-          history.push('/landing/employee/chat')
+          history.push('/landing/employee/members')
 
         }
       }).catch(function (error) {

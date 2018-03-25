@@ -24,13 +24,14 @@ class DisplayProfile extends Component {
       pic: '',
       match: '',
       ban: false,
+      temp:false,
     }
     // console.log(props.props.uid)
     // console.log(props.currProfile)
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (this.props.currProfile != nextProps.currProfile) {
+    if (this.props.currProfile != nextProps.currProfile||this.props.temp!=nextProps.temp) {
       this.setState({
         currProfile: nextProps.currProfile,
         firstname: '',
@@ -41,7 +42,7 @@ class DisplayProfile extends Component {
         linkedin: '',
         pic: '',
         match: '',
-        ban:false,
+        temp:false,
       }, this.componentDidMount)
     }
   }
@@ -53,7 +54,7 @@ class DisplayProfile extends Component {
       axios.post("/GET-INTERN", {
         "userID": this.state.currProfile
       }).then(function (response) {
-        //console.log(response.data)
+        // console.log(response.data)
         // if (!that.state.changed) {
           that.setState({
             firstname: response.data.firstName,
@@ -64,7 +65,7 @@ class DisplayProfile extends Component {
             linkedin: response.data.basic.linkedInLink,
             company: response.data.company,
             location: response.data.location,
-            ban:response.data.ban,
+            ban:response.data.banned,
           })
         // }
       }).catch(function (error) {
@@ -122,17 +123,21 @@ class DisplayProfile extends Component {
     })
   }
 
+  updateProfile=()=>{
+    this.props.updateProfile()
+  }
+
   render() {
     return (
       <Col xs={8}>
         <div className='entire-profile'>
-          <ProfileHeader {...this.props} {...this.state} />
+          <ProfileHeader {...this.props} {...this.state} updateProfile={this.updateProfile}/>
 
-          <CompanyInformation {...this.props} {...this.state} />
+          <CompanyInformation {...this.props} {...this.state} updateProfile={this.updateProfile}/>
 
           {(this.state.bio != null) ? <Row className='row-div'><h3>Bio:</h3> <p>{this.state.bio}</p></Row> : <div></div>}
 
-          <Links {...this.props} {...this.state} />
+          <Links {...this.props} {...this.state} updateProfile={this.updateProfile}/>
         </div>
       </Col>
     );
