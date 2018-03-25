@@ -28,6 +28,8 @@ class EmployeeEditProfile extends Component {
       twitter: '',
       pic: '',
       prevpic: '',
+      locations:[],
+      company:'',
     }
     try {
       const serializedState = localStorage.getItem('employee-register')
@@ -54,6 +56,7 @@ class EmployeeEditProfile extends Component {
     axios.post("/GET-EMPLOYEE", {
       "userID": this.props.uid
     }).then(function (response) {
+      console.log(response.data)
       if (response.data.status==false) {
         alert('Error, please try again')
         history.push('/landing/employee/members')
@@ -65,8 +68,9 @@ class EmployeeEditProfile extends Component {
         bio:response.data.description,
         linkedin:response.data.links[1],
         facebook:response.data.links[0],
-        twitter:response.data.links[2]
-      })
+        twitter:response.data.links[2],
+        company:response.data.company,
+      }, that.getCompanyInfo)
     }).catch(function (error) {
       console.log(error);
     })
@@ -75,6 +79,18 @@ class EmployeeEditProfile extends Component {
     }).then(function (response) {
       //console.log(response.data)
       that.setState({prevpic:response.data.image})
+    }).catch(function (error) {
+      console.log(error);
+    })
+  }
+
+  getCompanyInfo=()=>{
+    let that=this
+    axios.post("/GET-COMPANY-FROM-NAME", {
+      "name": this.state.company
+    }).then(function (response) {
+      console.log(response.data)
+      that.setState({locations:response.data.locations})
     }).catch(function (error) {
       console.log(error);
     })

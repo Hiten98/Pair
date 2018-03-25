@@ -30,7 +30,7 @@ class Chatroom extends Component {
     if (this.props.state.currChatName != nextProps.state.currChatName) {
       this.setState(
         {
-          chatroomId: nextProps.state.currChat - 1,
+          chatroomId: nextProps.state.currChat,
           chatroomName: nextProps.state.currChatName
         },
         this.componentDidMount

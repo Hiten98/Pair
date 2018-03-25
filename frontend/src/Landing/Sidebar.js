@@ -119,8 +119,8 @@ class Sidebar extends Component {
           />
         </Paper>
       )
-      that.setState({ cards: tempCard })
     }
+    that.setState({ cards: tempCard },this.state.cards[0].props.children.props.onClick)
   }
 
   render() {

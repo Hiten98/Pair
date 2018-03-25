@@ -18,8 +18,8 @@ class Location extends Component {
         items.push(<MenuItem value={i} key={i} primaryText={labels[i]} />)
       }
     } catch (err) {
-      alert('An error occured, please try again')
-      history.push('/')
+      //alert('An error occured, please try again')
+      //history.push('/')
     }
 
     return (

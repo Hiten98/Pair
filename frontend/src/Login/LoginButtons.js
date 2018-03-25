@@ -36,10 +36,10 @@ class LoginButtons extends Component {
             history.push('/landing/company')
           } else if (response.data.authority==='employee') {
             //GO TO EMPLOYEE Landing Page
-            history.push('/landing/employee/chat')
+            history.push('/landing/employee/members')
           } else if (response.data.authority==='intern') {
             //GO TO INTERN Landing Page
-            history.push('/landing/intern/chat')
+            history.push('/landing/intern/members')
           }
         }
       }).catch((error) => {
