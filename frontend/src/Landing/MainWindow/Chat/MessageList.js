@@ -73,18 +73,15 @@ class MessageList extends Component {
           let chatroomMessages = [];
           for (let m in messages) {
             if (m != "" && m != null && m != "number") {
-              let uidEndIndex = messages[m].indexOf(":");
-              let nameEndIndex = messages[m].indexOf(":", uidEndIndex + 1);
-              let imageEndIndex = messages[m].indexOf(":", nameEndIndex + 1);
-
+              let messageContent = messages[m].split("$:$");
               chatroomMessages.push(
                 <Message
                   key={m}
                   chat={{
-                    uid: messages[m].substring(0, uidEndIndex),
-                    name: messages[m].substring(uidEndIndex + 1, nameEndIndex),
-                    img: messages[m].substring(nameEndIndex + 1, imageEndIndex),
-                    content: messages[m].substring(imageEndIndex + 1),
+                    uid: messageContent[0],
+                    name: messageContent[1],
+                    img: messageContent[2],
+                    content: messageContent[3]
                   }}
                   uid={that.state.uid}
                   name={that.state.name}

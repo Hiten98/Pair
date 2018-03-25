@@ -12,8 +12,7 @@ axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 class Chatroom extends Component {
   constructor(props) {
     super(props);
-    //change uid to this.props.uid
-    //change chatroom id to this.props.state.currChat-1
+    //TODO: change chatroom id to this.props.state.currChat
     this.state = {
       uid: this.props.uid,
       name: "",
@@ -21,7 +20,7 @@ class Chatroom extends Component {
       chatroomName: "",
       chats: [],
       inputText: "",
-      myImg: "",
+      myImg: "undefined",
       banned: false
     };
   }
@@ -106,7 +105,6 @@ class Chatroom extends Component {
           image: this.state.myImg
         })
         .then(response => {
-          console.log(response.data);
           that.setState({ inputText: "" });
         })
         .catch(error => {
