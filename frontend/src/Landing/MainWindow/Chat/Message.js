@@ -7,12 +7,18 @@ class Message extends Component {
   constructor(props) {
     super(props);
     //TODO: change chatroom id to this.props.state.currChat
+    let i;
+    if(this.props.chat.img != "" && this.props.chat.img != "undefined" && this.props.chat.img != null) {
+      i = <Avatar src={this.props.chat.img} size={20} />
+    }
+
     this.state = {
       uid: this.props.uid,
       name: this.props.name,
-      chat: this.props.chat
+      chat: this.props.chat,
+      image: i
     };
-
+    
   }
 
   render() {
@@ -26,8 +32,8 @@ class Message extends Component {
             wordWrap: "break-word"
           }}
         >
-          
-          <Avatar src={this.state.chat.img} size={20} />
+          {this.state.image}
+          {/* <Avatar src={this.state.chat.img} size={20} /> */}
           <em>{this.state.chat.name}</em>
           <br />
           {this.state.chat.content}
