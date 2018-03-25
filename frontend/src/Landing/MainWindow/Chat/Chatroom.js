@@ -154,7 +154,7 @@ class Chatroom extends Component {
                   marginLeft: "-14vw",
                   position: "relative"
                 }}
-                hintText="Type a message..."
+                hintText={(this.state.banned)?"Temporary ban, please contact your company chat moderator":"Type a message..."}
                 fullWidth={true}
                 multiLine={true}
                 onChange={this.handleInputTextChange}
