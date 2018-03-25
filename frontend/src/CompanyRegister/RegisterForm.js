@@ -6,49 +6,49 @@ import RegisterButtons from './RegisterButtons'
 import './RegisterForm.css';
 
 class RegisterForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state={
-      companyName:null,
-      companyEmail:null,
-      companyPassword:null,
-      companyLocations:null,
+    this.state = {
+      companyName: null,
+      companyEmail: null,
+      companyPassword: null,
+      companyLocations: null,
     }
   }
 
-  changeName=(name)=>{
-    this.setState({companyName:name})
+  changeName = (name) => {
+    this.setState({ companyName: name })
   }
 
-  changeEmail=(email)=>{
-    this.setState({companyEmail:email})
+  changeEmail = (email) => {
+    this.setState({ companyEmail: email })
   }
 
-  changePassword=(password)=>{
-    this.setState({companyPassword:password})
+  changePassword = (password) => {
+    this.setState({ companyPassword: password })
   }
 
-  changeLocations=(location)=>{
-    this.setState({companyLocations:location})
+  changeLocations = (location) => {
+    this.setState({ companyLocations: location })
   }
 
   render() {
-    let toSend={
-      changeName:this.changeName,
-      changeEmail:this.changeEmail,
-      changePassword:this.changePassword,
-      changeLocations:this.changeLocations,
+    let toSend = {
+      changeName: this.changeName,
+      changeEmail: this.changeEmail,
+      changePassword: this.changePassword,
+      changeLocations: this.changeLocations,
     }
     return (
       <div className="form">
-      <NavPage />
-        <Row className="register-title row-sm">
-          Register
+        <NavPage />
+        <Row className="register-title">
+          Register Company
         </Row>
 
-        <CodeField {...toSend}/>
+        <CodeField {...toSend} />
 
-        <RegisterButtons {...this.state} {...this.props}/>
+        <RegisterButtons {...this.state} {...this.props} />
       </div>
     );
   }

@@ -93,7 +93,7 @@ class AddEmployeeModal extends Component {
     return (
       <Row>
         <RaisedButton
-          label={'+ Employee'}
+          label={'Add Employee'}
           primary
           onClick={this.handleOpen}
           style={{ marginTop: '5%' }}

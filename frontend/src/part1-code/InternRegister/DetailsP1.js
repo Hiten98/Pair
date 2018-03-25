@@ -14,7 +14,7 @@ import history from '../history'
 import axios from 'axios'
 import './Details.css';
 
-axios.defaults.baseURL = 'http://localhost:9090'
+axios.defaults.baseURL = "http://localhost:9090";
 
 
 class DetailsP1 extends Component {

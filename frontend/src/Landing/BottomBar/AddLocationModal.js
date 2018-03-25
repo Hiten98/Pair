@@ -88,7 +88,7 @@ class AddLocationModal extends Component {
     return (
       <Row>
         <RaisedButton
-          label='+ Location'
+          label='Add Location'
           primary
           onClick={this.handleOpen}
           style={{ marginTop: '5%' }}
@@ -100,7 +100,7 @@ class AddLocationModal extends Component {
           open={this.state.open}
         >
           <TextField
-            floatingLabelText="Enter a new Locations separated by a semicolon"
+            floatingLabelText="Enter new Locations separated by a semicolon"
             floatingLabelStyle={this.styles.floatingLabelStyle}
             floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
             fullWidth

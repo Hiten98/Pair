@@ -6,6 +6,8 @@ import LoginParagraph from './Login/LoginParagraph'
 import RegisterForm from './Register/RegisterForm'
 import './WelcomeScreen.css';
 import RegisterParagraph from './Register/RegisterParagraph';
+import CodeField from './CompanyRegister/RegisterForm';
+import CompanyParagraph from './CompanyRegister/RegisterParagraph'
 
 
 class LandingScreen extends Component {
@@ -18,6 +20,7 @@ class LandingScreen extends Component {
             <Switch>
               <Route path='/home/login' render={() => <LoginParagraph />} />
               <Route path='/home/register' render={() => <RegisterParagraph />} />
+              <Route path='/home/company-register' render={()=><CompanyParagraph />}/>
               <Route path="/" render={() => <Redirect to='/home/login' />} />
             </Switch>
           </Col>
@@ -27,6 +30,7 @@ class LandingScreen extends Component {
               <Switch>
                 <Route path='/home/login' render={() => <Login updateUid={this.props.updateUid} />} />
                 <Route path='/home/register' render={() => <RegisterForm updateUid={this.props.updateUid} uid={this.props.uid} updateCompany={this.props.updateCompany} updateLocations={this.props.updateLocations} />} />
+                <Route path='/home/company-register' render={()=><CodeField {...this.props}/>}/>
               </Switch>
             </Row>
             {/* descriptive paragraph again */}

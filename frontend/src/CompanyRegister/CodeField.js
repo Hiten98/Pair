@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PasswordField from 'material-ui-password-field'
 import { TextField } from 'material-ui'
-import {Row} from 'react-bootstrap'
-import RegisterButtons from './RegisterButtons'
+import { Row } from 'react-bootstrap'
 import { grey800, black, red900 } from 'material-ui/styles/colors';
 //import './CodeField.css';
 
@@ -35,15 +34,15 @@ class CodeField extends Component {
 
   //<RegisterButtons companyName={"fdsfs"} />
 
-  changeName=(ev)=>{
+  changeName = (ev) => {
     this.props.changeName(ev.target.value)
   }
 
-  changeEmail=(ev)=>{
+  changeEmail = (ev) => {
     this.props.changeEmail(ev.target.value)
   }
 
-  changePassword=(ev)=>{
+  changePassword = (ev) => {
     if (ev.target.value.length < 8) {
       this.setState({ conditions: { errorText: "Your password is too short", errorStyle: { color: red900 } } });
     } else {
@@ -52,13 +51,14 @@ class CodeField extends Component {
     }
   }
 
-  changeLocations=(ev)=>{
+  changeLocations = (ev) => {
     this.props.changeLocations(ev.target.value)
   }
 
   render() {
     return (
       <Row className="row-sm">
+        <Row>
           <PasswordField
             className="companyName"
             ref="companyName"
@@ -72,6 +72,8 @@ class CodeField extends Component {
             hintStyle={this.styles.hintStyle}
             onChange={this.changeName}
           />
+        </Row>
+        <Row>
           <PasswordField
             className="companyEmail"
             floatingLabelText="Enter Company Contact Email"
@@ -84,6 +86,8 @@ class CodeField extends Component {
             hintStyle={this.styles.hintStyle}
             onChange={this.changeEmail}
           />
+        </Row>
+        <Row>
           <PasswordField
             className="companyPassword"
             floatingLabelText="Enter Company Password"
@@ -95,11 +99,13 @@ class CodeField extends Component {
             onChange={this.changePassword}
             {...this.state.conditions}
           />
-          <PasswordField
+        </Row>
+        <Row>
+          <TextField
             className="companyLocations"
             floatingLabelText="Enter Company Locations separated by semicolon"
             multiLine
-            style={{width: 375, textAlign: 'left'}}
+            style={{ width: 375, textAlign: 'left' }}
             visible
             disableButton
             floatingLabelStyle={this.styles.floatingLabelStyle}
@@ -110,6 +116,7 @@ class CodeField extends Component {
             onChange={this.changeLocations}
           />
         </Row>
+      </Row>
     );
   }
 }

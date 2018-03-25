@@ -1,7 +1,7 @@
 .register-title{
   position: relative;
-  left:-0.8vw;
-  font-size: 475%;
+  left:2vw;
+  font-size: 275%;
 }
 
 @media all and (max-width:767px){

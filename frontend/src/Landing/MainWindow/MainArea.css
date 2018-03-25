@@ -1,7 +1,8 @@
 .text-display{
   height:84vh;
   background-color: aliceblue;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .chat-display{

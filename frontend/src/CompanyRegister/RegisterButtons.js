@@ -4,8 +4,6 @@ import { RaisedButton } from 'material-ui'
 import history from '../history'
 import axios from 'axios'
 //import './RegisterButtons.css';
-import CodeField from './CodeField'
-import MainArea from '../Landing/MainArea'
 
 axios.defaults.baseURL = 'http://localhost:9090'
 

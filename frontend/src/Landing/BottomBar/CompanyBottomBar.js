@@ -44,27 +44,15 @@ class BottomBar extends Component {
   render() {
     return (
       <div>
-      <Col xs={4} className="addEmployee">
-        <AddEmployeeModal pin={this.state.pin}/>
-      </Col>
-      <Col xs={4}>
+        <Col xs={4} className="addEmployee">
+          <AddEmployeeModal pin={this.state.pin} />
+        </Col>
+        <Col xs={4}>
 
-      </Col>
-      <Col xs={4} className="addLocation">
-        <AddLocationModal companyName={this.props.uid} />
-      </Col>
-        <Switch>
-          <Route path='/landing/interns/chat' />
-          <Route path='/landing/employees/chat' />
-          <Route path='/landing/' render={() =>
-            <Row className='search-bar'>
-              <Switch>
-                <Route path='/landing/employee' />
-              </Switch>
-            </Row>
-          } />
-          <Route path='/landing/company' />
-        </Switch>
+        </Col>
+        <Col xs={4} className="addLocation">
+          <AddLocationModal companyName={this.props.uid} />
+        </Col>
       </div>
     );
   }
