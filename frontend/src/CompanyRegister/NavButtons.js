@@ -10,7 +10,7 @@ class NavButtons extends Component {
   }
 
   goToCompanyRegister = () => {
-    history.push('/home/company-register')
+    history.push('/home/CompanyRegister')
   }
 
   render() {

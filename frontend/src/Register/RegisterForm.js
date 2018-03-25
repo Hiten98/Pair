@@ -6,28 +6,28 @@ import RegisterButtons from './RegisterButtons'
 import './RegisterForm.css';
 
 class RegisterForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state={
-      companyCode:null,
+    this.state = {
+      companyCode: null,
     }
   }
 
-  codeChange=(code)=>{
-    this.setState({companyCode:code})
+  codeChange = (code) => {
+    this.setState({ companyCode: code })
   }
 
   render() {
     return (
       <div className="form">
-      <NavPage />
+        <NavPage />
         <Row className="register-title row-sm">
           Register
         </Row>
-        
+
         <CodeField codeChange={this.codeChange} />
 
-        <RegisterButtons updateCompany={this.props.updateCompany} updateLocations={this.props.updateLocations} companyCode={this.state.companyCode}/>
+        <RegisterButtons updateCompany={this.props.updateCompany} updateLocations={this.props.updateLocations} companyCode={this.state.companyCode} />
       </div>
     );
   }

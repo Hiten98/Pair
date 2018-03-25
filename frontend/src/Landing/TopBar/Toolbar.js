@@ -12,6 +12,8 @@ class Toolbar extends Component {
     let currPage = 0
     if (!history.location.pathname.indexOf(`/landing/${props.type}/members`)) {
       currPage = 1
+    } else if(!history.location.pathname.indexOf(`/landing/employee/complaints`)){
+      currPage=2
     }
     this.state = {
       currPage: currPage,

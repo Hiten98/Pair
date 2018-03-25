@@ -6,6 +6,7 @@ import Chats from './Chat/Chatroom'
 import Members from './Members/Members'
 import Complaints from './Complaints/Complaints'
 import './MainArea.css';
+import CompanyMain from './CompanyLanding/CompanyMain';
 
 class MainArea extends Component {
   constructor(props) {
@@ -40,8 +41,9 @@ class MainArea extends Component {
     return (
       <div>
         <Row className={this.state.classChat[currPlace]}>
-          {(this.props.state.currChatName=='')?<h1>Please choose a chat from the chats on the left</h1>:
+          {(this.props.state.currChatName==''&&this.props.type!='company')?<h1>Please choose a chat from the chats on the left</h1>:
           <Switch>
+            <Route path='/landing/company' render={()=><CompanyMain {...this.props}/>}/>
             <Route path={`/landing/${this.props.type}/chat`} render={()=><Chats {...this.props}/>}/>
             <Route path={`/landing/${this.props.type}/members`} render={()=><Members {...this.props}/>}/>
             <Route path='/landing/employee/complaints' render={()=><Complaints {...this.props}/>}/>

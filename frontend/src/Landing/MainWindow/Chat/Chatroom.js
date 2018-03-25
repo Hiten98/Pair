@@ -17,7 +17,7 @@ class Chatroom extends Component {
     this.state = {
       uid: this.props.uid,
       name: "",
-      chatroomId: this.props.state.currChat - 1,
+      chatroomId: this.props.state.currChat,
       chatroomName: "",
       chats: [],
       inputText: "",

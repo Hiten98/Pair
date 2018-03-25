@@ -6,7 +6,7 @@ import axios from 'axios'
 import './LoginButtons.css';
 import ForgotPasswordModal from './ForgotPasswordModal'
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = 'http://localhost:9090'
 
 class LoginButtons extends Component {
 
@@ -23,7 +23,7 @@ class LoginButtons extends Component {
         "username": email,
         "password": password
       }).then((response) => {
-        // console.log(response.data);
+        //console.log(response.data);
         if (!response.data.status) {
           alert('Username or password was incorrect, please try again')
         } else if (response.data.userID != null) {
@@ -39,7 +39,7 @@ class LoginButtons extends Component {
             history.push('/landing/employee/chat')
           } else if (response.data.authority==='intern') {
             //GO TO INTERN Landing Page
-            history.push('/landing/intern/chat')
+            history.push('/landing/interns/chat')
           }
         }
       }).catch((error) => {
@@ -50,23 +50,6 @@ class LoginButtons extends Component {
     }
   }
 
-  componentDidMount=()=>{
-    let that=this
-    document.addEventListener('keydown', function(event) {
-      if (event.code == 'Enter' || event.code=='NumpadEnter') {
-        that.handleLogin()
-      }
-    });
-  }
-
-  componentWillUnmount=()=>{
-    let that=this
-    document.removeEventListener('keydown',function(event) {
-      if (event.code == 'Enter' || event.code=='NumpadEnter') {
-        that.handleLogin()
-      }
-    });
-  }
 
   render() {
     return (
