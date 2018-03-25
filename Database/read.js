@@ -1,7 +1,9 @@
 
 	/*module.exports = {
 		getMasterListOfInterns,
-		getCompany,
+		getCompanyFromPin,
+		getCompanyFromName,
+		verifyCompany,
 		getEmployee,
 		getIntern,
 		getBasicPreferences,
@@ -10,7 +12,13 @@
 		verifyUser,
 		verifyUserExists,
 		getMessages,
-		compareInterns
+		getChatRooms,
+		getUsersInChatRoom,
+		getModsInChatRoom,
+		compareTwoInterns,
+		compareInterns,
+		getImage,
+		getAdmin
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -31,13 +39,14 @@
     	});
 	}
 
-	function getCompany(companyRef, pin, callback) {
+	function getCompanyFromPin(companyRef, pin, callback) {
 		var json = {};
 		companyRef.once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				if(childSnapshot.val().pin == pin) {
 					json["name"] = childSnapshot.key;
 					json["pin"] = childSnapshot.val().pin;
+					json["email"] = childSnapshot.val().email;
 					json["locations"] = {};
 					childSnapshot.child("listOfLocations").forEach(function(babySnapshot) {
 						json["locations"][babySnapshot.key] = babySnapshot.val();
@@ -49,6 +58,46 @@
 				}
 			});
 			callback(json);
+		});
+	}
+
+	function getCompanyFromName(companyRef, name, callback) {
+		var json = {};
+		companyRef.child(name).once("value").then(function(snapshot) {
+			json["name"] = snapshot.key;
+			json["pin"] = snapshot.val().pin;
+			json["email"] = snapshot.val().email;
+			json["locations"] = {};
+			snapshot.child("listOfLocations").forEach(function(childSnapshot) {
+				json["locations"][childSnapshot.key] = childSnapshot.val();
+			});
+			json["employees"] = {};
+			snapshot.child("listOfEmployees").forEach(function(childSnapshot) {
+				json["employees"][childSnapshot.key] = childSnapshot.val();
+			});
+			callback(json);
+		});
+	}
+
+	function verifyCompany(companyRef, email, password, callback) {
+		var correctPassword;
+		var flag = 0;
+		companyRef.once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				if(email == childSnapshot.val().email) {
+					correctPassword = childSnapshot.val().password;
+					if (password == correctPassword) {
+						flag = 1;
+						return callback(childSnapshot.key);
+					}
+					else {
+						flag = 1;
+						return callback(false);
+					}
+				}
+			});
+			if(flag == 0)
+				callback(false);
 		});
 	}
 
@@ -66,6 +115,19 @@
 			snapshot.child("links").forEach(function(childSnapshot) {
 				list["links"][childSnapshot.key] = childSnapshot.val();
 			});
+			list["listOfComplaints"] = {};
+			snapshot.child("listOfComplaints").forEach(function(childSnapshot) {
+				list["listOfComplaints"][childSnapshot.key] = childSnapshot.val();
+			});
+			snapshot.child("images").forEach(function(childSnapshot) {
+				list["image"] = childSnapshot.val();
+			});
+			list["listOfChatRooms"] = {};
+			var i = 0;
+			snapshot.child("listOfChatRooms").forEach(function(childSnapshot) {
+				list["listOfChatRooms"][i] = childSnapshot.val();
+				i++;
+			});
 			callback(list);
 		});
 	}
@@ -80,6 +142,7 @@
 			list["email"] = snapshot.val().email;
 			list["location"] = snapshot.val().location;
 			list["phone"] = snapshot.val().phone;
+			list["banned"] = snapshot.val().ban;
 			list["basic"] = {};
 			snapshot.child("basic").forEach(function(childSnapshot) {
 				list["basic"][childSnapshot.key] = childSnapshot.val();
@@ -91,6 +154,15 @@
 			list["roommate"] = {};
 			snapshot.child("roommate").forEach(function(childSnapshot) {
 				list["roommate"][childSnapshot.key] = childSnapshot.val();
+			});
+			snapshot.child("images").forEach(function(childSnapshot) {
+				list["image"] = childSnapshot.val();
+			});
+			list["listOfChatRooms"] = {};
+			var i = 0;
+			snapshot.child("listOfChatRooms").forEach(function(childSnapshot) {
+				list["listOfChatRooms"][i] = childSnapshot.val();
+				i++;
 			});
 			callback(list);
 		});
@@ -168,33 +240,57 @@
 		});
 	}
 
-	function compareInterns(internRef, ID1, ID2, callback) {
+	function getChatRooms(relevantRef, ID, callback) {
+		var list = {};
+		var i = 0;
+		relevantRef.child(ID).child("listOfChatRooms").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
+			callback(list);
+		});
+	}
+
+	function getUsersInChatRoom(relevantRef, name, callback) {
+		var list = {};
+		var i = 0;
+		relevantRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
+			callback(list);
+		});
+	}
+
+	function getModsInChatRoom(companyChatRoomRef, name, callback) {
+		var list = {};
+		var i = 0;
+		companyChatRoomRef.child(name).child("listOfMods").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
+			callback(list);
+		});
+	}
+
+	function compareTwoInterns(internRef, ID1, ID2, callback) {
 		var score = 0;
 		var housing1 = getHousingPreferences(internRef, ID1, function(housing1) {
-      		// document.write(JSON.stringify(housing1));
-			// document.write(housing1["desiredPrice"]);
 			var housing2 = getHousingPreferences(internRef, ID2, function(housing2) {
-      			// document.write(JSON.stringify(housing2));
-				// Code below is executed before housing1 and housing2 values are retrieved
-				// document.write(housing1["desiredPrice"]);
-				// document.write(housing1["desiredPrice"]);
 				if (housing1["desiredDuration"] === housing2["desiredDuration"])
 					score += 15;
-				// document.write(score);
 				score += 10 - Math.abs(parseInt(housing1["desiredPrice"]) - parseInt(housing2["desiredPrice"]));
 				score += 10 - Math.abs(parseInt(housing1["desiredDistance"]) - parseInt(housing2["desiredDistance"]));
 				score += 10 - Math.abs(parseInt(housing1["desiredRoommate"]) - parseInt(housing2["desiredRoommate"]));
-				// document.write(score + "!\n");
     		});
   		});
 
     	var roommate1 = getRoommatePreferences(internRef, ID1, function(roommate1) {
-      		// document.write(JSON.stringify(roommate1));
       		var roommate2 = getRoommatePreferences(internRef, ID2, function(roommate2) {
-      			//document.write(JSON.stringify(roommate2));
-      			// Code below is executed before roommate1 and roommate2 values are retrieved
 				score += (24 - Math.abs(parseInt(roommate1["bedtime"]) - parseInt(roommate2["bedtime"])))/4;
-				// document.write(score + "!\n");
 				score += (24 - Math.abs(parseInt(roommate1["waketime"]) - parseInt(roommate2["waketime"])))/4;
 				score += 5 - Math.abs(parseInt(roommate1["lights"]) - parseInt(roommate2["lights"]));
 				score += (5 - Math.abs(parseInt(roommate1["clean"]) - parseInt(roommate2["clean"]))) * 2;
@@ -207,9 +303,38 @@
 					score += 5;
 				if (roommate2["youpet"] === roommate1["thempet"])
 					score += 5;
-				//document.write(score);
 				callback(score);
     		});
     	});
+	}
 
+	function compareInterns(internRef, ID1, IDs, callback) {
+		let scores = {};
+		for (let i = 0, p = Promise.resolve(); i < IDs.length; i++) {
+	    	p = p.then(_ => new Promise(resolve =>
+		        setTimeout(function () {
+					var score = compareTwoInterns(internRef, ID1, IDs[i], function(score) {
+						scores[i] = score;
+						if (i === IDs.length - 1) {
+							callback(scores);
+						}
+					})
+		            resolve();
+		        }, 100)
+	    	));
+		}
+	}
+
+	function getImage(relevantRef, ID, callback) {
+		relevantRef.child(ID).child("images").once("value").then(function(snapshot) {
+			callback(snapshot.val());
+		});
+	}
+
+	function getAdmin(adminRef, callback) {
+		var list = {};
+		adminRef.child(4000).child("listOfComplaints").once("value").then(function(snapshot) {
+			list = snapshot.val();
+			callback(list);
+		});
 	}
