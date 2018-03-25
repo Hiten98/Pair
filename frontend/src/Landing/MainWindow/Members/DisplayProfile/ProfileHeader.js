@@ -5,8 +5,9 @@ import { RaisedButton } from 'material-ui';
 import RemoveInternModal from './RemoveInternModal'
 import PrivateChatModal from './PrivateChatModal'
 import GroupChatModal from './GroupChatModal'
+import ReportIntern from './ReportIntern'
 import axios from 'axios'
-import history from '../../../history';
+import history from '../../../../history';
 //import './ProfileHeader.css';
 
 class ProfileHeader extends Component {
@@ -21,7 +22,7 @@ class ProfileHeader extends Component {
   }
 
   displayPic = () => {
-    if (this.props.pic != null) {
+    if (this.props.pic != null&&this.props.pic!='undefined') {
       return (
         <Col xs={4}>
           <img src={this.props.pic} alt={`${this.props.firstname}'s Profile Picture`} />
@@ -167,6 +168,7 @@ class ProfileHeader extends Component {
           </Row>
           <Row>
             {(this.props.props.type == 'intern') ? this.props.match : <div></div>}
+            <ReportIntern {...this.props}{...this.state}/>
             {(this.props.uid == this.props.currProfile) ? <RaisedButton secondary label="Edit Profile" onClick={this.editProfile} /> : <div></div>}
           </Row>
           {(this.props.props.type == 'employee') ? this.empButtons() : (this.props.props.type == 'intern') ? this.internButtons() : <div></div>}

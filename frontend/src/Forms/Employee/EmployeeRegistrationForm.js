@@ -72,9 +72,9 @@ class EmployeeRegistrationForm extends Component {
     this.saveState()
   }
 
-  locationChange=(event,index,value)=>{
+  locationChange=(value)=>{
     // console.log(value)
-    this.setState({loc:value},()=>{this.saveState()})
+    this.setState({ loc: value }, () => { this.saveState() })
     this.saveState()
   }
 
@@ -103,6 +103,7 @@ class EmployeeRegistrationForm extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
         <Row className='employee-title'>

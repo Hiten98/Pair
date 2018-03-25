@@ -21,9 +21,15 @@ class GetInterns extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     //console.log(this.props.props.state.currChatName)
-    //console.log(nextProps.props.state.currChatName)
+    // console.log(nextProps.props.state.currChatName)
     if (this.props.props.state.currChatName != nextProps.props.state.currChatName) {
-      this.callGetInterns(nextProps, this)
+      if (nextProps.props.type == 'employee' && nextProps.props.state.currChatName == '0Intern Master List') {
+        // console.log('hi')
+        this.internMasterList(nextProps, this)
+      } else {
+        //Gets users in chatroom
+        this.callGetInterns(nextProps, this)
+      }
     }
     if (this.props.props2.currPaper != nextProps.props2.currPaper) {
       let tempArr = []
@@ -86,13 +92,13 @@ class GetInterns extends Component {
         )
         tempUid.push(splitted[0])
       }
-      that.setState({ interns: tempintern, uidList: tempUid }, () => { that.getScores(props, that,tempintern) })
+      that.setState({ interns: tempintern, uidList: tempUid }, () => { that.getScores(props, that, tempintern) })
     }).catch(function (error) {
       console.log(error);
     })
   }
 
-  getScores = (props, that,tempintern) => {
+  getScores = (props, that, tempintern) => {
     //console.log(tempintern[0].props.children.props)
     if (props.props.type == 'intern') {
       axios.post('/COMPARE-INTERNS', {
@@ -104,11 +110,11 @@ class GetInterns extends Component {
         let score = null
         for (let i in response.data.score) {
           if (parseInt(response.data.score[i]) > 80) {
-            score=<div><span style={{ color: lightGreenA700 }}>{response.data.score[i]}% match &nbsp;</span> {tempintern[i].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: lightGreenA700 }}>{response.data.score[i]}% match &nbsp;</span> {tempintern[i].props.children.props.secondaryText}</div>
           } else if (parseInt(response.data.score[i]) > 50) {
-            score=<div><span style={{ color: yellow800 }}>{response.data.score[i]}% match&nbsp; </span> {tempintern[i].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: yellow800 }}>{response.data.score[i]}% match&nbsp; </span> {tempintern[i].props.children.props.secondaryText}</div>
           } else {
-            score=<div><span style={{ color: red500 }}>{response.data.score[i]}% match&nbsp;</span> {tempintern[i].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: red500 }}>{response.data.score[i]}% match&nbsp;</span> {tempintern[i].props.children.props.secondaryText}</div>
           }
           tempArr.push(
             <Paper zDepth={2} key={i} className='paper-list'>
@@ -132,12 +138,37 @@ class GetInterns extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.props.type == 'employee' && this.props.props.state.currChatName == 'Intern Master List') {
+    // console.log(this.props.props)
+    if (this.props.props.type == 'employee' && this.props.props.state.currChatName == '0Intern Master List') {
+      // console.log('hi')
       this.internMasterList(this.props, this)
+    } else {
+      //Gets users in chatroom
+      this.callGetInterns(this.props, this)
     }
+  }
 
-    //Gets users in chatroom
-    this.callGetInterns(this.props, this)
+  internMasterList = (props, that) => {
+    let tempArr = []
+    axios.post('/GET-MASTER-LIST', {
+      userID: this.props.props.uid
+    }).then(function (response) {
+      console.log(response.data)
+      let k=0
+      for (let i in response.data) {
+        tempArr.push(
+          <Paper zDepth={2} key={k} className='paper-list'>
+            <ListItem
+              primaryText={`${response.data[i].firstName} ${response.data[i].lastName}`}
+              onClick={()=>{that.handleClick(parseInt(k)+1,i)}}
+            />
+          </Paper>
+        )
+      }
+      that.setState({ interns: tempArr })
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 
   changeColors = () => {

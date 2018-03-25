@@ -4,7 +4,7 @@ import { NavLink, Switch, Route } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
 import axios from 'axios'
 import './People.css';
-import PersonIcon from '../../../images/account.svg'
+import PersonIcon from '../../../../images/account.svg'
 import GetInterns from './GetInterns'
 import GetMods from './GetMods'
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
-import People from './People'
-import DisplayProfile from './DisplayProfile'
+import People from './PersonList/People'
+import DisplayProfile from './DisplayProfile/DisplayProfile'
 //import './Members.css';
 
 class Members extends Component {

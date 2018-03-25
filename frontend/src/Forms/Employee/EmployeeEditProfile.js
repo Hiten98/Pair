@@ -89,7 +89,7 @@ class EmployeeEditProfile extends Component {
     axios.post("/GET-COMPANY-FROM-NAME", {
       "name": this.state.company
     }).then(function (response) {
-      console.log(response.data)
+      // console.log(response.data.locations)
       that.setState({locations:response.data.locations})
     }).catch(function (error) {
       console.log(error);
@@ -107,8 +107,8 @@ class EmployeeEditProfile extends Component {
     this.saveState()
   }
 
-  locationChange = (event, index, value) => {
-    // console.log(value)
+  locationChange = (value) => {
+    // console.log(event.target.textContent)
     this.setState({ loc: value }, () => { this.saveState() })
     this.saveState()
   }
@@ -148,7 +148,7 @@ class EmployeeEditProfile extends Component {
 
         <LastName lastNameChange={this.lastnameChange} dv={this.state.lastname} />
 
-        <Location change={this.locationChange} company={this.props.company} locations={this.props.locations} dv={this.state.loc} />
+        <Location change={this.locationChange} company={this.props.company} locations={this.state.locations} dv={this.state.loc} />
 
         <Bio bioChange={this.bioChange} dv={this.state.bio} />
 

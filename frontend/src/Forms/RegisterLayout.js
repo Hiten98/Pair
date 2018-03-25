@@ -20,7 +20,7 @@ class RegisterLayout extends Component {
             <Route path="/register/intern/preferences" render={() => <UserPreferences uid={this.props.uid} />} />
             <Route path='/register/employee/edit-profile' render={()=><EmployeeEditProfile {...this.props}/>}/>
             <Route path="/register/employee"
-              render={() => <EmployeeRegistrationForm updateUid={this.props.updateUid} company={this.props.company} locations={this.props.locations} />} />
+              render={() => <EmployeeRegistrationForm {...this.props} />} />
             <Route path='/register/forgot' render={()=><ForgotForm />}/>
             <Route path="/" render={() => <Redirect to='/home/login' />} />
           </Switch>

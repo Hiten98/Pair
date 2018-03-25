@@ -16,9 +16,9 @@ class RegisterButtons extends Component {
 
     if (companyCode != null && companyCode.length == 4) {
       axios.post('/GET-COMPANY', {
-        "pid": {companyCode}
+        "pid": companyCode
       }).then(function (response) {
-        //console.log(response.data);
+        console.log(response.data);
         if (response.data.status) {
           //let parsed = JSON.parse(JSON.stringify(response.data.company))
           let locat = []
@@ -28,7 +28,7 @@ class RegisterButtons extends Component {
             that.props.updateLocations(locat)
           }
           //if(co)
-          history.push('/register/employee')
+          // history.push('/register/employee')
         } else {
           alert('Invalid company code, please try again')
         }
