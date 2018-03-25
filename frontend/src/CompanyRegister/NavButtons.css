@@ -1,0 +1,39 @@
+@media all and (max-width:767px){
+  .topBar{width: 97vw;}
+}
+
+@media all and (min-width:768px){
+  .topBar{width: 33.5vw;}
+}
+
+.topBar{
+  height:4vh;
+  max-height: 5%;
+  background-color: black;
+  margin-left: 0vw;
+  margin-bottom: 8vh;
+}
+
+@media all and (max-height:1400px){
+  .topBar{height: 5vh}
+}
+
+@media all and (max-height:1300px){
+  .topBar{height:6vh}
+}
+
+@media all and (max-height:1200px){
+  .topBar{height: 7vh}
+}
+
+@media all and (max-height:1100px){
+  .topBar{height:8vh}
+}
+
+.employee-registration-link{
+  text-align: center;
+}
+
+.company-registration-link{
+  text-align: center;
+}
