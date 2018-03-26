@@ -22,7 +22,8 @@ class GetInterns extends Component {
   componentWillReceiveProps = (nextProps) => {
     //console.log(this.props.props.state.currChatName)
     // console.log(nextProps.props.state.currChatName)
-    if (this.props.props.state.currChatName != nextProps.props.state.currChatName) {
+    if (this.props.props.state.currChatName != nextProps.props.state.currChatName||this.props.modNum!=nextProps.modNum) {
+      this.setState({interns:[]})
       if (nextProps.props.type == 'employee' && nextProps.props.state.currChatName == '0Intern Master List') {
         // console.log('hi')
         this.internMasterList(nextProps, this)
@@ -99,8 +100,8 @@ class GetInterns extends Component {
   }
 
   getScores = (props, that, tempintern) => {
-    //console.log(tempintern[0].props.children.props)
-    if (props.props.type == 'intern') {
+    // console.log(that.state.uidList)
+    if (props.props.type == 'intern'&&that.state.uidList.length!=0) {
       axios.post('/COMPARE-INTERNS', {
         userID1: props.props.uid,
         userID2: that.state.uidList,
@@ -130,7 +131,7 @@ class GetInterns extends Component {
             </Paper>
           )
         }
-        that.setState({ interns: tempArr }, () => { that.handleClick(0, that.props.props.uid) })
+        that.setState({ interns: tempArr })
       }).catch(function (error) {
         console.log(error);
       })
@@ -153,9 +154,11 @@ class GetInterns extends Component {
     axios.post('/GET-MASTER-LIST', {
       userID: this.props.props.uid
     }).then(function (response) {
-      console.log(response.data)
+      // console.log(response.data)
       let k=0
       for (let i in response.data) {
+        if(response.data[i].firstName=='')
+          continue
         tempArr.push(
           <Paper zDepth={2} key={k} className='paper-list'>
             <ListItem

@@ -18,6 +18,8 @@ class GetMods extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     if (this.props.props.state.currChatName != nextProps.props.state.currChatName) {
+      this.setState({mods:[]})
+      this.props.changeModNum(0)
       //console.log(this.props.props.state.currChatName)
       let that = this
       let profileAdj=1
@@ -25,9 +27,11 @@ class GetMods extends Component {
         axios.post('/GET-MODS-IN-CHATROOM', {
           "chatroomName": nextProps.props.state.currChatName,
         }).then(function (response) {
+          // console.log(response.d)
           let tempMod = []
           for (let i in response.data) {
             let splitted = response.data[i].split('$:$')
+            // console.log(splitted[2])
             if (splitted[0] == nextProps.props.uid) {
               profileAdj--
               that.props.changeUrl(splitted[2])
@@ -48,7 +52,7 @@ class GetMods extends Component {
             tempMod.push(
               <Paper zDepth={2} key={i} className='paper-list'>
                 <ListItem
-                  leftAvatar={<Avatar src={splitted[2]} />}
+                  {...args}
                   {...that.state.colors[parseInt(i) + 1]}
                   primaryText={splitted[1]}
                   secondaryText={<p>{bio}</p>}
@@ -60,6 +64,7 @@ class GetMods extends Component {
             )
           }
           that.setState({ mods: tempMod })
+          // console.log(tempMod.length)
           that.props.changeModNum(tempMod.length)
         }).catch(function (error) {
           console.log(error);
@@ -83,9 +88,11 @@ class GetMods extends Component {
       axios.post('/GET-MODS-IN-CHATROOM', {
         "chatroomName": this.props.props.state.currChatName,
       }).then(function (response) {
+        // console.log(response.data)
         let tempMod = []
         for (let i in response.data) {
           let splitted = response.data[i].split('$:$')
+          // console.log('undefined'==splitted[2])
           if (splitted[0] == that.props.props.uid) {
             profileAdj--
             that.props.changeUrl(splitted[2])
@@ -106,7 +113,7 @@ class GetMods extends Component {
           tempMod.push(
             <Paper zDepth={2} key={i} className='paper-list'>
               <ListItem
-                leftAvatar={<Avatar src={splitted[2]} />}
+                {...args}
                 {...that.state.colors[parseInt(i) + 1]}
                 primaryText={splitted[1]}
                 secondaryText={<p>{bio}</p>}

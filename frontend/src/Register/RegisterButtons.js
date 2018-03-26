@@ -28,7 +28,7 @@ class RegisterButtons extends Component {
             that.props.updateLocations(locat)
           }
           //if(co)
-          // history.push('/register/employee')
+          history.push('/register/employee')
         } else {
           alert('Invalid company code, please try again')
         }

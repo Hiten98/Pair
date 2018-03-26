@@ -56,6 +56,9 @@ class People extends Component {
       tempArr[nextProps.currPaper] = { style: { backgroundColor: '#EB347F' } }
       this.setState({ colors: tempArr }, this.changeColors)
     }
+    if(this.props.props.state.currChatName!=nextProps.props.state.currChatName){
+      this.handleClick(0, this.props.props.uid)
+    }
   }
 
   changeUrl = (url) => {
@@ -85,6 +88,7 @@ class People extends Component {
         />
       </Paper>
     )
+    // console.log(this.props.props.uid)
     this.setState({ myProfile: tempArr })
   }
 

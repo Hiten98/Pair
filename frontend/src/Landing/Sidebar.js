@@ -29,6 +29,7 @@ class Sidebar extends Component {
 
   handleClick = (i, name, type) => {
     // console.log(i)
+    // console.log(name)
     let tempArr = this.state.colors
     tempArr[parseInt(this.props.state.currChat)] = null
     tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
