@@ -6,7 +6,7 @@ import axios from 'axios'
 import './LoginButtons.css';
 import ForgotPasswordModal from './ForgotPasswordModal'
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+axios.defaults.baseURL = "http://localhost:9090";
 
 class LoginButtons extends Component {
 

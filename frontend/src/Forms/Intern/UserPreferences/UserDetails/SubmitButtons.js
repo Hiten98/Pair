@@ -6,7 +6,7 @@ import history from '../../../../history'
 import firebase from '../../../../base'
 import './SubmitButton.css';
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+axios.defaults.baseURL = "http://localhost:9090";
 
 class SubmitButton extends Component {
   constructor(props) {

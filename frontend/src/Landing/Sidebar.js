@@ -9,7 +9,7 @@ import axios from 'axios'
 import './Sidebar.css';
 import history from '../history';
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+axios.defaults.baseURL = "http://localhost:9090";
 
 class Sidebar extends Component {
   constructor(props) {
