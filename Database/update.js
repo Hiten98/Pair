@@ -160,7 +160,7 @@
     function removeFromChat(chatRoomRef, internRef, name, ID) {
         chatRoomRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                if(childSnapshot.val() == ID) {
+                if(childSnapshot.val().substring(0, 4) == ID) {
                     chatRoomRef.child(name).child("listOfUsers").child(childSnapshot.key).remove();
                     return true;
                 }
@@ -194,42 +194,6 @@
                 if(childSnapshot.val() == message) {
                     employeeRef.child(ID).child("listOfComplaints").child(childSnapshot.key).remove();
                 }
-            });
-        });
-    }
-
-    function updateInternChatDetails(chatRoomRef, internRef, ID) {
-        item = ID + "$:$";
-        internRef.child(ID).once("value").then(function(snapshot) {
-            item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
-            internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
-                item += childSnapshot.val().image + "$:$";
-                internRef.child(ID).child("basic").once("value").then(function(babySnapshot) {
-                    item += babySnapshot.val().description;
-                    internRef.child(ID).child("listOfChatRooms").once("value").then(function(infantSnapshot) {
-                        infantSnapshot.forEach(function(grandSnapshot) {
-                            var ref;
-                            if(grandSnapshot.val()[0] == 1)
-                                ref = chatRoomRef.child("Company").child(grandSnapshot.val());
-                            else if(grandSnapshot.val()[0] == 2)
-                                ref = chatRoomRef.child("Location").child(grandSnapshot.val());
-                            else if(grandSnapshot.val()[0] == 3)
-                                ref = chatRoomRef.child("Group").child(grandSnapshot.val());
-                            else if(grandSnapshot.val()[0] == 4)
-                                ref = chatRoomRef.child("Private").child(grandSnapshot.val());
-                            ref.child("listOfUsers").once("value").then(function(parentSnapshot) {
-                                parentSnapshot.forEach(function(adultSnapshot) {
-                                    if(adultSnapshot.val().substring(0, 4) == ID) {
-                                        ref.child("listOfUsers").update({
-                                            [adultSnapshot.key]: item
-                                        });
-                                        return true;
-                                    }
-                                });
-                            });
-                        });
-                    });
-                });
             });
         });
     }
