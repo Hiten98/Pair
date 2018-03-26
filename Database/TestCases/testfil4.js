@@ -59,3 +59,15 @@
     getMessages(locationChatRoomRef, "IN", (x) => {
         document.write(JSON.stringify(x));
     })
+
+    addMessageToChat(groupChatRoomRef, "Sqaure Ensix", "hey guys");
+    addMessageToChat(groupChatRoomRef, "Sqaure Ensx", "hello");
+
+    createGroupChat(groupChatRoomRef, internRef, 1822, "Spicy meat-", (x) => {
+        console.log(x);
+    });
+    addToGroupChat(groupChatRoomRef, internRef, 1761, "Spicy meat-");
+    getChatrooms(internRef, 1003, (x) => {
+        document.write(JSON.stringify(x));
+    });
+    removeFromChat(groupChatRoomRef, internRef, "3Spicy meat-", 1761);

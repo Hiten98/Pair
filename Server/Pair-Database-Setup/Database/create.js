@@ -63,7 +63,10 @@ function createIntern(internRef, id, email, company, location = "novalue") {
 			"links": [facebook, linkedin, twitter],
 			"listOfChatRooms": [1 + company + ", " + location]
 		});
-		/*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
+		update.updateCompany(companyRef, company, firstName + " " + lastName);
+    internRef.child(id).child("images").update({
+	    	"image": "undefined"
+	    });
 	}
 
 	function createPassword(relevantRef, ID, password) {
@@ -79,7 +82,7 @@ function createIntern(internRef, id, email, company, location = "novalue") {
 		"twitterLink": twitterLink,
 		"linkedInLink": linkedin
 		});
-		/*update.*/updateIntern(internRef, ID, firstName, lastName, "novalue");
+		update.updateIntern(internRef, ID, firstName, lastName, "novalue");
 }
 
 function createRoommatePreferences(internRef, ID, youguest, themguest, youpet, thempet, sharing, smoke, bedtime, waketime, lights, clean) {
