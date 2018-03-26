@@ -35,7 +35,7 @@ class MessageList extends Component {
     if (this.props.state.currChatName != nextProps.state.currChatName) {
       this.setState(
         {
-          chatroomId: nextProps.state.currChat - 1,
+          chatroomId: nextProps.state.currChat,
           chatroomName: nextProps.state.currChatName
         },
         this.componentDidMount
@@ -43,7 +43,7 @@ class MessageList extends Component {
     }
   };
 
-  componentDidMount=()=> {
+  componentDidMount = () => {
     let that = this;
     if (this.state.chatroomId != "" || this.state.chatroomId != null) {
       axios
@@ -55,7 +55,7 @@ class MessageList extends Component {
           if (response.data[this.state.chatroomId] != null) {
             that.setState({
               chatroomName: response.data[this.state.chatroomId]
-            });
+            }, () => console.log(that.state.chatroomName));
           }
         })
         .catch(error => {
@@ -91,12 +91,23 @@ class MessageList extends Component {
               );
             }
           }
-          that.setState({
-            chats: chatroomMessages,
-            inputText: "",
-            numPrevMsgs: this.state.numMsgs,
-            numMsgs: chatroomMessages.length
-          });
+          if (that.state.chats != chatroomMessages) {
+            that.setState({ chats: [] }, () => {
+              that.setState({
+                chats: chatroomMessages,
+                inputText: "",
+                numPrevMsgs: this.state.numMsgs,
+                numMsgs: chatroomMessages.length
+              });
+            })
+          } else {
+            that.setState({
+              chats: chatroomMessages,
+              inputText: "",
+              numPrevMsgs: this.state.numMsgs,
+              numMsgs: chatroomMessages.length
+            });
+          }
         })
         .catch(error => {
           console.log(error);

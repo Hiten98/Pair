@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
-import { Col } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import wordLogo from '../images/word_no_logo.png'
 import { List, ListItem, Subheader, Paper } from 'material-ui'
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble'
-
+import CreateGroupChat from './CreateGroupChat'
 import axios from 'axios'
 import './Sidebar.css';
 import history from '../history';
@@ -62,6 +62,13 @@ class Sidebar extends Component {
     that.setState({ cards: tempCard })
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    if (this.props.state.needToUpdate != nextProps.state.needToUpdate) {
+      console.log('hi')
+      this.componentDidMount()
+    }
+  }
+
   componentDidMount() {
     let that = this
     let tempCard = []
@@ -78,7 +85,7 @@ class Sidebar extends Component {
 
         for (let i in response.data) {
           //console.log(response.data[i])
-          let k=tempCard.length
+          let k = tempCard.length
           tempCard.push(
             <Paper zDepth={2} key={i}>
               <ListItem
@@ -95,7 +102,7 @@ class Sidebar extends Component {
           )
           that.setState({ cards: tempCard })
         }
-        that.setState({cards:tempCard},that.addMasterList)
+        that.setState({ cards: tempCard }, that.addMasterList)
       }).catch(function (error) {
         console.log(error);
       })
@@ -103,10 +110,10 @@ class Sidebar extends Component {
   }
 
   addMasterList = () => {
-    let that=this
-    let tempCard=this.state.cards
+    let that = this
+    let tempCard = this.state.cards
     if (history.location.pathname.indexOf('/landing/employee/members') == 0 && this.props.type == 'employee') {
-      let k=tempCard.length
+      let k = tempCard.length
       tempCard.push(
         <Paper zDepth={2} key={that.state.cards.length}>
           <ListItem
@@ -121,7 +128,7 @@ class Sidebar extends Component {
         </Paper>
       )
     }
-    that.setState({ cards: tempCard },this.state.cards[0].props.children.props.onClick)
+    that.setState({ cards: tempCard }, this.state.cards[0].props.children.props.onClick)
   }
 
   render() {
@@ -131,9 +138,13 @@ class Sidebar extends Component {
           <img src={wordLogo} alt="logo" className='no-word-logo' />
         </div>
         <hr />
-        <List>
-          {this.state.cards}
-        </List>
+        <div style={{height:'81vh',overflowY:'auto',}}>
+          <List style={{marginTop:'-1vh'}}>
+            {this.state.cards}
+          </List>
+        </div>
+
+        <CreateGroupChat {...this.props} />
       </Col>
     );
   }

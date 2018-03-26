@@ -21,6 +21,7 @@ class LandingScreen extends Component {
       currChatName: '',
       currIntern: {},
       people: [],
+      needToUpdate:false,
     }
     try {
       const serializedState = localStorage.getItem('main-area')
@@ -100,6 +101,10 @@ class LandingScreen extends Component {
       return <BottomBar {...toSend} />
   }
 
+  changeNeedToUpdate=()=>{
+    this.setState({needToUpdate:!this.state.needToUpdate})
+  }
+
   render() {
     let toSend = {
       uid: this.props.uid,
@@ -109,6 +114,7 @@ class LandingScreen extends Component {
       type: this.props.type,
       addPerson: this.addPerson,
       resetPeople:this.resetPeople,
+      changeNeedToUpdate:this.changeNeedToUpdate,
     }
     return (
       <div className='whole'>

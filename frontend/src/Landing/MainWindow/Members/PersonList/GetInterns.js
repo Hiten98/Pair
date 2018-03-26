@@ -22,7 +22,7 @@ class GetInterns extends Component {
   componentWillReceiveProps = (nextProps) => {
     //console.log(this.props.props.state.currChatName)
     // console.log(nextProps.props.state.currChatName)
-    if (this.props.props.state.currChatName != nextProps.props.state.currChatName||this.props.modNum!=nextProps.modNum) {
+    if (this.props.props.state.currChatName != nextProps.props.state.currChatName||this.props.modNum!=nextProps.modNum||this.props.props.state.needToUpdate!=nextProps.props.state.needToUpdate) {
       this.setState({interns:[]})
       if (nextProps.props.type == 'employee' && nextProps.props.state.currChatName == '0Intern Master List') {
         // console.log('hi')
@@ -157,7 +157,7 @@ class GetInterns extends Component {
       // console.log(response.data)
       let k=0
       for (let i in response.data) {
-        if(response.data[i].firstName=='')
+        if(response.data[i].firstName=='undefined')
           continue
         tempArr.push(
           <Paper zDepth={2} key={k} className='paper-list'>

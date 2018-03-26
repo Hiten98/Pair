@@ -6,6 +6,7 @@ import "./Chatroom.css";
 import axios from "axios";
 import Message from "./Message";
 import MessageList from "./MessageList";
+import LeaveChatButton from "./LeaveChatButton";
 
 axios.defaults.baseURL = "http://localhost:9090";
 
@@ -39,7 +40,7 @@ class Chatroom extends Component {
 
   componentDidMount() {
     let that = this;
-
+    
     if (this.state.uid[0] == 1) {
       axios
         .post("/GET-INTERN", {
@@ -50,12 +51,16 @@ class Chatroom extends Component {
             name: response.data.firstName + " " + response.data.lastName,
             myImg: response.data.image,
             banned: response.data.banned
+          }, () => {
+            if (this.props.state.currChatName.substring(0, 1) != 1) {
+              that.setState({ banned: false })
+            }
           });
         })
         .catch(error => {
           console.log(error);
         });
-    } else if(this.state.uid[0] == 2) {
+    } else if (this.state.uid[0] == 2) {
       axios
         .post("/GET-EMPLOYEE", {
           userID: this.state.uid
@@ -139,6 +144,7 @@ class Chatroom extends Component {
             </h3>
           </Row>
           <MessageList {...this.state} {...this.props} />
+          <LeaveChatButton {...this.props}/>
         </div>
 
         <div className="messages">
@@ -154,7 +160,7 @@ class Chatroom extends Component {
                   marginLeft: "-14vw",
                   position: "relative"
                 }}
-                hintText={(this.state.banned)?"Temporary ban, please contact your company chat moderator":"Type a message..."}
+                hintText={(this.state.banned) ? "Temporary ban, please contact your company chat moderator" : "Type a message..."}
                 fullWidth={true}
                 multiLine={true}
                 onChange={this.handleInputTextChange}

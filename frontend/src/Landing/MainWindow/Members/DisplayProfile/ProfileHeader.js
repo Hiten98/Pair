@@ -22,10 +22,10 @@ class ProfileHeader extends Component {
   }
 
   displayPic = () => {
-    if (this.props.pic != null&&this.props.pic!='undefined') {
+    if (this.props.pic != null && this.props.pic != 'undefined') {
       return (
         <Col xs={4}>
-          <img src={this.props.pic} alt={`${this.props.firstname}'s Profile Picture`} />
+          <img src={this.props.pic} className='profile-img' alt={`${this.props.firstname}'s Profile Picture`} />
         </Col>
       )
     } else
@@ -109,13 +109,17 @@ class ProfileHeader extends Component {
     if (this.props.uid != this.props.currProfile) {
       return (
         <Row className='row-div'>
-          {this.privateChatButton()}
-          <RaisedButton
-            label='Add to Group Chat'
-            onClick={this.groupChat}
-            secondary
-            className='link'
-          />
+          <Col xs={6} style={{textAlign:'left', marginLeft:'-2%'}}>
+            {this.privateChatButton()}
+          </Col>
+          <Col xs={6} style={{textAlign:'left'}}>
+            {(this.props.currProfile.substring(0, 1) == 1) ? <RaisedButton
+              label='Add to Group Chat'
+              onClick={this.groupChat}
+              secondary
+              className='link'
+            /> : <div></div>}
+          </Col>
         </Row>
       )
     }
@@ -158,6 +162,32 @@ class ProfileHeader extends Component {
       history.push('/register/intern/preferences/user-details')
   }
 
+  secondLine = () => {
+    let amt = 0
+    let thing = []
+    if (this.props.uid == this.props.currProfile) {
+      amt += 4
+      thing.push(
+        <Col xs={4}>
+          <RaisedButton secondary label="Edit Profile" onClick={this.editProfile} />
+        </Col>
+      )
+    } else if (this.props.props.type == 'intern') {
+      amt += 4
+      thing.push(
+        <Col xs={4}>{this.props.match}</Col>
+      )
+    }
+    thing.push(<ReportIntern {...this.props}{...this.state} />)
+    if (this.props.currProfile != this.props.uid && this.props.props.type == 'intern' && this.props.currProfile.substring(0, 1) != 2) {
+      amt += 4
+    }
+    if (amt < 12) {
+      thing.push(<Col xs={12 - amt}></Col>)
+    }
+    return thing
+  }
+
   render() {
     return (
       <Row>
@@ -166,10 +196,8 @@ class ProfileHeader extends Component {
           <Row>
             <span style={{ fontSize: '60px' }}>{`${this.props.firstname} ${this.props.lastname}`}</span>
           </Row>
-          <Row>
-            {(this.props.props.type == 'intern') ? this.props.match : <div></div>}
-            <ReportIntern {...this.props}{...this.state}/>
-            {(this.props.uid == this.props.currProfile) ? <RaisedButton secondary label="Edit Profile" onClick={this.editProfile} /> : <div></div>}
+          <Row style={{ marginLeft: '-1.8vw' }}>
+            {this.secondLine()}
           </Row>
           {(this.props.props.type == 'employee') ? this.empButtons() : (this.props.props.type == 'intern') ? this.internButtons() : <div></div>}
         </Col>

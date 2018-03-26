@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
 import { RaisedButton, Dialog, TextField, DropDownMenu, MenuItem, Snackbar } from 'material-ui';
-import { Row } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import axios from 'axios'
 //import './ReportIntern.css';
 
@@ -10,7 +10,7 @@ class ReportIntern extends Component {
     super(props)
     this.state = {
       open: false,
-      sopen:false,
+      sopen: false,
       reason: '',
       fromPerson: '',
       toPerson: '',
@@ -26,9 +26,9 @@ class ReportIntern extends Component {
     // console.log(this.state)
     if (this.state.reason == '') {
       alert('Please enter a reason')
-    } else if(this.state.moduid==0){
+    } else if (this.state.moduid == 0) {
       alert('Please choose a moderator')
-    }else {
+    } else {
       axios.post('/CREATE-COMPLAINT', {
         modID: this.state.moduid,
         userID: this.state.uid,
@@ -37,8 +37,8 @@ class ReportIntern extends Component {
         complaint: this.state.reason,
       }).then((response) => {
         // console.log(response.data)
-        if(response.data.status){
-          this.setState({open:false,sopen:true})
+        if (response.data.status) {
+          this.setState({ open: false, sopen: true })
         }
       }).catch((error) => {
         console.log(error);
@@ -123,9 +123,9 @@ class ReportIntern extends Component {
     this.setState({ moduid: value })
   }
 
-  changeReason=(ev)=>{
+  changeReason = (ev) => {
     // console.log(ev.target.value)
-    this.setState({reason:ev.target.value})
+    this.setState({ reason: ev.target.value })
   }
 
   handleRequestClose = () => {
@@ -138,12 +138,14 @@ class ReportIntern extends Component {
     // console.log(this.state)
     return (
       <div>
-        {(this.props.currProfile != this.props.uid && this.props.props.type == 'intern'&&this.props.currProfile.substring(0,1)!=2) ?
-          <RaisedButton
-            secondary
-            label='Report'
-            onClick={this.openModal}
-          /> :
+        {(this.props.currProfile != this.props.uid && this.props.props.type == 'intern' && this.props.currProfile.substring(0, 1) != 2) ?
+          <Col xs={4}>
+            <RaisedButton
+              secondary
+              label='Report'
+              onClick={this.openModal}
+            />
+          </Col> :
           <div></div>}
         <Dialog
           title={`Report ${this.state.toPerson}?`}
@@ -153,7 +155,7 @@ class ReportIntern extends Component {
         >
           {(this.state.chatName.substring(0, 1) == 1) ?
             <Row>
-              <h5 style={{marginLeft:'3%'}}>{`Please choose the moderator you want to report ${this.state.toPerson} to`}</h5>
+              <h5 style={{ marginLeft: '3%' }}>{`Please choose the moderator you want to report ${this.state.toPerson} to`}</h5>
               <DropDownMenu
                 style={{ marginLeft: '0%' }}
                 value={this.state.moduid}

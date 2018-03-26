@@ -78,7 +78,7 @@ class People extends Component {
     }
     let tempArr = []
     tempArr.push(
-      <Paper zDepth={2} key={0} className='paper-list'>
+      <Paper zDepth={2} key={0} className='paper-list' style={{position:'sticky'}}>
         <ListItem
           {...args}
           hoverColor='#F95498B0'

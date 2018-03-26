@@ -17,7 +17,7 @@ class GetMods extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (this.props.props.state.currChatName != nextProps.props.state.currChatName) {
+    if (this.props.props.state.currChatName != nextProps.props.state.currChatName||this.props.props.state.needToUpdate!=nextProps.props.state.needToUpdate) {
       this.setState({mods:[]})
       this.props.changeModNum(0)
       //console.log(this.props.props.state.currChatName)

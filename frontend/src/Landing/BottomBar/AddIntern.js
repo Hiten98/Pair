@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 import emailjs from 'emailjs-com'
-import { FloatingActionButton, Dialog, TextField, RaisedButton } from 'material-ui';
+import { FloatingActionButton, Dialog, TextField, RaisedButton, Snackbar, RefreshIndicator, CircularProgress } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { Row } from 'react-bootstrap'
 //import './SearchBar.css';
@@ -16,6 +16,7 @@ class SearchBar extends Component {
       loc: '',
       company: '',
       intern: '',
+      refresh:false,
     }
     // console.log(props)
   }
@@ -40,6 +41,7 @@ class SearchBar extends Component {
   }
 
   handleSubmit = () => {
+    let that = this
     if (!(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(this.state.intern)) {
       alert("Please enter a valid email")
     } else {
@@ -50,6 +52,7 @@ class SearchBar extends Component {
       }).then((response) => {
         console.log(response.data)
         if (response.data.userID != null) {
+          that.setState({refresh:true})
           console.log("Success! ID CREATED:" + response.data.userID);
 
           let url = "http://localhost:3000/register/intern/part1/" + response.data.userID;
@@ -62,7 +65,7 @@ class SearchBar extends Component {
           }).then(
             function (response) {
               console.log("SUCCESS", response);
-              this.setState({ open: false })
+              that.setState({ open: false, sopen: true, refresh:false })
             },
             function (error) {
               console.log("FAILED", error);
@@ -82,12 +85,16 @@ class SearchBar extends Component {
     }
   }
 
+  handleRequestClose = () => {
+    this.setState({ sopen: false })
+  }
+
   openModal = () => {
     this.setState({ open: true })
   }
 
-  changeEmail=(ev)=>{
-    this.setState({intern:ev.target.value})
+  changeEmail = (ev) => {
+    this.setState({ intern: ev.target.value })
   }
 
   actions = [
@@ -117,14 +124,28 @@ class SearchBar extends Component {
           actions={this.actions}
           open={this.state.open}
         >
-          <Row style={{width:'40vw',marginLeft:'3vw'}}>
+          <Row style={{ width: '90%', marginLeft: '5%' }}>
             <TextField
               fullWidth
               floatingLabelText="Enter Intern's Email"
               onChange={this.changeEmail}
             />
           </Row>
+          {(this.state.refresh) ?
+          <CircularProgress
+            style={{position:'absolute',top:'40%',left:'45%'}}
+            size={80}
+            thickness={8}
+            color='#50C2C4'
+          />:<div></div>}
         </Dialog>
+        <Snackbar
+          open={this.state.sopen}
+          message="Intern added"
+          autoHideDuration={4000}
+          onRequestClose={this.handleRequestClose}
+        />
+        
       </div>
     );
   }
