@@ -30,6 +30,7 @@ class EmployeeRegistrationForm extends Component {
       facebook: '',
       twitter: '',
       pic:'',
+      prevpic:'',
     }
     try {
       const serializedState = localStorage.getItem('employee-register')
@@ -71,9 +72,9 @@ class EmployeeRegistrationForm extends Component {
     this.saveState()
   }
 
-  locationChange=(event,index,value)=>{
-    console.log(value)
-    this.setState({loc:value},()=>{this.saveState()})
+  locationChange=(value)=>{
+    // console.log(value)
+    this.setState({ loc: value }, () => { this.saveState() })
     this.saveState()
   }
 
@@ -102,6 +103,7 @@ class EmployeeRegistrationForm extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
         <Row className='employee-title'>
@@ -126,7 +128,7 @@ class EmployeeRegistrationForm extends Component {
 
         <Twitter twitterChange={this.twitterChange} dv={this.state.twitter}/>
 
-        <PicUpload changePic={this.changePic}/>
+        <PicUpload changePic={this.changePic} pic={this.state.pic} prevpic={this.state.prevpic}/>
 
         <EmployeeRegisterButtons {...this.state} company={this.props.company} locations={this.props.locations} updateUid={this.props.updateUid}/>
       </div>

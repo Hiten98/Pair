@@ -6,7 +6,7 @@ import axios from 'axios'
 import history from '../../history'
 //import './DeleteAccountModal.css';
 
-axios.defaults.baseURL = 'http://localhost:9090'
+axios.defaults.baseURL = "http://localhost:9090";
 
 class DeleteAccountModal extends Component {
   constructor(props) {

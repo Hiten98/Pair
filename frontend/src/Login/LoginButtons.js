@@ -4,11 +4,12 @@ import { RaisedButton } from 'material-ui'
 import history from '../history'
 import axios from 'axios'
 import './LoginButtons.css';
+import ForgotPasswordModal from './ForgotPasswordModal'
 
-axios.defaults.baseURL = 'http://localhost:9090'
+axios.defaults.baseURL = "http://localhost:9090";
 
 class LoginButtons extends Component {
-  
+
 
   handleLogin = () => {
     let email = this.props.email
@@ -22,7 +23,7 @@ class LoginButtons extends Component {
         "username": email,
         "password": password
       }).then((response) => {
-        //console.log(response.data);
+        // console.log(response.data);
         if (!response.data.status) {
           alert('Username or password was incorrect, please try again')
         } else if (response.data.userID != null) {
@@ -30,15 +31,15 @@ class LoginButtons extends Component {
           //console.log(response.data.userID)
           that.props.updateUid(response.data.userID, response.data.authority)
           if (response.data.authority==='admin') {
-            history.push('/landing/admin')
+            history.push('/landing/admin/complaints')
           } if (response.data.authority==='company') {
-            history.push('/landing/company-landing')
+            history.push('/landing/company')
           } else if (response.data.authority==='employee') {
             //GO TO EMPLOYEE Landing Page
-            history.push('/landing/employee/chat')
+            history.push('/landing/employee/members')
           } else if (response.data.authority==='intern') {
             //GO TO INTERN Landing Page
-            history.push('/landing/interns/chat')
+            history.push('/landing/intern/members')
           }
         }
       }).catch((error) => {
@@ -49,6 +50,23 @@ class LoginButtons extends Component {
     }
   }
 
+  componentDidMount=()=>{
+    let that=this
+    document.addEventListener('keydown', function(event) {
+      if (event.code == 'Enter' || event.code=='NumpadEnter') {
+        that.handleLogin()
+      }
+    });
+  }
+
+  componentWillUnmount=()=>{
+    let that=this
+    document.removeEventListener('keydown',function(event) {
+      if (event.code == 'Enter' || event.code=='NumpadEnter') {
+        that.handleLogin()
+      }
+    });
+  }
 
   render() {
     return (
@@ -59,6 +77,7 @@ class LoginButtons extends Component {
             primary
             onClick={this.handleLogin}
           />
+          <ForgotPasswordModal />
         </Row>
       </div>
     );

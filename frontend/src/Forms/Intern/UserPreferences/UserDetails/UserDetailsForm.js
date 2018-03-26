@@ -10,7 +10,7 @@ import PicUpload from './PicUpload'
 import axios from 'axios'
 //import './UserDetailsForm.css';
 
-axios.defaults.baseURL = 'http://localhost:9090'
+axios.defaults.baseURL = "http://localhost:9090";
 
 //NEEDS TESTING
 
@@ -25,6 +25,7 @@ class UserDetailsForm extends Component {
       facebook: '',
       twitter: '',
       pic:'',
+      prevpic:'',
       changed: false,
     }
 
@@ -71,8 +72,8 @@ class UserDetailsForm extends Component {
     axios.post("/GET-IMAGE", {
       "userID": this.props.uid
     }).then(function (response) {
-      console.log(response.data)
-      
+      //console.log(response.data)
+      that.setState({prevpic:response.data.image})
     }).catch(function (error) {
       console.log(error);
     })
@@ -132,7 +133,7 @@ class UserDetailsForm extends Component {
 
         <Twitter dv={this.state.twitter} twitterChange={this.twitterChange} />
 
-        <PicUpload changePic={this.changePic}/>
+        <PicUpload changePic={this.changePic} pic={this.state.pic} prevpic={this.state.prevpic}/>
 
         <SubmitButtons {...this.state} uid={this.props.uid} changePage={this.props.changePage} changeChange={this.changeChanged} changeCompleted={this.props.changeCompleted}/>
       </div>

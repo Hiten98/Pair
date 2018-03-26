@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
-import { Col } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import wordLogo from '../images/word_no_logo.png'
 import { List, ListItem, Subheader, Paper } from 'material-ui'
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble'
-
+import CreateGroupChat from './CreateGroupChat'
 import axios from 'axios'
 import './Sidebar.css';
+import history from '../history';
 
-axios.defaults.baseURL = 'http://localhost:9090'
+axios.defaults.baseURL = "http://localhost:9090";
 
 class Sidebar extends Component {
   constructor(props) {
     super(props)
     let tempArr = []
-    tempArr[parseInt(props.state.currChat) - 1] = { style: { backgroundColor: '#EB347F' } }
+    tempArr[parseInt(props.state.currChat)] = { style: { backgroundColor: '#EB347F' } }
     this.state = {
       cards: [],
       colors: tempArr,
@@ -26,27 +27,29 @@ class Sidebar extends Component {
   styleNoPressed = 'white'
 
 
-  handleClick = (i) => {
+  handleClick = (i, name, type) => {
+    // console.log(i)
+    // console.log(name)
     let tempArr = this.state.colors
-    tempArr[parseInt(this.props.state.currChat) - 1] = null
+    tempArr[parseInt(this.props.state.currChat)] = null
     tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
     this.setState({ colors: tempArr }, this.changeColors)
-    this.props.changeChat(parseInt(i) + 1)
+    this.props.changeChat(parseInt(i), name, type)
   }
 
   changeColors = () => {
     //The below code is what finally got the chats to refresh with the right colors after a button click
-    let that=this
-    let tempCard=[]
+    let that = this
+    let tempCard = []
     for (let i in this.state.cards) {
-      console.log(this.state.cards[i])
+      // console.log(this.state.cards[i])
       tempCard.push(
         <Paper zDepth={2} key={i}>
           <ListItem
             primaryText={this.state.cards[i].props.children.props.primaryText}
-            className={`intro${i}`}
+            className={this.state.cards[i].props.children.props.className}
             rightIcon={<CommunicationChatBubble />}
-            onClick={() => that.handleClick(i)}
+            onClick={this.state.cards[i].props.children.props.onClick}
             value={i}
             hoverColor='#F95498B0'
             {...that.state.colors[i]}
@@ -54,47 +57,78 @@ class Sidebar extends Component {
 
         </Paper>
       )
-      
+
     }
     that.setState({ cards: tempCard })
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    if (this.props.state.needToUpdate != nextProps.state.needToUpdate) {
+      console.log('hi')
+      this.componentDidMount()
+    }
+  }
+
   componentDidMount() {
     let that = this
-    axios.post("/GET-CHATROOM", {
-      "userID": this.props.uid
-    }).then(function (response) {
-      //console.log(response.data)
-      // if (response.data.status) {
-      let tempCard = []
-      let tempPushed = []
-      for (let i in response.data) {
-        tempPushed.push(that.styleNoPressed)
-        that.setState({ pressed: tempPushed })
-      }
+    let tempCard = []
+    if (this.props.uid != null) {
+      axios.post("/GET-CHATROOM", {
+        "userID": this.props.uid
+      }).then(function (response) {
+        // console.log(response.data)
+        let tempPushed = []
+        for (let i in response.data) {
+          tempPushed.push(that.styleNoPressed)
+          that.setState({ pressed: tempPushed })
+        }
 
-      for (let i in response.data) {
-        //console.log(response.data[i])
-        tempCard.push(
-          <Paper zDepth={2} key={i}>
-            <ListItem
-              primaryText={response.data[i]}
-              className={`intro${i}`}
-              rightIcon={<CommunicationChatBubble />}
-              onClick={() => that.handleClick(i)}
-              value={i}
-              hoverColor='#F95498B0'
-              {...that.state.colors[i]}
-            />
+        for (let i in response.data) {
+          //console.log(response.data[i])
+          let k = tempCard.length
+          tempCard.push(
+            <Paper zDepth={2} key={i}>
+              <ListItem
+                primaryText={response.data[i].substring(1)}
+                className={response.data[i]}
+                rightIcon={<CommunicationChatBubble />}
+                onClick={() => that.handleClick(k, response.data[i], response.data[i].substring(0, 1))}
+                value={i}
+                hoverColor='#F95498B0'
+                {...that.state.colors[k]}
+              />
 
-          </Paper>
-        )
-        that.setState({ cards: tempCard })
-      }
-      // }
-    }).catch(function (error) {
-      console.log(error);
-    })
+            </Paper>
+          )
+          that.setState({ cards: tempCard })
+        }
+        that.setState({ cards: tempCard }, that.addMasterList)
+      }).catch(function (error) {
+        console.log(error);
+      })
+    }
+  }
+
+  addMasterList = () => {
+    let that = this
+    let tempCard = this.state.cards
+    if (history.location.pathname.indexOf('/landing/employee/members') == 0 && this.props.type == 'employee') {
+      let k = tempCard.length
+      tempCard.push(
+        <Paper zDepth={2} key={that.state.cards.length}>
+          <ListItem
+            primaryText='Intern Master List'
+            className='0Intern Master List'
+            rightIcon={<CommunicationChatBubble />}
+            onClick={() => this.handleClick(k, '0Intern Master List', 0)}
+            value={0}
+            hoverColor='#F95498B0'
+            {...this.state.colors[k]}
+          />
+        </Paper>
+      )
+    }
+    that.setState({ cards: tempCard }, this.state.cards[0].props.children.props.onClick)
   }
 
   render() {
@@ -104,9 +138,13 @@ class Sidebar extends Component {
           <img src={wordLogo} alt="logo" className='no-word-logo' />
         </div>
         <hr />
-        <List>
-          {this.state.cards}
-        </List>
+        <div style={{height:'81vh',overflowY:'auto',overflowX:'hidden'}}>
+          <List style={{marginTop:'-1vh'}}>
+            {this.state.cards}
+          </List>
+        </div>
+
+        <CreateGroupChat {...this.props} />
       </Col>
     );
   }

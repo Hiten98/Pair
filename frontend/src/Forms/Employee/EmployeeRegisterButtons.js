@@ -5,21 +5,19 @@ import axios from 'axios'
 import firebase from '../../base'
 //import './LandingScreen.css';
 
-axios.defaults.baseURL = 'http://localhost:9090'
-
+axios.defaults.baseURL = "http://localhost:9090";
 class LandingScreen extends Component {
-  submitPicture = () => {
+  submitPicture = (ID) => {
     //Setup references to database
     var ref = firebase.database().ref();
     var storageRef = firebase.storage().ref();
-    var internRef = ref.child("User/Interns");
-    let ID = this.props.uid
+    var internRef = ref.child("User/Employees");
     let image = this.props.pic.substring(this.props.pic.indexOf(',') + 1)
 
     var imageRef = internRef.child(ID).child("images");
 
     var task = storageRef.child(ID + "/").putString(image, 'base64').then(function (snapshot) {
-      console.log('Uploaded a base64 string!');
+      //console.log('Uploaded a base64 string!');
     }).then(() => {
       storageRef.child(ID + "/").getDownloadURL().then(function (url) {
         imageRef.child("image").set(url);
@@ -73,20 +71,19 @@ class LandingScreen extends Component {
           //Go to employee page
           //console.log(response)
           that.props.updateUid(response.data.userID, 'employee')
+          that.submitPicture(response.data.userID)
           try {
             localStorage.removeItem('employee-register')
           } catch (err) {
             //console.log('This browser does not allow localstorage and some functionalities may be impacted')
           }
-          history.push('/landing/employee/chat')
+          history.push('/landing/employee/members')
 
         }
       }).catch(function (error) {
         console.log(error);
       })
     }
-
-    this.submitPicture()
   }
 
   render() {

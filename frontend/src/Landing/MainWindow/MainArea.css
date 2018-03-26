@@ -1,0 +1,21 @@
+.text-display{
+  height:84vh;
+  background-color: aliceblue;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.chat-display{
+  height:94vh;
+}
+
+.companyName{
+  style: bold;
+  font-size: 30px;
+}
+
+.title{
+  style: bold;
+  font-size: 20px;
+  text-align: center;
+}

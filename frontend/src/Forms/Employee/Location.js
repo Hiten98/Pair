@@ -5,23 +5,40 @@ import history from '../../history'
 import './Location.css';
 
 class Location extends Component {
-  render() {
-
-    let items = []
-    let labels = ["Choose a location"]
-    try {
-      for (let i = 0; i < this.props.locations.length; i++) {
-        labels.push(this.props.locations[i])
-      }
-
-      for (let i = 0; i < labels.length; i++) {
-        items.push(<MenuItem value={i} key={i} primaryText={labels[i]} />)
-      }
-    } catch (err) {
-      alert('An error occured, please try again')
-      history.push('/')
+  constructor(props) {
+    super(props)
+    this.state = {
+      locations: [],
+      items: [],
+      prevValue: 0,
     }
+  }
 
+  change = (event, index, value) => {
+    this.props.change(event.target.textContent)
+    this.setState({ prevValue: value })
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.locations != this.props.locations)
+      this.componentDidMount()
+  }
+
+  componentDidMount = () => {
+    let items = []
+    console.log(this.props.locations)
+    items.push(<MenuItem value={0} key={0} primaryText='Choose a location' />)
+    for (let i in this.props.locations) {
+      items.push(<MenuItem value={parseInt(i) + 1} key={parseInt(i) + 1} primaryText={this.props.locations[i]} />)
+      if (this.props.locations[i] == this.props.dv) {
+        this.setState({ prevValue: parseInt(i) + 1 })
+      }
+      this.setState({ items: items })
+    }
+  }
+
+  render() {
+    // console.log(this.props.dv)
     return (
       <div>
         <Col xs={6} className='location-question'>
@@ -31,10 +48,10 @@ class Location extends Component {
         <Col xs={6}>
           <DropDownMenu
             maxHeight={250}
-            value={this.props.dv}
-            onChange={this.props.change}
+            value={this.state.prevValue}
+            onChange={this.change}
           >
-            {items}
+            {this.state.items}
           </DropDownMenu>
         </Col>
       </div>

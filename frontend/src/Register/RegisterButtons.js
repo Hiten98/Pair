@@ -5,10 +5,10 @@ import history from '../history'
 import axios from 'axios'
 //import './RegisterButtons.css';
 
-axios.defaults.baseURL = 'http://localhost:9090'
+axios.defaults.baseURL = "http://localhost:9090";
 
 class RegisterButtons extends Component {
-  
+
 
   handleLogin = () => {
     const companyCode = this.props.companyCode
@@ -18,7 +18,7 @@ class RegisterButtons extends Component {
       axios.post('/GET-COMPANY', {
         "pid": companyCode
       }).then(function (response) {
-        //console.log(response.data);
+        console.log(response.data);
         if (response.data.status) {
           //let parsed = JSON.parse(JSON.stringify(response.data.company))
           let locat = []

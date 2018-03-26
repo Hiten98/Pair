@@ -1,0 +1,27 @@
+.profile-img{
+  max-width: 100%;
+  max-height: 20vh;
+  margin-right: 20px;
+}
+
+.entire-profile{
+  text-align: left;
+  margin-left: 1vw;
+  margin-top: 1vh;
+  padding-left:3vw;
+  padding-top:1vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.row-div{
+  margin-top:20px;
+}
+
+.link{
+  margin-right:5%;
+}
+
+.company-info{
+  margin-left:-30px
+}

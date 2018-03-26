@@ -2,7 +2,7 @@
   background-color: var(--l3);
   height: 100vh;
   text-align: left;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .img-div{
@@ -14,4 +14,16 @@
 .no-word-logo{
   width:60%;
   margin-bottom: -20px
+}
+
+ .create-gc-button{
+  margin:0 auto;
+} 
+
+.create-gc-div{
+  position: absolute;
+  width:100%;
+  bottom:2vh;
+  text-align: center;
+  margin-left: -6%;
 }

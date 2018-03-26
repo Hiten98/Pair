@@ -3,11 +3,11 @@ module.exports = {
   UID
 }
 //server dependencies
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 var port =  (process.env.PORT || 9090);
-var axios = require('axios');
-var bodyParser = require('body-parser');
+//var axios = require('axios');
+const bodyParser = require('body-parser');
 
 //security dependencies
 var crypto = require('crypto');
@@ -19,6 +19,16 @@ var update = require('./Pair-Database-Setup/Database/update.js');
 
 //setting up dtaabase
 var admin = require("firebase-admin");
+
+//setting up googleStorage
+const storageRef = require('@google-cloud/storage')
+/*const storage = googleStorage({
+  projectId: "pair-ab7d0",
+  keyFilename: "./pair-ab7d0-firebase-adminsdk-3wjxh-99b0bb40ab.json"
+});
+const bucket = storage.bucket("pair-ab7d0.appspot.com/");
+*/
+
 
 //setting up CORS
 //app.use(express.methodOverride());
@@ -54,10 +64,15 @@ admin.initializeApp({
 var db = admin.database();
 var baseRef = db.ref("/");
 
+//set up references
 var companyRef = db.ref("/Company");
 var internRef = db.ref("/User/Interns");
 var employeeRef = db.ref("/User/Employees");
-var chatroomRef = db.ref("/ChatRooms");
+var chatRoomRef = db.ref("/ChatRooms");
+var groupChatRoomRef = db.ref("/ChatRooms/Group");
+var privateChatRoomRef = db.ref("/ChatRooms/Private");
+var locationChatRoomRef = db.ref("/ChatRooms/Location");
+var companyChatRoomRef = db.ref("/ChatRooms/Company");
 
 //test-function
 function test() {
@@ -159,8 +174,6 @@ app.post('/LOGIN', function (req, res) {
   console.log('Received request for LOGIN:');
   console.log(req.body);
 
-  //verify the values:
-  //send UID and ENCRYPTED PASSWORD to verify
   //create ENCRYPTED PASSWORD
   var pass_shasum = encrypt(req.body.password);//crypto.createHash('sha256').update(req.body.password).digest('hex');
 
@@ -185,40 +198,47 @@ app.post('/LOGIN', function (req, res) {
   console.log("UID FOR EMPLOYEE");
   console.log(actual_uid_employee);
 
-  //check and return
-  read.verifyUser(internRef, actual_uid_intern, pass_shasum, (x) => {
-    //make the login token
-    if (x == true)
-    {
+  read.verifyCompany(companyRef, req.body.username, pass_shasum, (z) => {
+    if(z != false) {
       res.json({
-        "userID": actual_uid_intern,
+        "userID" : z,
         "status": true,
-        "authority": "intern"
+        "authority": "company"
       });
-      console.log("intern: " + x);
     }
-    else
-    {
-      read.verifyUser(employeeRef, actual_uid_employee, pass_shasum, (y) => {
+    else {
+      //check and return
+      read.verifyUser(internRef, actual_uid_intern, pass_shasum, (x) => {
         //make the login token
-        if (y == true)
-        {
+        if (x == true) {
           res.json({
-            "userID": actual_uid_employee,
+            "userID": actual_uid_intern,
             "status": true,
-            "authority": "employee"
+            "authority": "intern"
           });
-          console.log("employee: " + y);
+          console.log("intern: " + x);
         }
         else {
-          res.status(400).json({
-            "status": false
+          read.verifyUser(employeeRef, actual_uid_employee, pass_shasum, (y) => {
+            //make the login token
+            if (y == true) {
+              res.json({
+                "userID": actual_uid_employee,
+                "status": true,
+                "authority": "employee"
+              });
+              console.log("employee: " + y);
+            }
+            else {
+              res.json({
+                "status": false
+              });
+            }
           });
         }
       });
     }
   });
-
   //return null
   console.log('Done handling login');
 });
@@ -273,26 +293,85 @@ app.post('/RESET-PASSWORD', function (req, res) {
 
   //password
   var pass = encrypt(req.body.newPassword);
+  var oldPass = encrypt(req.body.oldPassword);
+  console.log(oldPass);
 
-  if(uid.charAt(0) == '1')
-  {
-    create.createPassword(internRef, uid, pass);
-    res.json({
-      "status": true
+  if(uid.charAt(0) == '1') {
+    update.updatePassword(internRef, uid, pass, oldPass, (x) => {
+      if (x == true) {
+        res.json({
+          "status": true
+        });
+      }
+      else {
+        res.json({
+          "status": false,
+          "error": "wrong password"
+        });
+      }
     });
   }
-  else if(uid.charAt(0) == '2')
-  {
-    create.createPassword(employeeRef, uid, pass);
-    res.json({
-      "status": true
+  else if(uid.charAt(0) == '2') {
+    update.updatePassword(employeeRef, uid, pass, oldPass, (x) => {
+      if (x == true) {
+        res.json({
+          "status": true
+        });
+      }
+      else {
+        res.json({
+          "status": false,
+          "error": "wrong password"
+        });
+      }
     });
   }
   else{
-    res.status(400).json({
-      "status": false
+    res.json({
+      "status": false,
+      "error": "user does not exist in database"
     });
   }
+});
+
+//FORGOT password handler
+app.post('/FORGOT-PASSWORD', function (req, res) {
+  console.log('Received request for RESET-PASSWORD:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("UID received:");
+  var uid = UID(req.body.username);
+  console.log(uid);
+
+  //password
+  var pass = encrypt(req.body.password);
+
+  read.verifyUserExists(internRef,"1" + uid, (x) =>{
+    if(x == true) {
+      create.createPassword(internRef, "1" + uid, pass);
+      res.json({
+        "status": true,
+        "userID": "1" + uid
+      });
+    }
+    else {
+      read.verifyUserExists(employeeRef,"2" + uid, (y) =>{
+        if(y == true) {
+          create.createPassword(employeeRef, "2" + uid, pass);
+          res.json({
+            "userID": "2" + uid,
+            "status": true
+          });
+        }
+        else {
+          res.json({
+            "status": false
+          });
+        }
+      });
+    }
+  });
 });
 
 //initial set password for employee
@@ -324,18 +403,10 @@ app.post('/REMOVE-USER', function (req, res) {
   var uid = req.body.userID;
   console.log(uid);
 
-  update.removeIntern(internRef, uid, (x) => {
-    if (x != false)
-    {
-      res.json({
-        "status": true
-      });
-    }
-    else {
-      res.json({
-        "status": false
-      });
-    }
+  update.removeIntern(internRef, chatRoomRef, uid);
+  update.removeEmployee(employeeRef, chatRoomRef, companyRef, uid);
+  res.json({
+    "status": true
   });
 });
 
@@ -345,11 +416,11 @@ app.post('/GET-COMPANY', function (req, res) {
   console.log(req.body);
 
   //create UID (0 for interns)
-  console.log("UID generated:");
-  var pin = req.body.pid;
+  console.log("PID generated:");
+  var pin = encrypt(req.body.pid);
   console.log(pin);
 
-  read.getCompany(companyRef, pin, (x) => {
+  read.getCompanyFromPin(companyRef, pin, (x) => {
     if (x != null) {
         x['status'] = 'true';
         console.log(x);
@@ -452,7 +523,7 @@ app.post('/CREATE-EMPLOYEE', function (req, res) {
   var twitter = req.body.twitter;
 
   create.createEmployee(employeeRef, companyRef, employee_uid, firstName, lastName, password, email, company, location, description, facebook, linkedin, twitter);
-
+  create.addEmployeeToCompanyChat(companyChatRoomRef,employeeRef, company, location, employee_uid);
   //create.createEmployee(employeeRef, employee_uid, req.body.password);
   res.json({
     "userID": employee_uid,
@@ -475,6 +546,25 @@ app.post('/CREATE-INTERN', function (req, res) {
   create.createBasicPreferences(internRef, uid, "", "", "", "", "", "");
   create.createRoommatePreferences(internRef, uid, "", "", "", "", "", "", "", "", "", "");
   create.createHousingPreferences(internRef, uid, "", "", "", "");
+  create.addToLocationChat(locationChatRoomRef, internRef, location, uid);
+  create.addInternToCompanyChat(companyChatRoomRef,internRef, company, location, uid);
+  res.json({
+    "status": true
+  });
+});
+
+//initial create company
+app.post('/CREATE-COMPANY', function (req, res) {
+  console.log('Received request for CREATE-COMPANY:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  var name = req.body.companyName;
+  var listOfLocations = req.body.locations;
+  var listOfEmployees = req.body.employees;
+  var email = req.body.email;
+  var password = encrypt(req.body.password);
+  create.createCompany(companyRef, name, email, password, listOfLocations, listOfEmployees);
   res.json({
     "status": true
   });
@@ -597,45 +687,32 @@ app.post('/VERIFY-USER-EXISTS', function(req,res) {
 
 //check if email exists
 app.post('/VERIFY-EMAIL-EXISTS', function(req,res) {
-  console.log("Received request for VERIFY-USER-EXISTS:");
+  console.log("Received request for VERIFY-EMAIL-EXISTS:");
   console.log(req.body);
   var uid = UID(req.body.username);
-  if(uid.charAt(0) == '1')
-  {
-    read.verifyUserExists(internRef,uid, (x) =>{
-      if(x == true)
-      {
-        res.json({
-          "status": true
-        });
-      }
-      else {
-        {
+  read.verifyUserExists(internRef,"1" + uid, (x) =>{
+    if(x == true) {
+      res.json({
+        "status": true,
+        "userID": "1" + uid
+      });
+    }
+    else {
+      read.verifyUserExists(employeeRef,"2" + uid, (y) =>{
+        if(y == true) {
+          res.json({
+            "userID": "2" + uid,
+            "status": true
+          });
+        }
+        else {
           res.json({
             "status": false
           });
         }
-      }
-    });
-  }
-  else if(uid.charAt(0) == 2)
-  {
-    read.verifyUserExists(employeeRef,uid, (x) =>{
-      if(x == true)
-      {
-        res.json({
-          "status": true
-        });
-      }
-      else {
-        {
-          res.json({
-            "status": false
-          });
-        }
-      }
-    });
-  }
+      });
+    }
+  });
 });
 
 //get email back from uid
@@ -803,6 +880,382 @@ app.post('/GET-MASTER-LIST', function (req, res) {
   }
 });
 
+//get employee
+app.post('/GET-EMPLOYEE', function (req, res) {
+  console.log('Received request for /GET-EMPLOYEE:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  console.log("UID received:");
+  var uid = req.body.userID;
+  //uid = uid.substring(1,uid.length);
+  //var email = revUID(uid);
+
+  //create intern uid
+  read.getEmployee(employeeRef, uid, (x) => {
+    console.log(x);
+    res.send(x);
+  });
+});
+
+//get correctRef for ChatRooms
+function findCorrectRef(chatroomName) {
+  //first char
+  //1 - company
+  //2 - location
+  //3 - group
+  //4 - private
+  //get messages for a chatroom:
+  if(chatroomName.charAt(0) == '1') {
+    return companyChatRoomRef;
+  }
+  else if(chatroomName.charAt(0) == '2') {
+    return locationChatRoomRef;
+  }
+  else if(chatroomName.charAt(0) == '3') {
+    return groupChatRoomRef;
+  }
+  else if(chatroomName.charAt(0) == '4') {
+    return privateChatRoomRef;
+  }
+  else {
+    return null;
+  }
+}
+
+//get messages for chatroom name
+app.post('/GET-MESSAGES', function (req, res) {
+  console.log("Get Messages request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  //var correctRef = chatRoomRef;
+  var chatroomName = req.body.chatroomName;
+  correctRef = findCorrectRef(chatroomName);
+  //console.log("correctRef=");
+  //console.log(correctRef);
+  if(correctRef == null)
+  {
+    res.json({
+      "status":false,
+      "error":"weird chat name bro"
+    });
+  }
+  else {
+    read.getMessages(correctRef, req.body.chatroomName, (x) => {
+      res.send(x);
+    });
+  }
+});
+
+//compare two interns
+app.post('/COMPARE-INTERNS', function (req, res) {
+  console.log("compare interns request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var uid1 = req.body.userID1;
+  var uid2 = req.body.userID2;
+  read.compareInterns(internRef, uid1, uid2, (x) => {
+    res.json({
+      "score": x,
+      "status": true
+    });
+  });
+});
+
+//get image:
+app.post('/GET-IMAGE', function (req, res) {
+  console.log("Get Image request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  read.getImage(internRef, req.body.userID, (x) => {
+    res.send(x);
+  });
+});
+
+//create Profile Picture:
+app.post('/CREATE-PROFILE-PICTURE', function (req, res) {
+  console.log("Create Profile picture request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var image = req.body.image;
+  var userID = req.body.userID;
+  create.createProfilePicture(storageRef,internRef, userID, image);
+  res.json({
+    "status": true
+  });
+});
+
+//create Group Chat:
+app.post('/CREATE-GROUP-CHAT', function (req, res) {
+  console.log("Create group request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var name = req.body.chatroomName;
+  var uid = req.body.userID;
+  create.createGroupChat(groupChatRoomRef, internRef, uid, name, (x) => {
+    if(x) {
+      res.json({
+        "status": true
+      });
+    }
+    else {
+      res.json({
+        "status": false,
+        "error": "database returned issue"
+      });
+    }
+  });
+});
+
+//add people to Group Chat:
+app.post('/ADD-TO-GROUP-CHAT', function (req, res) {
+  console.log("add to group request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var name = req.body.chatroomName;
+  var uid = req.body.userID;
+  create.addToGroupChat(groupChatRoomRef, internRef, uid, name);
+  res.json({
+    "status": true
+  });
+});
+
+//send messages:
+app.post('/SEND-MESSAGE', function (req, res) {
+  console.log("SEND MESSAGE request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var name = req.body.chatroomName;
+  var uid = req.body.userID;
+  var message = req.body.message;
+  var image = req.body.image;
+  var correctRef = findCorrectRef(name);
+  if(correctRef == null){
+    res.json({
+      "status": false,
+      "error": "chatroom name is incorrect"
+    });
+  }
+  else {
+    if(uid.charAt(0) == '1') {
+      read.getIntern(internRef, uid, (x) =>{
+        console.log("printing out intern");
+        console.log(x);
+        message = uid + ":" + x.firstName + " " + x.lastName + ":" +image + ":" + message;
+        create.addMessageToChat(correctRef, name, message);
+        res.json({
+          "status": true
+        });
+      });
+    }
+    else if(uid.charAt(0) == '2') {
+      read.getEmployee(employeeRef, uid, (x) =>{
+        message = x.firstName + " " + x.lastName + ":" + message;
+        create.addMessageToChat(correctRef, name, message);
+        res.json({
+          "status": true
+        });
+      });
+    }
+    else {
+      res.json({
+        "status": false,
+        "error": "incorrect userID"
+      });
+    }
+  }
+});
+
+//create Private Chat:
+app.post('/CREATE-PRIVATE-CHAT', function (req, res) {
+  console.log("Create private chat request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var name = req.body.chatroomName;
+  var uid1 = req.body.userID1;
+  var uid2 = req.body.userID2;
+  create.createPrivateChat(privateChatRoomRef, internRef, uid1, uid2, name, (x) => {
+    if(x) {
+      res.json({
+        "status": true
+      });
+    }
+    else {
+      res.json({
+        "status": false,
+        "error": "database returned issue"
+      });
+    }
+  });
+});
+
+//get image:
+app.post('/GET-CHATROOM', function (req, res) {
+  console.log("Get chatroom request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var uid = req.body.userID;
+  if(uid.charAt(0) == '1'){
+    read.getChatRooms(internRef, req.body.userID, (x) => {
+      res.send(x);
+    });
+  }
+  else {
+    read.getChatRooms(employeeRef, req.body.userID, (x) => {
+      res.send(x);
+    });
+  }
+});
+
+//get USERS in chat:
+app.post('/GET-USERS-IN-CHATROOM', function (req, res) {
+  console.log("Get users in chat request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var correctRef = findCorrectRef(req.body.chatroomName);
+  if(correctRef == null){
+    res.json({
+      "status": false,
+      "error": "incorrect chatroom name bro"
+    });
+  }
+  else {
+    read.getUsersInChatRoom(correctRef, req.body.chatroomName, (x) => {
+      res.send(x);
+    });
+  }
+});
+
+//get MODS in chat:
+app.post('/GET-MODS-IN-CHATROOM', function (req, res) {
+  console.log("Get users in chat request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var correctRef = findCorrectRef(req.body.chatroomName);
+  if(correctRef == null){
+    res.json({
+      "status": false,
+      "error": "incorrect chatroom name bro"
+    });
+  }
+  else {
+    read.getModsInChatRoom(internRef, req.body.chatroomName, (x) => {
+      res.send(x);
+    });
+  }
+});
+
+//remove from chat handler:
+app.post('/REMOVE-FROM-CHAT', function (req, res) {
+  console.log("remove from chat request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var name = req.body.chatroomName;
+  var uid = req.body.userID;
+  var correctRef = findCorrectRef(name);
+  if(correctRef == null){
+    res.json({
+      "status": false,
+      "error": "fucked up chatroom name bro"
+    });
+  }
+  else
+  {
+    update.removeFromChat(correctRef, internRef, name, uid);
+    res.json({
+      "status": true
+    });
+  }
+});
+
+//ban from chat handler:
+app.post('BAN-INTERN', function (req, res) {
+  console.log("ban intern request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var uid = req.body.userID;
+  update.banIntern(internRef, uid);
+  res.json({
+    "status": true
+  });
+});
+
+//unban from chat handler:
+app.post('UNBAN-INTERN', function (req, res) {
+  console.log("unban intern request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  var uid = req.body.userID;
+  update.unbanIntern(internRef, uid);
+  res.json({
+    "status": true
+  });
+});
+
+//get company from name
+app.post('/GET-COMPANY-FROM-NAME', function (req,res) {
+  console.log("recevied request for get company from name");
+  console.log(req.body);
+  var name = req.body.name;
+  read.getCompanyFromName(companyRef, name, (x) => {
+    res.send(x);
+  })
+})
+
+//create complaint
+app.post('/CREATE-COMPLAINT', function(req,res) {
+  console.log('Request for create complaint recevied');
+  console.log(req.body);
+  var id = req.body.modID;
+  var id2 = req.body.userID;
+  var complaint = req.body.complaint;
+  var from = req.body.from;
+  var to = req.body.to;
+  create.createComplaint(employeeRef, id, complaint, to, from, id2)
+  res.json({
+    "status": true
+  })
+});
+
+//remove complaint
+app.post('/REMOVE-COMPLAINT', function(req,res) {
+  console.log('Request for create complaint recevied');
+  console.log(req.body);
+  var id = req.body.userID;
+  var complaint = req.body.complaint;
+  update.removeComplaint(employeeRef, id, complaint);
+  res.json({
+    "status": true
+  })
+});
+
+//update company
+app.post('/UPDATE-COMPANY', function (req, res) {
+  console.log('Received request for UPDATE-COMPANY:');
+  console.log(req.body);
+
+  //create UID (0 for interns)
+  var name = req.body.companyName;
+  var listOfLocations = req.body.locations;
+  var listOfEmployees = req.body.employees;
+  update.updateCompany(companyRef, name, listOfEmployees, listOfLocations);
+  res.json({
+    "status": true
+  });
+});
+
+//master list for companies
+app.post('/GET-MASTER-LIST-COMPANY', function (req, res) {
+  console.log("Master list request received");
+  console.log(req.body);
+  console.log("Done printing out request");
+  read.getMasterListOfInterns(internRef, req.body.companyName, (y) => {
+    console.log(y);
+    console.log("Master list printed");
+    res.send(y);
+  });
+});
+
 //actual main function
 app.listen(port, function () {
 
@@ -819,7 +1272,7 @@ app.listen(port, function () {
 //error handler
 app.use(function (err, req, res, next) {
   console.error(err);
-  res.status(500).send({
+  res.json({
     "status": false,
     "error": 'Something failed, plz check server for more details',
     "details": err
