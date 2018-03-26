@@ -31,7 +31,7 @@ class LoginButtons extends Component {
           //console.log(response.data.userID)
           that.props.updateUid(response.data.userID, response.data.authority)
           if (response.data.authority==='admin') {
-            history.push('/landing/admin')
+            history.push('/landing/admin/complaints')
           } if (response.data.authority==='company') {
             history.push('/landing/company')
           } else if (response.data.authority==='employee') {
