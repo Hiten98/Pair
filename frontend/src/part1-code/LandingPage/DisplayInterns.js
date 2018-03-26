@@ -3,7 +3,7 @@ import { NavLink, Switch, Route } from 'react-router-dom'
 import { Card, CardHeader, Paper, RaisedButton, TextField, Dialog } from 'material-ui';
 import axios from 'axios'
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 //import './LandingScreen.css';
 
 class LandingScreen extends Component {

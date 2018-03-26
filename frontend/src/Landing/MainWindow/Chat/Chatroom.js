@@ -7,13 +7,12 @@ import axios from "axios";
 import Message from "./Message";
 import MessageList from "./MessageList";
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
 class Chatroom extends Component {
   constructor(props) {
     super(props);
-    //change uid to this.props.uid
-    //change chatroom id to this.props.state.currChat-1
+    //TODO: change chatroom id to this.props.state.currChat
     this.state = {
       uid: this.props.uid,
       name: "",
@@ -21,7 +20,7 @@ class Chatroom extends Component {
       chatroomName: "",
       chats: [],
       inputText: "",
-      myImg: "",
+      myImg: "undefined",
       banned: false
     };
   }
@@ -40,20 +39,36 @@ class Chatroom extends Component {
 
   componentDidMount() {
     let that = this;
-    axios
-      .post("/GET-INTERN", {
-        userID: this.state.uid
-      })
-      .then(response => {
-        that.setState({
-          name: response.data.firstName + " " + response.data.lastName,
-          myImg: response.data.image,
-          banned: response.data.banned
+
+    if (this.state.uid[0] == 1) {
+      axios
+        .post("/GET-INTERN", {
+          userID: this.state.uid
+        })
+        .then(response => {
+          that.setState({
+            name: response.data.firstName + " " + response.data.lastName,
+            myImg: response.data.image,
+            banned: response.data.banned
+          });
+        })
+        .catch(error => {
+          console.log(error);
         });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    } else if(this.state.uid[0] == 2) {
+      axios
+        .post("/GET-EMPLOYEE", {
+          userID: this.state.uid
+        })
+        .then(response => {
+          that.setState({
+            name: response.data.firstName + " " + response.data.lastName,
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
 
     axios
       .post("/GET-CHATROOM", {
@@ -90,7 +105,6 @@ class Chatroom extends Component {
           image: this.state.myImg
         })
         .then(response => {
-          console.log(response.data);
           that.setState({ inputText: "" });
         })
         .catch(error => {
@@ -140,7 +154,7 @@ class Chatroom extends Component {
                   marginLeft: "-14vw",
                   position: "relative"
                 }}
-                hintText="Type a message..."
+                hintText={(this.state.banned)?"Temporary ban, please contact your company chat moderator":"Type a message..."}
                 fullWidth={true}
                 multiLine={true}
                 onChange={this.handleInputTextChange}
