@@ -18,7 +18,8 @@
 		compareTwoInterns,
 		compareInterns,
 		getImage,
-		getAdmin
+		getAdmin,
+		getInvite
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -336,5 +337,11 @@
 		adminRef.child(4000).child("listOfComplaints").once("value").then(function(snapshot) {
 			list = snapshot.val();
 			callback(list);
+		});
+	}
+
+	function getInvite(chatRoomRef, name, ID, callback) {
+		chatRoomRef.child(name).child("listOfInvites").child(ID).once("value").then(function(snapshot) {
+			callback(snapshot.val);
 		});
 	}

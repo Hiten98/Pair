@@ -30,9 +30,16 @@
     // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "th is messagener sd r one")', 2000);
     // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "the")', 3000);
 
-    // removeIntern(internRef, chatRoomRef, 1600);
+    // removeFromChat(groupChatRoomRef, internRef, "3chat4", 1761);
     // addToGroupChat(groupChatRoomRef, internRef, 1822, "3newChat ?");
-    updateEmployeeChatDetails(chatRoomRef, employeeRef, 2436);
+    // updateEmployeeChatDetails(chatRoomRef, employeeRef, 2436);
+
+    createEmployeeChat(privateChatRoomRef, internRef, employeeRef, 1761, 2436, "Student", (x) => {
+        document.write(x);
+    });
+
+
+
 
 
 

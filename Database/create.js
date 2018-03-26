@@ -14,6 +14,7 @@
 		createGroupChat,
 		addToGroupChat,
 		createPrivateChat,
+		createEmployeeChat,
 		addMessageToChat,
 		createComplaint
 	}*/
@@ -67,7 +68,7 @@
 	    	"listOfChatRooms": [1 + company + ", " + location]
 	    });
 	    employeeRef.child(id).child("images").update({
-	    	"image": undefined
+	    	"image": "undefined"
 	    });
 	    /*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
     }
@@ -218,6 +219,9 @@
 					});
 				});
 				/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
+				groupChatRoomRef.child(name).child("listOfInvites").update({
+					[ID]: false
+				});
 			}
 		});
 		
@@ -254,6 +258,46 @@
 				});
 				/*update.*/getSnapshot(internRef, ID1, "listOfChatRooms", 4 + name);
 				/*update.*/getSnapshot(internRef, ID2, "listOfChatRooms", 4 + name);
+				privateChatRoomRef.child(name).child("listOfInvites").update({
+					[ID2]: false
+				});
+				callback(true);
+			}
+		});
+	}
+
+	function createEmployeeChat(privateChatRoomRef, internRef, employeeRef, ID1, ID2, name, callback) {
+		privateChatRoomRef.child(4 + name).once("value").then(function(snapshot) {
+			if(snapshot.exists()) {
+				callback(false);
+			}
+			else {
+				var item = ID1 + "$:$";
+				var item2 = ID2 + "$:$";
+				internRef.child(ID1).once("value").then(function(snapshot) {
+					item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+					internRef.child(ID1).child("images").once("value").then(function(childSnapshot) {
+						item += childSnapshot.val().image + "$:$";
+						internRef.child(ID1).child("basic").once("value").then(function(babySnapshot) {
+							item += babySnapshot.val().description;
+							employeeRef.child(ID2).once("value").then(function(snapshot) {
+								item2 += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+								employeeRef.child(ID2).child("images").once("value").then(function(childSnapshot) {
+									item2 += childSnapshot.val().image + "$:$";
+									item2 += snapshot.val().description;
+									privateChatRoomRef.child(4 + name).update({
+										"listOfUsers": [item, item2]
+									});
+								});
+							});
+						});
+					});
+				});
+				/*update.*/getSnapshot(internRef, ID1, "listOfChatRooms", 4 + name);
+				/*update.*/getSnapshot(employeeRef, ID2, "listOfChatRooms", 4 + name);
+				privateChatRoomRef.child(name).child("listOfInvites").update({
+					[ID2]: false
+				});
 				callback(true);
 			}
 		});

@@ -12,7 +12,8 @@
         unbanIntern,
         removeComplaint,
         updateInternChatDetails,
-        updateEmployeeChatDetails
+        updateEmployeeChatDetails,
+        acceptInvite
     }*/
 
     // var update = ('./update.js');
@@ -262,6 +263,12 @@
                     });
                 });
             });
+        });
+    }
+
+    function acceptInvite(chatRoomRef, name, ID) {
+        chatRoomRef.child(name).child("listOfInvites").update({
+            [ID]: true
         });
     }
 
