@@ -8,6 +8,7 @@ import GroupChatModal from './GroupChatModal'
 import ReportIntern from './ReportIntern'
 import axios from 'axios'
 import history from '../../../../history';
+import RemoveInternGroup from './RemoveInternGroup';
 //import './ProfileHeader.css';
 
 class ProfileHeader extends Component {
@@ -18,6 +19,7 @@ class ProfileHeader extends Component {
       privateOpen: false,
       groupOpen: false,
       removeOpen: false,
+      leaveOpen: false,
     }
   }
 
@@ -106,13 +108,14 @@ class ProfileHeader extends Component {
   }
 
   internButtons = () => {
+    // console.log(this.props)
     if (this.props.uid != this.props.currProfile) {
       return (
         <Row className='row-div'>
-          <Col xs={6} style={{textAlign:'left', marginLeft:'-2%'}}>
+          <Col xs={5} style={{ textAlign: 'left', marginLeft: '-2%' }}>
             {this.privateChatButton()}
           </Col>
-          <Col xs={6} style={{textAlign:'left'}}>
+          <Col xs={7} style={{ textAlign: 'left' }}>
             {(this.props.currProfile.substring(0, 1) == 1) ? <RaisedButton
               label='Add to Group Chat'
               onClick={this.groupChat}
@@ -150,8 +153,12 @@ class ProfileHeader extends Component {
     this.setState({ removeOpen: true })
   }
 
+  leaveChat = () => {
+    this.setState({ leaveOpen: true })
+  }
+
   closeAll = () => {
-    this.setState({ privateOpen: false, groupOpen: false, removeOpen: false })
+    this.setState({ privateOpen: false, groupOpen: false, removeOpen: false, leaveOpen: false })
   }
 
   editProfile = () => {
@@ -169,19 +176,27 @@ class ProfileHeader extends Component {
       amt += 4
       thing.push(
         <Col xs={4}>
-          <RaisedButton secondary label="Edit Profile" onClick={this.editProfile} />
+          <RaisedButton secondary label="Edit Profile" onClick={this.editProfile} className='links' />
         </Col>
-      )
-    } else if (this.props.props.type == 'intern') {
-      amt += 4
-      thing.push(
-        <Col xs={4}>{this.props.match}</Col>
       )
     }
     thing.push(<ReportIntern {...this.props}{...this.state} />)
     if (this.props.currProfile != this.props.uid && this.props.props.type == 'intern' && this.props.currProfile.substring(0, 1) != 2) {
-      amt += 4
+      amt += 2
     }
+    if (this.props.props.state.currChatName.charAt(0) == 3 && this.props.currProfile != this.props.uid) {
+      amt += 6
+      thing.push(
+        <Col xs={6} style={{ textAlign: 'right' }}>
+          <RaisedButton
+            label='Remove from Group Chat'
+            onClick={this.leaveChat}
+            secondary
+          />
+        </Col>
+      )
+    }
+
     if (amt < 12) {
       thing.push(<Col xs={12 - amt}></Col>)
     }
@@ -196,7 +211,12 @@ class ProfileHeader extends Component {
           <Row>
             <span style={{ fontSize: '60px' }}>{`${this.props.firstname} ${this.props.lastname}`}</span>
           </Row>
-          <Row style={{ marginLeft: '-1.8vw' }}>
+          {(this.props.props.type == 'intern') ?
+            <Row style={{ marginLeft: '-1.8vw' }}>
+              <Col xs={4}>{this.props.match}</Col>
+            </Row> : <div></div>
+          }
+          <Row style={{ marginLeft: '-1.8vw',marginTop:'10px' }}>
             {this.secondLine()}
           </Row>
           {(this.props.props.type == 'employee') ? this.empButtons() : (this.props.props.type == 'intern') ? this.internButtons() : <div></div>}
@@ -204,6 +224,7 @@ class ProfileHeader extends Component {
         <PrivateChatModal {...this.state} {...this.props} closeAll={this.closeAll} />
         <GroupChatModal {...this.state} {...this.props} closeAll={this.closeAll} />
         <RemoveInternModal {...this.state} {...this.props} closeAll={this.closeAll} />
+        <RemoveInternGroup {...this.props} {...this.state} closeAll={this.closeAll} />
       </Row>
     );
   }

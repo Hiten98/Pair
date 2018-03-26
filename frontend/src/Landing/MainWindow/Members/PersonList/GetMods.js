@@ -22,13 +22,14 @@ class GetMods extends Component {
       this.props.changeModNum(0)
       //console.log(this.props.props.state.currChatName)
       let that = this
-      let profileAdj=1
+      let profileAdj=2
       if (nextProps.props.state.currChatName.substring(0, 1) == 1) {
         axios.post('/GET-MODS-IN-CHATROOM', {
           "chatroomName": nextProps.props.state.currChatName,
         }).then(function (response) {
           // console.log(response.d)
           let tempMod = []
+          tempMod.push(<Paper zDepth={2} key={-1} className='paper-list title-list' style={{backgroundColor:'#50C2C4'}}><h4>Moderators</h4></Paper>)
           for (let i in response.data) {
             let splitted = response.data[i].split('$:$')
             // console.log(splitted[2])
@@ -65,7 +66,7 @@ class GetMods extends Component {
           }
           that.setState({ mods: tempMod })
           // console.log(tempMod.length)
-          that.props.changeModNum(tempMod.length)
+          that.props.changeModNum(tempMod.length-1)
         }).catch(function (error) {
           console.log(error);
         })
@@ -83,13 +84,14 @@ class GetMods extends Component {
   componentDidMount = () => {
     //console.log(this.props.props.state.currChatName)
     let that = this
-    let profileAdj=1
+    let profileAdj=2
     if (this.props.props.state.currChatName.substring(0, 1) == 1) {
       axios.post('/GET-MODS-IN-CHATROOM', {
         "chatroomName": this.props.props.state.currChatName,
       }).then(function (response) {
         // console.log(response.data)
         let tempMod = []
+        tempMod.push(<Paper zDepth={2} key={-1} className='paper-list title-list' style={{backgroundColor:'#50C2C4'}}><h4>Moderators</h4></Paper>)
         for (let i in response.data) {
           let splitted = response.data[i].split('$:$')
           // console.log('undefined'==splitted[2])
@@ -125,7 +127,7 @@ class GetMods extends Component {
           )
         }
         that.setState({ mods: tempMod })
-        that.props.changeModNum(tempMod.length)
+        that.props.changeModNum(tempMod.length-1)
       }).catch(function (error) {
         console.log(error);
       })
@@ -136,6 +138,10 @@ class GetMods extends Component {
     let that = this
     let tempArr = []
     for (let i in this.state.mods) {
+      if(i==0){
+        tempArr.push(this.state.mods[0])
+        continue
+      }
       //console.log(this.state.interns[i])
       tempArr.push(
         <Paper zDepth={2} key={i} className='paper-list'>
@@ -163,7 +169,7 @@ class GetMods extends Component {
   }
 
   render() {
-    return (this.state.mods);
+    return ((this.state.mods.length!=1)?this.state.mods:[]);
   }
 }
 

@@ -22,8 +22,8 @@ class GetInterns extends Component {
   componentWillReceiveProps = (nextProps) => {
     //console.log(this.props.props.state.currChatName)
     // console.log(nextProps.props.state.currChatName)
-    if (this.props.props.state.currChatName != nextProps.props.state.currChatName||this.props.modNum!=nextProps.modNum||this.props.props.state.needToUpdate!=nextProps.props.state.needToUpdate) {
-      this.setState({interns:[]})
+    if (this.props.props.state.currChatName != nextProps.props.state.currChatName || this.props.modNum != nextProps.modNum || this.props.props.state.needToUpdate != nextProps.props.state.needToUpdate) {
+      this.setState({ interns: [] })
       if (nextProps.props.type == 'employee' && nextProps.props.state.currChatName == '0Intern Master List') {
         // console.log('hi')
         this.internMasterList(nextProps, this)
@@ -47,7 +47,13 @@ class GetInterns extends Component {
     }).then(function (response) {
       let tempintern = []
       let tempUid = []
-      let profileAdj = 1
+      if (props.props.state.currChatName.charAt(0) == 1)
+        tempintern.push(<Paper zDepth={2} key={-1} className='paper-list title-list' style={{backgroundColor:'#50C2C4'}}><h4>Interns</h4></Paper>)
+      let profileAdj = 0
+      if (props.props.state.currChatName.charAt(0) == 1)
+        profileAdj = 3
+      else
+        profileAdj = 1
       for (let i in response.data) {
         let splitted = response.data[i].split('$:$')
         if (splitted[1] == '' || splitted[1] == 'undefined') {
@@ -101,32 +107,43 @@ class GetInterns extends Component {
 
   getScores = (props, that, tempintern) => {
     // console.log(that.state.uidList)
-    if (props.props.type == 'intern'&&that.state.uidList.length!=0) {
+    if (props.props.type == 'intern' && that.state.uidList.length != 0) {
       axios.post('/COMPARE-INTERNS', {
         userID1: props.props.uid,
         userID2: that.state.uidList,
       }).then(function (response) {
-        // console.log(response.data)
+        console.log(response.data)
         let tempArr = []
         let score = null
+        let profileAdj = 0
+        let colorAdj=0
+        if (props.props.state.currChatName.charAt(0) == 1){
+          profileAdj = 2
+          colorAdj=3
+        }else{
+          profileAdj = 1
+          colorAdj=2
+        }
+        if (props.props.state.currChatName.charAt(0) == 1)
+          tempArr.push(tempintern[0])
         for (let i in response.data.score) {
           if (parseInt(response.data.score[i]) > 80) {
-            score = <div><span style={{ color: lightGreenA700 }}>{response.data.score[i]}% match &nbsp;</span> {tempintern[i].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: lightGreenA700 }}>{response.data.score[i]}% match &nbsp;</span> {tempintern[parseInt(i) + profileAdj-1].props.children.props.secondaryText}</div>
           } else if (parseInt(response.data.score[i]) > 50) {
-            score = <div><span style={{ color: yellow800 }}>{response.data.score[i]}% match&nbsp; </span> {tempintern[i].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: yellow800 }}>{response.data.score[i]}% match&nbsp; </span> {tempintern[parseInt(i) + profileAdj-1].props.children.props.secondaryText}</div>
           } else {
-            score = <div><span style={{ color: red500 }}>{response.data.score[i]}% match&nbsp;</span> {tempintern[i].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: red500 }}>{response.data.score[i]}% match&nbsp;</span> {tempintern[parseInt(i) + profileAdj-1].props.children.props.secondaryText}</div>
           }
           tempArr.push(
             <Paper zDepth={2} key={i} className='paper-list'>
               <ListItem
-                leftAvatar={tempintern[i].props.children.props.leftAvatar}
-                primaryText={tempintern[i].props.children.props.primaryText}
+                leftAvatar={tempintern[parseInt(i) + profileAdj-1].props.children.props.leftAvatar}
+                primaryText={tempintern[parseInt(i) + profileAdj-1].props.children.props.primaryText}
                 secondaryText={score}
                 secondaryTextLines={1}
-                onClick={tempintern[i].props.children.props.onClick}
+                onClick={tempintern[parseInt(i) + profileAdj-1].props.children.props.onClick}
                 hoverColor='#F95498B0'
-                {...that.state.colors[parseInt(i) + 1 + that.props.modNum]}
+                {...that.state.colors[parseInt(i) + colorAdj-1 + that.props.modNum]}
               />
             </Paper>
           )
@@ -155,15 +172,15 @@ class GetInterns extends Component {
       userID: this.props.props.uid
     }).then(function (response) {
       // console.log(response.data)
-      let k=0
+      let k = 0
       for (let i in response.data) {
-        if(response.data[i].firstName=='undefined')
+        if (response.data[i].firstName == 'undefined')
           continue
         tempArr.push(
           <Paper zDepth={2} key={k} className='paper-list'>
             <ListItem
               primaryText={`${response.data[i].firstName} ${response.data[i].lastName}`}
-              onClick={()=>{that.handleClick(parseInt(k)+1,i)}}
+              onClick={() => { that.handleClick(parseInt(k) + 1, i) }}
             />
           </Paper>
         )
@@ -177,8 +194,19 @@ class GetInterns extends Component {
   changeColors = () => {
     let that = this
     let tempArr = []
+    let profileAdj = 0
+    if (this.props.props.state.currChatName.charAt(0) == 1)
+      profileAdj = 2
+    else
+      profileAdj = 1
     for (let i in this.state.interns) {
-      //console.log(this.state.interns[i])
+      if (this.props.props.state.currChatName.charAt(0) == 1) {
+        if (i == 0) {
+          tempArr.push(this.state.interns[0])
+          continue
+        }
+      }
+      // console.log(this.state.interns)
       tempArr.push(
         <Paper zDepth={2} key={i} className='paper-list'>
           <ListItem
@@ -188,7 +216,7 @@ class GetInterns extends Component {
             secondaryTextLines={1}
             onClick={this.state.interns[i].props.children.props.onClick}
             hoverColor='#F95498B0'
-            {...that.state.colors[parseInt(i) + 1 + that.props.modNum]}
+            {...that.state.colors[parseInt(i) + profileAdj + that.props.modNum]}
           />
         </Paper>
       )

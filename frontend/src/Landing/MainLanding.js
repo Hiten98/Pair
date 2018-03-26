@@ -23,15 +23,15 @@ class LandingScreen extends Component {
       people: [],
       needToUpdate:false,
     }
-    try {
-      const serializedState = localStorage.getItem('main-area')
-      if (serializedState !== null) {
-        this.state = JSON.parse(serializedState)
-        //console.log(this.state)
-      }
-    } catch (err) {
-      console.log('This browser does not allow localstorage and some functionalities may be impacted')
-    }
+    // try {
+    //   const serializedState = localStorage.getItem('main-area')
+    //   if (serializedState !== null) {
+    //     this.state = JSON.parse(serializedState)
+    //     //console.log(this.state)
+    //   }
+    // } catch (err) {
+    //   console.log('This browser does not allow localstorage and some functionalities may be impacted')
+    // }
 
   }
 
