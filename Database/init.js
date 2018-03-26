@@ -31,9 +31,8 @@
     // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "the")', 3000);
 
     // removeIntern(internRef, chatRoomRef, 1600);
-    getAdmin(adminRef, (x) => {
-        document.write(JSON.stringify(x));
-    });
+    // addToGroupChat(groupChatRoomRef, internRef, 1822, "3newChat ?");
+    updateEmployeeChatDetails(chatRoomRef, employeeRef, 2436);
 
 
 

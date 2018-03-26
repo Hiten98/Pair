@@ -10,7 +10,9 @@
         removeFromChat,
         banIntern,
         unbanIntern,
-        removeComplaint
+        removeComplaint,
+        updateInternChatDetails,
+        updateEmployeeChatDetails
     }*/
 
     // var update = ('./update.js');
@@ -195,3 +197,107 @@
             });
         });
     }
+
+    function updateInternChatDetails(chatRoomRef, internRef, ID) {
+        item = ID + "$:$";
+        internRef.child(ID).once("value").then(function(snapshot) {
+            item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+            internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
+                item += childSnapshot.val().image + "$:$";
+                internRef.child(ID).child("basic").once("value").then(function(babySnapshot) {
+                    item += babySnapshot.val().description;
+                    internRef.child(ID).child("listOfChatRooms").once("value").then(function(infantSnapshot) {
+                        infantSnapshot.forEach(function(grandSnapshot) {
+                            var ref;
+                            if(grandSnapshot.val()[0] == 1)
+                                ref = chatRoomRef.child("Company").child(grandSnapshot.val());
+                            else if(grandSnapshot.val()[0] == 2)
+                                ref = chatRoomRef.child("Location").child(grandSnapshot.val());
+                            else if(grandSnapshot.val()[0] == 3)
+                                ref = chatRoomRef.child("Group").child(grandSnapshot.val());
+                            else if(grandSnapshot.val()[0] == 4)
+                                ref = chatRoomRef.child("Private").child(grandSnapshot.val());
+                            ref.child("listOfUsers").once("value").then(function(parentSnapshot) {
+                                parentSnapshot.forEach(function(adultSnapshot) {
+                                    if(adultSnapshot.val().substring(0, 4) == ID) {
+                                        ref.child("listOfUsers").update({
+                                            [adultSnapshot.key]: item
+                                        });
+                                        return true;
+                                    }
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    function updateInternChatDetails(chatRoomRef, internRef, ID) {
+        item = ID + "$:$";
+        internRef.child(ID).once("value").then(function(snapshot) {
+            item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+            internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
+                item += childSnapshot.val().image + "$:$";
+                internRef.child(ID).child("basic").once("value").then(function(babySnapshot) {
+                    item += babySnapshot.val().description;
+                    internRef.child(ID).child("listOfChatRooms").once("value").then(function(infantSnapshot) {
+                        infantSnapshot.forEach(function(grandSnapshot) {
+                            var ref;
+                            if(grandSnapshot.val()[0] == 1)
+                                ref = chatRoomRef.child("Company").child(grandSnapshot.val());
+                            else if(grandSnapshot.val()[0] == 2)
+                                ref = chatRoomRef.child("Location").child(grandSnapshot.val());
+                            else if(grandSnapshot.val()[0] == 3)
+                                ref = chatRoomRef.child("Group").child(grandSnapshot.val());
+                            else if(grandSnapshot.val()[0] == 4)
+                                ref = chatRoomRef.child("Private").child(grandSnapshot.val());
+                            ref.child("listOfUsers").once("value").then(function(parentSnapshot) {
+                                parentSnapshot.forEach(function(adultSnapshot) {
+                                    if(adultSnapshot.val().substring(0, 4) == ID) {
+                                        ref.child("listOfUsers").update({
+                                            [adultSnapshot.key]: item
+                                        });
+                                        return true;
+                                    }
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    function updateEmployeeChatDetails(chatRoomRef, employeeRef, ID) {
+        item = ID + "$:$";
+        employeeRef.child(ID).once("value").then(function(snapshot) {
+            item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+            employeeRef.child(ID).child("images").once("value").then(function(childSnapshot) {
+                item += childSnapshot.val().image + "$:$";
+                item += snapshot.val().description;
+                employeeRef.child(ID).child("listOfChatRooms").once("value").then(function(infantSnapshot) {
+                    infantSnapshot.forEach(function(grandSnapshot) {
+                        var ref;
+                        if(grandSnapshot.val()[0] == 1)
+                            ref = chatRoomRef.child("Company").child(grandSnapshot.val());
+                        else if(grandSnapshot.val()[0] == 4)
+                            ref = chatRoomRef.child("Private").child(grandSnapshot.val());
+                        ref.child("listOfMods").once("value").then(function(parentSnapshot) {
+                            parentSnapshot.forEach(function(adultSnapshot) {
+                                console.log(adultSnapshot.val())
+                                if(adultSnapshot.val().substring(0, 4) == ID) {
+                                    ref.child("listOfMods").update({
+                                        [adultSnapshot.key]: item
+                                    });
+                                    return true;
+                                }
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+

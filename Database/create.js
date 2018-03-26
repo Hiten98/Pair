@@ -66,6 +66,9 @@
 	    	"links": [facebook, linkedin, twitter],
 	    	"listOfChatRooms": [1 + company + ", " + location]
 	    });
+	    employeeRef.child(id).child("images").update({
+	    	"image": undefined
+	    });
 	    /*update.*/updateCompany(companyRef, company, firstName + " " + lastName);
     }
 
@@ -193,17 +196,31 @@
 
 	function addToGroupChat(groupChatRoomRef, internRef, ID, name) {
 		var item = ID + "$:$";
-		internRef.child(ID).once("value").then(function(snapshot) {
-			item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
-			internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
-				item += childSnapshot.val().image + "$:$";
-				internRef.child(ID).child("basic").once("value").then(function(babySnapshot) {
-					item += babySnapshot.val().description;
-					/*update.*/getSnapshot(groupChatRoomRef, name, "listOfUsers", item);
-				});
+		var flag = 0;
+		groupChatRoomRef.child(name).child("listOfUsers").once("value").then(function(grandSnapshot) {
+			grandSnapshot.forEach(function(parentSnapshot) {
+				if(parentSnapshot.val().substring(0, 4) == ID) {
+					flag = 1;
+					return true;
+				}
 			});
+			if(flag == 1)
+				return;
+			else {
+				internRef.child(ID).once("value").then(function(snapshot) {
+					item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+					internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
+						item += childSnapshot.val().image + "$:$";
+						internRef.child(ID).child("basic").once("value").then(function(babySnapshot) {
+							item += babySnapshot.val().description;
+							/*update.*/getSnapshot(groupChatRoomRef, name, "listOfUsers", item);
+						});
+					});
+				});
+				/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
+			}
 		});
-		/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
+		
 	}
 
 	function createPrivateChat(privateChatRoomRef, internRef, ID1, ID2, name, callback) {
