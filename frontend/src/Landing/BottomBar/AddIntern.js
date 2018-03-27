@@ -44,7 +44,9 @@ class SearchBar extends Component {
     let that = this
     if (!(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(this.state.intern)) {
       alert("Please enter a valid email")
-    } else {
+    } else if (this.state.loc==0){
+      alert('Please choose a valid location')
+    }else {
       axios.post('/VERIFY-EMAIL-EXISTS', {
         "username": this.state.intern,
       }).then((response) => {
