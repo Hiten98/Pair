@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row } from 'react-bootstrap'
 import CodeField from './CodeField'
-import NavPage from './NavPage'
+import NavButtons from './NavButtons'
 import RegisterButtons from './RegisterButtons'
 import './RegisterForm.css';
 
@@ -41,8 +41,8 @@ class RegisterForm extends Component {
     }
     return (
       <div className="form">
-        <NavPage />
-        <Row className="register-title">
+        <NavButtons />
+        <Row className="company-register-title">
           Register Company
         </Row>
 

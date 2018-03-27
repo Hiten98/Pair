@@ -59,7 +59,7 @@ class CodeField extends Component {
     return (
       <Row className="row-sm">
         <Row>
-          <PasswordField
+          <TextField
             className="companyName"
             ref="companyName"
             floatingLabelText="Enter Company Name"
@@ -68,13 +68,13 @@ class CodeField extends Component {
             floatingLabelStyle={this.styles.floatingLabelStyle}
             floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
             underlineStyle={this.styles.underlineStyle}
-            visibilityIconStyle={this.styles.visibilityIconStyle}
             hintStyle={this.styles.hintStyle}
             onChange={this.changeName}
+            style={{width:'240px'}}
           />
         </Row>
         <Row>
-          <PasswordField
+          <TextField
             className="companyEmail"
             floatingLabelText="Enter Company Contact Email"
             visible
@@ -82,9 +82,9 @@ class CodeField extends Component {
             floatingLabelStyle={this.styles.floatingLabelStyle}
             floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
             underlineStyle={this.styles.underlineStyle}
-            visibilityIconStyle={this.styles.visibilityIconStyle}
             hintStyle={this.styles.hintStyle}
             onChange={this.changeEmail}
+            style={{width:'240px'}}
           />
         </Row>
         <Row>

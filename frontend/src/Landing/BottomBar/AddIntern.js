@@ -16,7 +16,7 @@ class SearchBar extends Component {
       loc: '',
       company: '',
       intern: '',
-      refresh:false,
+      refresh: false,
     }
     // console.log(props)
   }
@@ -45,39 +45,50 @@ class SearchBar extends Component {
     if (!(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(this.state.intern)) {
       alert("Please enter a valid email")
     } else {
-      axios.post('/CREATE-INTERN', {
+      axios.post('/VERIFY-EMAIL-EXISTS', {
         "username": this.state.intern,
-        "location": this.state.loc,
-        "company": this.state.company
       }).then((response) => {
         console.log(response.data)
-        if (response.data.userID != null) {
-          that.setState({refresh:true})
-          console.log("Success! ID CREATED:" + response.data.userID);
+        if (!response.data.status) {
+          axios.post('/CREATE-INTERN', {
+            "username": this.state.intern,
+            "location": this.state.loc,
+            "company": this.state.company
+          }).then((response) => {
+            console.log(response.data)
+            if (response.data.userID != null) {
+              that.setState({ refresh: true })
+              console.log("Success! ID CREATED:" + response.data.userID);
 
-          let url = "http://localhost:3000/register/intern/part1/" + response.data.userID;
-          emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
+              let url = "http://localhost:3000/register/intern/creation/" + response.data.userID;
+              emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
 
-          emailjs.send("default_service", "welcome_to_pair", {
-            toemail: this.state.intern,
-            company_name: this.state.company,
-            action_url: url
-          }).then(
-            function (response) {
-              console.log("SUCCESS", response);
-              that.setState({ open: false, sopen: true, refresh:false })
-            },
-            function (error) {
-              console.log("FAILED", error);
-              alert('Error, please try again')
+              emailjs.send("default_service", "welcome_to_pair", {
+                toemail: this.state.intern,
+                company_name: this.state.company,
+                action_url: url
+              }).then(
+                function (response) {
+                  console.log("SUCCESS", response);
+                  that.setState({ open: false, sopen: true, refresh: false })
+                },
+                function (error) {
+                  console.log("FAILED", error);
+                  alert('Error, please try again')
+                }
+              );
+            } else {
+              //Create intern failed
+              console.log("Failure!");
+              this.setState({
+                error: true
+              })
             }
-          );
+          }).catch((error) => {
+            console.log(error);
+          });
         } else {
-          //Create intern failed
-          console.log("Failure!");
-          this.setState({
-            error: true
-          })
+          alert('There is already a user with this email, try a different email')
         }
       }).catch((error) => {
         console.log(error);
@@ -132,12 +143,12 @@ class SearchBar extends Component {
             />
           </Row>
           {(this.state.refresh) ?
-          <CircularProgress
-            style={{position:'absolute',top:'40%',left:'45%'}}
-            size={80}
-            thickness={8}
-            color='#50C2C4'
-          />:<div></div>}
+            <CircularProgress
+              style={{ position: 'absolute', top: '40%', left: '45%' }}
+              size={80}
+              thickness={8}
+              color='#50C2C4'
+            /> : <div></div>}
         </Dialog>
         <Snackbar
           open={this.state.sopen}
@@ -145,7 +156,7 @@ class SearchBar extends Component {
           autoHideDuration={4000}
           onRequestClose={this.handleRequestClose}
         />
-        
+
       </div>
     );
   }

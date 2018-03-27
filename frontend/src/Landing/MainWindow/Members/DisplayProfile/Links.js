@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
-import {RaisedButton} from 'material-ui'
-import {Row } from 'react-bootstrap'
+import { RaisedButton } from 'material-ui'
+import { Row } from 'react-bootstrap'
 //import './Links.css';
 
 class Links extends Component {
@@ -12,12 +12,16 @@ class Links extends Component {
       window.open(`${this.props[address]}`, true)
     else if (this.props[address].trim().indexOf('http://') === 0)
       window.open(`http://www.${this.props[address].substring(7)}`, true)
+    else if (this.props[address].trim().indexOf('https://www.') === 0)
+      window.open(`${this.props[address]}`, true)
+    else if (this.props[address].trim().indexOf('https://') === 0)
+      window.open(`https://www.${this.props[address].substring(7)}`, true)
     else
       window.open(`http://www.${this.props[address]}`, true)
   }
 
   displayLink = (link) => {
-    if (this.props[link] != null) {
+    if (this.props[link] != '') {
       return (
         <RaisedButton
           label={link}

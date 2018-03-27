@@ -13,7 +13,7 @@ class LandingScreen extends Component {
       pValue:'',
       open:false,
     }
-    console.log(props)
+    // console.log(props)
   }
 
   handleSubmit=()=>{

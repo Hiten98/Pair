@@ -21,7 +21,7 @@ class RegisterForm extends Component {
     return (
       <div className="form">
         <NavPage />
-        <Row className="register-title row-sm">
+        <Row className="employee-register-title">
           Register
         </Row>
 

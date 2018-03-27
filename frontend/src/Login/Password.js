@@ -31,7 +31,7 @@ class Password extends Component {
 
   render() {
     return (
-      <Row className="row-sm">
+      <Row>
           <PasswordField
             className="password"
             hintText="At least 8 characters"

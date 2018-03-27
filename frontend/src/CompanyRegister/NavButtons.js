@@ -10,7 +10,7 @@ class NavButtons extends Component {
   }
 
   goToCompanyRegister = () => {
-    history.push('/home/CompanyRegister')
+    history.push('/home/login')
   }
 
   render() {
@@ -29,7 +29,7 @@ class NavButtons extends Component {
         <Col xs={6}>
           <Row className='row-sm company-registration-link'>
             <RaisedButton
-              label="Company Registration"
+              label="Login"
               primary
               onClick={this.goToCompanyRegister}
               style={{width:'100%',marginTop: '5%'}}

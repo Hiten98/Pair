@@ -30,6 +30,7 @@ class Email extends Component {
     axios.post('/GET-EMAIL', {
       "userID": this.props.uid
     }).then(function (response) {
+      // console.log(response.data)
       if (response.data.email != null) {
         //console.log(response.data)
         that.props.changeEmail(response.data.email)
