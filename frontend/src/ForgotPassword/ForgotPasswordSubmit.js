@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RaisedButton } from 'material-ui'
+import { RaisedButton, Snackbar } from 'material-ui'
 import { Row } from 'react-bootstrap'
 import history from '../history'
 import axios from 'axios'
@@ -8,7 +8,14 @@ axios.defaults.baseURL = "http://localhost:9090";
 //TEST TO MAKE SURE THIS WORKS WITH BOTH EMPLOYEES AND INTERNS
 
 class ForgotPasswordSubmit extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      open:false,
+    }
+  }
   buttonSubmit=()=>{
+    let that=this
     let email = this.props.email
     let password = this.props.pass1
     let uid=this.props.uid
@@ -23,12 +30,13 @@ class ForgotPasswordSubmit extends Component {
         "username": email,
         "password": password,
       }).then(function (response) {
-        console.log(response.data)
+        // console.log(response.data)
         if (response.data.status == false) {
           console.log("Something went wrong :(")
         } else {
-          console.log("Changed account password!");
+          // console.log("Changed account password!");
           //Go to preferences p1
+          that.setState({open:true})
           history.push('/')
         }
       }).catch(function (error) {
@@ -40,6 +48,10 @@ class ForgotPasswordSubmit extends Component {
     }
   }
 
+  handleRequestClose=()=>{
+    this.setState({open:false})
+  }
+
   render() {
     return (
       <Row className='registerPasswordButton'>
@@ -48,6 +60,12 @@ class ForgotPasswordSubmit extends Component {
           style={{ marginTop: "20px", }}
           primary
           onClick={this.buttonSubmit}
+        />
+        <Snackbar
+          open={this.state.open}
+          message="Account password has been changed"
+          autoHideDuration={4000}
+          onRequestClose={this.handleRequestClose}
         />
       </Row>
     );

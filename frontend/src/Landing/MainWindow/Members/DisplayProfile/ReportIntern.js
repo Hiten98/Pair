@@ -39,6 +39,8 @@ class ReportIntern extends Component {
         // console.log(response.data)
         if (response.data.status) {
           this.setState({ open: false, sopen: true })
+        } else {
+          alert('Something happened please try again')
         }
       }).catch((error) => {
         console.log(error);
@@ -47,40 +49,23 @@ class ReportIntern extends Component {
     }
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    if (this.props.currProfile != nextProps.currProfile) {
-      this.setState({ uid: nextProps.currProfile })
+  openModal = () => {
+    // console.log(this.props)
+    this.setState({ open: true, uid: this.props.currProfile, fromPerson:`${this.props.props.state.currIntern.firstName} ${this.props.props.state.currIntern.lastName}` })
+    this.setState({ uid: this.props.currProfile })
       axios.post('/GET-INTERN', {
-        userID: nextProps.currProfile
+        userID: this.props.currProfile
       }).then((response) => {
         // console.log(response.data)
-        this.setState({ toPerson: `${response.data.firstName} ${response.data.lastName}` })
+        that.setState({ toPerson: `${response.data.firstName} ${response.data.lastName}` })
       }).catch((error) => {
         console.log(error);
       });
-      this.getModList(nextProps)
-    }
-  }
-
-  componentDidMount = () => {
-    // console.log(this.props.props.state.currChatName)
-    axios.post('/GET-INTERN', {
-      userID: this.props.uid
-    }).then((response) => {
-      // console.log(response.data)
-      this.setState({ fromPerson: `${response.data.firstName} ${response.data.lastName}` })
-    }).catch((error) => {
-      console.log(error);
-    });
-    this.getModList(this.props)
-  }
-
-  getModList = (props) => {
     let that = this
-    this.setState({ chatName: props.props.state.currChatName, moduid: 0 })
-    if (props.props.state.currChatName.substring(0, 1) == 1) {
+    this.setState({ chatName: this.props.props.state.currChatName, moduid: 0 })
+    if (this.props.props.state.currChatName.charAt(0) == 1) {
       axios.post('/GET-MODS-IN-CHATROOM', {
-        chatroomName: props.props.state.currChatName
+        chatroomName: this.props.props.state.currChatName
       }).then((response) => {
         // console.log(response.data)
         let tempList = []
@@ -98,10 +83,6 @@ class ReportIntern extends Component {
     } else {
       this.setState({ moduid: '4000' })
     }
-  }
-
-  openModal = () => {
-    this.setState({ open: true })
   }
 
   closeModal = () => {

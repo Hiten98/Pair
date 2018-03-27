@@ -13,7 +13,7 @@ class AddLocationModal extends Component {
     this.state = {
       open: false,
       locations: '',
-      sopen:false,
+      sopen: false,
       company: '',
     }
   }
@@ -30,8 +30,8 @@ class AddLocationModal extends Component {
     this.setState({ locations: ev.target.value })
   }
 
-  handleRequestClose=()=>{
-    this.setState({sopen:false})
+  handleRequestClose = () => {
+    this.setState({ sopen: false })
   }
 
   handleSubmit = () => {
@@ -47,14 +47,16 @@ class AddLocationModal extends Component {
         "locations": locationsParsed,
         "employees": []
       }).then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
+        if (response.data.status) {
+          this.setState({ open: false })
+          that.setState({ sopen: true })
+        } else {
+          alert('An error happened, please try again')
+        }
       }).catch((error) => {
         console.log(error);
       });
-
-      this.setState({ open: false })
-      that.setState({sopen:true})
-
     } else {
       alert('Please Enter a Location before clicking Add')
     }

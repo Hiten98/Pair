@@ -42,18 +42,16 @@ class RegisterButtons extends Component {
       }).then(function (response) {
         console.log(response.data);
         if (response.data.status) {
-          //history.push('/register/company')
+          // Go to Company Page?
+          // console.log(companyName);
+          that.props.updateUid(companyName, "company");
+          history.push('/landing/company')
         } else {
           alert('Invalid company details, please try again')
         }
       }).catch(function (error) {
         console.log(error);
       });
-
-      // Go to Company Page?
-      console.log(companyName);
-      that.props.updateUid(companyName, "company");
-      history.push('/landing/company')
     }
   }
 
