@@ -6,6 +6,7 @@ import { List, ListItem, Subheader, Paper } from 'material-ui'
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble'
 import CreateGroupChat from './CreateGroupChat'
 import axios from 'axios'
+import InviteChat from './InviteChat'
 import './Sidebar.css';
 import history from '../history';
 
@@ -19,6 +20,10 @@ class Sidebar extends Component {
     this.state = {
       cards: [],
       colors: tempArr,
+      chatToAccept: '',
+      open: false,
+      index:'',
+      type:'',
     }
   }
 
@@ -26,15 +31,68 @@ class Sidebar extends Component {
 
   styleNoPressed = 'white'
 
+  closeModal = () => {
+    let that=this
+    this.setState({ open: false })
+    axios.post("/REMOVE-FROM-CHAT", {
+      "userID": this.props.uid,
+      chatroomName: this.state.chatToAccept,
+    }).then(function (response) {
+      if (response.data.status) {
+        that.props.changeNeedToUpdate()
+      } else {
+        that.props.changeNeedToUpdate()
+        alert('Error: please choose again')
+      }
+      that.setState({open:false})
+    }).catch(function (error) {
+      console.log(error);
+    })
+  }
 
   handleClick = (i, name, type) => {
     // console.log(i)
     // console.log(name)
-    let tempArr = this.state.colors
-    tempArr[parseInt(this.props.state.currChat)] = null
-    tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
-    this.setState({ colors: tempArr }, this.changeColors)
-    this.props.changeChat(parseInt(i), name, type)
+    let that = this
+    axios.post("/GET-INVITES", {
+      "userID": this.props.uid,
+      chatroomName: name
+    }).then(function (response) {
+      // console.log(response.data)
+      if (response.data.invite_status == true) {
+        let tempArr = that.state.colors
+        tempArr[parseInt(that.props.state.currChat)] = null
+        tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
+        that.setState({ colors: tempArr }, that.changeColors)
+        that.props.changeChat(parseInt(i), name, type)
+      } else {
+        that.setState({ open: true, chatToAccept: name, index:i, type:type })
+      }
+    }).catch(function (error) {
+      console.log(error);
+    })
+  }
+
+  acceptedChat = () => {
+    let that = this
+    axios.post("/ACCEPT-INVITE", {
+      "userID": this.props.uid,
+      chatroomName: this.state.chatToAccept,
+    }).then(function (response) {
+      if (response.data.status) {
+        let tempArr = that.state.colors
+        tempArr[parseInt(that.props.state.currChat)] = null
+        tempArr[parseInt(that.state.index)] = { style: { backgroundColor: '#EB347F' } }
+        that.setState({ colors: tempArr }, that.changeColors)
+        that.props.changeChat(parseInt(that.state.index), that.state.chatToAccept, that.state.type)
+      } else {
+        that.props.changeNeedToUpdate()
+        alert('Error: please choose again')
+      }
+      that.setState({open:false})
+    }).catch(function (error) {
+      console.log(error);
+    })
   }
 
   changeColors = () => {
@@ -63,7 +121,7 @@ class Sidebar extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (this.props.state.needToUpdate != nextProps.state.needToUpdate && history.location.pathname.indexOf('/landing/company')!=0) {
+    if (this.props.state.needToUpdate != nextProps.state.needToUpdate && history.location.pathname.indexOf('/landing/company') != 0) {
       // console.log('hi')
       this.componentDidMount()
       this.render()
@@ -73,7 +131,7 @@ class Sidebar extends Component {
   componentDidMount() {
     let that = this
     let tempCard = []
-    if (this.props.uid != null && history.location.pathname.indexOf('/landing/company')!=0) {
+    if (this.props.uid != null && history.location.pathname.indexOf('/landing/company') != 0) {
       axios.post("/GET-CHATROOM", {
         "userID": this.props.uid
       }).then(function (response) {
@@ -139,13 +197,15 @@ class Sidebar extends Component {
           <img src={wordLogo} alt="logo" className='no-word-logo' />
         </div>
         <hr />
-        <div style={{height:'81vh',overflowY:'auto',overflowX:'hidden'}}>
-          <List style={{marginTop:'-1vh'}}>
+        <div style={{ height: '81vh', overflowY: 'auto', overflowX: 'hidden' }}>
+          <List style={{ marginTop: '-1vh' }}>
             {this.state.cards}
           </List>
         </div>
 
-        {(history.location.pathname.indexOf('/landing/company')!=0)?<CreateGroupChat {...this.props} />:<div></div>}
+        <InviteChat {...this.props} {...this.state} closeModal={this.closeModal} acceptedChat={this.acceptedChat} />
+
+        {(history.location.pathname.indexOf('/landing/company') != 0) ? <CreateGroupChat {...this.props} /> : <div></div>}
       </Col>
     );
   }

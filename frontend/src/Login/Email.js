@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PasswordField from 'material-ui-password-field'
 import { grey800, black } from 'material-ui/styles/colors';
 import { Row } from 'react-bootstrap'
+import { TextField } from 'material-ui';
 //import './LandingScreen.css';
 
 class Email extends Component {
@@ -20,9 +20,6 @@ class Email extends Component {
       fontSize: '10vw',
       textAlign: 'left',
     },
-    visibilityIconStyle: {
-      opacity: '0',
-    }
   }
 
   userChange=(ev)=>{
@@ -32,17 +29,15 @@ class Email extends Component {
   render() {
     return (
       <Row>
-          <PasswordField
+          <TextField
             className="username"
             floatingLabelText="Enter your email"
-            visible
-            disableButton={true}
             floatingLabelStyle={this.styles.floatingLabelStyle}
             floatingLabelShrinkStyle={this.styles.floatingLabelShrinkStyle}
             underlineStyle={this.styles.underlineStyle}
             hintStyle={this.styles.hintStyle}
-            visibilityIconStyle={this.styles.visibilityIconStyle}
             onChange={this.userChange}
+            style={{width:'240px'}}
           />
         </Row>
     );
