@@ -40,7 +40,9 @@ class AddLocationModal extends Component {
     //console.log(locationsParsed);
     let that = this
 
-    if (locationsParsed != "") {
+    if (!(new RegExp('^((([A-Za-z ,]+;)+[A-Za-z ,]+)|[A-Za-z ,]+)+$')).test(locations)) {
+      alert("Locations format is invalid")
+    } else if (locationsParsed != "") {
 
       axios.post('/UPDATE-COMPANY', {
         "companyName": this.props.companyName,
