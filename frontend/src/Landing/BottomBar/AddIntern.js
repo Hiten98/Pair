@@ -48,7 +48,8 @@ class SearchBar extends Component {
       axios.post('/VERIFY-EMAIL-EXISTS', {
         "username": this.state.intern,
       }).then((response) => {
-        if (response.data.status) {
+        console.log(response.data)
+        if (!response.data.status) {
           axios.post('/CREATE-INTERN', {
             "username": this.state.intern,
             "location": this.state.loc,
@@ -59,7 +60,7 @@ class SearchBar extends Component {
               that.setState({ refresh: true })
               console.log("Success! ID CREATED:" + response.data.userID);
 
-              let url = "http://localhost:3000/register/intern/part1/" + response.data.userID;
+              let url = "http://localhost:3000/register/intern/creation/" + response.data.userID;
               emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
 
               emailjs.send("default_service", "welcome_to_pair", {
