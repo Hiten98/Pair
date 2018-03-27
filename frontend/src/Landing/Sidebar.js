@@ -22,8 +22,8 @@ class Sidebar extends Component {
       colors: tempArr,
       chatToAccept: '',
       open: false,
-      index:'',
-      type:'',
+      index: '',
+      type: '',
     }
   }
 
@@ -32,7 +32,7 @@ class Sidebar extends Component {
   styleNoPressed = 'white'
 
   closeModal = () => {
-    let that=this
+    let that = this
     this.setState({ open: false })
     axios.post("/REMOVE-FROM-CHAT", {
       "userID": this.props.uid,
@@ -44,7 +44,7 @@ class Sidebar extends Component {
         that.props.changeNeedToUpdate()
         alert('Error: please choose again')
       }
-      that.setState({open:false})
+      that.setState({ open: false })
     }).catch(function (error) {
       console.log(error);
     })
@@ -54,23 +54,31 @@ class Sidebar extends Component {
     // console.log(i)
     // console.log(name)
     let that = this
-    axios.post("/GET-INVITES", {
-      "userID": this.props.uid,
-      chatroomName: name
-    }).then(function (response) {
-      // console.log(response.data)
-      if (response.data.invite_status == true) {
-        let tempArr = that.state.colors
-        tempArr[parseInt(that.props.state.currChat)] = null
-        tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
-        that.setState({ colors: tempArr }, that.changeColors)
-        that.props.changeChat(parseInt(i), name, type)
-      } else {
-        that.setState({ open: true, chatToAccept: name, index:i, type:type })
-      }
-    }).catch(function (error) {
-      console.log(error);
-    })
+    if (name.charAt(0) == 3 || name.charAt(0) == 4) {
+      axios.post("/GET-INVITES", {
+        "userID": this.props.uid,
+        chatroomName: name
+      }).then(function (response) {
+        // console.log(response.data)
+        if (response.data.invite_status == true) {
+          let tempArr = that.state.colors
+          tempArr[parseInt(that.props.state.currChat)] = null
+          tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
+          that.setState({ colors: tempArr }, that.changeColors)
+          that.props.changeChat(parseInt(i), name, type)
+        } else {
+          that.setState({ open: true, chatToAccept: name, index: i, type: type })
+        }
+      }).catch(function (error) {
+        console.log(error);
+      })
+    } else {
+      let tempArr = that.state.colors
+      tempArr[parseInt(that.props.state.currChat)] = null
+      tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
+      that.setState({ colors: tempArr }, that.changeColors)
+      that.props.changeChat(parseInt(i), name, type)
+    }
   }
 
   acceptedChat = () => {
@@ -89,7 +97,7 @@ class Sidebar extends Component {
         that.props.changeNeedToUpdate()
         alert('Error: please choose again')
       }
-      that.setState({open:false})
+      that.setState({ open: false })
     }).catch(function (error) {
       console.log(error);
     })

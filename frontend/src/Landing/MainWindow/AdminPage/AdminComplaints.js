@@ -101,6 +101,8 @@ class AdminComplaints extends Component {
           let complaintsList = response.data;
           let ccList = [];
           for (let c in complaintsList) {
+            if(c==null||complaintsList[c]==null)
+              continue
             ccList.push(complaintsList[c].split("$:$"));
           }
           this.setState(
