@@ -5,7 +5,7 @@ import history from '../history';
 //import './LandingScreen.css';
 import axios from 'axios'
 
-axios.defaults.baseURL = "localhost:9090";
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
 class LandingScreen extends Component {
   deleteClick = () => {

@@ -5,7 +5,7 @@ import { Row } from 'react-bootstrap'
 import axios from 'axios'
 //import './ForgotPasswordModal.css';
 
-axios.defaults.baseURL = 'localhost:9090'
+axios.defaults.baseURL = 'https://glacial-spire-77473.herokuapp.com/'
 
 class AddLocationModal extends Component {
   constructor(props) {
