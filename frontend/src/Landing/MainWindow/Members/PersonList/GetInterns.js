@@ -16,7 +16,7 @@ class GetInterns extends Component {
       uidList: [],
       colors: tempArr,
     }
-    console.log(props)
+    // console.log(props)
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -48,7 +48,7 @@ class GetInterns extends Component {
       "chatroomName": props.props.state.currChatName,
       userID: props.props.uid,
     }).then(function (response) {
-      console.log(response.data)
+      // console.log(response.data)
       // console.log(props.props.state.currChatName)
       if (response.data.status == false) {
         alert('No longer in this room, please choose a different chat room')
@@ -93,7 +93,7 @@ class GetInterns extends Component {
                 {...args}
                 {...that.state.colors[parseInt(i) + tempProfileAdj]}
                 primaryText={splitted[1]}
-                secondaryText={<p>{bio}</p>}
+                secondaryText={<p>{bio.substr(0,20)}...</p>}
                 secondaryTextLines={1}
                 hoverColor='#F95498B0'
                 onClick={() => { that.handleClick(parseInt(i) + tempProfileAdj, splitted[0]) }}
@@ -181,6 +181,7 @@ class GetInterns extends Component {
             />
           </Paper>
         )
+        k++
       }
       that.setState({ interns: tempArr })
     }).catch(function (error) {

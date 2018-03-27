@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 import emailjs from 'emailjs-com'
-import { FloatingActionButton, Dialog, TextField, RaisedButton, Snackbar, RefreshIndicator, CircularProgress } from 'material-ui';
+import { FloatingActionButton, Dialog, TextField, RaisedButton, Snackbar, RefreshIndicator, CircularProgress, DropDownMenu, MenuItem } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { Row } from 'react-bootstrap'
 //import './SearchBar.css';
@@ -13,16 +13,17 @@ class SearchBar extends Component {
     this.state = {
       open: false,
       sopen: false,
-      loc: '',
+      loc: 0,
       company: '',
       intern: '',
       refresh: false,
+      locs: [],
     }
     // console.log(props)
   }
 
   handleClose = () => {
-    this.setState({ open: false })
+    this.setState({ open: false, loc:0 })
   }
 
   componentDidMount = () => {
@@ -32,7 +33,6 @@ class SearchBar extends Component {
     }).then((response) => {
       // console.log(response.data)
       that.setState({
-        loc: response.data.location,
         company: response.data.company,
       })
     }).catch(function (error) {
@@ -48,17 +48,17 @@ class SearchBar extends Component {
       axios.post('/VERIFY-EMAIL-EXISTS', {
         "username": this.state.intern,
       }).then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         if (!response.data.status) {
           axios.post('/CREATE-INTERN', {
             "username": this.state.intern,
             "location": this.state.loc,
             "company": this.state.company
           }).then((response) => {
-            console.log(response.data)
+            // console.log(response.data)
             if (response.data.userID != null) {
               that.setState({ refresh: true })
-              console.log("Success! ID CREATED:" + response.data.userID);
+              // console.log("Success! ID CREATED:" + response.data.userID);
 
               let url = "http://localhost:3000/register/intern/creation/" + response.data.userID;
               emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
@@ -69,7 +69,7 @@ class SearchBar extends Component {
                 action_url: url
               }).then(
                 function (response) {
-                  console.log("SUCCESS", response);
+                  // console.log("SUCCESS", response);
                   that.setState({ open: false, sopen: true, refresh: false })
                 },
                 function (error) {
@@ -101,11 +101,29 @@ class SearchBar extends Component {
   }
 
   openModal = () => {
+    let that = this
     this.setState({ open: true })
+    axios.post('/GET-COMPANY-FROM-NAME', {
+      "name": this.state.company,
+    }).then((response) => {
+      // console.log(response.data)
+      let temp=[]
+      temp.push(<MenuItem value={0} key={0} primaryText='Choose a location'/>)
+      for(let i in response.data.locations){
+        temp.push(<MenuItem value={response.data.locations[i]} key={response.data.locations[i]} primaryText={response.data.locations[i]}/>)
+      }
+      that.setState({locs:temp})
+    }).catch(function (error) {
+      console.log(error);
+    })
   }
 
   changeEmail = (ev) => {
     this.setState({ intern: ev.target.value })
+  }
+
+  handleChange=(ev,target,value)=>{
+    this.setState({loc:value})
   }
 
   actions = [
@@ -135,6 +153,14 @@ class SearchBar extends Component {
           actions={this.actions}
           open={this.state.open}
         >
+          <Row style={{ width: '90%', marginLeft: '1%' }}>
+            <DropDownMenu
+              value={this.state.loc}
+              onChange={this.handleChange}
+            >
+              {this.state.locs}
+            </DropDownMenu>
+          </Row>
           <Row style={{ width: '90%', marginLeft: '5%' }}>
             <TextField
               fullWidth

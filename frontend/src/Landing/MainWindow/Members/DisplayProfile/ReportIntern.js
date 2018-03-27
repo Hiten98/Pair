@@ -118,7 +118,7 @@ class ReportIntern extends Component {
   render() {
     // console.log(this.state)
     return (
-      <div>
+      <div> 
         {(this.props.currProfile != this.props.uid && this.props.props.type == 'intern' && this.props.currProfile.substring(0, 1) != 2) ?
           <Col xs={2}>
             <RaisedButton
