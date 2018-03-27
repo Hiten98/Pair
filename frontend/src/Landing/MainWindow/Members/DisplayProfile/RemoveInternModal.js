@@ -7,15 +7,17 @@ import axios from 'axios'
 class LandingScreen extends Component {
   constructor(props){
     super(props)
+    console.log(props)
   }
 
   removeIntern=()=>{
+    let that=this
     axios.post("/REMOVE-USER", {
       "userID": this.props.currProfile
     }).then(function (response) {
       if(response.data.status){
-        this.props.closeAll()
-        this.props.changeSelected(this.props.uid,0)
+        that.props.closeAll()
+        that.props.changeSelected(that.props.uid,0)
       } else{
         alert('Error, please try again')
       }

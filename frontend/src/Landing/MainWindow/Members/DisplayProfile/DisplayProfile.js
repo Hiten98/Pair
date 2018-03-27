@@ -138,7 +138,7 @@ class DisplayProfile extends Component {
 
           <CompanyInformation {...this.props} {...this.state} updateProfile={this.updateProfile}/>
 
-          {(this.state.bio != null) ? <Row className='row-div'><h3>Bio:</h3> <p>{this.state.bio}</p></Row> : <div></div>}
+          {(this.state.bio != 'undefined') ? <Row className='row-div'><h3>Bio:</h3> <p>{this.state.bio}</p></Row> : <div></div>}
 
           <Links {...this.props} {...this.state} updateProfile={this.updateProfile}/>
         </div>
