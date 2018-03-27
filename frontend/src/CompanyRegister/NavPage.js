@@ -12,7 +12,7 @@ class NavButtons extends Component {
   render() {
     return (
       <Row className='topBar'>
-        <Row className='row-sm employee-registration-link login-page-link'>
+        <Row className='employee-registration-link login-page-link'>
           <RaisedButton
             label="Login Page"
             primary={true}

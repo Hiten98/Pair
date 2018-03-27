@@ -31,7 +31,7 @@ class Email extends Component {
 
   render() {
     return (
-      <Row className="row-sm">
+      <Row>
           <PasswordField
             className="username"
             floatingLabelText="Enter your email"

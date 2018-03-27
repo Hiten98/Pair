@@ -29,7 +29,7 @@ class GetMods extends Component {
         }).then(function (response) {
           // console.log(response.d)
           let tempMod = []
-          tempMod.push(<Paper zDepth={2} key={-1} className='paper-list title-list' style={{backgroundColor:'#50C2C4'}}><h4>Moderators</h4></Paper>)
+          // tempMod.push(<Paper zDepth={2} key={-1} className='paper-list title-list' style={{backgroundColor:'#50C2C4'}}><h4>Moderators</h4></Paper>)
           for (let i in response.data) {
             let splitted = response.data[i].split('$:$')
             // console.log(splitted[2])
@@ -91,7 +91,7 @@ class GetMods extends Component {
       }).then(function (response) {
         // console.log(response.data)
         let tempMod = []
-        tempMod.push(<Paper zDepth={2} key={-1} className='paper-list title-list' style={{backgroundColor:'#50C2C4'}}><h4>Moderators</h4></Paper>)
+        // tempMod.push(<Paper zDepth={2} key={-1} className='paper-list title-list' style={{backgroundColor:'#50C2C4'}}><h4>Moderators</h4></Paper>)
         for (let i in response.data) {
           let splitted = response.data[i].split('$:$')
           // console.log('undefined'==splitted[2])
@@ -116,7 +116,7 @@ class GetMods extends Component {
             <Paper zDepth={2} key={i} className='paper-list'>
               <ListItem
                 {...args}
-                {...that.state.colors[parseInt(i) + 1]}
+                {...that.state.colors[parseInt(i)+1]}
                 primaryText={splitted[1]}
                 secondaryText={<p>{bio}</p>}
                 secondaryTextLines={1}
@@ -138,10 +138,10 @@ class GetMods extends Component {
     let that = this
     let tempArr = []
     for (let i in this.state.mods) {
-      if(i==0){
-        tempArr.push(this.state.mods[0])
-        continue
-      }
+      // if(i==0){
+      //   tempArr.push(this.state.mods[0])
+      //   continue
+      // }
       //console.log(this.state.interns[i])
       tempArr.push(
         <Paper zDepth={2} key={i} className='paper-list'>
@@ -169,7 +169,7 @@ class GetMods extends Component {
   }
 
   render() {
-    return ((this.state.mods.length!=1)?this.state.mods:[]);
+    return ((this.state.mods.length!=0)?this.state.mods:[]);
   }
 }
 

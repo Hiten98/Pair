@@ -1,6 +1,6 @@
 .login-title{
-  position: relative;
-  left:-3.1vw;
+  /* position: relative;
+  left:-8.55%; */
   font-size: 475%;
 }
 
@@ -9,5 +9,5 @@
 }
 
 @media all and (min-width:768px){
-  .form{width: 30vw;}
+  .form{width: 32vw;}
 }

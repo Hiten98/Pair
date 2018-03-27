@@ -1,7 +1,7 @@
-.register-title{
-  position: relative;
-  left:-0.8vw;
+.employee-register-title{
+  /* position: relative; */
   font-size: 475%;
+  /* left:-0.9%; */
 }
 
 @media all and (max-width:767px){

@@ -63,7 +63,7 @@ class Sidebar extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (this.props.state.needToUpdate != nextProps.state.needToUpdate) {
+    if (this.props.state.needToUpdate != nextProps.state.needToUpdate && history.location.pathname.indexOf('/landing/company')!=0) {
       console.log('hi')
       this.componentDidMount()
     }
@@ -72,7 +72,7 @@ class Sidebar extends Component {
   componentDidMount() {
     let that = this
     let tempCard = []
-    if (this.props.uid != null) {
+    if (this.props.uid != null && history.location.pathname.indexOf('/landing/company')!=0) {
       axios.post("/GET-CHATROOM", {
         "userID": this.props.uid
       }).then(function (response) {
@@ -144,7 +144,7 @@ class Sidebar extends Component {
           </List>
         </div>
 
-        <CreateGroupChat {...this.props} />
+        {(history.location.pathname.indexOf('/landing/company')!=0)?<CreateGroupChat {...this.props} />:<div></div>}
       </Col>
     );
   }
