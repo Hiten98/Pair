@@ -166,7 +166,7 @@ class ProfileHeader extends Component {
     if (this.props.props.type == 'employee')
       history.push('/register/employee/edit-profile')
     else if (this.props.props.type == 'intern')
-      history.push('/register/intern/preferences/user-details')
+      history.push('/register/intern/edit-profile/user-details')
   }
 
   secondLine = () => {
