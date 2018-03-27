@@ -6,7 +6,7 @@ import axios from 'axios'
 import emailjs from 'emailjs-com'
 //import './ForgotPasswordModal.css';
 
-axios.defaults.baseURL = 'http://localhost:9090'
+axios.defaults.baseURL = 'localhost:9090'
 
 class AddEmployeeModal extends Component {
   constructor(props) {

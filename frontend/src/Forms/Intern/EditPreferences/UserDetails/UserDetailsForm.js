@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import FirstName from './FirstName.js'
-import LastName from './LastName'
-import Bio from './Bio'
-import LinkedIn from './LinkedIn'
-import Facebook from './Facebook'
-import Twitter from './Twitter'
+import FirstName from '../../UserPreferences/UserDetails/FirstName.js'
+import LastName from '../../UserPreferences/UserDetails/LastName'
+import Bio from '../../UserPreferences/UserDetails/Bio'
+import LinkedIn from '../../UserPreferences/UserDetails/LinkedIn'
+import Facebook from '../../UserPreferences/UserDetails/Facebook'
+import Twitter from '../../UserPreferences/UserDetails/Twitter'
 import SubmitButtons from './SubmitButtons'
-import PicUpload from './PicUpload'
+import PicUpload from '../../UserPreferences/UserDetails/PicUpload'
 import axios from 'axios'
 //import './UserDetailsForm.css';
 
@@ -72,7 +72,7 @@ class UserDetailsForm extends Component {
     axios.post("/GET-IMAGE", {
       "userID": this.props.uid
     }).then(function (response) {
-      //console.log(response.data)
+      // console.log(response.data)
       that.setState({prevpic:response.data.image})
     }).catch(function (error) {
       console.log(error);

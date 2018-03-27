@@ -19,11 +19,11 @@ class HousingSubmitButtons extends Component {
   }
 
   backButtonSubmit = () => {
-    this.setState({ willRedirect: 1 },()=>{this.bSubmit()})
+    this.setState({ willRedirect: 1 }, () => { this.bSubmit() })
   }
 
   buttonSubmit = () => {
-    this.setState({ willRedirect: 2 },()=>{this.bSubmit()})
+    this.setState({ willRedirect: 2 }, () => { this.bSubmit() })
   }
 
   bSubmit = () => {
@@ -48,13 +48,9 @@ class HousingSubmitButtons extends Component {
         //Go to landing page
         if (that.state.willRedirect === 1) {
           that.props.changePage(2)
-          history.push('/register/intern/preferences/roommate')
+          history.push('/register/intern/edit-profile/roommate')
         } else if (that.state.willRedirect === 2) {
-          if (that.props.completed.indexOf('1') > -1 && that.props.completed.indexOf('2') > -1) {
-            history.push('/landing/intern/members')
-          }else{
-            alert('Please complete all parts of this form')
-          }
+          history.push('/landing/intern/members')
         }
         that.props.changeChange(false)
         try {
@@ -79,10 +75,10 @@ class HousingSubmitButtons extends Component {
           onClick={this.backButtonSubmit}
         />
         <RaisedButton
-          label="Save"
+          label="Save and quit"
           style={{ marginTop: "20px", marginLeft: "10px" }}
           primary
-          onClick={this.bSubmit}
+          onClick={this.buttonSubmit}
         />
         <RaisedButton
           label="Submit"

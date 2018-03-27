@@ -6,7 +6,7 @@ import { Grid, Row, Col, Image } from 'react-bootstrap'
 import axios from 'axios'
 import emailjs from 'emailjs-com'
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "localhost:9090";
 
 class LandingScreen extends Component {
   locs = []

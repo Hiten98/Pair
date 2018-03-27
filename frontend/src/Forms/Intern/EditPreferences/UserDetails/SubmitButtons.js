@@ -83,7 +83,9 @@ class SubmitButton extends Component {
       //Go to preferences p2
       if (that.state.willRedirect === 1) {
         that.props.changePage(2)
-        history.push('/register/intern/preferences/roommate')
+        history.push('/register/intern/edit-profile/roommate')
+      }else if (that.state.willRedirect === 2) {
+        history.push('/landing/intern/members')
       }
       that.props.changeChange(false)
       that.props.changeCompleted('1')
@@ -100,14 +102,18 @@ class SubmitButton extends Component {
     this.setState({ willRedirect: 1 },()=>{this.buttonSubmit()})
   }
 
+  saveAndQuit=()=>{
+    this.setState({ willRedirect: 2 },()=>{this.buttonSubmit()})
+  }
+
   render() {
     return (
       <Row className="user-details-buttons">
         <RaisedButton
-          label="Save"
+          label="Save and Quit"
           style={{ marginTop: "20px", marginRight: "10px" }}
           primary
-          onClick={this.buttonSubmit}
+          onClick={this.saveAndQuit}
         />
         <RaisedButton
           label="Next"

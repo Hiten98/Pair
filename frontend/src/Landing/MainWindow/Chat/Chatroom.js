@@ -8,7 +8,7 @@ import Message from "./Message";
 import MessageList from "./MessageList";
 import LeaveChatButton from "./LeaveChatButton";
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "localhost:9090";
 
 class Chatroom extends Component {
   constructor(props) {

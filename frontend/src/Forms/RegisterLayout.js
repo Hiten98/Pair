@@ -7,6 +7,7 @@ import './RegisterLayout.css';
 import EmployeeRegistrationForm from './Employee/EmployeeRegistrationForm';
 import ForgotForm from '../ForgotPassword/ForgotForm';
 import EmployeeEditProfile from './Employee/EmployeeEditProfile';
+import EditPreferences from './Intern/EditPreferences/PreferencesLayout'
 
 class RegisterLayout extends Component {
   render() {
@@ -17,6 +18,7 @@ class RegisterLayout extends Component {
         <Col xs={10} s={8} className="mid-col">
           <Switch>
             <Route path="/register/intern/creation" render={() => <InternCreation updateUid={this.props.updateUid} />} />
+            <Route path="/register/intern/edit-profile" render={()=><EditPreferences uid={this.props.uid}/>}/>
             <Route path="/register/intern/preferences" render={() => <UserPreferences uid={this.props.uid} />} />
             <Route path='/register/employee/edit-profile' render={()=><EmployeeEditProfile {...this.props}/>}/>
             <Route path="/register/employee"

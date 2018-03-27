@@ -6,7 +6,7 @@ import "./Chatroom.css";
 import axios from "axios";
 import Message from "./Message";
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "localhost:9090";
 
 class MessageList extends Component {
   constructor(props) {

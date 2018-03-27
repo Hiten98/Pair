@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Row} from 'react-bootstrap'
-import Price from './Price'
-import Distance from './Distance'
-import Duration from './Duration'
-import Roommates from './Roommates'
+import Price from '../../UserPreferences/HousingPreferences/Price'
+import Distance from '../../UserPreferences/HousingPreferences/Distance'
+import Duration from '../../UserPreferences/HousingPreferences/Duration'
+import Roommates from '../../UserPreferences/HousingPreferences/Roommates'
 import HousingSubmitButtons from './HousingSubmitButtons'
 import axios from 'axios'
 //import './HousingPreferencesForm.css';

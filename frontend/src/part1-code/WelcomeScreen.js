@@ -13,7 +13,7 @@ import HousingPreferences from './InternRegister/DetailsP3'
 import axios from 'axios'
 import Landing from './LandingPage/MainLanding'
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "localhost:9090";
 
 class WelcomeScreen extends Component {
   componentWillMount(){

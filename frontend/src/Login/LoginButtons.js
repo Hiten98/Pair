@@ -6,8 +6,6 @@ import axios from 'axios'
 import './LoginButtons.css';
 import ForgotPasswordModal from './ForgotPasswordModal'
 
-axios.defaults.baseURL = "http://localhost:9090";
-
 class LoginButtons extends Component {
 
 

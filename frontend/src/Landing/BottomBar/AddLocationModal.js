@@ -5,7 +5,7 @@ import { Row } from 'react-bootstrap'
 import axios from 'axios'
 //import './ForgotPasswordModal.css';
 
-axios.defaults.baseURL = 'http://localhost:9090'
+axios.defaults.baseURL = 'localhost:9090'
 
 class AddLocationModal extends Component {
   constructor(props) {

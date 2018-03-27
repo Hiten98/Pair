@@ -8,7 +8,7 @@ class Clean extends Component {
     let labels = ["1 not important", "2", '3', '4', '5 very impotant']
     let items = []
     for (let i = 1; i <= 5; i++) {
-      items.push(<MenuItem value={i} key={i} primaryText={labels[i - 1]} />)
+      items.push(<MenuItem value={`${i}`} key={i} primaryText={labels[i - 1]} />)
     }
     
     return (

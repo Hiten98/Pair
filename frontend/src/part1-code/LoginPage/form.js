@@ -11,7 +11,7 @@ import './form.css';
 import history from '../history'
 import axios from 'axios'
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "localhost:9090";
 
 class form extends Component {
   state = {

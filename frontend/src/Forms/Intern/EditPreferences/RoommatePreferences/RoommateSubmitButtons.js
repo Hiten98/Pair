@@ -58,10 +58,12 @@ class RoommateSubmitButtons extends Component {
         that.props.changeChange(false)
         if(that.state.willRedirect===1){
           that.props.changePage(1)
-          history.push('/register/intern/preferences/user-details')
+          history.push('/register/intern/edit-profile/user-details')
         }else if(that.state.willRedirect===2){
           that.props.changePage(3)
-          history.push('/register/intern/preferences/housing')
+          history.push('/register/intern/edit-profile/housing')
+        }else if(that.state.willRedirect===3){
+          history.push('/landing/intern/members')
         }
         try {
           localStorage.removeItem('roommate-preferences')
@@ -74,6 +76,10 @@ class RoommateSubmitButtons extends Component {
     });
   }
 
+  saveAndQuit=()=>{
+    this.setState({willRedirect:3},()=>{this.bSubmit()})
+  }
+
   render() {
     return (
       <Row className="roommate-submit-buttons">
@@ -84,10 +90,10 @@ class RoommateSubmitButtons extends Component {
           onClick={this.backButtonSubmit}
         />
         <RaisedButton
-          label="Save"
+          label="Save and Quit"
           style={{ marginTop: "20px", marginLeft:"10px" }}
           primary
-          onClick={this.bSubmit}
+          onClick={this.saveAndQuit}
         />
         <RaisedButton
           label="Next"
