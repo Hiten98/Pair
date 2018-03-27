@@ -26,9 +26,11 @@ class RegisterButtons extends Component {
 
     let that = this
 
-    if (!(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(companyEmail)) {
+    if (companyName === null || companyEmail === null || companyPassword === null || companyLocations === null) {
+      alert('Please fill in all the fields')
+    } else if (!(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(companyEmail)) {
       alert('Please enter a valid email')
-    } else if (!(new RegExp('[^;]+')).test(companyLocations)) {
+    } else if (!(new RegExp('^((([A-Za-z ,]+;)+[A-Za-z ,]+)|[A-Za-z ,]+)+$')).test(companyLocations)) {
       alert("Locations format is invalid")
     } else if (companyName != null && companyEmail != null && companyPassword != null && companyLocations != null) {
       axios.post('/CREATE-COMPANY', {
@@ -52,8 +54,6 @@ class RegisterButtons extends Component {
       console.log(companyName);
       that.props.updateUid(companyName, "company");
       history.push('/landing/company')
-    } else {
-      alert('Please fill in all the fields')
     }
   }
 
