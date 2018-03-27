@@ -52,7 +52,6 @@ class ReportIntern extends Component {
   openModal = () => {
     // console.log(this.props)
     this.setState({ open: true, uid: this.props.currProfile, fromPerson:`${this.props.props.state.currIntern.firstName} ${this.props.props.state.currIntern.lastName}` })
-    this.setState({ uid: this.props.currProfile })
       axios.post('/GET-INTERN', {
         userID: this.props.currProfile
       }).then((response) => {
@@ -65,7 +64,8 @@ class ReportIntern extends Component {
     this.setState({ chatName: this.props.props.state.currChatName, moduid: 0 })
     if (this.props.props.state.currChatName.charAt(0) == 1) {
       axios.post('/GET-MODS-IN-CHATROOM', {
-        chatroomName: this.props.props.state.currChatName
+        chatroomName: this.props.props.state.currChatName,
+        userID:this.props.currProfile
       }).then((response) => {
         // console.log(response.data)
         let tempList = []
