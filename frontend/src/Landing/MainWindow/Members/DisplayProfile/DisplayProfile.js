@@ -83,8 +83,11 @@ class DisplayProfile extends Component {
             score = <span style={{ color: lightGreenA700, fontSize: '20px', }}>{response.data.score[0]}% match </span>
           } else if (parseInt(response.data.score[0]) > 50) {
             score = <span style={{ color: yellow800, fontSize: '20px', }}>{response.data.score[0]}% match </span>
-          } else {
+          } else if (parseInt(response.data.score[0]) > 0){
             score = <span style={{ color: red500, fontSize: '20px', }}>{response.data.score[0]}% match </span>
+          } else {
+            console.log("Will");
+            score = <span style={{ color: red500, fontSize: '20px', }}>{0}% match </span>
           }
           that.setState({ match: score })
         }).catch(function (error) {

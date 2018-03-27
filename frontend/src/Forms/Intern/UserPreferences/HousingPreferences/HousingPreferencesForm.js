@@ -8,7 +8,7 @@ import HousingSubmitButtons from './HousingSubmitButtons'
 import axios from 'axios'
 //import './HousingPreferencesForm.css';
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
 class HousingPreferencesForm extends Component {
   constructor(props){

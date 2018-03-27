@@ -10,7 +10,7 @@ import InviteChat from './InviteChat'
 import './Sidebar.css';
 import history from '../history';
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
 class Sidebar extends Component {
   constructor(props) {

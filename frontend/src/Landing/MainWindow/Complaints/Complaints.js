@@ -5,7 +5,7 @@ import { TextField, ListItem, List, RaisedButton } from "material-ui";
 import axios from "axios";
 import "./Complaints.css";
 
-axios.defaults.baseURL = "http://localhost:9090";
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
 class Complaints extends Component {
   constructor(props) {

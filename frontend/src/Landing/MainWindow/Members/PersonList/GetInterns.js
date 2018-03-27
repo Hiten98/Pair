@@ -129,7 +129,7 @@ class GetInterns extends Component {
           } else if (parseInt(response.data.score[i]) > 0) {
             score = <div><span style={{ color: red500 }}>{response.data.score[i]}% match&nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
           } else {
-            score = ''
+            score = score = <div><span style={{ color: red500 }}>{0}% match&nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
           }
           tempArr.push(
             <Paper zDepth={2} key={tempintern[i].key} className='paper-list'>
