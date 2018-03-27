@@ -25,6 +25,7 @@ class MessageList extends Component {
       newMessage: false
     };
     this.interval = setInterval(this.tick, 500);
+    console.log(props)
   }
 
   componentWillUnmount = () => {
@@ -55,7 +56,7 @@ class MessageList extends Component {
           if (response.data[this.state.chatroomId] != null) {
             that.setState({
               chatroomName: response.data[this.state.chatroomId]
-            }, () => console.log(that.state.chatroomName));
+            }/*, () => console.log(that.state.chatroomName)*/);
           }
         })
         .catch(error => {
@@ -66,47 +67,53 @@ class MessageList extends Component {
     if (this.state.chatroomName != null && this.state.chatroomName != "") {
       axios
         .post("/GET-MESSAGES", {
-          chatroomName: that.state.chatroomName
+          chatroomName: that.state.chatroomName,
+          userID: this.state.uid
         })
         .then(response => {
-          let messages = response.data;
-          let chatroomMessages = [];
-          for (let m in messages) {
-            if (m != "" && m != null && m != "number") {
-              let messageContent = messages[m].split("$:$");
-              chatroomMessages.push(
-                <Message
-                  key={m}
-                  chat={{
-                    uid: messageContent[0],
-                    name: messageContent[1],
-                    img: messageContent[2],
-                    content: messageContent[3]
-                  }}
-                  uid={that.state.uid}
-                  name={that.state.name}
-                  image={that.state.myImg}
-                  style={{ wordWrap: "break-all" }}
-                />
-              );
+          if (response.data.status == false) {
+            alert('Chat room no longer available, please choose another one')
+            this.props.changeNeedToUpdate()
+          } else {
+            let messages = response.data;
+            let chatroomMessages = [];
+            for (let m in messages) {
+              if (m != "" && m != null && m != "number") {
+                let messageContent = messages[m].split("$:$");
+                chatroomMessages.push(
+                  <Message
+                    key={m}
+                    chat={{
+                      uid: messageContent[0],
+                      name: messageContent[1],
+                      img: messageContent[2],
+                      content: messageContent[3]
+                    }}
+                    uid={that.state.uid}
+                    name={that.state.name}
+                    image={that.state.myImg}
+                    style={{ wordWrap: "break-all" }}
+                  />
+                );
+              }
             }
-          }
-          if (that.state.chats != chatroomMessages) {
-            that.setState({ chats: [] }, () => {
+            if (that.state.chats != chatroomMessages) {
+              that.setState({ chats: [] }, () => {
+                that.setState({
+                  chats: chatroomMessages,
+                  inputText: "",
+                  numPrevMsgs: this.state.numMsgs,
+                  numMsgs: chatroomMessages.length
+                });
+              })
+            } else {
               that.setState({
                 chats: chatroomMessages,
                 inputText: "",
                 numPrevMsgs: this.state.numMsgs,
                 numMsgs: chatroomMessages.length
               });
-            })
-          } else {
-            that.setState({
-              chats: chatroomMessages,
-              inputText: "",
-              numPrevMsgs: this.state.numMsgs,
-              numMsgs: chatroomMessages.length
-            });
+            }
           }
         })
         .catch(error => {

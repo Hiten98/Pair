@@ -18,31 +18,42 @@ class Toolbar extends Component {
     this.state = {
       currPage: currPage,
     }
+    // console.log(props)
   }
 
   changeToChat = () => {
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`))
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`)){
       history.push(`/landing/${this.props.type}/chat`)
+      this.props.changeNeedToUpdate()
+    }
   }
 
   changeToMembers = () => {
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/members`))
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/members`)){
       history.push(`/landing/${this.props.type}/members`)
+      this.props.changeNeedToUpdate()
+    }
   }
 
   changeToSaved = () => {
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/saved`))
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/saved`)){
       history.push(`/landing/${this.props.type}/saved`)
+      this.props.changeNeedToUpdate()
+    }
   }
 
   changeToHouse = () => {
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/housing`))
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/housing`)){
       history.push(`/landing/${this.props.type}/housing`)
+      this.props.changeNeedToUpdate()
+    }
   }
 
   changeToComplaints = () => {
-    if (history.location.pathname.indexOf(`/landing/employee/complaints`))
+    if (history.location.pathname.indexOf(`/landing/employee/complaints`)){
       history.push(`/landing/employee/complaints`)
+      this.props.changeNeedToUpdate()
+    }
   }
 
   ifIntern = () => {

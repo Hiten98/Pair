@@ -64,8 +64,9 @@ class Sidebar extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     if (this.props.state.needToUpdate != nextProps.state.needToUpdate && history.location.pathname.indexOf('/landing/company')!=0) {
-      console.log('hi')
+      // console.log('hi')
       this.componentDidMount()
+      this.render()
     }
   }
 
