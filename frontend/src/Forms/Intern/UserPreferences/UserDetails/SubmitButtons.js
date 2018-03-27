@@ -42,17 +42,35 @@ class SubmitButton extends Component {
   }
 
   buttonSubmit = () => {
-    let firstname = this.props.firstname
-    let lastname = this.props.lastname
-    let bio = this.props.bio
-    let linkedin = this.props.linkedin
-    let facebook = this.props.facebook
-    let twitter = this.props.twitter
+    let fn = ''
+    if (this.props.firstname != undefined)
+      fn = this.props.firstname
+    let ln = ''
+    if (this.props.lastname != undefined)
+      ln = this.props.lastname
+    let d = 'undefined'
+    if (this.props.bio != undefined)
+      d = this.props.bio
+    let f = 'undefined'
+    if (this.props.facebook != undefined)
+      f = this.props.facebook
+    let t = 'undefined'
+    if (this.props.twitter != undefined)
+      t = this.props.twitter
+    let l = 'undefined'
+    if (this.props.linkedin != undefined)
+      l = this.props.linkedin
+    let firstname = fn
+    let lastname = ln
+    let bio = d
+    let linkedin = l
+    let facebook = f
+    let twitter = t
     var pic = this.props.pic;
     let preferences = false
     let picture = false
 
-    //console.log(firstname)
+    // console.log(bio)
     let that = this
     //console.log(firstname)
     if (lastname == null || firstname == null || lastname == '' || firstname == '') {
@@ -97,7 +115,7 @@ class SubmitButton extends Component {
   }
 
   bSubmit = () => {
-    this.setState({ willRedirect: 1 },()=>{this.buttonSubmit()})
+    this.setState({ willRedirect: 1 }, () => { this.buttonSubmit() })
   }
 
   render() {

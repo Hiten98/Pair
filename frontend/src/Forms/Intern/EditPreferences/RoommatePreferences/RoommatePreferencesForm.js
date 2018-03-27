@@ -63,7 +63,9 @@ class RoommatePreferencesForm extends Component{
       if (response.data.status == false) {
         console.log("Something went wrong :(")
       } else {
-        if (!that.state.change)
+        if(response.data.youguest=='undefined'){
+
+        } else if (!that.state.change)
           that.setState({
             youBringGuest: response.data.youguest,
             themBringGuest: response.data.themguest,

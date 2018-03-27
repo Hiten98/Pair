@@ -51,7 +51,9 @@ class HousingPreferencesForm extends Component {
       if (response.data.status == false) {
         console.log("Something went wrong :(")
       } else {
-        if (!that.state.change)
+        if(response.data.desiredPrice=='undefined'){
+
+        } else if (!that.state.change)
           that.setState({
             price: response.data.desiredPrice,
             roommates: response.data.desiredRoomate,

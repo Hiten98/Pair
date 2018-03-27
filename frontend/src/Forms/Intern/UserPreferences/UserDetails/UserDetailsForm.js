@@ -24,8 +24,8 @@ class UserDetailsForm extends Component {
       linkedin: '',
       facebook: '',
       twitter: '',
-      pic:'',
-      prevpic:'',
+      pic: '',
+      prevpic: '',
       changed: false,
     }
 
@@ -56,13 +56,31 @@ class UserDetailsForm extends Component {
     }).then(function (response) {
       //console.log(response.data)
       if (!that.state.changed) {
+        let fn = ''
+        if (response.data.firstName != 'undefined')
+          fn = response.data.firstName
+        let ln = ''
+        if (response.data.lastName != 'undefined')
+          ln = response.data.lastName
+        let d = ''
+        if (response.data.description != 'undefined')
+          d = response.data.description
+        let f = ''
+        if (response.data.fbLink != 'undefined')
+          f = response.data.fbLink
+        let t = ''
+        if (response.data.twitterLink != 'undefined')
+          t = response.data.twitterLink
+        let l = ''
+        if (response.data.linkedInLink != 'undefined')
+          l = response.data.linkedInLink
         that.setState({
-          firstname: response.data.firstName,
-          lastname: response.data.lastName,
-          bio: response.data.basic.description,
-          facebook: response.data.basic.fbLink,
-          twitter: response.data.basic.twitterLink,
-          linkedin: response.data.basic.linkedInLink,
+          firstname: fn,
+          lastname: ln,
+          bio: d,
+          facebook:f,
+          twitter: t,
+          linkedin: l,
         })
       }
     }).catch(function (error) {
@@ -73,7 +91,7 @@ class UserDetailsForm extends Component {
       "userID": this.props.uid
     }).then(function (response) {
       //console.log(response.data)
-      that.setState({prevpic:response.data.image})
+      that.setState({ prevpic: response.data.image })
     }).catch(function (error) {
       console.log(error);
     })
@@ -114,28 +132,28 @@ class UserDetailsForm extends Component {
     this.props.changeChanged(i)
   }
 
-  changePic=(i)=>{
-    this.setState({pic:i})
+  changePic = (i) => {
+    this.setState({ pic: i })
   }
 
   render() {
     return (
       <div>
-        <FirstName dv={this.state.firstname} firstNameChange={this.firstNameChange}  />
+        <FirstName dv={this.state.firstname} firstNameChange={this.firstNameChange} />
 
         <LastName dv={this.state.lastname} lastNameChange={this.lastNameChange} />
 
-        <Bio dv={this.state.bio} bioChange={this.bioChange}  />
+        <Bio dv={this.state.bio} bioChange={this.bioChange} />
 
-        <LinkedIn dv={this.state.linkedin} linkedInChange={this.linkedInChange}  />
+        <LinkedIn dv={this.state.linkedin} linkedInChange={this.linkedInChange} />
 
         <Facebook dv={this.state.facebook} facebookChange={this.facebookChange} />
 
         <Twitter dv={this.state.twitter} twitterChange={this.twitterChange} />
 
-        <PicUpload changePic={this.changePic} pic={this.state.pic} prevpic={this.state.prevpic}/>
+        <PicUpload changePic={this.changePic} pic={this.state.pic} prevpic={this.state.prevpic} />
 
-        <SubmitButtons {...this.state} uid={this.props.uid} changePage={this.props.changePage} changeChange={this.changeChanged} changeCompleted={this.props.changeCompleted}/>
+        <SubmitButtons {...this.state} uid={this.props.uid} changePage={this.props.changePage} changeChange={this.changeChanged} changeCompleted={this.props.changeCompleted} />
       </div>
     );
   }

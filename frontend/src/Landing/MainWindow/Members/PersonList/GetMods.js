@@ -20,7 +20,7 @@ class GetMods extends Component {
     //console.log(this.props.props.state.currChatName)
     // console.log(nextProps.props.state.currChatName)
     if (this.props.props.state.currChatName != nextProps.props.state.currChatName || this.props.props.state.needToUpdate != nextProps.props.state.needToUpdate) {
-      this.setState({ interns: [] })
+      this.setState({ mods: [] })
       //Gets users in chatroom
       this.callGetInterns(nextProps, this)
     }

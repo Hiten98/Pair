@@ -56,13 +56,31 @@ class UserDetailsForm extends Component {
     }).then(function (response) {
       //console.log(response.data)
       if (!that.state.changed) {
+        let fn = ''
+        if (response.data.firstName != 'undefined')
+          fn = response.data.firstName
+        let ln = ''
+        if (response.data.lastName != 'undefined')
+          ln = response.data.lastName
+        let d = ''
+        if (response.data.description != 'undefined')
+          d = response.data.description
+        let f = ''
+        if (response.data.fbLink != 'undefined')
+          f = response.data.fbLink
+        let t = ''
+        if (response.data.twitterLink != 'undefined')
+          t = response.data.twitterLink
+        let l = ''
+        if (response.data.linkedInLink != 'undefined')
+          l = response.data.linkedInLink
         that.setState({
-          firstname: response.data.firstName,
-          lastname: response.data.lastName,
-          bio: response.data.basic.description,
-          facebook: response.data.basic.fbLink,
-          twitter: response.data.basic.twitterLink,
-          linkedin: response.data.basic.linkedInLink,
+          firstname: fn,
+          lastname: ln,
+          bio: d,
+          facebook:f,
+          twitter: t,
+          linkedin: l,
         })
       }
     }).catch(function (error) {
