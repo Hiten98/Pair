@@ -14,7 +14,7 @@ import ThemBringPet from '../../UserPreferences/RoommatePreferences/ThemBringPet
 import RoommateSubmitButtons from './RoommateSubmitButtons'
 //import './RoommatePreferencesForm.css'
 
-axios.defaults.baseURL='http://localhost:9090'
+axios.defaults.baseURL='https://glacial-spire-77473.herokuapp.com/'
 
 //NEEDS TESTING
 

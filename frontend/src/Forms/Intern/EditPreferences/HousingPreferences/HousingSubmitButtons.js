@@ -5,7 +5,7 @@ import history from '../../../../history'
 import axios from 'axios'
 import '../RoommatePreferences/RoommateSubmitButtons.css';
 
-axios.defaults.baseURL = "localhost:9090";
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 //import './HousingSubmitButtons.css';
 
 //Needs testing after hiten fixes things
