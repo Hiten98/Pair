@@ -166,7 +166,7 @@ class ProfileHeader extends Component {
     if (this.props.props.type == 'employee')
       history.push('/register/employee/edit-profile')
     else if (this.props.props.type == 'intern')
-      history.push('/register/intern/preferences/user-details')
+      history.push('/register/intern/edit-profile/user-details')
   }
 
   secondLine = () => {
@@ -175,7 +175,7 @@ class ProfileHeader extends Component {
     if (this.props.uid == this.props.currProfile) {
       amt += 4
       thing.push(
-        <Col xs={4}>
+        <Col xs={4} key={1}>
           <RaisedButton secondary label="Edit Profile" onClick={this.editProfile} className='links' />
         </Col>
       )
@@ -187,7 +187,7 @@ class ProfileHeader extends Component {
     if (this.props.props.state.currChatName.charAt(0) == 3 && this.props.currProfile != this.props.uid) {
       amt += 6
       thing.push(
-        <Col xs={6} style={{ textAlign: 'right' }}>
+        <Col xs={6} style={{ textAlign: 'right' }} key={3}>
           <RaisedButton
             label='Remove from Group Chat'
             onClick={this.leaveChat}
@@ -198,7 +198,7 @@ class ProfileHeader extends Component {
     }
 
     if (amt < 12) {
-      thing.push(<Col xs={12 - amt}></Col>)
+      thing.push(<Col xs={12 - amt} key={4}></Col>)
     }
     return thing
   }

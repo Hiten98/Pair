@@ -7,10 +7,10 @@ class Bedtime extends Component {
   render() {
     let items = []
     for (let i = 1; i <= 12; i++) {
-      items.push(<MenuItem value={i} key={i} primaryText={`${i} AM`} />)
+      items.push(<MenuItem value={`${i}`} key={i} primaryText={`${i} AM`} />)
     }
     for (let i = 13; i <= 24; i++) {
-      items.push(<MenuItem value={i} key={i} primaryText={`${i - 12} PM`} />)
+      items.push(<MenuItem value={`${i}`} key={i} primaryText={`${i - 12} PM`} />)
     }
     
     return (
