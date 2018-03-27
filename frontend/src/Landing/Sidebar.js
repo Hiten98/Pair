@@ -60,13 +60,13 @@ class Sidebar extends Component {
         chatroomName: name
       }).then(function (response) {
         // console.log(response.data)
-        if (response.data.invite_status == true) {
+        if (response.data.invite_status) {
           let tempArr = that.state.colors
           tempArr[parseInt(that.props.state.currChat)] = null
           tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
           that.setState({ colors: tempArr }, that.changeColors)
           that.props.changeChat(parseInt(i), name, type)
-        } else {
+        } else if (response.data.invite_status==false) {
           that.setState({ open: true, chatToAccept: name, index: i, type: type })
         }
       }).catch(function (error) {
