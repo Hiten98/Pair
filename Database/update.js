@@ -145,7 +145,6 @@
                 });
             });
         });
-
     }
 
     function removeEmployee(employeeRef, chatRoomRef, companyRef, ID) {

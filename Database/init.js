@@ -25,22 +25,15 @@
     var groupChatRoomRef = ref.child("ChatRooms/Group");
     var privateChatRoomRef = ref.child("ChatRooms/Private");
 
-    // addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "hey guys");
-    // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "th is message")', 1000);
-    // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "th is messagener sd r one")', 2000);
-    // setTimeout('addMessageToChat(groupChatRoomRef, "3Dogs and Doges", "the")', 3000);
-
-    // removeFromChat(groupChatRoomRef, internRef, "3chat4", 1761);
-    // addToGroupChat(groupChatRoomRef, internRef, 1822, "3newChat ?");
-    // updateEmployeeChatDetails(chatRoomRef, employeeRef, 2436);
-
-    // createEmployeeChat(privateChatRoomRef, internRef, employeeRef, 1761, 2436, "Student", (x) => {
-    //     document.write(x);
-    // });
-
     removeIntern(internRef, chatRoomRef, 1480);
 
+    getInvite(groupChatRoomRef, "3chatName2", 1001, (x) => {
+        document.write(x);
+    });
 
+    createEmployeeChat(privateChatRoomRef, internRef, employeeRef, 1115, 2436, "AASDF", (x) => {
+        document.write(x);
+    });
 
 
 

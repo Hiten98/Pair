@@ -258,7 +258,7 @@
 				});
 				/*update.*/getSnapshot(internRef, ID1, "listOfChatRooms", 4 + name);
 				/*update.*/getSnapshot(internRef, ID2, "listOfChatRooms", 4 + name);
-				privateChatRoomRef.child(name).child("listOfInvites").update({
+				privateChatRoomRef.child(4 + name).child("listOfInvites").update({
 					[ID2]: false
 				});
 				callback(true);
@@ -295,7 +295,7 @@
 				});
 				/*update.*/getSnapshot(internRef, ID1, "listOfChatRooms", 4 + name);
 				/*update.*/getSnapshot(employeeRef, ID2, "listOfChatRooms", 4 + name);
-				privateChatRoomRef.child(name).child("listOfInvites").update({
+				privateChatRoomRef.child(4 + name).child("listOfInvites").update({
 					[ID2]: false
 				});
 				callback(true);

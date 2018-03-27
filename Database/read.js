@@ -343,7 +343,7 @@
 
 	function getInvite(chatRoomRef, name, ID, callback) {
 		chatRoomRef.child(name).child("listOfInvites").child(ID).once("value").then(function(snapshot) {
-			callback(snapshot.val);
+			callback(snapshot.val());
 		});
 	}
 
