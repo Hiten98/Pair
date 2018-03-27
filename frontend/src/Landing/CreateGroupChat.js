@@ -13,7 +13,7 @@ class CreateGroupChat extends Component {
       chatName: '',
       sopen: false,
     }
-    console.log(props)
+    // console.log(props)
   }
 
   ifDisabled=[{disabled:true},null]

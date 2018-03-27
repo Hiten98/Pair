@@ -16,7 +16,7 @@ class RemoveInternGroup extends Component {
       name:'',
       pname:'',
     }
-    console.log(props)
+    // console.log(props)
   }
 
   componentWillReceiveProps = (nextProps) => {

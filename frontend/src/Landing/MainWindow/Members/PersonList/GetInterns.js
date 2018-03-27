@@ -42,17 +42,19 @@ class GetInterns extends Component {
   }
 
   callGetInterns = (props, that) => {
+    if(props.props.state.currChatName=='')
+      return
     axios.post('/GET-USERS-IN-CHATROOM', {
       "chatroomName": props.props.state.currChatName,
     }).then(function (response) {
+      // console.log(response.data)
+      // console.log(props.props.state.currChatName)
       let tempintern = []
       let tempUid = []
-      // if (props.props.state.currChatName.charAt(0) == 1)
-      //   tempintern.push(<Paper zDepth={2} key={-1} className='paper-list title-list' style={{backgroundColor:'#50C2C4'}}><h4>Interns</h4></Paper>)
-      let profileAdj = 2
+      let profileAdj = 200
       for (let i in response.data) {
         let splitted = response.data[i].split('$:$')
-        if (splitted[1] == '' || splitted[1] == 'undefined') {
+        if (splitted[1] == '' || splitted[1] == 'undefined'||splitted[1]=='undefined undefined') {
           continue
         }
         if (splitted[0] == props.props.uid) {
@@ -81,21 +83,21 @@ class GetInterns extends Component {
         }
 
         tempintern.push(
-          <Paper zDepth={2} key={i} className='paper-list'>
+          <Paper zDepth={2} key={parseInt(i) + tempProfileAdj} className='paper-list'>
             <ListItem
               {...args}
-              {...that.state.colors[parseInt(i) + tempProfileAdj + props.modNum]}
+              {...that.state.colors[parseInt(i) + tempProfileAdj]}
               primaryText={splitted[1]}
               secondaryText={<p>{bio}</p>}
               secondaryTextLines={1}
               hoverColor='#F95498B0'
-              onClick={() => { that.handleClick(parseInt(i) + tempProfileAdj + props.modNum, splitted[0]) }}
+              onClick={() => { that.handleClick(parseInt(i) + tempProfileAdj, splitted[0]) }}
             />
           </Paper>
         )
         tempUid.push(splitted[0])
       }
-      that.setState({ interns: tempintern, uidList: tempUid }, () => { that.getScores(props, that, tempintern) })
+      that.setState({ interns: tempintern,uidList:tempUid}, () => { that.getScores(props, that, tempintern) })
     }).catch(function (error) {
       console.log(error);
     })
@@ -109,39 +111,28 @@ class GetInterns extends Component {
         userID2: that.state.uidList,
       }).then(function (response) {
         console.log(response.data)
+        console.log(tempintern)
         let tempArr = []
         let score = null
-        let profileAdj = 0
-        // let colorAdj=0
-        // if (props.props.state.currChatName.charAt(0) == 1){
-        //   profileAdj = 2
-        //   colorAdj=3
-        // }else{
-          profileAdj = 1
-        //   colorAdj=2
-        // }
-        let tempProfileAdj=profileAdj
-        // let tempColorAdj=colorAdj
-        // if (props.props.state.currChatName.charAt(0) == 1)
-        //   tempArr.push(tempintern[0])
+
         for (let i in response.data.score) {
           if (parseInt(response.data.score[i]) > 80) {
-            score = <div><span style={{ color: lightGreenA700 }}>{response.data.score[i]}% match &nbsp;</span> {tempintern[parseInt(i) + tempProfileAdj-1].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: lightGreenA700 }}>{response.data.score[i]}% match &nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
           } else if (parseInt(response.data.score[i]) > 50) {
-            score = <div><span style={{ color: yellow800 }}>{response.data.score[i]}% match&nbsp; </span> {tempintern[parseInt(i) + tempProfileAdj-1].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: yellow800 }}>{response.data.score[i]}% match&nbsp; </span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
           } else {
-            score = <div><span style={{ color: red500 }}>{response.data.score[i]}% match&nbsp;</span> {tempintern[parseInt(i) + tempProfileAdj-1].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: red500 }}>{response.data.score[i]}% match&nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
           }
           tempArr.push(
-            <Paper zDepth={2} key={i} className='paper-list'>
+            <Paper zDepth={2} key={tempintern[i].key} className='paper-list'>
               <ListItem
-                leftAvatar={tempintern[parseInt(i) + tempProfileAdj-1].props.children.props.leftAvatar}
-                primaryText={tempintern[parseInt(i) + tempProfileAdj-1].props.children.props.primaryText}
+                leftAvatar={tempintern[parseInt(i)].props.children.props.leftAvatar}
+                primaryText={tempintern[parseInt(i) ].props.children.props.primaryText}
                 secondaryText={score}
                 secondaryTextLines={1}
-                onClick={tempintern[parseInt(i) + tempProfileAdj-1].props.children.props.onClick}
+                onClick={tempintern[parseInt(i) ].props.children.props.onClick}
                 hoverColor='#F95498B0'
-                {...that.state.colors[parseInt(i) + tempProfileAdj + that.props.modNum]}
+                {...that.state.colors[tempintern[i].key]}
               />
             </Paper>
           )
@@ -175,7 +166,7 @@ class GetInterns extends Component {
         if (response.data[i].firstName == 'undefined')
           continue
         tempArr.push(
-          <Paper zDepth={2} key={k} className='paper-list'>
+          <Paper zDepth={2} key={parseInt(k) + 1} className='paper-list'>
             <ListItem
               primaryText={`${response.data[i].firstName} ${response.data[i].lastName}`}
               onClick={() => { that.handleClick(parseInt(k) + 1, i) }}
@@ -192,22 +183,9 @@ class GetInterns extends Component {
   changeColors = () => {
     let that = this
     let tempArr = []
-    let profileAdj = 0
-    // if (this.props.props.state.currChatName.charAt(0) == 1)
-    //   profileAdj = 1
-    // else
-      profileAdj = 1
-    let tempProfileAdj=profileAdj
     for (let i in this.state.interns) {
-      // if (this.props.props.state.currChatName.charAt(0) == 1) {
-      //   if (i == 0) {
-      //     tempArr.push(this.state.interns[0])
-      //     continue
-      //   }
-      // }
-      // console.log(this.state.interns)
       tempArr.push(
-        <Paper zDepth={2} key={i} className='paper-list'>
+        <Paper zDepth={2} key={this.state.interns[i].key} className='paper-list'>
           <ListItem
             leftAvatar={this.state.interns[i].props.children.props.leftAvatar}
             primaryText={this.state.interns[i].props.children.props.primaryText}
@@ -215,7 +193,7 @@ class GetInterns extends Component {
             secondaryTextLines={1}
             onClick={this.state.interns[i].props.children.props.onClick}
             hoverColor='#F95498B0'
-            {...that.state.colors[parseInt(i) + tempProfileAdj + that.props.modNum]}
+            {...that.state.colors[this.state.interns[i].key]}
           />
         </Paper>
       )
@@ -232,8 +210,21 @@ class GetInterns extends Component {
     this.props.props2.changeSelected(id, i)
   }
 
+  internReturn=()=>{
+    if(this.props.props.state.currChatName.charAt(0) == 1&&this.state.interns.length>0){
+      return(
+        <div>
+          <Paper zDepth={2} key={-1} className='paper-list title-list' style={{backgroundColor:'#50C2C4'}}><h4>Interns</h4></Paper>
+          {this.state.interns}
+        </div>
+      )
+    } else {
+      return (this.state.interns)
+    }
+  }
+
   render() {
-    return (this.state.interns);
+    return (this.internReturn());
   }
 }
 
