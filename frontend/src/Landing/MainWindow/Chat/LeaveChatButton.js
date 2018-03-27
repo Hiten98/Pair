@@ -13,7 +13,7 @@ class LeaveChatButton extends Component {
       sopen:false,
       pChat:'',
     }
-    console.log(props)
+    // console.log(props)
   }
 
   componentWillReceiveProps = (nextProps) => {

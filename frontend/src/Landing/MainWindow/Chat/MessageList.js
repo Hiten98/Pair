@@ -25,7 +25,7 @@ class MessageList extends Component {
       newMessage: false
     };
     this.interval = setInterval(this.tick, 500);
-    console.log(props)
+    // console.log(props)
   }
 
   componentWillUnmount = () => {
