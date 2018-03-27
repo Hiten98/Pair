@@ -34,10 +34,11 @@
     // addToGroupChat(groupChatRoomRef, internRef, 1822, "3newChat ?");
     // updateEmployeeChatDetails(chatRoomRef, employeeRef, 2436);
 
-    createEmployeeChat(privateChatRoomRef, internRef, employeeRef, 1761, 2436, "Student", (x) => {
-        document.write(x);
-    });
+    // createEmployeeChat(privateChatRoomRef, internRef, employeeRef, 1761, 2436, "Student", (x) => {
+    //     document.write(x);
+    // });
 
+    removeIntern(internRef, chatRoomRef, 1480);
 
 
 

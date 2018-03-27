@@ -19,7 +19,8 @@
 		compareInterns,
 		getImage,
 		getAdmin,
-		getInvite
+		getInvite,
+		verifyUserChatroom
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -344,4 +345,31 @@
 		chatRoomRef.child(name).child("listOfInvites").child(ID).once("value").then(function(snapshot) {
 			callback(snapshot.val);
 		});
+	}
+
+	function verifyUserChatroom(relevantRef, ID, name, callback) {
+	    var flag = false;
+	    if(ID.charAt(0) == '1') {
+			relevantRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
+		    	snapshot.forEach(function(childSnapshot) {
+		        	if(childSnapshot.val().startsWith(ID)) {
+		            	flag = true;
+		            }
+		        });
+				callback(flag);
+			});
+	    }
+	    else if(ID.charAt(0) == '2' && name.charAt(0) == '1') {
+			relevantRef.child(name).child("listOfMods").once("value").then(function(snapshot) {
+				snapshot.forEach(function(childSnapshot) {
+	            	if(childSnapshot.val().startsWith(ID)) {
+						flag = true;
+	            	}
+	            });
+	        	callback(flag);
+	    	});
+	    }
+	    else {
+			callback(false);
+	    }
 	}

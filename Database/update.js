@@ -114,32 +114,38 @@
     }
 
     function removeIntern(internRef, chatRoomRef, ID) {
+        var rooms = [];
 		internRef.child(ID).child("listOfChatRooms").once("value").then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                var ref;
-                if(childSnapshot.val()[0] == 1)
+                rooms.push(childSnapshot.val());
+            });
+            internRef.child(ID).remove();
+            var ref;
+            rooms.forEach(function(entry) {
+                if(entry[0] == 1)
                     ref = chatRoomRef.child("Company");
-                else if(childSnapshot.val()[0] == 2)
+                else if(entry[0] == 2)
                     ref = chatRoomRef.child("Location");
-                else if(childSnapshot.val()[0] == 3)
+                else if(entry[0] == 3)
                     ref = chatRoomRef.child("Group");
-                else if(childSnapshot.val()[0] == 4)
+                else if(entry[0] == 4)
                     ref = chatRoomRef.child("Private");
-                ref.child(childSnapshot.val()).child("listOfUsers").once("value").then(function(babySnapshot) {
-                    var i = 0;
+                ref.child(entry).child("listOfInvites").child(ID).remove();
+                ref.child(entry).child("listOfUsers").once("value").then(function(babySnapshot) {
+                    var j = 0;
                     babySnapshot.forEach(function(infantSnapshot) {
-                        i++;
-                        if(infantSnapshot.val()[0] == ID[0] && infantSnapshot.val()[1] == ID[1] && infantSnapshot.val()[2] == ID[2] && infantSnapshot.val()[3] == ID[3]) {
-                            ref.child(childSnapshot.val()).child("listOfUsers").child(infantSnapshot.key).remove();
+                        j++;
+                        if(infantSnapshot.val().startsWith(ID)) {
+                            ref.child(entry).child("listOfUsers").child(infantSnapshot.key).remove();
                         }
                     });
-                    if(i <= 1) {
-                        ref.child(childSnapshot.val()).remove();
+                    if(j <= 1) {
+                        ref.child(entry).remove();
                     }
-                    internRef.child(ID).remove();
                 });
             });
         });
+
     }
 
     function removeEmployee(employeeRef, chatRoomRef, companyRef, ID) {
@@ -167,6 +173,7 @@
                 }
             });
         });
+        chatRoomRef.child(name).child("listOfInvites").child(ID).remove();
         internRef.child(ID).child("listOfChatRooms").once("value").then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 if(childSnapshot.val() == name) {
