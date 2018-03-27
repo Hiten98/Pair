@@ -84,11 +84,17 @@
     verifyCompany(companyRef, "head@carrot.com", "something", (x) => {
         document.write(x);
     })
-    
+
     addToLocationChat(locationChatRoomRef, internRef, "Up here", 1480);
     createPrivateChat(privateChatRoomRef, internRef, 1822, 1761, "Old school club", (x) => {
         document.write(x);
     });
+
+    getAdmin(adminRef, (x) => {
+        document.write(JSON.stringify(x));
+    });
+
+    
 
 
 
