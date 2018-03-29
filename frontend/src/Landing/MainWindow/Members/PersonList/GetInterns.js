@@ -169,19 +169,20 @@ class GetInterns extends Component {
       userID: this.props.props.uid
     }).then(function (response) {
       // console.log(response.data)
-      let k = 0
+      let k = 200
       for (let i in response.data) {
         if (response.data[i].firstName == 'undefined')
           continue
         tempArr.push(
-          <Paper zDepth={2} key={parseInt(k) + 1} className='paper-list'>
+          <Paper zDepth={2} key={parseInt(k) + parseInt(i)} className='paper-list'>
             <ListItem
               primaryText={`${response.data[i].firstName} ${response.data[i].lastName}`}
-              onClick={() => { that.handleClick(parseInt(k) + 1, i) }}
+              onClick={() => { that.handleClick(parseInt(k)+parseInt(i), i) }}
+              {...that.state.colors[parseInt(i) + parseInt(k)]}
+              hoverColor='#F95498B0'
             />
           </Paper>
         )
-        k++
       }
       that.setState({ interns: tempArr })
     }).catch(function (error) {
