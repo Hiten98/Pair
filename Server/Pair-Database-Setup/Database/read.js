@@ -1,5 +1,5 @@
 
-	module.exports = {
+	/*module.exports = {
 		getMasterListOfInterns,
 		getCompanyFromPin,
 		getCompanyFromName,
@@ -20,8 +20,8 @@
 		getImage,
 		getAdmin,
 		getInvite,
-    verifyUserChatroom
-	}
+		verifyUserChatroom
+	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
 		var master = {};
@@ -260,9 +260,9 @@
 		relevantRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				list[i] = childSnapshot.val();
-        i++;
+				i++;
 			});
-      callback(list);
+			callback(list);
 		});
 	}
 
@@ -272,47 +272,11 @@
 		companyChatRoomRef.child(name).child("listOfMods").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				list[i] = childSnapshot.val();
-        i++;
+				i++;
 			});
-      callback(list);
-    })
+			callback(list);
+		});
 	}
-
-  function verifyUserChatroom(relevantRef, ID, name, callback) {
-    var flag = false;
-    if(ID.charAt(0) == '1') {
-      relevantRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
-			     snapshot.forEach(function(childSnapshot) {
-             if(childSnapshot.val().startsWith(ID)) {
-               flag = true;
-             }
-         });
-         callback(flag);
-      });
-    }
-    else if(ID.charAt(0) == '2' && name.charAt(0) == '1'){
-      relevantRef.child(name).child("listOfMods").once("value").then(function(snapshot) {
-			     snapshot.forEach(function(childSnapshot) {
-             if(childSnapshot.val().startsWith(ID)) {
-               flag = true;
-             }
-         });
-         callback(flag);
-      });
-    } else if(ID.charAt(0) == '2' && name.charAt(0) == '4'){
-      relevantRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
-			     snapshot.forEach(function(childSnapshot) {
-             if(childSnapshot.val().startsWith(ID)) {
-               flag = true;
-             }
-         });
-         callback(flag);
-      });
-    }
-    else {
-      callback(false);
-    }
-  }
 
 	function compareTwoInterns(internRef, ID1, ID2, callback) {
 		var score = 0;
@@ -381,4 +345,41 @@
 		chatRoomRef.child(name).child("listOfInvites").child(ID).once("value").then(function(snapshot) {
 			callback(snapshot.val());
 		});
+	}
+
+	function verifyUserChatroom(relevantRef, ID, name, callback) {
+	    var flag = false;
+	    if(ID.charAt(0) == '1') {
+			relevantRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
+		    	snapshot.forEach(function(childSnapshot) {
+		        	if(childSnapshot.val().startsWith(ID)) {
+		            	flag = true;
+		            }
+		        });
+				callback(flag);
+			});
+	    }
+	    else if(ID.charAt(0) == '2' && name.charAt(0) == '1') {
+			relevantRef.child(name).child("listOfMods").once("value").then(function(snapshot) {
+				snapshot.forEach(function(childSnapshot) {
+	            	if(childSnapshot.val().startsWith(ID)) {
+						flag = true;
+	            	}
+	            });
+	        	callback(flag);
+	    	});
+	    }
+	    else if(ID.charAt(0) == '2' && name.charAt(0) == '4') {
+			relevantRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
+				snapshot.forEach(function(childSnapshot) {
+	            	if(childSnapshot.val().startsWith(ID)) {
+						flag = true;
+	            	}
+	            });
+	        	callback(flag);
+	    	});
+	    }
+	    else {
+			callback(false);
+	    }
 	}
