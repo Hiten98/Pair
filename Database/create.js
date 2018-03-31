@@ -22,7 +22,7 @@
 	//var update = require('./update.js');
 	//var create = require('./create.js');
 
-	function createCompany(companyRef, companyName, email, password, listOfLocations = "novalue", listOfEmployees = []) {
+	function createCompany(adminRef, companyRef, companyName, email, password, listOfLocations = "novalue", listOfEmployees = []) {
       companyRef.update({
         [companyName]: "novalue"
       });
@@ -31,9 +31,11 @@
         "pin": pin,
         "email": email,
         "password": password,
-        "listOfLocations": listOfLocations,
-        "listOfEmployees": listOfEmployees
+        "listOfLocations": [listOfLocations],
+        "listOfEmployees": [listOfEmployees],
+        "verified": false
       });
+      /*update.*/getSnapshot(adminRef, 4000, "listOfCompanies", companyName);
     }
 
     function createIntern(internRef, id, email, company, location = "novalue") {

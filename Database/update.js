@@ -13,10 +13,12 @@
         removeComplaint,
         updateInternChatDetails,
         updateEmployeeChatDetails,
-        acceptInvite
+        acceptInvite,
+        verifyCompany,
+        denyCompany
     }*/
 
-    // var update = ('./update.js');
+    //var update = require('./update.js');
 
 	/*
     / @brief this function retrieves the already existent
@@ -275,6 +277,28 @@
     function acceptInvite(chatRoomRef, name, ID) {
         chatRoomRef.child(name).child("listOfInvites").update({
             [ID]: true
+        });
+    }
+
+    function verifyCompany(adminRef, companyRef, name) {
+        companyRef.child(name).update({
+            "verified": true
+        });
+        adminRef.child(4000).child("listOfCompanies").once("value").then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                if(childSnapshot.val() == name)
+                    adminRef.child(4000).child("listOfCompanies").child(childSnapshot.key).remove();
+            });
+        });
+    }
+
+    function denyCompany(adminRef, companyRef, name) {
+        companyRef.child(name).remove();
+        adminRef.child(4000).child("listOfCompanies").once("value").then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                if(childSnapshot.val() == name)
+                    adminRef.child(4000).child("listOfCompanies").child(childSnapshot.key).remove();
+            });
         });
     }
 

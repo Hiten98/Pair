@@ -25,23 +25,11 @@
     var groupChatRoomRef = ref.child("ChatRooms/Group");
     var privateChatRoomRef = ref.child("ChatRooms/Private");
 
-    removeIntern(internRef, chatRoomRef, 1480);
+    // updateInternChatDetails(chatRoomRef, internRef, 1838);
+    // createGroupChat(groupChatRoomRef, internRef, 1264, "Science Talk", (x) => {
+    //     console.log(x);
+    // })
 
-    getInvite(groupChatRoomRef, "3chatName2", 1001, (x) => {
-        document.write(x);
-    });
-
-    createEmployeeChat(privateChatRoomRef, internRef, employeeRef, 1115, 2436, "AASDF", (x) => {
-        document.write(x);
-    });
-
-
+    // removeIntern(internRef, chatRoomRef, 1449)
 
     
-
-
-
-
-
-
-

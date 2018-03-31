@@ -57,6 +57,7 @@
 					childSnapshot.child("listOfEmployees").forEach(function(babySnapshot) {
 						json["employees"][babySnapshot.key] = babySnapshot.val();
 					});
+					json["verified"] = childSnapshot.val().verified;
 				}
 			});
 			callback(json);
@@ -77,6 +78,7 @@
 			snapshot.child("listOfEmployees").forEach(function(childSnapshot) {
 				json["employees"][childSnapshot.key] = childSnapshot.val();
 			});
+			json["verified"] = childSnapshot.val().verified;
 			callback(json);
 		});
 	}
@@ -361,6 +363,16 @@
 	    }
 	    else if(ID.charAt(0) == '2' && name.charAt(0) == '1') {
 			relevantRef.child(name).child("listOfMods").once("value").then(function(snapshot) {
+				snapshot.forEach(function(childSnapshot) {
+	            	if(childSnapshot.val().startsWith(ID)) {
+						flag = true;
+	            	}
+	            });
+	        	callback(flag);
+	    	});
+	    }
+	    else if(ID.charAt(0) == '2' && name.charAt(0) == '4') {
+			relevantRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
 				snapshot.forEach(function(childSnapshot) {
 	            	if(childSnapshot.val().startsWith(ID)) {
 						flag = true;
