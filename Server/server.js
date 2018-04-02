@@ -75,6 +75,15 @@ var locationChatRoomRef = db.ref("/ChatRooms/Location");
 var companyChatRoomRef = db.ref("/ChatRooms/Company");
 var adminRef = db.ref("/Admin");
 
+//set up zillow:
+var Zillow = require('node-zillow');
+//Instantiate
+var zillow = new Zillow('X1-ZWz18orikj65mz_8s1xw', options);
+//set Parameters:
+var parameters = {
+  zpid: 1111111
+};
+
 //test-function
 function test() {
   //create an intern
