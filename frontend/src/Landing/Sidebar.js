@@ -25,6 +25,7 @@ class Sidebar extends Component {
       index: '',
       type: '',
     }
+    // console.log(props)
   }
 
   stylePressed = '#EB347F'
@@ -60,13 +61,13 @@ class Sidebar extends Component {
         chatroomName: name
       }).then(function (response) {
         // console.log(response.data)
-        if (response.data.invite_status) {
+        if (response.data.invite_status!=false) {
           let tempArr = that.state.colors
           tempArr[parseInt(that.props.state.currChat)] = null
           tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
           that.setState({ colors: tempArr }, that.changeColors)
           that.props.changeChat(parseInt(i), name, type)
-        } else if (response.data.invite_status==false) {
+        } else if (response.data.invite_status) {
           that.setState({ open: true, chatToAccept: name, index: i, type: type })
         }
       }).catch(function (error) {
@@ -213,7 +214,7 @@ class Sidebar extends Component {
 
         <InviteChat {...this.props} {...this.state} closeModal={this.closeModal} acceptedChat={this.acceptedChat} />
 
-        {(history.location.pathname.indexOf('/landing/company') != 0) ? <CreateGroupChat {...this.props} /> : <div></div>}
+        {(this.props.type != "admin" && this.props.type != "company") ? <CreateGroupChat {...this.props} /> : <div></div>}
       </Col>
     );
   }

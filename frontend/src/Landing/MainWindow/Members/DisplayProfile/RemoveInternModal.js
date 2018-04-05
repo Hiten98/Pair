@@ -7,7 +7,7 @@ import axios from 'axios'
 class LandingScreen extends Component {
   constructor(props){
     super(props)
-    console.log(props)
+    // console.log(props)
   }
 
   removeIntern=()=>{

@@ -42,9 +42,9 @@ class Menu extends Component {
     return (
       <div>
         <IconMenu iconButtonElement={<IconButton><img className='hamburger-menu-img' src={bars} alt='hamburger menu'/></IconButton>}>
-          <MenuItem onClick={this.goToProfile} primaryText='Profile' />
+          {(this.props.type!="admin" && this.props.type!="company")?<div><MenuItem onClick={this.goToProfile} primaryText='Profile' />
           <MenuItem onClick={this.changePass} primaryText='Change Password' />
-          <MenuItem onClick={this.deleteAccount} primaryText='Delete account'/>
+          <MenuItem onClick={this.deleteAccount} primaryText='Delete account'/></div>:<div></div>}
           <MenuItem onClick={this.signOut} primaryText='Sign Out' />
         </IconMenu>
         <DeleteAccountModal deleteOpen={this.state.deleteOpen} deleteAccount={this.deleteAccount} uid={this.props.uid}/>
