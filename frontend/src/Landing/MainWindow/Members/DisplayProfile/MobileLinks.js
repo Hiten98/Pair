@@ -34,7 +34,7 @@ class Links extends Component {
 
   render() {
     return (
-      <Row className='row-div'>
+      <Row className='row-div' style={{ marginBottom: '2vh' }}>
         {(this.props.linkedin != null || this.props.facebook != null || this.props.twitter != null) ? <h3>Social:</h3> : <div></div>}
         {this.displayLink('linkedin')}
         {this.displayLink('facebook')}

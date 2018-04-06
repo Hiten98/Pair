@@ -18,12 +18,7 @@ class DeleteAccountModal extends Component {
   }
 
   handleClose = () => {
-    try {
-      localStorage.removeItem('app')
-    } catch (err) {
-      //console.log('This browser does not allow localstorage and some functionalities may be impacted')
-    }
-    history.go(0)
+    this.props.deleteAccount()
   }
 
   handleRequestClose = () => {
@@ -38,6 +33,12 @@ class DeleteAccountModal extends Component {
     }).then((response) => {
       //console.log(response.data)
       if (response.data.status) {
+        try {
+          localStorage.removeItem('app')
+        } catch (err) {
+          //console.log('This browser does not allow localstorage and some functionalities may be impacted')
+        }
+        history.go(0)
         that.setState({ sopen: true },that.handleClose)
         
       } else {

@@ -82,14 +82,14 @@ class DisplayProfile extends Component {
           userID2: tempUid,
         }).then(function (response) {
           let score = ''
-          if (parseInt(response.data.score[0]) > 80) {
+          if (parseInt(response.data.score[0]) > 66) {
             score = <span style={{ color: lightGreenA700, fontSize: '20px', }}>{response.data.score[0]}% match </span>
-          } else if (parseInt(response.data.score[0]) > 50) {
+          } else if (parseInt(response.data.score[0]) > 33) {
             score = <span style={{ color: yellow800, fontSize: '20px', }}>{response.data.score[0]}% match </span>
-          } else if (parseInt(response.data.score[0]) > 0) {
+          } else if (parseInt(response.data.score[0]) >= 0) {
             score = <span style={{ color: red500, fontSize: '20px', }}>{response.data.score[0]}% match </span>
           } else {
-            console.log("Will");
+            // console.log("Will");
             score = <span style={{ color: red500, fontSize: '20px', }}>{0}% match </span>
           }
           that.setState({ match: score })
@@ -151,12 +151,12 @@ class DisplayProfile extends Component {
 
   returnMobile = () => {
     return (
-      <div className='entire-profile'>
+      <div className='entire-profile mobile'>
         <MobileProfileHeader {...this.props} {...this.state} updateProfile={this.updateProfile} />
 
         <MobileCompanyInformation {...this.props} {...this.state} updateProfile={this.updateProfile} />
 
-        {(this.state.bio != 'undefined') ? <Row className='row-div'><h3>Bio:</h3> <p>{this.state.bio}</p></Row> : <div></div>}
+        {(this.state.bio != 'undefined') ? <Row><h3>Bio:</h3> <p>{this.state.bio}</p></Row> : <div></div>}
 
         <MobileLinks {...this.props} {...this.state} updateProfile={this.updateProfile} />
       </div>

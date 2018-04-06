@@ -14,6 +14,17 @@
   overflow-x: hidden;
 }
 
+.entire-profile.mobile{
+  text-align: left;
+  margin-left: 1vw;
+  margin-top: 1vh;
+  padding-left:5vw;
+  padding-right: 6vw;
+  padding-top:1vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .row-div{
   margin-top:20px;
 }

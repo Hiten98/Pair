@@ -19,7 +19,7 @@ class People extends Component {
       colors: tempArr,
       myProfile: [],
       myURL: '',
-      navDrawer: true,
+      personDrawer: false,
     }
   }
 
@@ -59,6 +59,7 @@ class People extends Component {
       this.setState({ colors: tempArr }, this.changeColors)
     }
     if (this.props.props.state.currChatName != nextProps.props.state.currChatName) {
+      this.changeNavDrawer()
       this.handleClick(0, this.props.props.uid)
     }
   }
@@ -95,7 +96,7 @@ class People extends Component {
   }
 
   changeNavDrawer = () => {
-    this.setState({ navDrawer: !this.state.navDrawer })
+    this.setState({ personDrawer: !this.state.personDrawer })
   }
 
   returnDesktop() {
@@ -131,11 +132,11 @@ class People extends Component {
     return (
       <div>
         <Drawer
-          open={this.state.navDrawer}
+          open={this.state.personDrawer}
           docked={false}
           disableSwipeToOpen
           openSecondary
-          onRequestChange={() => { this.setState({ navDrawer: false }) }}
+          onRequestChange={() => { this.setState({ personDrawer: false }) }}
         >
           <List>
             {this.state.myProfile}
@@ -144,8 +145,8 @@ class People extends Component {
           </List>
         </Drawer>
         <ListItem
-          primaryText="ChangePerson"
-          onClick={() => { this.setState({ navDrawer: true }) }}
+          primaryText="Change Person"
+          onClick={() => { this.setState({ personDrawer: true }) }}
           style={{ position: 'absolute', bottom: '2vh', }}
         />
       </div>

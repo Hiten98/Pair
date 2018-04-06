@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
 import MenuTop from './Menu'
+import MobileMenu from './MobileMenu'
 import './Toolbar.css';
 import { RaisedButton, Tabs, Tab, Toolbar, ToolbarGroup, DropDownMenu, MenuItem, IconMenu, IconButton, AppBar, Drawer, Menu, Paper, ListItem } from 'material-ui';
 import history from '../../history';
@@ -55,9 +56,11 @@ class TopBar extends Component {
 
   handleMobileChange = (ev, value) => {
     // console.log(ev)
-    this.setState({ value: value, navDrawer: false })
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/${value}`))
-      history.push(`/landing/${this.props.type}/${value}`)
+    if (value != '') {
+      this.setState({ value: value, navDrawer: false })
+      if (history.location.pathname.indexOf(`/landing/${this.props.type}/${value}`))
+        history.push(`/landing/${this.props.type}/${value}`)
+    }
   }
 
   returnDesktop = () => {
@@ -94,18 +97,24 @@ class TopBar extends Component {
           docked={false}
           disableSwipeToOpen
           openSecondary
+          width='50%'
           onRequestChange={() => { this.setState({ navDrawer: false }) }}
         >
           <Menu
             onChange={this.handleMobileChange}
             value={this.state.value}
+            style={{ width: '40%' }}
+            menuItemStyle={{ fontSize: '150%', textAlign: 'left' }}
           >
+            {(this.props.type != 'company') ? <MenuItem disabled primaryText="Pages" /> : <div></div>}
             {(this.props.type == "employee" || this.props.type == "intern") ? <MenuItem value="chat" primaryText="Chat" /> : <div></div>}
             {(this.props.type == "employee" || this.props.type == "intern") ? <MenuItem value="members" primaryText="Members" /> : <div></div>}
             {(this.props.type == "intern") ? <MenuItem value="housing" primaryText="Housing" /> : <div></div>}
-            {(this.props.type == "intern") ? <MenuItem value="saved" primaryText="Saved Houses" /> : <div></div>}
-            {(this.props.type == "admin" || this.props.type == 'employee') ? <MenuItem value="complaints" primaryText="Complaints" /> : <div></div>}
+            {(this.props.type == "intern") ? <MenuItem value="saved" id='name' primaryText="Saved Houses" /> : <div></div>}
+            {(this.props.type == "admin" || this.props.type == 'employee') ? <MenuItem value="complaints" id='name' primaryText="Complaints" /> : <div></div>}
             {(this.props.type == "admin") ? <MenuItem value="companies" primaryText="Companies" /> : <div></div>}
+            <MenuItem disabled primaryText="Settings" />
+            <MobileMenu {...this.props} closeDrawer={() => { this.setState({ navDrawer: false }) }} />
           </Menu>
         </Drawer>
       </Row>
