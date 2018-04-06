@@ -1,4 +1,4 @@
-.profile-img{
+.profile-img.desktop{
   max-width: 100%;
   max-height: 20vh;
   margin-right: 20px;
@@ -24,4 +24,8 @@
 
 .company-info{
   margin-left:-30px
+}
+
+.profile-img.mobile{
+  max-width: 95%;
 }

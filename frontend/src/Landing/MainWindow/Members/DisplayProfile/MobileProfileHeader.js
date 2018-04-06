@@ -26,9 +26,7 @@ class ProfileHeader extends Component {
   displayPic = () => {
     if (this.props.pic != null && this.props.pic != 'undefined') {
       return (
-        <Col xs={4}>
-          <img src={this.props.pic} className='profile-img desktop' alt={`${this.props.firstname}'s Profile Picture`} />
-        </Col>
+          <img src={this.props.pic} className='profile-img mobile' alt={`${this.props.firstname}'s Profile Picture`} />
       )
     } else
       return null

@@ -117,7 +117,7 @@ class GetMods extends Component {
   }
 
   handleClick = (i, id) => {
-
+    this.props.changeNavDrawer()
     let tempArr = this.state.colors
     tempArr[this.props.props2.currPaper] = null
     tempArr[i] = { style: { backgroundColor: '#EB347F' } }

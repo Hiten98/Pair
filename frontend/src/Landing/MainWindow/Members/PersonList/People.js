@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Paper, ListItem, Avatar, List } from 'material-ui'
+import { Paper, ListItem, Avatar, List, Drawer, RaisedButton } from 'material-ui'
 import { NavLink, Switch, Route } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
 import axios from 'axios'
@@ -18,7 +18,8 @@ class People extends Component {
       modNum: 0,
       colors: tempArr,
       myProfile: [],
-      myURL:'',
+      myURL: '',
+      navDrawer: true,
     }
   }
 
@@ -28,6 +29,7 @@ class People extends Component {
     tempArr[i] = { style: { backgroundColor: '#EB347F' } }
     this.setState({ colors: tempArr }, this.changeColors)
     this.props.changeSelected(id, i)
+    this.changeNavDrawer()
   }
 
   changeColors = () => {
@@ -56,13 +58,13 @@ class People extends Component {
       tempArr[nextProps.currPaper] = { style: { backgroundColor: '#EB347F' } }
       this.setState({ colors: tempArr }, this.changeColors)
     }
-    if(this.props.props.state.currChatName!=nextProps.props.state.currChatName){
+    if (this.props.props.state.currChatName != nextProps.props.state.currChatName) {
       this.handleClick(0, this.props.props.uid)
     }
   }
 
   changeUrl = (url) => {
-    this.setState({ myURL: url },this.componentDidMount)
+    this.setState({ myURL: url }, this.componentDidMount)
   }
 
   changeModNum = (num) => {
@@ -78,7 +80,7 @@ class People extends Component {
     }
     let tempArr = []
     tempArr.push(
-      <Paper zDepth={2} key={0} className='paper-list' style={{position:'sticky'}}>
+      <Paper zDepth={2} key={0} className='paper-list' style={{ position: 'sticky' }}>
         <ListItem
           {...args}
           hoverColor='#F95498B0'
@@ -92,8 +94,11 @@ class People extends Component {
     this.setState({ myProfile: tempArr })
   }
 
-  render() {
+  changeNavDrawer = () => {
+    this.setState({ navDrawer: !this.state.navDrawer })
+  }
 
+  returnDesktop() {
     let toSend = {
       props: this.props.props,
       changeUrl: this.changeUrl,
@@ -111,6 +116,53 @@ class People extends Component {
         </List>
       </Col>
     );
+  }
+
+  returnMobile = () => {
+    let toSend = {
+      props: this.props.props,
+      changeUrl: this.changeUrl,
+      changeModNum: this.changeModNum,
+      modNum: this.state.modNum,
+      props2: this.props,
+      changeNavDrawer: this.changeNavDrawer,
+    }
+    //console.log(this.state.interns)
+    return (
+      <div>
+        <Drawer
+          open={this.state.navDrawer}
+          docked={false}
+          disableSwipeToOpen
+          openSecondary
+          onRequestChange={() => { this.setState({ navDrawer: false }) }}
+        >
+          <List>
+            {this.state.myProfile}
+            <GetMods {...toSend} />
+            <GetInterns {...toSend} />
+          </List>
+        </Drawer>
+        <ListItem
+          primaryText="ChangePerson"
+          onClick={() => { this.setState({ navDrawer: true }) }}
+          style={{ position: 'absolute', bottom: '2vh', }}
+        />
+      </div>
+    );
+  }
+
+  render() {
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    // console.log(width)
+    //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
+      return this.returnMobile();
+    } else {
+      return this.returnDesktop();
+    }
   }
 }
 
