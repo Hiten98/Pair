@@ -35,6 +35,10 @@ class App extends Component {
     }
   });
 
+  componentDidMount=()=>{
+    window.addEventListener("resize", ()=>{this.forceUpdate()})
+  }
+
   saveState = () => {
     try {
       const serializedState = JSON.stringify(this.state)
@@ -69,7 +73,7 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={this.muiTheme}>
-        <Grid className="App">
+        <Grid className="App fluid">
           <Switch>
             <Route path='/home' render={() => <WelcomeScreen updateUid={this.updateUid} updateCompany={this.updateCompany} updateLocations={this.updateLocations} />} />
             <Route path='/landing' render={() => <LandingScreen uid={this.state.uid} type={this.state.type} />} />

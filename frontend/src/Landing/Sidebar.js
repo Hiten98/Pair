@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import wordLogo from '../images/word_no_logo.png'
-import { List, ListItem, Subheader, Paper } from 'material-ui'
+import { List, ListItem, Subheader, Paper, Drawer } from 'material-ui'
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble'
 import CreateGroupChat from './CreateGroupChat'
 import axios from 'axios'
@@ -54,6 +54,7 @@ class Sidebar extends Component {
   handleClick = (i, name, type) => {
     // console.log(i)
     // console.log(name)
+    this.props.changeDrawerStatus()
     let that = this
     if (name.charAt(0) == 3 || name.charAt(0) == 4) {
       axios.post("/GET-INVITES", {
@@ -61,7 +62,7 @@ class Sidebar extends Component {
         chatroomName: name
       }).then(function (response) {
         // console.log(response.data)
-        if (response.data.invite_status!=false) {
+        if (response.data.invite_status != false) {
           let tempArr = that.state.colors
           tempArr[parseInt(that.props.state.currChat)] = null
           tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
@@ -140,6 +141,7 @@ class Sidebar extends Component {
   componentDidMount() {
     let that = this
     let tempCard = []
+    // this.setState({cards:[]})
     if (this.props.uid != null && history.location.pathname.indexOf('/landing/company') != 0) {
       axios.post("/GET-CHATROOM", {
         "userID": this.props.uid
@@ -181,6 +183,7 @@ class Sidebar extends Component {
     let that = this
     let tempCard = this.state.cards
     if (history.location.pathname.indexOf('/landing/employee/members') == 0 && this.props.type == 'employee') {
+      // console.log('hi')
       let k = tempCard.length
       tempCard.push(
         <Paper zDepth={2} key={that.state.cards.length}>
@@ -199,7 +202,7 @@ class Sidebar extends Component {
     that.setState({ cards: tempCard }, this.state.cards[0].props.children.props.onClick)
   }
 
-  render() {
+  renderDesktop() {
     return (
       <Col xsHidden sm={2} lg={2} className='side-bar'>
         <div className='img-div'>
@@ -217,6 +220,46 @@ class Sidebar extends Component {
         {(this.props.type != "admin" && this.props.type != "company") ? <CreateGroupChat {...this.props} /> : <div></div>}
       </Col>
     );
+  }
+
+  renderMobile = () => {
+    return (
+      <Drawer
+        open={this.props.state.drawerOpen}
+        docked={false}
+        disableSwipeToOpen
+        onRequestChange={() => { this.props.changeDrawerStatus() }}
+      >
+        <div className='img-div'>
+          <img src={wordLogo} alt="logo" className='no-word-logo' />
+        </div>
+        <hr />
+        <div style={{ height: '81vh', overflowY: 'auto', overflowX: 'hidden' }}>
+          <List style={{ marginTop: '-1vh' }}>
+            {this.state.cards}
+          </List>
+        </div>
+
+        <InviteChat {...this.props} {...this.state} closeModal={this.closeModal} acceptedChat={this.acceptedChat} />
+
+        <div>
+          {(this.props.type != "admin" && this.props.type != "company") ? <CreateGroupChat {...this.props} /> : <div></div>}
+        </div>
+      </Drawer>
+    )
+  }
+
+  render() {
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    // console.log(width)
+    //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
+      return this.renderMobile();
+    } else {
+      return this.renderDesktop();
+    }
   }
 }
 

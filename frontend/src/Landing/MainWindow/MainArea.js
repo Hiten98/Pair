@@ -24,7 +24,7 @@ class MainArea extends Component {
 
   componentDidMount() {
     if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`)==0)
-      this.setState({ currPlace: 0 },()=>{console.log(this.state.classChat[this.state.currPlace])})
+      this.setState({ currPlace: 0 })
     else
       this.setState({ currPlace: 1 })
   }

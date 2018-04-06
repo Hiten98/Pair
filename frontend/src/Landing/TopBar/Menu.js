@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import { Row } from 'react-bootstrap'
-import { IconMenu, MenuItem, IconButton } from 'material-ui'
+import { IconMenu, MenuItem, IconButton, ToolbarGroup } from 'material-ui'
 import bars from '../../images/bars.png'
 import history from '../../history'
 import ChangePasswordModal from './ChangePasswordModal'
@@ -9,11 +9,11 @@ import DeleteAccountModal from './DeleteAccountModal'
 import './Toolbar.css';
 
 class Menu extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state={
-      deleteOpen:false,
-      passOpen:false,
+    this.state = {
+      deleteOpen: false,
+      passOpen: false,
     }
   }
 
@@ -26,30 +26,34 @@ class Menu extends Component {
     history.go(0)
   }
 
-  goToProfile=()=>{
+  goToProfile = () => {
     history.push(`/landing/${this.props.type}/members`)
   }
 
-  deleteAccount=()=>{
-    this.setState({deleteOpen:!this.state.deleteOpen})
+  deleteAccount = () => {
+    this.setState({ deleteOpen: !this.state.deleteOpen })
   }
 
-  changePass=()=>{
-    this.setState({passOpen:!this.state.passOpen})
+  changePass = () => {
+    this.setState({ passOpen: !this.state.passOpen })
   }
 
   render() {
     return (
-      <div>
-        <IconMenu iconButtonElement={<IconButton><img className='hamburger-menu-img' src={bars} alt='hamburger menu'/></IconButton>}>
-          {(this.props.type!="admin" && this.props.type!="company")?<div><MenuItem onClick={this.goToProfile} primaryText='Profile' />
-          <MenuItem onClick={this.changePass} primaryText='Change Password' />
-          <MenuItem onClick={this.deleteAccount} primaryText='Delete account'/></div>:<div></div>}
+      <ToolbarGroup>
+        <DeleteAccountModal deleteOpen={this.state.deleteOpen} deleteAccount={this.deleteAccount} uid={this.props.uid} />
+        <ChangePasswordModal passOpen={this.state.passOpen} changePass={this.changePass} uid={this.props.uid} />
+        <IconMenu
+          iconButtonElement={<IconButton><i className="material-icons md-light md-36">&#xE8FE;</i></IconButton>}
+          onChange={this.handleMenu}
+        >
+          {(this.props.type != "admin" && this.props.type != "company") ? <div><MenuItem onClick={this.goToProfile} primaryText='Profile' />
+            <MenuItem onClick={this.changePass} primaryText='Change Password' />
+            <MenuItem onClick={this.deleteAccount} primaryText='Delete account' /></div> : <div></div>}
           <MenuItem onClick={this.signOut} primaryText='Sign Out' />
         </IconMenu>
-        <DeleteAccountModal deleteOpen={this.state.deleteOpen} deleteAccount={this.deleteAccount} uid={this.props.uid}/>
-        <ChangePasswordModal passOpen={this.state.passOpen} changePass={this.changePass} uid={this.props.uid}/>
-      </div>
+
+      </ToolbarGroup>
     );
   }
 }

@@ -1,129 +1,129 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
-import Menu from './Menu'
+import MenuTop from './Menu'
 import './Toolbar.css';
-import { RaisedButton, Tabs, Tab } from 'material-ui';
+import { RaisedButton, Tabs, Tab, Toolbar, ToolbarGroup, DropDownMenu, MenuItem, IconMenu, IconButton, AppBar, Drawer, Menu, Paper, ListItem } from 'material-ui';
 import history from '../../history';
 
-class Toolbar extends Component {
+class TopBar extends Component {
   constructor(props) {
     super(props)
-    let currPage = 0
+    let a = []
+    let currPage = 'chat'
     if (!history.location.pathname.indexOf(`/landing/${props.type}/members`)) {
-      currPage = 1
-    } else if(!history.location.pathname.indexOf(`/landing/employee/complaints`)){
-      currPage=2
+      currPage = 'members'
+    } else if (!history.location.pathname.indexOf(`/landing/${props.type}/complaints`)) {
+      currPage = 'complaints'
+    } else if (!history.location.pathname.indexOf(`/landing/${props.type}/companies`)) {
+      currPage = 'companies'
+    } else if (!history.location.pathname.indexOf(`/landing/${props.type}/saved`)) {
+      currPage = 'saved'
+    } else if (!history.location.pathname.indexOf(`/landing/${props.type}/housing`)) {
+      currPage = 'housing'
     }
+    a[currPage] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '8vh' } }
     this.state = {
-      currPage: currPage,
+      value: currPage,
+      navDrawer: false,
+      colors: a,
     }
     // console.log(props)
   }
 
-  changeToChat = () => {
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`)){
-      history.push(`/landing/${this.props.type}/chat`)
-      this.props.changeNeedToUpdate()
-    }
+  createTab = (title, value) => {
+    return (
+      <ListItem
+        primaryText={title}
+        onClick={() => { this.handleChange(null, null, value) }}
+        hoverColor='#F95498B0'
+        style={{ color: 'white', fontSize: '21px', height: '8vh' }}
+        {...this.state.colors[value]}
+      />
+    )
   }
 
-  changeToMembers = () => {
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/members`)){
-      history.push(`/landing/${this.props.type}/members`)
-      this.props.changeNeedToUpdate()
-    }
+  handleChange = (ev, key, value) => {
+    // console.log(ev)
+    let a = []
+    a[value] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '8vh' } }
+    this.setState({ value: value, colors: a })
+    this.props.changeNeedToUpdate()
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/${value}`))
+      history.push(`/landing/${this.props.type}/${value}`)
   }
 
-  changeToSaved = () => {
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/saved`)){
-      history.push(`/landing/${this.props.type}/saved`)
-      this.props.changeNeedToUpdate()
-    }
+  handleMobileChange = (ev, value) => {
+    // console.log(ev)
+    this.setState({ value: value, navDrawer: false })
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/${value}`))
+      history.push(`/landing/${this.props.type}/${value}`)
   }
 
-  changeToHouse = () => {
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/housing`)){
-      history.push(`/landing/${this.props.type}/housing`)
-      this.props.changeNeedToUpdate()
-    }
+  returnDesktop = () => {
+    return (
+      <Row className="tool-bar">
+        <Toolbar style={{ height: "8vh", backgroundColor: "#50C2C4", }}>
+          <ToolbarGroup>
+            {(this.props.type == "employee" || this.props.type == "intern") ? this.createTab("Chat", "chat") : <div></div>}
+            {(this.props.type == "employee" || this.props.type == "intern") ? this.createTab("Members", "members") : <div></div>}
+            {(this.props.type == "intern") ? this.createTab("Housing", "housing") : <div></div>}
+            {(this.props.type == "intern") ? this.createTab("Saved Houses", "saved") : <div></div>}
+            {(this.props.type == "admin" || this.props.type == "employee") ? this.createTab("Complaints", "complaints") : <div></div>}
+            {(this.props.type == "admin") ? this.createTab("Companies", "companies") : <div></div>}
+          </ToolbarGroup>
+          <MenuTop {...this.props} />
+        </Toolbar>
+      </Row >
+    )
   }
 
-  changeToComplaints = () => {
-    if (history.location.pathname.indexOf(`/landing/employee/complaints`)){
-      history.push(`/landing/employee/complaints`)
-      this.props.changeNeedToUpdate()
-    }
-  }
-
-  ifIntern = () => {
-    if (this.props.type == 'intern') {
-      return (
-        <Tabs
-          style={{ width: '90%',height:'5vh' }}
-          style={{height:'5px'}}
-          initialSelectedIndex={this.state.currPage}
+  returnMobile = () => {
+    // console.log(this.props.type)
+    return (
+      <Row className='tool-bar'>
+        <AppBar
+          style={{ height: "8vh", backgroundColor: "#50C2C4", }}
+          iconClassNameRight='material-icons md-light md-36'
+          title={<span>{this.state.value.charAt(0).toUpperCase() + this.state.value.substr(1)}<i className="material-icons">&#xE313;</i></span>}
+          onTitleClick={() => { this.setState({ navDrawer: true }) }}
+          onLeftIconButtonClick={this.props.changeDrawerStatus}
+        />
+        <Drawer
+          open={this.state.navDrawer}
+          docked={false}
+          disableSwipeToOpen
+          openSecondary
+          onRequestChange={() => { this.setState({ navDrawer: false }) }}
         >
-          <Tab
-            label="Chat"
-            onActive={this.changeToChat}
-            buttonStyle={{ backgroundColor: '#50C2C4', }}
-          ></Tab>
-          <Tab
-            label='Members'
-            onActive={this.changeToMembers}
-            buttonStyle={{ backgroundColor: '#50C2C4', }}
-          ></Tab>
-          <Tab
-            label="Saved Houses"
-            onActive={this.changeToSaved}
-            buttonStyle={{ backgroundColor: '#50C2C4', }}
-          ></Tab>
-          <Tab
-            label='Housing'
-            onActive={this.changeToHouse}
-            buttonStyle={{ backgroundColor: '#50C2C4', }}
-          ></Tab>
-        </Tabs>
-      )
-    } else if (this.props.type == 'employee') {
-      return (
-        <Tabs
-          style={{ width: '90%' }}
-          initialSelectedIndex={this.state.currPage}
-        >
-          <Tab
-            label="Chat"
-            onActive={this.changeToChat}
-            buttonStyle={{ backgroundColor: '#50C2C4', }}
-          ></Tab>
-          <Tab
-            label='Members'
-            onActive={this.changeToMembers}
-            buttonStyle={{ backgroundColor: '#50C2C4', }}
-          ></Tab>
-          <Tab
-            label='Complaints'
-            onActive={this.changeToComplaints}
-            buttonStyle={{ backgroundColor: '#50C2C4', }}
-          ></Tab>
-        </Tabs>
-      )
-    }
+          <Menu
+            onChange={this.handleMobileChange}
+            value={this.state.value}
+          >
+            {(this.props.type == "employee" || this.props.type == "intern") ? <MenuItem value="chat" primaryText="Chat" /> : <div></div>}
+            {(this.props.type == "employee" || this.props.type == "intern") ? <MenuItem value="members" primaryText="Members" /> : <div></div>}
+            {(this.props.type == "intern") ? <MenuItem value="housing" primaryText="Housing" /> : <div></div>}
+            {(this.props.type == "intern") ? <MenuItem value="saved" primaryText="Saved Houses" /> : <div></div>}
+            {(this.props.type == "admin" || this.props.type == 'employee') ? <MenuItem value="complaints" primaryText="Complaints" /> : <div></div>}
+            {(this.props.type == "admin") ? <MenuItem value="companies" primaryText="Companies" /> : <div></div>}
+          </Menu>
+        </Drawer>
+      </Row>
+    )
   }
 
   render() {
-    return (
-      <div>
-        <Row className="tool-bar">
-          {this.ifIntern()}
-          <div className='hamburger-menu'>
-            <Menu uid={this.props.uid} type={this.props.type} />
-          </div>
-        </Row>
-      </div>
-    );
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    // console.log(width)
+    //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
+      return this.returnMobile();
+    } else {
+      return this.returnDesktop();
+    }
   }
 }
 
-export default Toolbar;
+export default TopBar;

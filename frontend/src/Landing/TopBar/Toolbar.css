@@ -1,14 +1,19 @@
 .tool-bar{
   background-color: var(--vblue);
-  height:6vh;
+  height:6%;
 }
 
-.hamburger-menu{
-  position: absolute;
+/* .hamburger-menu{
+  /* position: absolute;
   top: -0.5vh;
-  right:1vw;
-}
+  right:1vw; */
+  /* width:10%; */
+  /* float: right; */
+/* } */
 
-.hamburger-menu-img{
-  height:4vh;
-}
+/* .hamburger-menu-img{
+  width:100%
+} */ 
+
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-36 { font-size: 36px; }
