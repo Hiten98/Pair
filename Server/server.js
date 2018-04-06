@@ -78,11 +78,8 @@ var adminRef = db.ref("/Admin");
 //set up zillow:
 var Zillow = require('node-zillow');
 //Instantiate
-var zillow = new Zillow('X1-ZWz18orikj65mz_8s1xw', options);
-//set Parameters:
-var parameters = {
-  zpid: 1111111
-};
+var zillow = new Zillow('X1-ZWz18orikj65mz_8s1xw');
+
 
 //test-function
 function test() {
@@ -551,6 +548,45 @@ app.post('/CREATE-EMPLOYEE', function (req, res) {
     "userID": employee_uid,
     "status": true
   });
+});
+
+//create employee hadnler
+app.post('/UPDATE-EMPLOYEE', function (req, res) {
+  console.log('Received request for UPDATE-EMPLOYEE:');
+  console.log(req.body);
+
+  //store variables
+  var employee_uid = req.body.userID;
+  //create UID (2 for employee)
+  console.log("UID generated:");
+  console.log(employee_uid);
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var email = req.body.username;
+  var company = req.body.company;
+  var location = req.body.location;
+  var description = req.body.description;
+  var facebook = req.body.facebook;
+  var linkedin = req.body.linkedin;
+  var twitter = req.body.twitter;
+
+  read.verifyUserExists(employeeRef, employee_uid, (x) => {
+    if(x) {
+      update.updateEmployee(employeeRef, employee_uid, firstName, lastName, location, description, facebook, linkedin, twitter);
+      res.json({
+        "userID": employee_uid,
+        "status": true
+      });
+    } else {
+      res.json({
+        "status": false,
+        "error": "UID does not exist"
+      })
+    }
+  })
+  update.updateEmployeeChatDetails(chatroomRef, employeeRef, employee_uid);
+  //create.createEmployee(employeeRef, employee_uid, req.body.password);
+
 });
 
 //initial create intern
@@ -1465,6 +1501,17 @@ app.post('/ACCEPT-INVITE', function(req, res) {
   }
 });
 
+
+function  testZillow() {
+  var parameters = {
+    state: "California",
+    zpid: "50633081"
+  };
+  zillow.get('GetZestimate', parameters).then((response) => {
+    console.log(response);
+  })
+}
+
 //empty jsons
 function isEmptyObject(obj) {
   return !Object.keys(obj).length;
@@ -1478,6 +1525,7 @@ app.listen(port, function () {
   console.log('Testing begins, check database');
   //test();
   console.log('Testing done');
+  testZillow();
 
   console.log('Database setup done');
   console.log('App listening on port: ' + port + '!');
