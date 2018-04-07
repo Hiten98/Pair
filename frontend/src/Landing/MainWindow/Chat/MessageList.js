@@ -52,7 +52,7 @@ class MessageList extends Component {
           userID: this.state.uid
         })
         .then((response) => {
-          let chatroomList = response.data;
+          // let chatroomList = response.data;
           if (response.data[this.state.chatroomId] != null) {
             that.setState({
               chatroomName: response.data[this.state.chatroomId]

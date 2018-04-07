@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import { Row, Col, DropdownButton, MenuItem } from "react-bootstrap";
-import { TextField } from "material-ui";
+import { TextField, RaisedButton } from "material-ui";
 import "./Chatroom.css";
 import axios from "axios";
 import Message from "./Message";
@@ -133,8 +133,9 @@ class Chatroom extends Component {
     }
   };
 
-  render() {
+  returnDesktop() {
     const { chats } = this.state;
+    let arrow = <i className="material-icons">&#xE163;</i>
     return (
       <div style={{ overflow: "hidden" }}>
         <div className="chatroom">
@@ -167,16 +168,82 @@ class Chatroom extends Component {
                 value={this.state.inputText}
                 disabled={this.state.banned}
               />
-              <input
-                type="submit"
-                value="Submit"
+              <RaisedButton
+                label={arrow}
+                secondary
+                className='SubmitButtonChat'
                 disabled={this.state.banned}
+                // buttonStyle={{marginTop:'1vh', backgroundColor:'#ff4081'}}
+                onClick={e => this.submitMessage(e)}
               />
             </div>
           </form>
         </div>
       </div>
     );
+  }
+
+  returnMobile() {
+    const { chats } = this.state;
+    let arrow = <i className="material-icons">&#xE163;</i>
+    return (
+      <div style={{ overflow: "hidden" }}>
+        <div className="chatroom">
+          <Row className="container-fluid">
+            <h3>
+              <Col>{this.state.chatroomName.substring(1)}</Col>
+            </h3>
+          </Row>
+          <MessageList {...this.state} {...this.props} />
+          <LeaveChatButton {...this.props}/>
+        </div>
+
+        <div className="messages">
+          <form
+            className="input"
+            ref="form"
+            onSubmit={e => this.submitMessage(e)}
+          >
+            <div className="inputtext">
+              <TextField
+                style={{
+                  width: "70%",
+                  marginLeft: "-27vw",
+                  position: "relative"
+                }}
+                hintText={(this.state.banned) ? "Temporary ban, please contact your company chat moderator" : "Type a message..."}
+                fullWidth={true}
+                multiLine={true}
+                onChange={this.handleInputTextChange}
+                value={this.state.inputText}
+                disabled={this.state.banned}
+              />
+              <RaisedButton
+                label={arrow}
+                secondary
+                className='SubmitButtonChat'
+                disabled={this.state.banned}
+                buttonStyle={{paddingTop:'1vh'}}
+                onClick={e => this.submitMessage(e)}
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    // console.log(width)
+    //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
+      return this.returnMobile();
+    } else {
+      return this.returnDesktop();
+    }
   }
 }
 

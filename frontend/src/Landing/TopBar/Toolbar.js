@@ -56,10 +56,12 @@ class TopBar extends Component {
 
   handleMobileChange = (ev, value) => {
     // console.log(ev)
-    if (value != '') {
+    if (value != '' && value != null) {
       this.setState({ value: value, navDrawer: false })
-      if (history.location.pathname.indexOf(`/landing/${this.props.type}/${value}`))
-        history.push(`/landing/${this.props.type}/${value}`)
+      // if (history.location.pathname.indexOf(`/landing/${this.props.type}/${value}`)) {
+      history.push(`/landing/${this.props.type}/${value}`)
+      this.forceUpdate()
+      // }
     }
   }
 
@@ -97,6 +99,7 @@ class TopBar extends Component {
           docked={false}
           disableSwipeToOpen
           openSecondary
+          style={{ zIndex: 3001 }}
           width='50%'
           onRequestChange={() => { this.setState({ navDrawer: false }) }}
         >
@@ -114,7 +117,7 @@ class TopBar extends Component {
             {(this.props.type == "admin" || this.props.type == 'employee') ? <MenuItem value="complaints" id='name' primaryText="Complaints" /> : <div></div>}
             {(this.props.type == "admin") ? <MenuItem value="companies" primaryText="Companies" /> : <div></div>}
             <MenuItem disabled primaryText="Settings" />
-            <MobileMenu {...this.props} closeDrawer={() => { this.setState({ navDrawer: false }) }} />
+            <MobileMenu {...this.props} closeDrawer={this.handleMobileChange} />
           </Menu>
         </Drawer>
       </Row>

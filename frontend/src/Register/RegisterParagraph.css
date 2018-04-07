@@ -10,11 +10,3 @@
   color:rgb(255, 255, 255);
   vertical-align: 50%;
 }
-
-@media all and (max-width:767px){
-  .register-logo{margin-top: 22vh;}
-}
-
-@media all and (min-width:768px){
-
-}

@@ -171,7 +171,7 @@ class Complaints extends Component {
       });
   };
 
-  render() {
+  returnDesktop() {
     return (
       <div className="complaints2">
         <Row className="container-fluid">
@@ -180,6 +180,27 @@ class Complaints extends Component {
         <Row className="overflow-prevention">{this.state.viewComplaints}</Row>
       </div>
     );
+  }
+
+  returnMobile() {
+    return (
+      <div className="complaints2">
+        <Row className="overflow-prevention">{this.state.viewComplaints}</Row>
+      </div>
+    );
+  }
+
+  render() {
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    // console.log(width)
+    //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
+      return this.returnMobile();
+    } else {
+      return this.returnDesktop();
+    }
   }
 }
 

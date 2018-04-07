@@ -32,7 +32,7 @@ class RegisterForm extends Component {
     this.setState({ companyLocations: location })
   }
 
-  render() {
+  returnDesktop() {
     let toSend = {
       changeName: this.changeName,
       changeEmail: this.changeEmail,
@@ -51,6 +51,42 @@ class RegisterForm extends Component {
         <RegisterButtons {...this.state} {...this.props} />
       </div>
     );
+  }
+
+  returnMobile() {
+    let toSend = {
+      changeName: this.changeName,
+      changeEmail: this.changeEmail,
+      changePassword: this.changePassword,
+      changeLocations: this.changeLocations,
+    }
+    return (
+      <div className="form">
+        <NavButtons />
+        <Row className="company-register-title-mobile">
+          Register Company
+        </Row>
+        <div style={{ width: '95vw' }}>
+
+          <CodeField {...toSend} />
+
+          <RegisterButtons {...this.state} {...this.props} />
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    // console.log(width)
+    //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 1200) {
+      return this.returnMobile();
+    } else {
+      return this.returnDesktop();
+    }
   }
 }
 

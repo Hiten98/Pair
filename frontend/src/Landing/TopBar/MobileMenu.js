@@ -27,17 +27,17 @@ class Menu extends Component {
   }
 
   goToProfile = () => {
-    this.props.closeDrawer()
+    this.props.closeDrawer(null,'members')
     history.push(`/landing/${this.props.type}/members`)
   }
 
   deleteAccount = () => {
-    this.props.closeDrawer()
+    this.props.closeDrawer(null,null)
     this.setState({ deleteOpen: !this.state.deleteOpen })
   }
 
   changePass = () => {
-    this.props.closeDrawer()
+    this.props.closeDrawer(null,null)
     this.setState({ passOpen: !this.state.passOpen })
   }
 
