@@ -3,20 +3,16 @@ import { NavLink, Switch, Route } from 'react-router-dom'
 //import './Notifications.css';
 
 class Notifications extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
   }
 
   render() {
-    if (this.props.notificationVisible) {
-      return (
-        <div>
-          {/* Arvindh code here */}
-        </div>
-      );
-    } else {
-      return null
-    }
+    return (
+      <div>
+        {/* Arvindh code here */}
+      </div>
+    );
   }
 }
 

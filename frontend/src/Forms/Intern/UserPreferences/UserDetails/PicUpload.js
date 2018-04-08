@@ -58,7 +58,7 @@ class PicUpload extends Component {
     }
   }
 
-  render() {
+  returnDesktop() {
     return (
       <Row style={{marginTop:'20px'}}>
         <Col xs={3} md={3}>
@@ -77,6 +77,40 @@ class PicUpload extends Component {
         </Col>:<p></p>}
       </Row>
     )
+  }
+
+  returnMobile() {
+    return (
+      <div style={{marginTop:'20px',width:'90%', marginLeft:'10%'}}>
+        <Row>
+          <Dropzone accept='image/*' onDrop={(files) => this.onDrop(files)}>
+            <div>Please select a picture to upload by either dropping them here or click to select files</div>
+          </Dropzone>
+        </Row>
+        <Row style={{marginTop:'20px'}}>
+          Profile picture to be uploaded (Optional):
+         {this.state.filesPreview}
+        </Row>
+        {(this.props.prevpic!=''&&this.props.prevpic!=null)?
+        <Row style={{marginTop:'20px'}}>
+          Previous profile picture:<br/>
+          {(this.props.prevpic!='undefined'&&this.props.prevpic!=null)?<img src={this.props.prevpic} alt='Profile picture' height='200vh'/>:'No previous picture'}
+        </Row>:null}
+      </div>
+    )
+  }
+
+  render() {
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    // console.log(width)
+    //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
+      return this.returnMobile();
+    } else {
+      return this.returnDesktop();
+    }
   }
 }
 
