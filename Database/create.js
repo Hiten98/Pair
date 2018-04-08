@@ -33,7 +33,7 @@
         "password": password,
         "listOfLocations": [listOfLocations],
         "listOfEmployees": [listOfEmployees],
-        "verified": false
+        "verified": "pending"
       });
       /*update.*/getSnapshot(adminRef, 4000, "listOfCompanies", companyName);
     }

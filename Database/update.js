@@ -14,7 +14,7 @@
         updateInternChatDetails,
         updateEmployeeChatDetails,
         acceptInvite,
-        verifyCompany,
+        acceptCompany,
         denyCompany
     }*/
 
@@ -280,7 +280,7 @@
         });
     }
 
-    function verifyCompany(adminRef, companyRef, name) {
+    function acceptCompany(adminRef, companyRef, name) {
         companyRef.child(name).update({
             "verified": true
         });
@@ -292,13 +292,10 @@
         });
     }
 
-    function denyCompany(adminRef, companyRef, name) {
-        companyRef.child(name).remove();
-        adminRef.child(4000).child("listOfCompanies").once("value").then(function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                if(childSnapshot.val() == name)
-                    adminRef.child(4000).child("listOfCompanies").child(childSnapshot.key).remove();
-            });
+    function denyCompany(companyRef, name) {
+        // companyRef.child(name).remove();
+        companyRef.child(name).update({
+            "verified": false
         });
     }
 

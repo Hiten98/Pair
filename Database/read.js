@@ -19,6 +19,7 @@
 		compareInterns,
 		getImage,
 		getAdmin,
+		getAdminCompanies,
 		getInvite,
 		verifyUserChatroom
 	}*/
@@ -339,6 +340,18 @@
 		var list = {};
 		adminRef.child(4000).child("listOfComplaints").once("value").then(function(snapshot) {
 			list = snapshot.val();
+			callback(list);
+		});
+	}
+
+	function getAdminCompanies(adminRef, callback) {
+		var list = {};
+		var i = 0;
+		adminRef.child(4000).child("listOfCompanies").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
 			callback(list);
 		});
 	}
