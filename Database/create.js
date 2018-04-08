@@ -16,7 +16,8 @@
 		createPrivateChat,
 		createEmployeeChat,
 		addMessageToChat,
-		createComplaint
+		createComplaint,
+		addHouse
 	}*/
 
 	//var update = require('./update.js');
@@ -326,5 +327,48 @@
 
 	function createComplaint(employeeRef, ID, complaint, complaintee, complainter, CID) {
 		/*update.*/getSnapshot(employeeRef, ID, "listOfComplaints", CID + "$:$" + complainter + "$:$" + complaintee + "$:$" + complaint);
+	}
+
+	function addHouse(groupChatRoomRef, houseRef, internRef, name, house) {
+		houseRef.child(name).once("value").then(function(snapshot) {
+			if(snapshot.exists()) {
+				var count = snapshot.val().count;
+				count++;
+				houseRef.update({
+					"count": count,
+					[count]: name
+				});
+			}
+			else {
+				houseRef.update({
+					"count": "1",
+					"1": name
+				})
+			}
+		});
+
+		/*update.*/getSnapshot(groupChatRoomRef, name, "listOfHouses", house);
+		
+		groupChatRoomRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				internRef.child(childSnapshot.val()).child("listOfNotifications").once("value").then(function(babySnapshot) {
+					if(babySnapshot.exists()) {
+						var count = babySnapshot.val().count;
+						count++;
+						internRef.child(childSnapshot.val()).child("listOfNotifications").update({
+							"count": count,
+							[count]: house + " was added to " + name.substring(1)
+						});
+					}
+					else {
+						var string = house + " was added to " + name.substring(1);
+						internRef.child(childSnapshot.val()).child("listOfNotifications").update({
+							"count": 1,
+							"1": string
+						});
+					}
+				});
+			});
+		});
 	}
 

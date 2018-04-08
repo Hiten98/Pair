@@ -24,6 +24,7 @@
     var locationChatRoomRef = ref.child("ChatRooms/Location");
     var groupChatRoomRef = ref.child("ChatRooms/Group");
     var privateChatRoomRef = ref.child("ChatRooms/Private");
+    var houseRef = ref.child("Houses");
 
     // updateInternChatDetails(chatRoomRef, internRef, 1838);
     // createGroupChat(groupChatRoomRef, internRef, 1264, "Science Talk", (x) => {
@@ -31,5 +32,7 @@
     // })
 
     // removeIntern(internRef, chatRoomRef, 1449)
+
+    addHouse(groupChatRoomRef, houseRef, internRef, "3My Housing", "Ball park");
 
     
