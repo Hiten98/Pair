@@ -4,7 +4,8 @@ import { Row, Col } from 'react-bootstrap'
 import MenuTop from './Menu'
 import MobileMenu from './MobileMenu'
 import './Toolbar.css';
-import { RaisedButton, Tabs, Tab, Toolbar, ToolbarGroup, DropDownMenu, MenuItem, IconMenu, IconButton, AppBar, Drawer, Menu, Paper, ListItem } from 'material-ui';
+import { RaisedButton, Tabs, Tab, Toolbar, ToolbarGroup, DropDownMenu, MenuItem, IconMenu, IconButton, AppBar, Drawer, Menu, Paper, ListItem, } from 'material-ui';
+import Notifications from './Notifications'
 import history from '../../history';
 
 class TopBar extends Component {
@@ -28,8 +29,13 @@ class TopBar extends Component {
       value: currPage,
       navDrawer: false,
       colors: a,
+      notificationVisible: false,
     }
     // console.log(props)
+  }
+
+  closeNotifications=()=>{
+    this.setState({notificationVisible:false})
   }
 
   createTab = (title, value) => {
@@ -89,10 +95,13 @@ class TopBar extends Component {
       <Row className='tool-bar'>
         <AppBar
           style={{ height: "8vh", backgroundColor: "#50C2C4", }}
-          iconClassNameRight='material-icons md-light md-36'
+          //iconClassNameLeft='md-36'
           title={<span>{this.state.value.charAt(0).toUpperCase() + this.state.value.substr(1)}<i className="material-icons">&#xE313;</i></span>}
           onTitleClick={() => { this.setState({ navDrawer: true }) }}
           onLeftIconButtonClick={this.props.changeDrawerStatus}
+          iconElementRight={<i className="material-icons md-light">&#xE7F4;</i>}
+          iconStyleRight={{ marginTop: '3vh' }}
+          onRightIconButtonClick={() => { this.setState({ notificationVisible: false }) }}
         />
         <Drawer
           open={this.state.navDrawer}
@@ -120,6 +129,7 @@ class TopBar extends Component {
             <MobileMenu {...this.props} closeDrawer={this.handleMobileChange} />
           </Menu>
         </Drawer>
+        <Notifications {...this.props} notificationVisible={this.state.notificationVisible} closeNotifications={this.closeNotifications}/>
       </Row>
     )
   }

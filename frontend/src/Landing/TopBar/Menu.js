@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import { Row } from 'react-bootstrap'
-import { IconMenu, MenuItem, IconButton, ToolbarGroup } from 'material-ui'
+import { IconMenu, MenuItem, IconButton, ToolbarGroup, FlatButton } from 'material-ui'
 import bars from '../../images/bars.png'
 import history from '../../history'
 import ChangePasswordModal from './ChangePasswordModal'
 import DeleteAccountModal from './DeleteAccountModal'
+import Notifications from './Notifications'
 import './Toolbar.css';
 
 class Menu extends Component {
@@ -14,6 +15,7 @@ class Menu extends Component {
     this.state = {
       deleteOpen: false,
       passOpen: false,
+      notificationVisible:false,
     }
   }
 
@@ -38,14 +40,24 @@ class Menu extends Component {
     this.setState({ passOpen: !this.state.passOpen })
   }
 
+  closeNotifications=()=>{
+    this.setState({notificationVisible:false})
+  }
+
   render() {
     return (
       <ToolbarGroup>
+        <FlatButton
+          onClick={() => { this.setState({ notificationVisible: true }) }}
+          icon={<i className="material-icons md-light md-36">&#xE7F4;</i>}
+        />
+        <Notifications {...this.props} notificationVisible={this.state.notificationVisible} closeNotifications={this.closeNotifications}/>
         <DeleteAccountModal deleteOpen={this.state.deleteOpen} deleteAccount={this.deleteAccount} uid={this.props.uid} />
         <ChangePasswordModal passOpen={this.state.passOpen} changePass={this.changePass} uid={this.props.uid} />
         <IconMenu
           iconButtonElement={<IconButton><i className="material-icons md-light md-36">&#xE8FE;</i></IconButton>}
           onChange={this.handleMenu}
+          style={{marginLeft:'20px'}}
         >
           {(this.props.type != "admin" && this.props.type != "company") ? <div><MenuItem onClick={this.goToProfile} primaryText='Profile' />
             <MenuItem onClick={this.changePass} primaryText='Change Password' />
