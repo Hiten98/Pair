@@ -78,7 +78,7 @@ var adminRef = db.ref("/Admin");
 //set up zillow:
 var Zillow = require('node-zillow');
 //Instantiate
-var zillow = new Zillow('X1-ZWz18orikj65mz_8s1xw');
+var zillow = new Zillow('X1-ZWz1gcc7xw62a3_3wguv');
 
 
 //test-function
@@ -1501,14 +1501,58 @@ app.post('/ACCEPT-INVITE', function(req, res) {
   }
 });
 
+//accept company
+app.post('/ACCEPT-COMPANY', function (req, res) {
+  console.log('Request recieved for accept company');
+  console.log(req.body);
+  var name = req.body.name;
+  update.acceptCompany(adminRef, companyRef, name);
+  res.json({
+    "status": true
+  });
+});
 
+//deny company
+app.post('/DENY-COMPANY', function (req, res) {
+  console.log('request received for denying company');
+  console.log(req.body);
+  var name = req.body.name;
+  update.denyCompany(companyRef, name);
+  res.json({
+    "status": true
+  })
+});
+
+//get admin companies
+app.post('/GET-ADMIN-COMPANIES', function (req, res) {
+  console.log("Get admin companies request received");
+  console.log(req.body);
+  read.getAdminCompanies(adminRef, (x) => {
+    console.log(x);
+    res.send(x);
+  });
+});
+
+//get notifications
+app.post('/GET-NOTIFICATIONS', function (req, res) {
+  console.log("Get notifications request received");
+  console.log(req.body);
+  var uid = req.body.userID;
+  read.getNotifications(internRef, uid, (x) => {
+    console.log(x);
+    res.send(x);
+  });
+});
+
+//test zillow
 function  testZillow() {
   var parameters = {
-    state: "California",
-    zpid: "50633081"
+    zpid: "50633081",
+    address: "10586 Roundwood Glen Ct Jacksonville, FL",
+    citystatezip: "32265"
   };
-  zillow.get('GetZestimate', parameters).then((response) => {
-    console.log(response);
+  zillow.get('GetSearchResults', parameters).then((response) => {
+    console.log(response.response.results.result[0].zestimate[0].amount[0]._);
   })
 }
 
