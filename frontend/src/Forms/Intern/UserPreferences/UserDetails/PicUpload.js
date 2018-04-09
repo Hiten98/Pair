@@ -91,7 +91,7 @@ class PicUpload extends Component {
           Profile picture to be uploaded (Optional):
          {this.state.filesPreview}
         </Row>
-        {(this.props.prevpic!=''&&this.props.prevpic!=null)?
+        {(this.props.prevpic!='undefined'&&this.props.prevpic!=null)?
         <Row style={{marginTop:'20px'}}>
           Previous profile picture:<br/>
           {(this.props.prevpic!='undefined'&&this.props.prevpic!=null)?<img src={this.props.prevpic} alt='Profile picture' height='200vh'/>:'No previous picture'}
@@ -106,7 +106,7 @@ class PicUpload extends Component {
       || document.body.clientWidth;
     // console.log(width)
     //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 1000) {
       return this.returnMobile();
     } else {
       return this.returnDesktop();

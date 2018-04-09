@@ -102,7 +102,7 @@ class SubmitButton extends Component {
       if (that.state.willRedirect === 1) {
         that.props.changePage(2)
         history.push('/register/intern/edit-profile/roommate')
-      }else if (that.state.willRedirect === 2) {
+      } else if (that.state.willRedirect === 2) {
         history.push('/landing/intern/members')
       }
       that.props.changeChange(false)
@@ -117,14 +117,14 @@ class SubmitButton extends Component {
   }
 
   bSubmit = () => {
-    this.setState({ willRedirect: 1 },()=>{this.buttonSubmit()})
+    this.setState({ willRedirect: 1 }, () => { this.buttonSubmit() })
   }
 
-  saveAndQuit=()=>{
-    this.setState({ willRedirect: 2 },()=>{this.buttonSubmit()})
+  saveAndQuit = () => {
+    this.setState({ willRedirect: 2 }, () => { this.buttonSubmit() })
   }
 
-  render() {
+  returnDesktop() {
     return (
       <Row className="user-details-buttons">
         <RaisedButton
@@ -141,6 +141,42 @@ class SubmitButton extends Component {
         />
       </Row>
     );
+  }
+
+  returnMobile() {
+    return (
+      <div  className="user-details-buttons">
+        <Row>
+          <RaisedButton
+            label="Save and Quit"
+            style={{ marginTop: "20px", marginRight: "10px" }}
+            primary
+            onClick={this.saveAndQuit}
+          />
+        </Row>
+        <Row>
+          <RaisedButton
+            label="Next"
+            style={{ marginTop: "20px", }}
+            primary
+            onClick={this.bSubmit}
+          />
+        </Row>
+      </div>
+    );
+  }
+
+  render() {
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    // console.log(width)
+    //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 400) {
+      return this.returnMobile();
+    } else {
+      return this.returnDesktop();
+    }
   }
 }
 

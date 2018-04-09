@@ -173,9 +173,9 @@ class ProfileHeader extends Component {
     let amt = 0
     let thing = []
     if (this.props.uid == this.props.currProfile) {
-      amt += 4
+      amt += 8
       thing.push(
-        <Col xs={4} key={1}>
+        <Col xs={8} key={1}>
           <RaisedButton secondary label="Edit Profile" onClick={this.editProfile} className='links' />
         </Col>
       )

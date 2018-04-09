@@ -27,6 +27,7 @@ class Links extends Component {
           label={link}
           className='link'
           secondary
+          style={{marginTop:'20px'}}
           onClick={() => { this.goToLink(link) }} />
       )
     }
