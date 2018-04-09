@@ -117,7 +117,11 @@ class GetMods extends Component {
   }
 
   handleClick = (i, id) => {
-    this.props.changeNavDrawer()
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768)
+      this.props.changeNavDrawer()
     let tempArr = this.state.colors
     tempArr[this.props.props2.currPaper] = null
     tempArr[i] = { style: { backgroundColor: '#EB347F' } }

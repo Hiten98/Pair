@@ -142,7 +142,7 @@ class Sidebar extends Component {
     let that = this
     let tempCard = []
     // this.setState({cards:[]})
-    if (this.props.uid != null && history.location.pathname.indexOf('/landing/company') != 0) {
+    if (this.props.uid != null && history.location.pathname.indexOf('/landing/company') != 0 && history.location.pathname.indexOf('/landing/admin') != 0) {
       axios.post("/GET-CHATROOM", {
         "userID": this.props.uid
       }).then(function (response) {
@@ -223,30 +223,33 @@ class Sidebar extends Component {
   }
 
   renderMobile = () => {
-    return (
-      <Drawer
-        open={this.props.state.drawerOpen}
-        docked={false}
-        disableSwipeToOpen
-        onRequestChange={() => { this.props.changeDrawerStatus() }}
-      >
-        <div className='img-div'>
-          <img src={wordLogo} alt="logo" className='no-word-logo' />
-        </div>
-        <hr />
-        <div style={{ height: '81vh', overflowY: 'auto', overflowX: 'hidden' }}>
-          <List style={{ marginTop: '-1vh' }}>
-            {this.state.cards}
-          </List>
-        </div>
+    if (history.location.pathname.indexOf('/landing/admin') != 0) {
+      return (
+        <Drawer
+          open={this.props.state.drawerOpen}
+          docked={false}
+          disableSwipeToOpen
+          onRequestChange={() => { this.props.changeDrawerStatus() }}
+        >
+          <div className='img-div'>
+            <img src={wordLogo} alt="logo" className='no-word-logo' />
+          </div>
+          <hr />
+          <div style={{ height: '81vh', overflowY: 'auto', overflowX: 'hidden' }}>
+            <List style={{ marginTop: '-1vh' }}>
+              {this.state.cards}
+            </List>
+          </div>
 
-        <InviteChat {...this.props} {...this.state} closeModal={this.closeModal} acceptedChat={this.acceptedChat} />
+          <InviteChat {...this.props} {...this.state} closeModal={this.closeModal} acceptedChat={this.acceptedChat} />
 
-        <div>
-          {(this.props.type != "admin" && this.props.type != "company") ? <CreateGroupChat {...this.props} /> : <div></div>}
-        </div>
-      </Drawer>
-    )
+          <div>
+            {(this.props.type != "admin" && this.props.type != "company") ? <CreateGroupChat {...this.props} /> : <div></div>}
+          </div>
+        </Drawer>
+      )
+    } else
+      return null
   }
 
   render() {
