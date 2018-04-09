@@ -1356,6 +1356,15 @@ app.post('/REMOVE-COMPLAINT-ADMIN', function(req, res) {
   })
 });
 
+//get notification
+app.post('/GET-NOTIFICATIONS', function(req, res) {
+  console.log("Get notifications received");
+  var uid = req.body.uid;
+  read.getNotifications(internRef, uid, (x) => {
+    res.send(x);
+  });
+});
+
 //get invites for chatroom name
 app.post('/GET-INVITES', function (req, res) {
   console.log("Get invites request received");

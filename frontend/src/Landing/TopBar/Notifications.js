@@ -3,17 +3,39 @@ import { NavLink, Switch, Route } from 'react-router-dom'
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
+import axios from 'axios'
 //import './Notifications.css';
 
 class Notifications extends Component {
   constructor(props) {
     super(props)
+    this.state={
+      notificationsCard: [],
+    }
   }
 
   componentDidMount=()=>{
-    console.log("Start!");
-    console.log(this.props);
-    console.log(this.props.uid);
+    let that=this
+    // console.log(this.props)
+    axios.post('/GET-NOTIFICATIONS', {
+      "uid": this.props.uid
+    }).then(function (response) {
+      // console.log(response.data);
+      console.log(response.data);
+
+      // Make Cards for INTERNS
+      let tempCard = []
+      for (let i in response.data) {
+        tempCard.unshift(
+          <MenuItem primaryText={response.data[i]} />
+        )
+      }
+      tempCard.shift()
+      that.setState({ notificationsCard: tempCard })
+
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 
   render() {
@@ -27,10 +49,7 @@ class Notifications extends Component {
         onRequestClose={this.props.closeNotifications}
       >
         <Menu>
-          <MenuItem primaryText="Notification 1" />
-          <MenuItem primaryText="Notification 2" />
-          <MenuItem primaryText="Notification 3" />
-          <MenuItem primaryText="Notification 4" />
+          {this.state.notificationsCard}
         </Menu>
       </Popover>
       </div>
