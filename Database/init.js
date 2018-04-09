@@ -33,6 +33,7 @@
 
     // removeIntern(internRef, chatRoomRef, 1449)
 
+    // addHouse(groupChatRoomRef, houseRef, internRef, "3Video Games", "Ball park");
     addHouse(groupChatRoomRef, houseRef, internRef, "3My Housing", "Ball park");
 
     

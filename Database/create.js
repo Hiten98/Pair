@@ -330,17 +330,21 @@
 	}
 
 	function addHouse(groupChatRoomRef, houseRef, internRef, name, house) {
-		houseRef.child(name).once("value").then(function(snapshot) {
+		houseRef.child(house).once("value").then(function(snapshot) {
 			if(snapshot.exists()) {
+				console.log("here")
 				var count = snapshot.val().count;
 				count++;
-				houseRef.update({
+				houseRef.child(house).update({
 					"count": count,
 					[count]: name
 				});
 			}
 			else {
 				houseRef.update({
+					[house]: "novalue"
+				});
+				houseRef.child(house).update({
 					"count": "1",
 					"1": name
 				})
@@ -351,18 +355,18 @@
 		
 		groupChatRoomRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
-				internRef.child(childSnapshot.val()).child("listOfNotifications").once("value").then(function(babySnapshot) {
+				internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").once("value").then(function(babySnapshot) {
 					if(babySnapshot.exists()) {
 						var count = babySnapshot.val().count;
 						count++;
-						internRef.child(childSnapshot.val()).child("listOfNotifications").update({
+						internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").update({
 							"count": count,
 							[count]: house + " was added to " + name.substring(1)
 						});
 					}
 					else {
 						var string = house + " was added to " + name.substring(1);
-						internRef.child(childSnapshot.val()).child("listOfNotifications").update({
+						internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").update({
 							"count": 1,
 							"1": string
 						});

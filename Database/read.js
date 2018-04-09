@@ -21,7 +21,8 @@
 		getAdmin,
 		getAdminCompanies,
 		getInvite,
-		verifyUserChatroom
+		verifyUserChatroom,
+		getNotifications
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -397,4 +398,12 @@
 	    else {
 			callback(false);
 	    }
+	}
+
+	function getNotifications(internRef, ID, callback) {
+		var list = {};
+		internRef.child(ID).child("listOfNotifications").once("value").then(function(snapshot) {
+			list = snapshot.val();
+			callback(list);
+		});
 	}
