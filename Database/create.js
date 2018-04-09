@@ -17,7 +17,8 @@
 		createEmployeeChat,
 		addMessageToChat,
 		createComplaint,
-		addHouse
+		addHouse,
+		writeReview,
 	}*/
 
 	//var update = require('./update.js');
@@ -374,5 +375,9 @@
 				});
 			});
 		});
+	}
+
+	function writeReview(houseRef, house, review) {
+		/*udpate.*/getSnapshot(houseRef, house, "listOfReviews", review);
 	}
 

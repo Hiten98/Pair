@@ -15,7 +15,8 @@
         updateEmployeeChatDetails,
         acceptInvite,
         acceptCompany,
-        denyCompany
+        denyCompany,
+        likeHouse
     }*/
 
     //var update = require('./update.js');
@@ -297,5 +298,9 @@
         companyRef.child(name).update({
             "verified": false
         });
+    }
+
+    function likeHouse(groupChatRoomRef, house) {
+        
     }
 

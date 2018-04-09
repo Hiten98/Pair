@@ -22,7 +22,8 @@
 		getAdminCompanies,
 		getInvite,
 		verifyUserChatroom,
-		getNotifications
+		getNotifications,
+		getReviews
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -404,6 +405,18 @@
 		var list = {};
 		internRef.child(ID).child("listOfNotifications").once("value").then(function(snapshot) {
 			list = snapshot.val();
+			callback(list);
+		});
+	}
+
+	function getReviews(houseRef, house, callback) {
+		var list = {};
+		vara i = 0;
+		houseRef.child(house).child("listOfReviews").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
 			callback(list);
 		});
 	}
