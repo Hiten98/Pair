@@ -39,5 +39,7 @@
     //     document.write(JSON.stringify(x));
     // })
 
-
+    likeHouse(groupChatRoomRef, "3My Housing", "Ball Park", 1731, (x) => {
+        document.write(x);
+    })
         

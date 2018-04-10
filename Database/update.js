@@ -300,7 +300,24 @@
         });
     }
 
-    function likeHouse(groupChatRoomRef, house) {
+    function likeHouse(groupChatRoomRef, name, house, ID, callback) {
+        groupChatRoomRef.child(name).child("listOfHouses").child(house).once("value").then(function(snapshot) {
+            if(snapshot.val()[ID] != 1) {
+                groupChatRoomRef.child(name).child("listOfHouses").child(house).update({
+                    [ID]: 1
+                });
+                callback(true);
+            }
+            else {
+                groupChatRoomRef.child(name).child("listOfHouses").child(house).update({
+                    [ID]: 0
+                });
+                callback(false);
+            }
+        });
+
+
         
+
     }
 

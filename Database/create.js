@@ -18,6 +18,7 @@
 		addMessageToChat,
 		createComplaint,
 		addHouse,
+		addNotification,
 		writeReview,
 	}*/
 
@@ -330,15 +331,14 @@
 		/*update.*/getSnapshot(employeeRef, ID, "listOfComplaints", CID + "$:$" + complainter + "$:$" + complaintee + "$:$" + complaint);
 	}
 
-	function addHouse(groupChatRoomRef, houseRef, internRef, name, house) {
+	function addHouse(groupChatRoomRef, houseRef, internRef, name, ID, house) {
 		houseRef.child(house).once("value").then(function(snapshot) {
 			if(snapshot.exists()) {
 				console.log("here")
 				var count = snapshot.val().count;
 				count++;
 				houseRef.child(house).update({
-					"count": count,
-					[count]: name
+					"count": count
 				});
 			}
 			else {
@@ -346,30 +346,43 @@
 					[house]: "novalue"
 				});
 				houseRef.child(house).update({
-					"count": "1",
-					"1": name
+					"count": "1"
+					/*"bedrooms": bedrooms,
+					"bathrooms": bathrooms,
+					"zip": zip,
+					"url": url,
+					"city": city,
+					"state": state,
+					"misc": misc
+					*/
 				})
 			}
 		});
 
-		/*update.*/getSnapshot(groupChatRoomRef, name, "listOfHouses", house);
-		
+		groupChatRoomRef.child(name).child("listOfHouses").update({
+			[house]: "novalue"
+		});
+		/*create.*/addNotification(groupChatRoomRef, internRef, house + " was added to " + name.substring(1), ID);
+	}
+
+	function addNotification(groupChatRoomRef, internRef, notification, exception = 0000) {
 		groupChatRoomRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
+				if(exception == childSnapshot.val().substring(0, 4))
+					continue;
 				internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").once("value").then(function(babySnapshot) {
 					if(babySnapshot.exists()) {
 						var count = babySnapshot.val().count;
 						count++;
 						internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").update({
 							"count": count,
-							[count]: house + " was added to " + name.substring(1)
+							[count]: notification
 						});
 					}
 					else {
-						var string = house + " was added to " + name.substring(1);
 						internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").update({
 							"count": 1,
-							"1": string
+							"1": notification
 						});
 					}
 				});
