@@ -315,9 +315,5 @@
                 callback(false);
             }
         });
-
-
-        
-
     }
 

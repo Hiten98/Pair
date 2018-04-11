@@ -17,6 +17,7 @@
 		createEmployeeChat,
 		addMessageToChat,
 		createComplaint,
+		createHouse,
 		addHouse,
 		addNotification,
 		writeReview,
@@ -331,32 +332,27 @@
 		/*update.*/getSnapshot(employeeRef, ID, "listOfComplaints", CID + "$:$" + complainter + "$:$" + complaintee + "$:$" + complaint);
 	}
 
+	function createHouse(houseRef, address, price, sqft, bedrooms, bathrooms, url) {
+		houseRef.update({
+			[address]: "novalue"
+		});
+		houseRef.child(address).update({
+			"count": 0,
+			"bedrooms": bedrooms,
+			"bathrooms": bathrooms,
+			"url": url,
+			"price": price,
+			"sqft": sqft
+		});
+	}
+
 	function addHouse(groupChatRoomRef, houseRef, internRef, name, ID, house) {
 		houseRef.child(house).once("value").then(function(snapshot) {
-			if(snapshot.exists()) {
-				console.log("here")
-				var count = snapshot.val().count;
-				count++;
-				houseRef.child(house).update({
-					"count": count
-				});
-			}
-			else {
-				houseRef.update({
-					[house]: "novalue"
-				});
-				houseRef.child(house).update({
-					"count": "1"
-					/*"bedrooms": bedrooms,
-					"bathrooms": bathrooms,
-					"zip": zip,
-					"url": url,
-					"city": city,
-					"state": state,
-					"misc": misc
-					*/
-				})
-			}
+			var count = snapshot.val().count;
+			count++;
+			houseRef.child(house).update({
+				"count": count
+			});
 		});
 
 		groupChatRoomRef.child(name).child("listOfHouses").update({
