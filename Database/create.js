@@ -332,7 +332,7 @@
 		/*update.*/getSnapshot(employeeRef, ID, "listOfComplaints", CID + "$:$" + complainter + "$:$" + complaintee + "$:$" + complaint);
 	}
 
-	function createHouse(houseRef, address, state, zip, price, sqft, bedrooms, bathrooms, url) {
+	function createHouse(houseRef, address, state, zip, price, sqft, bedrooms, bathrooms, url, image) {
 		houseRef.child(state).child(zip).update({
 			[address]: "novalue"
 		});
@@ -342,12 +342,16 @@
 			"bathrooms": bathrooms,
 			"url": url,
 			"price": price,
-			"sqft": sqft
+			"sqft": sqft,
+			"image": image
 		});
 	}
 
 	function addHouse(groupChatRoomRef, houseRef, internRef, name, ID, house) {
-		houseRef.child(house).once("value").then(function(snapshot) {
+		var split = house.split(" ");
+    	var state = split[split.length - 2];
+    	var zip = split[split.length - 1];
+		houseRef.child(state).child(zip).child(house).once("value").then(function(snapshot) {
 			var count = snapshot.val().count;
 			count++;
 			houseRef.child(house).update({

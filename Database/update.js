@@ -306,7 +306,7 @@
             if(snapshot.val()[ID] != 1) {
                 likes++;
                 groupChatRoomRef.child(name).child("listOfHouses").child(house).update({
-                    [ID]: 1
+                    [ID]: 1,
                     "likes": likes
                 });
                 callback(true);
@@ -314,7 +314,7 @@
             else {
                 likes--;
                 groupChatRoomRef.child(name).child("listOfHouses").child(house).update({
-                    [ID]: 0
+                    [ID]: 0,
                     "likes": likes
                 });
                 callback(false);

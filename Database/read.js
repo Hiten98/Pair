@@ -23,7 +23,8 @@
 		getInvite,
 		verifyUserChatroom,
 		getNotifications,
-		getReviews
+		getReviews,
+		getHouses
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -419,4 +420,8 @@
 			});
 			callback(list);
 		});
+	}
+
+	function getHouses(houseRef, groupChatRoomRef) {
+
 	}

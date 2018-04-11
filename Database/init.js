@@ -39,7 +39,14 @@
     //     document.write(JSON.stringify(x));
     // })
 
-    likeHouse(groupChatRoomRef, "3My Housing", "Ball Park", 1731, (x) => {
-        document.write(x);
-    })
+    // likeHouse(groupChatRoomRef, "3My Housing", "Ball Park", 1731, (x) => {
+    //     document.write(x);
+    // })
         
+    // var house = "1301 3rd St.; West Lafayette, IN 47906";
+    // var split = house.split(" ");
+    // var state = split[split.length - 2];
+    // var zip = split[split.length - 1];
+    // console.log(state + " " + zip);
+
+    
