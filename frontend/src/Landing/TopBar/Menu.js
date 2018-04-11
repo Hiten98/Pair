@@ -48,10 +48,14 @@ class Menu extends Component {
     return (
       <ToolbarGroup>
         <FlatButton
-          onClick={() => { this.setState({ notificationVisible: true }) }}
+          onClick={(event) => { this.setState({
+            anchorEl: event.currentTarget,
+            notificationVisible: true,
+          });
+        }}
           icon={<i className="material-icons md-light md-36">&#xE7F4;</i>}
         />
-        <Notifications {...this.props} notificationVisible={this.state.notificationVisible} closeNotifications={this.closeNotifications}/>
+        <Notifications {...this.props} anchorEl = {this.state.anchorEl} notificationVisible={this.state.notificationVisible} closeNotifications={this.closeNotifications}/>
         <DeleteAccountModal deleteOpen={this.state.deleteOpen} deleteAccount={this.deleteAccount} uid={this.props.uid} />
         <ChangePasswordModal passOpen={this.state.passOpen} changePass={this.changePass} uid={this.props.uid} />
         <IconMenu

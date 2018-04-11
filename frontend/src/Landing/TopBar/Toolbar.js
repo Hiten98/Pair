@@ -101,7 +101,11 @@ class TopBar extends Component {
           onLeftIconButtonClick={this.props.changeDrawerStatus}
           iconElementRight={<i className="material-icons md-light">&#xE7F4;</i>}
           iconStyleRight={{ marginTop: '3vh' }}
-          onRightIconButtonClick={() => { this.setState({ notificationVisible: false }) }}
+          onRightIconButtonClick={(event) => { this.setState({
+            anchorEl: event.currentTarget,
+            notificationVisible: true,
+          });
+         }}
         />
         <Drawer
           open={this.state.navDrawer}
