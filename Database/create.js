@@ -332,11 +332,11 @@
 		/*update.*/getSnapshot(employeeRef, ID, "listOfComplaints", CID + "$:$" + complainter + "$:$" + complaintee + "$:$" + complaint);
 	}
 
-	function createHouse(houseRef, address, price, sqft, bedrooms, bathrooms, url) {
-		houseRef.update({
+	function createHouse(houseRef, address, state, zip, price, sqft, bedrooms, bathrooms, url) {
+		houseRef.child(state).child(zip).update({
 			[address]: "novalue"
 		});
-		houseRef.child(address).update({
+		houseRef.child(state).child(zip).child(address).update({
 			"count": 0,
 			"bedrooms": bedrooms,
 			"bathrooms": bathrooms,
@@ -357,6 +357,9 @@
 
 		groupChatRoomRef.child(name).child("listOfHouses").update({
 			[house]: "novalue"
+		});
+		groupChatRoomRef.child(name).child("listOfHouses").child(house).update({
+			"likes": 0
 		});
 		/*create.*/addNotification(groupChatRoomRef, internRef, house + " was added to " + name.substring(1), ID);
 	}
