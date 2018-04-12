@@ -22,7 +22,9 @@
 		getAdminCompanies,
 		getInvite,
 		verifyUserChatroom,
-		getNotifications
+		getNotifications,
+		getReviews,
+		getHouses
 	}
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -59,7 +61,7 @@
 					childSnapshot.child("listOfEmployees").forEach(function(babySnapshot) {
 						json["employees"][babySnapshot.key] = babySnapshot.val();
 					});
-					json["verified"] = sSnapshot.val().verified;
+					json["verified"] = snapshot.val().verified;
 				}
 			});
 			callback(json);
@@ -405,5 +407,26 @@
 		internRef.child(ID).child("listOfNotifications").once("value").then(function(snapshot) {
 			list = snapshot.val();
 			callback(list);
+		});
+	}
+
+	function getReviews(houseRef, house, callback) {
+    var split = house.split(" ");
+    var state = split[split.length - 2];
+    var zip = split[split.length - 1];
+		var list = {};
+		var i = 0;
+		houseRef.child(state).child(zip).child(house).child("listOfReviews").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
+			callback(list);
+		});
+	}
+
+	function getHouses(houseRef, state, callback) {
+		houseRef.child(state).once("value").then(function(snapshot) {
+			callback(snapshot.val());
 		});
 	}

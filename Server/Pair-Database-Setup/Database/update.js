@@ -15,7 +15,9 @@
       updateEmployeeChatDetails,
       acceptInvite,
       acceptCompany,
-      denyCompany
+      denyCompany,
+      likeHouse,
+      removeHouse
   }
 
   var update = require('./update.js');
@@ -288,3 +290,38 @@
           "verified": false
       });
   }
+
+  function likeHouse(groupChatRoomRef, name, house, ID, callback) {
+      groupChatRoomRef.child(name).child("listOfHouses").child(house).once("value").then(function(snapshot) {
+          var likes = snapshot.val().likes;
+          if(snapshot.val()[ID] != 1) {
+              likes++;
+              groupChatRoomRef.child(name).child("listOfHouses").child(house).update({
+                  [ID]: 1,
+                  "likes": likes
+              });
+              callback(true);
+          }
+          else {
+              likes--;
+              groupChatRoomRef.child(name).child("listOfHouses").child(house).update({
+                  [ID]: 0,
+                  "likes": likes
+              });
+              callback(false);
+          }
+      });
+  }
+
+  function removeHouse(groupChatRoomRef, houseRef, name, house) {
+        groupChatRoomRef.child(name).child("listOfHouses").child(house).remove();
+        var split = key.split(" ");
+        var state = split[split.length - 2];
+        var zip = split[split.length - 1];
+        houseRef.child(state).child(zip).child(house).once("value").then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                if(childSnapshot.val() == name)
+                    houseRef.child(state).child(zip).child(house).child(childSnapshot.key).remove();
+            });
+        });
+    }
