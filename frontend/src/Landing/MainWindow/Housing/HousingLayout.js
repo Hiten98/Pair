@@ -71,32 +71,47 @@ class LandingScreen extends Component {
 
     // Server Call with housing filter parameters to get first 10 or 20 houses
     let that=this
-    axios.post('/GET-MASTER-LIST-COMPANY', {
-      "companyName": "Prime",
-      "minBed": this.state.minBed,
-      "maxBed": this.state.maxBed,
-      "minBath": this.state.minBath,
-      "maxBath": this.state.maxBath,
+    axios.post('/GET-FILTERED-HOUSES', {
+      "state": "CA",
+      "offset": this.state.offset,
+      "minBedrooms": this.state.minBed,
+      "maxBedrooms": this.state.maxBed,
+      "minBathrooms": this.state.minBath,
+      "maxBathrooms": this.state.maxBath,
       "minPrice": this.state.minPrice,
       "maxPrice": this.state.maxPrice,
-      "minSqFt": this.state.minSqFt,
-      "maxSqFt": this.state.maxSqFt,
+      "minsqft": this.state.minSqFt,
+      "maxsqft": this.state.maxSqFt,
       "houses": this.state.houses
     }).then(function (response) {
       // Make Cards for House Listings
       console.log(response.data);
       let tempCard = []
+
+
       for (let i in response.data) {
+        var details, reviews;
+        details = +response.data[i].bedrooms + " Bed • " + +response.data[i].bathrooms + " Bath • " + +response.data[i].sqft + " sqft • $"+ +response.data[i].price
+
+        axios.post('/GET-REVIEWS', {
+          "house": response.data[i].address
+        }).then(function (reviewsResponse){
+          reviews = "Reviews: " + reviewsResponse.data;
+          console.log(reviewsResponse.data);
+        }).catch(function (error) {
+          console.log(error);
+        });
+
         tempCard.push(
           <Card>
             <CardHeader
-              title="House Address"
-              subtitle="House Details"
+              title={response.data[i].address}
+              subtitle={details}
               actAsExpander={true}
               showExpandableButton={true}
             />
             <CardText expandable={true}>
-              Reviews by other interns...
+              Reviews: {reviews}
               <CardActions>
                 <FlatButton label="Add Review" />
               </CardActions>
