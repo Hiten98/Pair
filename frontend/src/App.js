@@ -35,8 +35,11 @@ class App extends Component {
     }
   });
 
-  componentDidMount=()=>{
-    window.addEventListener("resize", ()=>{this.forceUpdate()})
+  componentDidMount = () => {
+    window.addEventListener("resize", () => {
+      if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent)))
+        this.forceUpdate()
+    })
   }
 
   saveState = () => {
@@ -50,12 +53,12 @@ class App extends Component {
 
   updateCompany = (company) => {
     //console.log(company)
-    this.setState({ company: company },()=>{this.saveState()})
+    this.setState({ company: company }, () => { this.saveState() })
     this.saveState()
   }
 
   updateLocations = (locations) => {
-    this.setState({ locations: locations },()=>{this.saveState()})
+    this.setState({ locations: locations }, () => { this.saveState() })
     //console.log(locations)
     this.saveState()
   }
@@ -63,8 +66,8 @@ class App extends Component {
   updateUid = (uid, authority) => {
     //console.log(uid)
     //console.log("hi")
-    this.setState({ uid: uid },()=>{this.saveState()})
-    this.setState({ type: authority },()=>{this.saveState()})
+    this.setState({ uid: uid }, () => { this.saveState() })
+    this.setState({ type: authority }, () => { this.saveState() })
     this.saveState()
   }
 

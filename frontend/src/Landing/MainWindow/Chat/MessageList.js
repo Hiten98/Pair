@@ -106,13 +106,6 @@ class MessageList extends Component {
                   numMsgs: chatroomMessages.length
                 });
               })
-            } else {
-              that.setState({
-                chats: chatroomMessages,
-                inputText: "",
-                numPrevMsgs: this.state.numMsgs,
-                numMsgs: chatroomMessages.length
-              });
             }
           }
         })
@@ -141,7 +134,6 @@ class MessageList extends Component {
 
   tick = () => {
     this.componentDidMount();
-    this.render();
   };
 
   scrollToBottom = () => {
