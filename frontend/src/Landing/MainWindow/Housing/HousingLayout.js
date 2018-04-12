@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import {NavLink, Switch, Route} from 'react-router-dom'
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import Slider from 'material-ui/Slider';
+import axios from 'axios'
+import {RaisedButton,FlatButton,Dialog,Slider} from 'material-ui'
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 //import './LandingScreen.css';
 
 class LandingScreen extends Component {
@@ -21,7 +20,9 @@ class LandingScreen extends Component {
       bedOpen: false,
       bathOpen: false,
       priceOpen: false,
-      sqFtOpen: false
+      sqFtOpen: false,
+      houseCards: [],
+      houses: 0
     }
   }
 
@@ -87,6 +88,52 @@ class LandingScreen extends Component {
 
   maxSqFtSlider = (event, value) => {
     this.setState({maxSqFt: value});
+  };
+
+  handleSearch = () => {
+    // Go back to first 10 or 20 houses when search is made again with new filters
+    this.setState({houses: 0});
+
+    // Server Call with housing filter parameters to get first 10 or 20 houses
+    let that=this
+    axios.post('/GET-MASTER-LIST-COMPANY', {
+      "companyName": "Prime",
+      "minBed": this.state.minBed,
+      "maxBed": this.state.maxBed,
+      "minBath": this.state.minBath,
+      "maxBath": this.state.maxBath,
+      "minPrice": this.state.minPrice,
+      "maxPrice": this.state.maxPrice,
+      "minSqFt": this.state.minSqFt,
+      "maxSqFt": this.state.maxSqFt,
+      "houses": this.state.houses
+    }).then(function (response) {
+      // Make Cards for House Listings
+      console.log(response.data);
+      let tempCard = []
+      for (let i in response.data) {
+        tempCard.push(
+          <Card>
+            <CardHeader
+              title="House Address"
+              subtitle="House Details"
+              actAsExpander={true}
+              showExpandableButton={true}
+            />
+            <CardText expandable={true}>
+              Reviews by other interns...
+              <CardActions>
+                <FlatButton label="Add Review" />
+              </CardActions>
+            </CardText>
+          </Card>
+        )
+      }
+      that.setState({ houseCards: tempCard })
+
+    }).catch(function (error) {
+      console.log(error);
+    });
   };
 
   render() {
@@ -165,6 +212,9 @@ class LandingScreen extends Component {
           <Slider min={0} max={5000} step={100} value={this.state.maxSqFt} onChange={this.maxSqFtSlider}
           />
         </Dialog>
+
+        <RaisedButton label="Search" onClick={this.handleSearch} />
+        {this.state.houseCards}
 
       </div>
     );
