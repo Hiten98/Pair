@@ -150,12 +150,17 @@ class LandingScreen extends Component {
       // Make Cards for House Listings
       console.log(response.data);
       let tempCard = []
+
+
       for (let i in response.data) {
-        var details = +response.data[i].bedrooms + " Bed " + +response.data[i].bathrooms + " Bath"
+        var details, reviews;
+        details = +response.data[i].bedrooms + " Bed • " + +response.data[i].bathrooms + " Bath • " + +response.data[i].sqft + " sqft • $"+ +response.data[i].price
+
         axios.post('/GET-REVIEWS', {
           "house": response.data[i].address
-        }).then(function (response){
-          console.log(response.data);
+        }).then(function (reviewsResponse){
+          reviews = "Reviews: " + reviewsResponse.data;
+          console.log(reviewsResponse.data);
         }).catch(function (error) {
           console.log(error);
         });
@@ -169,7 +174,7 @@ class LandingScreen extends Component {
               showExpandableButton={true}
             />
             <CardText expandable={true}>
-              Reviews by other interns...
+              Reviews: {reviews}
               <CardActions>
                 <FlatButton label="Add Review" />
               </CardActions>
