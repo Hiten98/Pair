@@ -17,21 +17,18 @@ class LandingScreen extends Component {
       maxPrice: 2500,
       minSqFt: 2500,
       maxSqFt: 2500,
-      bedOpen: false,
-      bathOpen: false,
-      priceOpen: false,
-      sqFtOpen: false,
+      open: false,
       houseCards: [],
       offset: 0
     }
   }
 
-  bedOpen = () => {
-    this.setState({bedOpen: true});
+  handleOpen = () => {
+    this.setState({open: true});
   };
 
-  bedClose = () => {
-    this.setState({bedOpen: false});
+  handleClose = () => {
+    this.setState({open: false});
   };
 
   minBedSlider = (event, value) => {
@@ -42,14 +39,6 @@ class LandingScreen extends Component {
     this.setState({maxBed: value});
   };
 
-  bathOpen = () => {
-    this.setState({bathOpen: true});
-  };
-
-  bathClose = () => {
-    this.setState({bathOpen: false});
-  };
-
   minBathSlider = (event, value) => {
     this.setState({minBath: value});
   };
@@ -58,28 +47,12 @@ class LandingScreen extends Component {
     this.setState({maxBath: value});
   };
 
-  priceOpen = () => {
-    this.setState({priceOpen: true});
-  };
-
-  priceClose = () => {
-    this.setState({priceOpen: false});
-  };
-
   minPriceSlider = (event, value) => {
     this.setState({minPrice: value});
   };
 
   maxPriceSlider = (event, value) => {
     this.setState({maxPrice: value});
-  };
-
-  sqFtOpen = () => {
-    this.setState({sqFtOpen: true});
-  };
-
-  sqFtClose = () => {
-    this.setState({sqFtOpen: false});
   };
 
   minSqFtSlider = (event, value) => {
@@ -92,6 +65,7 @@ class LandingScreen extends Component {
 
   handleSearch = () => {
     console.log(this.props);
+    this.handleClose();
     // Go back to first 10 or 20 houses when search is made again with new filters
     this.setState({offset: 0});
 
@@ -190,83 +164,42 @@ class LandingScreen extends Component {
   }
 
   render() {
-    const bedActions = [
-      <FlatButton label="OK" primary={true} keyboardFocused={true} onClick={this.bedClose}/>,
-    ];
-    const bathActions = [
-      <FlatButton label="OK" primary={true} keyboardFocused={true} onClick={this.bathClose}/>,
-    ];
-    const priceActions = [
-      <FlatButton label="OK" primary={true} keyboardFocused={true} onClick={this.priceClose}/>,
-    ];
-    const sqFtActions = [
-      <FlatButton label="OK" primary={true} keyboardFocused={true} onClick={this.sqFtClose}/>,
+    const actions = [
+      <FlatButton label="Cancel" primary={true} onClick={this.handleClose}/>,
+      <FlatButton label="Apply Filters" primary={true} onClick={this.handleSearch}/>,
     ];
 
     return (
-      <div>
-
-        <RaisedButton label="Choose number of Beds" onClick={this.bedOpen} />
-        <Dialog actions={bedActions} modal={false} open={this.state.bedOpen} onRequestClose={this.bedClose}>
-          <p>
-            <span>{'Minimum Number of Beds: '}</span>
-            <span>{this.state.minBed}</span>
-          </p>
+      <div style={{textAlign:'left'}}>
+        <RaisedButton label="Filters" onClick={this.handleOpen} />
+        <Dialog actions={actions} autoScrollBodyContent modal={true} open={this.state.open} onRequestClose={this.handleClose}>
+<div style={{overflowY: 'auto', overflowX:'hidden' }}>
+          <p>Minimum Number of Beds:&nbsp;{this.state.minBed}</p>
           <Slider min={0} max={10} step={1} value={this.state.minBed} onChange={this.minBedSlider} />
-          <p>
-            <span>{'Maximum number of Beds: '}</span>
-            <span>{this.state.maxBed}</span>
-          </p>
-          <Slider min={0} max={10} step={1} value={this.state.maxBed} onChange={this.maxBedSlider}
-          />
-        </Dialog>
 
-        <RaisedButton label="Choose number of Baths" onClick={this.bathOpen} />
-        <Dialog actions={bathActions} modal={false} open={this.state.bathOpen} onRequestClose={this.bathClose}>
-          <p>
-            <span>{'Minimum Number of Baths: '}</span>
-            <span>{this.state.minBath}</span>
-          </p>
+          <p>Maximum number of Beds:&nbsp;{this.state.maxBed}</p>
+          <Slider min={0} max={10} step={1} value={this.state.maxBed} onChange={this.maxBedSlider}/>
+
+          <p>Minimum Number of Baths:&nbsp;{this.state.minBath}</p>
           <Slider min={0} max={10} step={1} value={this.state.minBath} onChange={this.minBathSlider} />
-          <p>
-            <span>{'Maximum number of Baths: '}</span>
-            <span>{this.state.maxBath}</span>
-          </p>
-          <Slider min={0} max={10} step={1} value={this.state.maxBath} onChange={this.maxBathSlider}
-          />
-        </Dialog>
 
-        <RaisedButton label="Choose Price Range" onClick={this.priceOpen} />
-        <Dialog actions={priceActions} modal={false} open={this.state.priceOpen} onRequestClose={this.priceClose}>
-          <p>
-            <span>{'Minimum Price: '}</span>
-            <span>{this.state.minPrice}</span>
-          </p>
+          <p>Maximum number of Baths:&nbsp;{this.state.maxBath}</p>
+          <Slider min={0} max={10} step={1} value={this.state.maxBath} onChange={this.maxBathSlider}/>
+
+          <p>Minimum Price:&nbsp;{this.state.minPrice}</p>
           <Slider min={0} max={5000} step={100} value={this.state.minPrice} onChange={this.minPriceSlider} />
-          <p>
-            <span>{'Maximum Price: '}</span>
-            <span>{this.state.maxPrice}</span>
-          </p>
-          <Slider min={0} max={5000} step={100} value={this.state.maxPrice} onChange={this.maxPriceSlider}
-          />
-        </Dialog>
 
-        <RaisedButton label="Choose Square Feet" onClick={this.sqFtOpen} />
-        <Dialog actions={sqFtActions} modal={false} open={this.state.sqFtOpen} onRequestClose={this.sqFtClose}>
-          <p>
-            <span>{'Minimum Square Feet: '}</span>
-            <span>{this.state.minSqFt}</span>
-          </p>
+          <p>Maximum Price:&nbsp;{this.state.maxPrice}</p>
+          <Slider min={0} max={5000} step={100} value={this.state.maxPrice} onChange={this.maxPriceSlider}/>
+
+          <p>Minimum Square Feet:&nbsp;{this.state.minSqFt}</p>
           <Slider min={0} max={5000} step={100} value={this.state.minSqFt} onChange={this.minSqFtSlider} />
-          <p>
-            <span>{'Maximum Square Feet: '}</span>
-            <span>{this.state.maxSqFt}</span>
-          </p>
-          <Slider min={0} max={5000} step={100} value={this.state.maxSqFt} onChange={this.maxSqFtSlider}
-          />
+
+          <p>Maximum Square Feet:&nbsp;{this.state.maxSqFt}</p>
+          <Slider min={0} max={5000} step={100} value={this.state.maxSqFt} onChange={this.maxSqFtSlider}/>
+          </div>
         </Dialog>
 
-        <RaisedButton label="Search" onClick={this.handleSearch} />
         {this.state.houseCards}
 
       </div>
