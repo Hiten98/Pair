@@ -22,7 +22,7 @@ class LandingScreen extends Component {
       priceOpen: false,
       sqFtOpen: false,
       houseCards: [],
-      houses: 0
+      offset: 0
     }
   }
 
@@ -91,8 +91,9 @@ class LandingScreen extends Component {
   };
 
   handleSearch = () => {
+    console.log(this.props);
     // Go back to first 10 or 20 houses when search is made again with new filters
-    this.setState({houses: 0});
+    this.setState({offset: 0});
 
     // Server Call with housing filter parameters to get first 10 or 20 houses
     let that=this
@@ -135,6 +136,53 @@ class LandingScreen extends Component {
       console.log(error);
     });
   };
+
+  componentDidMount() {
+    // Go back to first 10 or 20 houses when search is made again with new filters
+    this.setState({offset: 0});
+
+    // Server Call with housing filter parameters to get first 10 or 20 houses
+    let that=this
+    axios.post('/GET-HOUSES', {
+      "state": "CA",
+      "offset": this.state.offset
+    }).then(function (response) {
+      // Make Cards for House Listings
+      console.log(response.data);
+      let tempCard = []
+      for (let i in response.data) {
+        var details = +response.data[i].bedrooms + " Bed " + +response.data[i].bathrooms + " Bath"
+        axios.post('/GET-REVIEWS', {
+          "house": response.data[i].address
+        }).then(function (response){
+          console.log(response.data);
+        }).catch(function (error) {
+          console.log(error);
+        });
+
+        tempCard.push(
+          <Card>
+            <CardHeader
+              title={response.data[i].address}
+              subtitle={details}
+              actAsExpander={true}
+              showExpandableButton={true}
+            />
+            <CardText expandable={true}>
+              Reviews by other interns...
+              <CardActions>
+                <FlatButton label="Add Review" />
+              </CardActions>
+            </CardText>
+          </Card>
+        )
+      }
+      that.setState({ houseCards: tempCard })
+
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
 
   render() {
     const bedActions = [
