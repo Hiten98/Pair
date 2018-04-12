@@ -24,7 +24,8 @@
 		verifyUserChatroom,
 		getNotifications,
 		getReviews,
-		getHouses
+		getHouses.
+		getSavedHouses
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -425,5 +426,29 @@
 	function getHouses(houseRef, state, callback) {
 		houseRef.child(state).once("value").then(function(snapshot) {
 			callback(snapshot.val());
+		});
+	}
+
+	function getSavedHouses(groupChatRoomRef, houseRef, name, callback) {
+		var list = {};
+		groupChatRoomRef.child(name).child("listOfHouses").once("value").then(function(snapshot) {
+			list = snapshot.val();
+			var size = Object.keys(list).length;
+			var i = 0;
+			for (var key in list) {
+			    if (list.hasOwnProperty(key)) {
+		    		var split = key.split(" ");
+			    	var state = split[split.length - 2];
+			    	var zip = split[split.length - 1];
+					houseRef.child(state).child(zip).child(key).once("value").then(function(childSnapshot) {
+						var likes = list[key]["likes"];
+						list[key] = childSnapshot.val();
+						list[key]["likes"] = likes;
+						i++;
+						if(i == size)
+							callback(list);
+					});
+			    }
+			}
 		});
 	}

@@ -60,4 +60,5 @@
     //     document.write(JSON.stringify(snapshot.val()));
     // });
 
-    getHouses(houseRef, "NY", (x) => { document.write(JSON.stringify(x)); });
+    // getHouses(houseRef, "NY", (x) => { document.write(JSON.stringify(x)); });
+    getSavedHouses(groupChatRoomRef, houseRef, "3Games", (x) => { document.write(JSON.stringify(x)); });
