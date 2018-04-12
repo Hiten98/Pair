@@ -7,8 +7,11 @@ import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bu
 import CreateGroupChat from './CreateGroupChat'
 import axios from 'axios'
 import InviteChat from './InviteChat'
+import AddLocationModal from './BottomBar/AddLocationModal'
+import AddEmployeeModal from './BottomBar/AddEmployeeModal'
 import './Sidebar.css';
 import history from '../history';
+import LeaveChatButton from './MainWindow/Chat/LeaveChatButton';
 
 axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
@@ -24,6 +27,8 @@ class Sidebar extends Component {
       open: false,
       index: '',
       type: '',
+      verified: 'false',
+      pin: '',
     }
     // console.log(props)
   }
@@ -176,6 +181,16 @@ class Sidebar extends Component {
       }).catch(function (error) {
         console.log(error);
       })
+    } else if (history.location.pathname.indexOf('/landing/company') == 0) {
+      axios.post('/GET-COMPANY-FROM-NAME', {
+        "name": this.props.uid
+      }).then(function (response) {
+        //console.log(response.data);
+        that.setState({ pin: response.data.pin, verified: response.data.verified })
+
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   }
 
@@ -235,17 +250,33 @@ class Sidebar extends Component {
             <img src={wordLogo} alt="logo" className='no-word-logo' />
           </div>
           <hr />
-          <div style={{ height: '81vh', overflowY: 'auto', overflowX: 'hidden' }}>
+          <div style={{ height: '71vh', overflowY: 'auto', overflowX: 'hidden' }}>
             <List style={{ marginTop: '-1vh' }}>
               {this.state.cards}
             </List>
           </div>
 
+
           <InviteChat {...this.props} {...this.state} closeModal={this.closeModal} acceptedChat={this.acceptedChat} />
 
           <div>
-            {(this.props.type != "admin" && this.props.type != "company") ? <CreateGroupChat {...this.props} /> : <div></div>}
+            {(this.props.type != "admin" && this.props.type != "company") ? <LeaveChatButton {...this.props} {...this.state} /> : null}
+            <br />
+            {(this.props.type != "admin" && this.props.type != "company") ? <CreateGroupChat {...this.props} /> : null}
           </div>
+          {(this.props.type == 'company') ?
+            <div style={{ marginTop: '-80vh' }}>
+              <Col sm={12} >
+                <AddEmployeeModal {...this.state} />
+              </Col>
+              <Col sm={12}>
+                {this.state.verified != 'true' ? <p style={{ marginTop: '5%' }}>Add employee is disabled until an admin reviews and accepts your company</p> : null}
+              </Col>
+              <Col sm={12}>
+                <AddLocationModal companyName={this.props.uid} />
+              </Col>
+            </div>
+            : null}
         </Drawer>
       )
     } else

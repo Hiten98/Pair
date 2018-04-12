@@ -16,20 +16,26 @@
   margin-bottom: -20px
 }
 
- .create-gc-button{
-  margin:0 auto;
-} 
-
-.create-gc-div{
-  position: absolute;
-  width:100%;
-  bottom:2vh;
-  text-align: center;
-  margin-left: -6%;
-}
-
 .sidebar-list{
   height:calc(100vh - 80px);
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+@media all and (max-width:767px){
+  
+}
+
+@media all and (min-width:768px){
+  .create-gc-button{
+    margin:0 auto;
+  } 
+  
+  .create-gc-div{
+    position: absolute;
+    width:100%;
+    bottom:2vh;
+    text-align: center;
+    margin-left: -6%;
+  }
 }

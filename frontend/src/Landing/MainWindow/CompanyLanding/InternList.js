@@ -96,7 +96,7 @@ class InternList extends Component {
 
   render() {
     return (
-      <Col xs={4} className="Interns" style={{overflowY:'auto'}}>
+      <Col xs={12} sm={4} className="Interns" style={{overflowY:'auto'}}>
         <List>
           <h3>Interns</h3>
           {this.state.internsCard}

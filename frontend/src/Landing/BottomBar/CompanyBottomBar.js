@@ -45,13 +45,13 @@ class BottomBar extends Component {
   render() {
     return (
       <div>
-        <Col xs={4} className="addEmployee">
+        <Col xsHidden sm={4} className="addEmployee">
           <AddEmployeeModal {...this.state} />
         </Col>
-        <Col xs={4}>
+        <Col xsHidden sm={4}>
           {this.state.verified!='true'?<p style={{marginTop:'5%'}}>Add employee is disabled until an admin reviews and accepts your company</p>:null}
         </Col>
-        <Col xs={4} className="addLocation">
+        <Col xsHidden sm={4} className="addLocation">
           <AddLocationModal companyName={this.props.uid} />
         </Col>
       </div>

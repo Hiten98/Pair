@@ -23,6 +23,8 @@ class TopBar extends Component {
       currPage = 'saved'
     } else if (!history.location.pathname.indexOf(`/landing/${props.type}/housing`)) {
       currPage = 'housing'
+    } else if(!history.location.pathname.indexOf('/landing/company')){
+      currPage='Company'
     }
     a[currPage] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '56px' } }
     this.state = {

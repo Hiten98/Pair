@@ -190,12 +190,12 @@ class Chatroom extends Component {
       <div style={{ overflow: "hidden" }}>
         <div className="chatroom">
           <Row className="container-fluid">
-            <h3>
+            <h3 style={{fontSize:'4vh'}}>
               <Col>{this.state.chatroomName.substring(1)}</Col>
             </h3>
           </Row>
           <MessageList {...this.state} {...this.props} />
-          <LeaveChatButton {...this.props}/>
+          {/* <LeaveChatButton {...this.props}/> */}
         </div>
 
         <div className="messages">
