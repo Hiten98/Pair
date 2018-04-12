@@ -145,10 +145,12 @@ class MessageList extends Component {
   };
 
   scrollToBottom = () => {
+    //if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent)))
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
 
   scrollToBottomInstant = () => {
+    // if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent)))
     this.messagesEnd.scrollIntoView({ behavior: "instant" });
   };
 
@@ -169,7 +171,7 @@ class MessageList extends Component {
     const { chats } = this.state;
     // console.log(chats);
     return (
-      <Row style={{ width: "101.3%", overflowX: "hidden" }}>
+      <Row style={{ width: "101.3%" }} className='chat-overflow'>
         <ul className="chats" ref="chats">
           {this.state.chats}
           <li

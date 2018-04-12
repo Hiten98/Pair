@@ -21,6 +21,7 @@ p {
   /* min-height: 81vh; */
   min-width: 100%;
   display: inline-block;
+  overflow: hidden;
 }
 .chatroom h3 {
   font-family: 'Roboto', sans-serif;
@@ -42,7 +43,7 @@ p {
   box-sizing: border-box;
   padding: 0 20px;
   margin: 10px 0 0;
-  height: calc(100vh - 80px -57px - 100px);
+  height: calc(100vh - 80px - 57px - 100px);
   overflow-y: auto;
   text-align: left;
   margin-top: 0vh;

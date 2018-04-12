@@ -195,7 +195,6 @@ class Chatroom extends Component {
             </h3>
           </Row>
           <MessageList {...this.state} {...this.props} />
-          {/* <LeaveChatButton {...this.props}/> */}
         </div>
 
         <div className="messages">
