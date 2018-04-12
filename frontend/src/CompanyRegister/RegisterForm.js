@@ -12,7 +12,7 @@ class RegisterForm extends Component {
       companyName: null,
       companyEmail: null,
       companyPassword: null,
-      companyLocations: null,
+      companyLocations: '',
     }
   }
 

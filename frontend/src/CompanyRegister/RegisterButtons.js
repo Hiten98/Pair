@@ -17,7 +17,9 @@ class RegisterButtons extends Component {
     let companyPassword = this.props.companyPassword;
     let companyLocations = this.props.companyLocations;
     let companyLocationsParsed;
-    if (companyLocations != null)
+    if(companyLocations=='')
+      companyLocationsParsed=[]
+    else
       companyLocationsParsed = companyLocations.split(';');
     /*console.log(companyName);
     console.log(companyEmail);

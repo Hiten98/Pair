@@ -66,6 +66,14 @@ class AddEmployeeModal extends Component {
     }
   }
 
+  checkDisabled=()=>{
+    if(this.props.verified!='accepted'){
+      return {disabled:'true'}
+    } else {
+      return null
+    }
+  }
+
   styles = {
     underlineStyle: {
       borderColor: black,
@@ -97,6 +105,7 @@ class AddEmployeeModal extends Component {
           primary
           onClick={this.handleOpen}
           style={{ marginTop: '5%' }}
+          {...this.checkDisabled()}
         />
         <Dialog
           title='Add Employee'

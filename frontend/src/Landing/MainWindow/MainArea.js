@@ -8,6 +8,8 @@ import Complaints from './Complaints/Complaints'
 import './MainArea.css';
 import CompanyMain from './CompanyLanding/CompanyMain';
 import AdminLayout from './AdminPage/AdminLayout';
+import SavedHousingLayout from './SavedHousing/SavedHousingLayout'
+import HousingLayout from './Housing/HousingLayout'
 
 class MainArea extends Component {
   constructor(props) {
@@ -48,8 +50,8 @@ class MainArea extends Component {
             <Route path={`/landing/${this.props.type}/chat`} render={()=><Chats {...this.props}/>}/>
             <Route path={`/landing/${this.props.type}/members`} render={()=><Members {...this.props}/>}/>
             <Route path='/landing/employee/complaints' render={()=><Complaints {...this.props}/>}/>
-            <Route path={`/landing/${this.props.type}/saved`} render={()=><p>Hi</p>}/>
-            <Route path={`/landing/${this.props.type}/housing`} render={()=><p>Hi</p>}/>
+            <Route path={`/landing/${this.props.type}/saved`} render={()=><SavedHousingLayout {...this.props}/>}/>
+            <Route path={`/landing/${this.props.type}/housing`} render={()=><HousingLayout {...this.props}/>}/>
             <Route path='/landing/admin' render={()=><AdminLayout {...this.props}/>}/>
             <Route path="/" render={() => <Redirect to='/home/login' />} />
           </Switch>

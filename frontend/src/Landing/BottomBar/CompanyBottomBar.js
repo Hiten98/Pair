@@ -15,6 +15,7 @@ class BottomBar extends Component {
       employeeModal: false,
       locationModal: false,
       pin: null,
+      verified:'false',
     }
   }
 
@@ -33,7 +34,7 @@ class BottomBar extends Component {
       "name": this.props.uid
     }).then(function (response) {
       //console.log(response.data);
-      that.setState({ pin: response.data.pin })
+      that.setState({ pin: response.data.pin, verified:response.data.verified })
 
     }).catch(function (error) {
       console.log(error);
@@ -45,10 +46,10 @@ class BottomBar extends Component {
     return (
       <div>
         <Col xs={4} className="addEmployee">
-          <AddEmployeeModal pin={this.state.pin} />
+          <AddEmployeeModal {...this.state} />
         </Col>
         <Col xs={4}>
-
+          {this.state.verified!='accepted'?<p style={{marginTop:'5%'}}>Add employee is disabled until an admin reviews and accepts your company</p>:null}
         </Col>
         <Col xs={4} className="addLocation">
           <AddLocationModal companyName={this.props.uid} />
