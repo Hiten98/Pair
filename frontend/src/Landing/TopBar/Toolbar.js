@@ -24,7 +24,7 @@ class TopBar extends Component {
     } else if (!history.location.pathname.indexOf(`/landing/${props.type}/housing`)) {
       currPage = 'housing'
     }
-    a[currPage] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '8vh' } }
+    a[currPage] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '56px' } }
     this.state = {
       value: currPage,
       navDrawer: false,
@@ -34,8 +34,8 @@ class TopBar extends Component {
     // console.log(props)
   }
 
-  closeNotifications=()=>{
-    this.setState({notificationVisible:false})
+  closeNotifications = () => {
+    this.setState({ notificationVisible: false })
   }
 
   createTab = (title, value) => {
@@ -44,7 +44,7 @@ class TopBar extends Component {
         primaryText={title}
         onClick={() => { this.handleChange(null, null, value) }}
         hoverColor='#F95498B0'
-        style={{ color: 'white', fontSize: '21px', height: '8vh' }}
+        style={{ color: 'white', fontSize: '21px', height: '56px' }}
         {...this.state.colors[value]}
       />
     )
@@ -53,7 +53,7 @@ class TopBar extends Component {
   handleChange = (ev, key, value) => {
     // console.log(ev)
     let a = []
-    a[value] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '8vh' } }
+    a[value] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '56px' } }
     this.setState({ value: value, colors: a })
     this.props.changeNeedToUpdate()
     if (history.location.pathname.indexOf(`/landing/${this.props.type}/${value}`))
@@ -71,10 +71,22 @@ class TopBar extends Component {
     }
   }
 
+  checkMobileNotifications = () => {
+    if (this.props.type == 'intern') {
+      return {
+        iconElementRight: <i className="material-icons md-light">&#xE7F4;</i>,
+        onRightIconButtonClick: ((event) => { this.setState({ anchorEl: event.currentTarget, notificationVisible: true, }) })
+      }
+    }
+    else {
+      return null
+    }
+  }
+
   returnDesktop = () => {
     return (
       <Row className="tool-bar">
-        <Toolbar style={{ height: "8vh", backgroundColor: "#50C2C4", }}>
+        <Toolbar style={{ backgroundColor: "#50C2C4", }}>
           <ToolbarGroup>
             {(this.props.type == "employee" || this.props.type == "intern") ? this.createTab("Chat", "chat") : <div></div>}
             {(this.props.type == "employee" || this.props.type == "intern") ? this.createTab("Members", "members") : <div></div>}
@@ -99,13 +111,8 @@ class TopBar extends Component {
           title={<span>{this.state.value.charAt(0).toUpperCase() + this.state.value.substr(1)}<i className="material-icons">&#xE313;</i></span>}
           onTitleClick={() => { this.setState({ navDrawer: true }) }}
           onLeftIconButtonClick={this.props.changeDrawerStatus}
-          iconElementRight={<i className="material-icons md-light">&#xE7F4;</i>}
           iconStyleRight={{ marginTop: '3vh' }}
-          onRightIconButtonClick={(event) => { this.setState({
-            anchorEl: event.currentTarget,
-            notificationVisible: true,
-          });
-         }}
+          {...this.checkMobileNotifications()}
         />
         <Drawer
           open={this.state.navDrawer}
@@ -133,7 +140,7 @@ class TopBar extends Component {
             <MobileMenu {...this.props} closeDrawer={this.handleMobileChange} />
           </Menu>
         </Drawer>
-        <Notifications {...this.props} notificationVisible={this.state.notificationVisible} closeNotifications={this.closeNotifications}/>
+        <Notifications {...this.props} notificationVisible={this.state.notificationVisible} closeNotifications={this.closeNotifications} />
       </Row>
     )
   }

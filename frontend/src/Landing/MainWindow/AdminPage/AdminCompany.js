@@ -9,7 +9,8 @@ class AdminCompany extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      companies: [],
+      pendingCompanies: [],
+      deniedCompanies: [],
     }
     // console.log(props)
     if (props.type != 'admin' && props.uid != '') {
@@ -20,32 +21,35 @@ class AdminCompany extends Component {
 
   componentDidMount = () => {
     let that = this
-    let tempCards = []
+    this.setState({pendingCompanies:[],deniedCompanies:[]})
     axios.post("/GET-ADMIN-COMPANIES", {
     }).then(function (response) {
-      console.log(response.data)
+      // console.log(response.data)
+      let tempDenied=[]
+      let tempPending=[]
       for (let i in response.data) {
+        // console.log(response.data[i])
         axios.post("/GET-COMPANY-FROM-NAME", {
-          companyName: response.data[i]
+          name: response.data[i]
         }).then(function (response2) {
-          console.log(response2.data)
+          // console.log(response2.data)
           let tempLocations = []
-          for (let k in response2.data.listOfLocations) {
+          for (let k in response2.data.locations) {
             tempLocations.push(
-              <p key={k}>{response.data.listOfLocations[k]}</p>
+              <h5 key={k}>{response2.data.locations[k]}</h5>
             )
           }
-          tempCards.push(
-            <Card key={i}>
+          let tempItem = (
+            <Card key={i} style={{ marginTop: '10px', marginLeft: '10px', marginRight: '20px' }}>
               <CardHeader
-                title={response.data[i]}
+                title={<h2>{response.data[i]}</h2>}
               />
-              <CardText>
+              <CardText style={{ marginTop: '-40px' }}>
                 <h5><b>Contact Email:</b> {response2.data.email}</h5>
                 <h5><b>Locations:</b></h5>
                 {tempLocations}
               </CardText>
-              <CardActions>
+              <CardActions style={{ marginTop: '-20px' }}>
                 <RaisedButton
                   label='Accept Company'
                   onClick={() => that.handleAccept(response.data[i])}
@@ -57,22 +61,86 @@ class AdminCompany extends Component {
               </CardActions>
             </Card>
           )
+
+          if (response2.data.verified == 'pending') {
+            // let tempPending=that.state.pendingCompanies
+            tempPending[response.data[i]]=tempItem
+            // that.setState({ pendingCompanies: tempPending })
+          } else if (response2.data.verified == false) {
+            // console.log('hi')
+            // let tempDenied=that.state.deniedCompanies
+            tempDenied[response.data[i]]=tempItem
+            // that.setState({ deniedCompanies: tempDenied })
+          }
+          that.setState({ pendingCompanies: tempPending, deniedCompanies:tempDenied })
         }).catch(function (error) {
           console.log(error);
         })
       }
-      that.setState({ companies: tempCards })
     }).catch(function (error) {
       console.log(error);
     })
   }
 
-  // handleAccept=()
+  getItems=(arr)=>{
+    // console.log(arr)
+    let tempArr=[]
+    for(let i in arr)
+      tempArr.push(arr[i])
+    return(tempArr)
+  }
+
+  checkItems=(arr)=>{
+    let numItem=0
+    for(let i in arr)
+      numItem++
+    // console.log(numItem)
+    return (numItem>0)
+  }
+
+  handleAccept = (company) => {
+    let that = this
+    axios.post('/ACCEPT-COMPANY', {
+      "name": company
+    }).then(function (response) {
+      // console.log(response.data);
+      if (response.data.status != false)
+        that.componentDidMount()
+
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  handleDeny = (company) => {
+    let that = this
+    axios.post('/DENY-COMPANY', {
+      "name": company
+    }).then(function (response) {
+      // console.log(response.data);
+      if (response.data.status != false)
+        that.componentDidMount()
+
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
 
   render() {
     return (
-      <div>
-        {this.state.companies}
+      <div style={{ textAlign: 'left', marginLeft: '10px' }}>
+        {this.checkItems(this.state.pendingCompanies) ?
+          <div>
+            <h1>Pending</h1>
+            {this.getItems(this.state.pendingCompanies)}
+          </div>
+          : null}
+        {this.checkItems(this.state.deniedCompanies) ?
+          <div>
+            <h1>Denied</h1>
+            {this.getItems(this.state.deniedCompanies)}
+          </div>
+          : null}
       </div>
     );
   }

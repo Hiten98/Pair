@@ -27,3 +27,9 @@
   text-align: center;
   margin-left: -6%;
 }
+
+.sidebar-list{
+  height:calc(100vh - 80px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}

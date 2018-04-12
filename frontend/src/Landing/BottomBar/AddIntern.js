@@ -144,7 +144,7 @@ class SearchBar extends Component {
       <div>
         <FloatingActionButton
           onClick={this.openModal}
-          style={{ position: 'absolute', bottom: '1.5vh', right: '3vw' }}
+          style={{ position: 'absolute', bottom: '15px', right: '3vw' }}
           secondary
         >
           <ContentAdd />

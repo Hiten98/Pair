@@ -68,7 +68,7 @@ class LeaveChatButton extends Component {
       <div>
         <RaisedButton
           label='Leave Chat'
-          style={{ position: 'absolute', right: '1vw', top: '9vh' }}
+          style={{ position: 'absolute', right: '1vw', top: '75px' }}
           secondary
           onClick={this.openModal}
         />

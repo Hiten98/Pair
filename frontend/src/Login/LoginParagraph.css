@@ -1,12 +1,17 @@
 .logo{
   height: 15vh;
-  margin-top: 10vh;
+  margin-top: 30px;
 }
 
 .info{
   text-align: left;
-  margin-top:10vh;
-  font-size: 3vh;
+  margin-top:60px;
+  font-size: 26px;
   color:rgb(255, 255, 255);
   vertical-align: 50%;
+}
+
+.login-whole-page{
+  overflow-x: hidden;
+  overflow-y: auto;
 }

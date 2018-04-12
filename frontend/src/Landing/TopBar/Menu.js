@@ -15,7 +15,7 @@ class Menu extends Component {
     this.state = {
       deleteOpen: false,
       passOpen: false,
-      notificationVisible:false,
+      notificationVisible: false,
     }
   }
 
@@ -40,28 +40,30 @@ class Menu extends Component {
     this.setState({ passOpen: !this.state.passOpen })
   }
 
-  closeNotifications=()=>{
-    this.setState({notificationVisible:false})
+  closeNotifications = () => {
+    this.setState({ notificationVisible: false })
   }
 
   render() {
     return (
       <ToolbarGroup>
-        <FlatButton
-          onClick={(event) => { this.setState({
-            anchorEl: event.currentTarget,
-            notificationVisible: true,
-          });
-        }}
+        {this.props.type == 'intern' ? <FlatButton
+          onClick={(event) => {
+            this.setState({
+              anchorEl: event.currentTarget,
+              notificationVisible: true,
+            });
+          }}
           icon={<i className="material-icons md-light md-36">&#xE7F4;</i>}
-        />
-        <Notifications {...this.props} anchorEl = {this.state.anchorEl} notificationVisible={this.state.notificationVisible} closeNotifications={this.closeNotifications}/>
+        /> : null}
+        <Notifications {...this.props} anchorEl={this.state.anchorEl} notificationVisible={this.state.notificationVisible} closeNotifications={this.closeNotifications} />
+
         <DeleteAccountModal deleteOpen={this.state.deleteOpen} deleteAccount={this.deleteAccount} uid={this.props.uid} />
         <ChangePasswordModal passOpen={this.state.passOpen} changePass={this.changePass} uid={this.props.uid} />
         <IconMenu
           iconButtonElement={<IconButton><i className="material-icons md-light md-36">&#xE8FE;</i></IconButton>}
           onChange={this.handleMenu}
-          style={{marginLeft:'20px'}}
+          style={{ marginLeft: '20px' }}
         >
           {(this.props.type != "admin" && this.props.type != "company") ? <div><MenuItem onClick={this.goToProfile} primaryText='Profile' />
             <MenuItem onClick={this.changePass} primaryText='Change Password' />

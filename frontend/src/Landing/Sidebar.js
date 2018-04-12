@@ -209,8 +209,8 @@ class Sidebar extends Component {
           <img src={wordLogo} alt="logo" className='no-word-logo' />
         </div>
         <hr />
-        <div style={{ height: '81vh', overflowY: 'auto', overflowX: 'hidden' }}>
-          <List style={{ marginTop: '-1vh' }}>
+        <div className='sidebar-list'>
+          <List style={{ marginTop: '-8px' }}>
             {this.state.cards}
           </List>
         </div>

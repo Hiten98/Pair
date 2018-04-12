@@ -21,10 +21,10 @@ class RegisterButtons extends Component {
       companyLocationsParsed=[]
     else
       companyLocationsParsed = companyLocations.split(';');
-    /*console.log(companyName);
-    console.log(companyEmail);
-    console.log(companyPassword);
-    console.log(companyLocationsParsed);*/
+    // console.log(companyName);
+    // console.log(companyEmail);
+    // console.log(companyPassword);
+    // console.log(companyLocationsParsed);
 
     let that = this
 

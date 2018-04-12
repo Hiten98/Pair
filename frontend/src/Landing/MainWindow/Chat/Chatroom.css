@@ -13,12 +13,12 @@ p {
 }
 
 .chatroom {
-  height: 81vh;
+  height: calc(100vh - 57px - 100px);
   width: 100%;
   background-color: rgba(0, 0, 0, 0.7);
   -webkit-box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
-  min-height: 81vh;
+  /* min-height: 81vh; */
   min-width: 100%;
   display: inline-block;
 }
@@ -27,8 +27,8 @@ p {
   background-color: var(--vblue);
   color: #fff;
   margin: 0;
-  height: 8vh;
-  font-size: 4vh;
+  height: 80px;
+  font-size: 60px;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -42,7 +42,7 @@ p {
   box-sizing: border-box;
   padding: 0 20px;
   margin: 10px 0 0;
-  height: 73vh;
+  height: calc(100vh - 80px -57px - 100px);
   overflow-y: auto;
   text-align: left;
   margin-top: 0vh;
@@ -87,7 +87,7 @@ p {
   width: 100%;
   position: absolute;
   bottom: 0;
-  height: 13vh;
+  height: 100px;
   overflow-y: auto;
 }
 
@@ -113,7 +113,7 @@ p {
 }
 
 .messages .SubmitButtonChat {
-  margin-top: 3vh;
+  margin-top: 20px;
   font-size: 14px;
   /* cursor: pointer; */
   /* transition: all 0.3s ease; */

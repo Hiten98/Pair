@@ -12,7 +12,7 @@
 }
 
 @media all and (max-width:767px){
-  .form{width: 97vw;}
+  .form{width: 100vw;}
 }
 
 @media all and (min-width:768px){

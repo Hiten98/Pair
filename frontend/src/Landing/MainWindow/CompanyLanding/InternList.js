@@ -61,10 +61,13 @@ class InternList extends Component {
           var backgroundColor = '#D3D3D3'
         else
           var backgroundColor = 'white'
+        let name=response.data[i].firstName + ' ' + response.data[i].lastName
+        if(response.data[i].firstName=='undefined')
+          name='*Intern has not accepted yet*'
         tempCard.push(
           <Paper zDepth={2} key={i}>
             <ListItem
-              primaryText={response.data[i].firstName + ' ' + response.data[i].lastName}
+              primaryText={name}
               secondaryText={response.data[i].email}
               //style={{background:backgroundColor }}
               hoverColor='#F95498B0'
