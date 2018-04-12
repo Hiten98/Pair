@@ -62,10 +62,12 @@ class RemoveInternGroup extends Component {
       <RaisedButton
         label='No, I am not sure'
         onClick={this.props.closeAll}
+        style={{marginBottom:'18px'}}
       />,
       <RaisedButton
         label="Yes, I'm sure"
         onClick={this.handleLeave}
+        style={{marginBottom:'18px'}}
       />
     ]
     return (

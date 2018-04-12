@@ -7,7 +7,7 @@ import axios from 'axios'
 class LandingScreen extends Component {
   constructor(props){
     super(props)
-    console.log(props)
+    // console.log(props)
   }
 
   removeIntern=()=>{
@@ -31,10 +31,12 @@ class LandingScreen extends Component {
       <RaisedButton
         label='No, I am not sure'
         onClick={this.props.closeAll}
+        style={{marginBottom:'18px'}}
       />,
       <RaisedButton
         label="Yes, I'm sure"
         onClick={this.removeIntern}
+        style={{marginBottom:'18px'}}
       />
     ]
     //console.log(this.props)

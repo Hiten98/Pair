@@ -7,7 +7,7 @@ import Facebook from '../Intern/UserPreferences/UserDetails/Facebook'
 import LinkedIn from '../Intern/UserPreferences/UserDetails/LinkedIn'
 import Twitter from '../Intern/UserPreferences/UserDetails/Twitter'
 import Location from './Location'
-import EmployeeRegisterButtons from './EmployeeRegisterButtons'
+import EmployeeRegisterButtons from './EmployeeEditButtons'
 import './EmployeeRegistrationForm.css';
 import history from '../../history';
 import PicUpload from '../Intern/UserPreferences/UserDetails/PicUpload';
@@ -56,7 +56,7 @@ class EmployeeEditProfile extends Component {
     axios.post("/GET-EMPLOYEE", {
       "userID": this.props.uid
     }).then(function (response) {
-      console.log(response.data)
+      // console.log(response.data)
       if (response.data.status==false) {
         alert('Error, please try again')
         history.push('/landing/employee/members')
@@ -160,7 +160,7 @@ class EmployeeEditProfile extends Component {
 
         <PicUpload changePic={this.changePic} pic={this.state.pic} prevpic={this.state.prevpic} />
 
-        <EmployeeRegisterButtons {...this.state} company={this.props.company} locations={this.props.locations} updateUid={this.props.updateUid} />
+        <EmployeeRegisterButtons {...this.props} {...this.state} company={this.props.company} locations={this.props.locations} updateUid={this.props.updateUid} />
       </div>
     );
   }

@@ -65,7 +65,7 @@ class HousingSubmitButtons extends Component {
     });
   }
 
-  render() {
+  returnDesktop() {
     return (
       <Row className="roommate-submit-buttons">
         <RaisedButton
@@ -80,14 +80,44 @@ class HousingSubmitButtons extends Component {
           primary
           onClick={this.buttonSubmit}
         />
-        <RaisedButton
-          label="Submit"
-          style={{ marginTop: "20px", marginLeft: "10px" }}
-          primary
-          onClick={this.buttonSubmit}
-        />
       </Row>
     );
+  }
+
+  returnMobile() {
+    return (
+      <div>
+        <Row className="roommate-submit-buttons">
+          <RaisedButton
+            label="Previous"
+            sytle={{ marginTop: "20px" }}
+            primary
+            onClick={this.backButtonSubmit}
+          />
+        </Row>
+        <Row className="roommate-submit-buttons">
+          <RaisedButton
+            label="Save and quit"
+            style={{ marginTop: "20px", marginLeft: "10px" }}
+            primary
+            onClick={this.buttonSubmit}
+          />
+        </Row>
+      </div>
+    );
+  }
+
+  render() {
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    // console.log(width)
+    //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 400) {
+      return this.returnMobile();
+    } else {
+      return this.returnDesktop();
+    }
   }
 }
 

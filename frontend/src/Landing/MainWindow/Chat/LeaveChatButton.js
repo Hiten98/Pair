@@ -53,7 +53,7 @@ class LeaveChatButton extends Component {
     this.setState({sopen:false})
   }
 
-  render() {
+  returnDesktop() {
     let actions = [
       <RaisedButton
         label='No, I am not sure'
@@ -68,7 +68,7 @@ class LeaveChatButton extends Component {
       <div>
         <RaisedButton
           label='Leave Chat'
-          style={{ position: 'absolute', right: '1vw', top: '7vh' }}
+          style={{ position: 'absolute', right: '1vw', top: '75px' }}
           secondary
           onClick={this.openModal}
         />
@@ -87,6 +87,55 @@ class LeaveChatButton extends Component {
         />
       </div>
     );
+  }
+
+  returnMobile() {
+    let actions = [
+      <RaisedButton
+        label='No, I am not sure'
+        onClick={this.closeModal}
+      />,
+      <RaisedButton
+        label="Yes, I'm sure"
+        onClick={this.handleLeave}
+      />
+    ]
+    return (
+      <div>
+        <RaisedButton
+          label='Leave Chat'
+          // style={{Index:'1100' }}
+          secondary
+          onClick={this.openModal}
+        />
+        <Dialog
+          title={`Are you sure you want to leave ${this.state.currChat.substring(1)}?`}
+          modal
+          open={this.state.open}
+          actions={actions}
+        >
+        </Dialog>
+        <Snackbar
+          open={this.state.sopen}
+          message={`Left ${this.state.pChat.substring(1)}`}
+          autoHideDuration={4000}
+          onRequestClose={this.handleRequestClose}
+        />
+      </div>
+    );
+  }
+
+  render() {
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    // console.log(width)
+    //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
+      return this.returnMobile();
+    } else {
+      return this.returnDesktop();
+    }
   }
 }
 

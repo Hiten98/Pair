@@ -17,8 +17,8 @@ p {
   background-color: var(--vblue);
   color: #fff;
   margin: 0;
-  height: 8vh;
-  font-size: 4vh;
+  height: 80px;
+  font-size: 60px;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;

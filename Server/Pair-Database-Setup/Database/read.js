@@ -1,5 +1,5 @@
 
-	/*module.exports = {
+	module.exports = {
 		getMasterListOfInterns,
 		getCompanyFromPin,
 		getCompanyFromName,
@@ -19,9 +19,11 @@
 		compareInterns,
 		getImage,
 		getAdmin,
+		getAdminCompanies,
 		getInvite,
-		verifyUserChatroom
-	}*/
+		verifyUserChatroom,
+		getNotifications
+	}
 
 	function getMasterListOfInterns(internRef, company, callback) {
 		var master = {};
@@ -57,6 +59,7 @@
 					childSnapshot.child("listOfEmployees").forEach(function(babySnapshot) {
 						json["employees"][babySnapshot.key] = babySnapshot.val();
 					});
+					json["verified"] = childSnapshot.val().verified;
 				}
 			});
 			callback(json);
@@ -77,6 +80,7 @@
 			snapshot.child("listOfEmployees").forEach(function(childSnapshot) {
 				json["employees"][childSnapshot.key] = childSnapshot.val();
 			});
+			json["verified"] = childSnapshot.val().verified;
 			callback(json);
 		});
 	}
@@ -341,6 +345,18 @@
 		});
 	}
 
+	function getAdminCompanies(adminRef, callback) {
+		var list = {};
+		var i = 0;
+		adminRef.child(4000).child("listOfCompanies").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
+			callback(list);
+		});
+	}
+
 	function getInvite(chatRoomRef, name, ID, callback) {
 		chatRoomRef.child(name).child("listOfInvites").child(ID).once("value").then(function(snapshot) {
 			callback(snapshot.val());
@@ -382,4 +398,12 @@
 	    else {
 			callback(false);
 	    }
+	}
+
+	function getNotifications(internRef, ID, callback) {
+		var list = {};
+		internRef.child(ID).child("listOfNotifications").once("value").then(function(snapshot) {
+			list = snapshot.val();
+			callback(list);
+		});
 	}

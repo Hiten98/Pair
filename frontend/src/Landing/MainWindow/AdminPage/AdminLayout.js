@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {NavLink, Switch, Route} from 'react-router-dom'
 import AdminCompany from './AdminCompany'
 import AdminComplaints from './AdminComplaints'
+import history from '../../../history';
 //import './AdminLayout.css';
 
 class AdminLayout extends Component {
@@ -10,7 +11,11 @@ class AdminLayout extends Component {
       <div>
         <Switch>
           <Route path='/landing/admin/complaints' render={()=><AdminComplaints {...this.props}/>}/>
-          <Route path='/landing/admin/company-acceptance' render={()=><AdminCompany {...this.props}/>}/>
+          <Route path='/landing/admin/companies' render={()=><AdminCompany {...this.props}/>}/>
+          <Route render={()=>{
+            alert('Error: no such url')
+            history.push('/')
+          }}/>
         </Switch>
       </div>
     );

@@ -38,6 +38,7 @@ class LandingScreen extends Component {
               <Switch>
                 <Route path='/home/login' render={() => <LoginParagraph />} />
                 <Route path='/home/register' render={() => <RegisterParagraph />} />
+                <Route path='/home/company-register' render={()=><CompanyParagraph />}/>
               </Switch>
             </Row>
           </Col>
