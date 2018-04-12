@@ -18,7 +18,7 @@ class Notifications extends Component {
     let that=this
     // console.log(this.props)
     axios.post('/GET-NOTIFICATIONS', {
-      "uid": this.props.uid
+      "userID": this.props.uid
     }).then(function (response) {
       // console.log(response.data);
       console.log(response.data);
