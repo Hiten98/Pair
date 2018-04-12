@@ -61,7 +61,7 @@
 					childSnapshot.child("listOfEmployees").forEach(function(babySnapshot) {
 						json["employees"][babySnapshot.key] = babySnapshot.val();
 					});
-					json["verified"] = childSnapshot.val().verified;
+					json["verified"] = snapshot.val().verified;
 				}
 			});
 			callback(json);
@@ -82,7 +82,7 @@
 			snapshot.child("listOfEmployees").forEach(function(childSnapshot) {
 				json["employees"][childSnapshot.key] = childSnapshot.val();
 			});
-			json["verified"] = childSnapshot.val().verified;
+			json["verified"] = snapshot.val().verified;
 			callback(json);
 		});
 	}
@@ -422,6 +422,8 @@
 		});
 	}
 
-	function getHouses(houseRef, groupChatRoomRef) {
-
+	function getHouses(houseRef, state, callback) {
+		houseRef.child(state).once("value").then(function(snapshot) {
+			callback(snapshot.val());
+		});
 	}

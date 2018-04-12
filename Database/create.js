@@ -35,8 +35,8 @@
         "pin": pin,
         "email": email,
         "password": password,
-        "listOfLocations": [listOfLocations],
-        "listOfEmployees": [listOfEmployees],
+        "listOfLocations": listOfLocations,
+        "listOfEmployees": listOfEmployees,
         "verified": "pending"
       });
       /*update.*/getSnapshot(adminRef, 4000, "listOfCompanies", companyName);
@@ -354,9 +354,13 @@
 		houseRef.child(state).child(zip).child(house).once("value").then(function(snapshot) {
 			var count = snapshot.val().count;
 			count++;
-			houseRef.child(house).update({
-				"count": count
+			houseRef.child(state).child(zip).child(house).update({
+				"count": count,
+				[count]: name
 			});
+			for(var i = 1; i < count; i++) {
+				/*create.*/addNotification(groupChatRoomRef, internRef, snapshot.val()[i], "Another group \"" + snapshot.val()[i].substring(1) + "\" added " + house + " to the housing list");
+			}
 		});
 
 		groupChatRoomRef.child(name).child("listOfHouses").update({
@@ -365,30 +369,31 @@
 		groupChatRoomRef.child(name).child("listOfHouses").child(house).update({
 			"likes": 0
 		});
-		/*create.*/addNotification(groupChatRoomRef, internRef, house + " was added to " + name.substring(1), ID);
+		/*create.*/addNotification(groupChatRoomRef, internRef, name, house + " was added to " + name.substring(1), ID);
 	}
 
-	function addNotification(groupChatRoomRef, internRef, notification, exception = 0000) {
+	function addNotification(groupChatRoomRef, internRef, name, notification, exception = 0000) {
 		groupChatRoomRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
-				if(exception == childSnapshot.val().substring(0, 4))
-					continue;
-				internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").once("value").then(function(babySnapshot) {
-					if(babySnapshot.exists()) {
-						var count = babySnapshot.val().count;
-						count++;
-						internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").update({
-							"count": count,
-							[count]: notification
-						});
-					}
-					else {
-						internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").update({
-							"count": 1,
-							"1": notification
-						});
-					}
-				});
+				if(exception == childSnapshot.val().substring(0, 4)) {}
+				else {
+					internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").once("value").then(function(babySnapshot) {
+						if(babySnapshot.exists()) {
+							var count = babySnapshot.val().count;
+							count++;
+							internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").update({
+								"count": count,
+								[count]: notification
+							});
+						}
+						else {
+							internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").update({
+								"count": 1,
+								"1": notification
+							});
+						}
+					});
+				}
 			});
 		});
 	}

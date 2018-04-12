@@ -49,4 +49,15 @@
     // var zip = split[split.length - 1];
     // console.log(state + " " + zip);
 
-    
+    // addHouse(groupChatRoomRef, houseRef, internRef, "3Books", 1115, "Zimmermann Dr; HOUSTON, TX 77088");
+    // likeHouse(groupChatRoomRef, "3Books", "Zimmermann Dr; HOUSTON, TX 77088", 1115, (x) => {});
+
+    // getCompanyFromName(companyRef, "test", (x) => {
+    //     document.write(JSON.stringify(x));
+    // });
+
+    // houseRef.child("NY").child(10021).once("value").then(function(snapshot) {
+    //     document.write(JSON.stringify(snapshot.val()));
+    // });
+
+    getHouses(houseRef, "NY", (x) => { document.write(JSON.stringify(x)); });
