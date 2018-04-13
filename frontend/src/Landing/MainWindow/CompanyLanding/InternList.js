@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
-import {Paper,List,ListItem,RaisedButton,Dialog,Snackbar} from 'material-ui'
-import {Col} from 'react-bootstrap'
+import { Paper, List, ListItem, RaisedButton, Dialog, Snackbar } from 'material-ui'
+import { Col } from 'react-bootstrap'
 //import './InternList.css';
 
 class InternList extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state={
+    let today = new Date()
+    this.state = {
       internsCard: [],
       open: false,
       sopen: false,
       removeInternUID: null,
+      day: today.getDate(),
+      month: today.getMonth() + 1,
+      year: today.getFullYear(),
     }
   }
 
@@ -45,8 +49,8 @@ class InternList extends Component {
     that.setState({ sopen: true })
   }
 
-  componentDidMount=()=>{
-    let that=this
+  componentDidMount = () => {
+    let that = this
     // console.log(this.props)
     axios.post('/GET-MASTER-LIST-COMPANY', {
       "companyName": this.props.uid
@@ -61,14 +65,23 @@ class InternList extends Component {
           var backgroundColor = '#D3D3D3'
         else
           var backgroundColor = 'white'
-        let name=response.data[i].firstName + ' ' + response.data[i].lastName
-        if(response.data[i].firstName=='undefined')
-          name='*Intern has not accepted yet*'
+        let name = response.data[i].firstName + ' ' + response.data[i].lastName
+        if (response.data[i].firstName == 'undefined')
+          name = '*Intern has not accepted yet*'
         tempCard.push(
           <Paper zDepth={2} key={i}>
             <ListItem
               primaryText={name}
-              secondaryText={response.data[i].email}
+              secondaryText={
+                <div>
+                  {response.data[i].email}
+                  <br />
+                  <span style={{ color: (this.checkDate(response.data[i].endDate)) ? '#4CAF50' : '#C62828' }}>
+                    {`End Date: ${response.data[i].endDate}`}
+                  </span>
+                </div>
+              }
+              secondaryTextLines={2}
               //style={{background:backgroundColor }}
               hoverColor='#F95498B0'
               onClick={() => that.removeInternModal(i)}
@@ -81,6 +94,18 @@ class InternList extends Component {
     }).catch(function (error) {
       console.log(error);
     });
+  }
+
+  checkDate = (toCheck) => {
+    let splitted = toCheck.split('-')
+    if (splitted[2] > this.state.year) {
+      return true
+    } else if (splitted[0] > this.state.month) {
+      return true
+    } else if (splitted[1] > this.state.day) {
+      return true
+    }
+    return false
   }
 
   actions = [
@@ -96,7 +121,7 @@ class InternList extends Component {
 
   render() {
     return (
-      <Col xs={12} sm={4} className="Interns" style={{overflowY:'auto'}}>
+      <Col xs={12} sm={4} className="Interns" style={{ overflowY: 'auto' }}>
         <List>
           <h3>Interns</h3>
           {this.state.internsCard}
