@@ -21,6 +21,7 @@
 		addHouse,
 		addNotification,
 		writeReview,
+		blockUser
 	}*/
 
 	//var update = require('./update.js');
@@ -373,6 +374,7 @@
 	}
 
 	function addNotification(groupChatRoomRef, internRef, name, notification, exception = 0000) {
+		//check group exits
 		groupChatRoomRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				if(exception == childSnapshot.val().substring(0, 4)) {}
@@ -400,8 +402,12 @@
 
 	function writeReview(houseRef, house, review) {
 		var split = house.split(" ");
-    	var state = split[split.length - 2];
-    	var zip = split[split.length - 1];
+		var state = split[split.length - 2];
+		var zip = split[split.length - 1];
 		/*update.*/getSnapshot(houseRef.child(state).child(zip), house, "listOfReviews", review);
+	}
+
+	function blockUser(internRef, ID, blockID) {
+		getSnapshot(internRef, ID, "listOfBlockedUsers", blockID);
 	}
 

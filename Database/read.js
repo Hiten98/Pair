@@ -25,7 +25,8 @@
 		getNotifications,
 		getReviews,
 		getHouses.
-		getSavedHouses
+		getSavedHouses,
+		getBlockedUsers
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -171,6 +172,12 @@
 			var i = 0;
 			snapshot.child("listOfChatRooms").forEach(function(childSnapshot) {
 				list["listOfChatRooms"][i] = childSnapshot.val();
+				i++;
+			});
+			i = 0;
+			list["listOfBlockedUsers"] = {};
+			snapshot.child("listOfBlockedUsers").forEach(function(childSnapshot) {
+				list["listOfBlockedUsers"][i] = childSnapshot.val();
 				i++;
 			});
 			callback(list);
@@ -434,6 +441,7 @@
 
 	function getSavedHouses(groupChatRoomRef, houseRef, name, callback) {
 		var list = {};
+		//orderByChild("likes")
 		groupChatRoomRef.child(name).child("listOfHouses").once("value").then(function(snapshot) {
 			list = snapshot.val();
 			var size = Object.keys(list).length;
@@ -453,5 +461,17 @@
 					});
 			    }
 			}
+		});
+	}
+
+	function getBlockedUsers(internRef, ID, callback) {
+		var list = {};
+		var i = 0;
+		internRef.child(ID).child("listOfBlockedUsers").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
+			callback(list);
 		});
 	}

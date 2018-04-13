@@ -61,4 +61,31 @@
     // });
 
     // getHouses(houseRef, "NY", (x) => { document.write(JSON.stringify(x)); });
-    getSavedHouses(groupChatRoomRef, houseRef, "3Games", (x) => { document.write(JSON.stringify(x)); });
+    // getSavedHouses(groupChatRoomRef, houseRef, "3Games", (x) => { document.write(JSON.stringify(x)); });
+
+    // internRef.orderByChild("firstName").once("value").then(function(snapshot) {
+    //     var list = snapshot.val();
+    //     function sortResults(prop, asc) {
+    //         list = list.sort(function(a, b) {
+    //             if (asc) {
+    //                 return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+    //             } else {
+    //                 return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+    //             }
+    //         });
+    //         showResults();
+    //     }
+    //     sortResults('firstName', true);
+    //     document.write(list);
+    // });
+
+    // getReviews(houseRef, "11 Franklin St UNIT 602; San Francisco, CA 94102", (x) => { document.write(JSON.stringify(x)); });
+
+    // blockUser(internRef, 1509, 1733);
+    // blockUser(internRef, 1509, 1822);
+    // getBlockedUsers(internRef, 1509, (x) => { document.write(JSON.stringify(x)); });
+    // getIntern(internRef, 1509, (x) => { document.write(JSON.stringify(x)); });
+    // unblockUser(internRef, 1509, 1733);
+    // getBlockedUsers(internRef, 1509, (x) => { document.write(JSON.stringify(x)); });
+    // getIntern(internRef, 1509, (x) => { document.write(JSON.stringify(x)); });
+    

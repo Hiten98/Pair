@@ -17,7 +17,8 @@
         acceptCompany,
         denyCompany,
         likeHouse,
-        removeHouse
+        removeHouse,
+        unblockUser
     }*/
 
     //var update = require('./update.js');
@@ -330,8 +331,19 @@
         var zip = split[split.length - 1];
         houseRef.child(state).child(zip).child(house).once("value").then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                if(childSnapshot.val() == name)
+                if(childSnapshot.val() == name) {
                     houseRef.child(state).child(zip).child(house).child(childSnapshot.key).remove();
+                    return true;
+                }
+            });
+        });
+    }
+
+    function unblockUser(internRef, ID, blockID) {
+        internRef.child(ID).child("listOfBlockedUsers").once("value").then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                if(childSnapshot.val() == blockID)
+                    internRef.child(ID).child("listOfBlockedUsers").child(childSnapshot.key).remove();
             });
         });
     }
