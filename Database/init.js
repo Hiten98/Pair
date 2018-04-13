@@ -89,3 +89,5 @@
     // getBlockedUsers(internRef, 1509, (x) => { document.write(JSON.stringify(x)); });
     // getIntern(internRef, 1509, (x) => { document.write(JSON.stringify(x)); });
     
+    // addHouse(groupChatRoomRef, houseRef, internRef, "3Video Games", 1115, "Zimmermann Dr; HOUSTON, TX 77088");
+    removeHouse(groupChatRoomRef, houseRef, internRef, "3Video Games", 1115, "Zimmermann Dr; HOUSTON, TX 77088");

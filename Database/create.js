@@ -43,7 +43,7 @@
       /*update.*/getSnapshot(adminRef, 4000, "listOfCompanies", companyName);
     }
 
-    function createIntern(internRef, id, email, company, location = "novalue") {
+    function createIntern(internRef, id, email, company, endDate, location = "novalue") {
 	  	internRef.update({
 	   		[id]:"novalue"
 	  	});
@@ -52,6 +52,7 @@
 	  		"company": company,
 	    	"location": location,
 	    	"listOfChatRooms": [2 + location, 1 + company + ", " + location],
+	    	"endDate": endDate,
 	    	"ban": false
 	    });
 	    internRef.child(id).child("images").update({

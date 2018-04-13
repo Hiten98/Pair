@@ -324,9 +324,9 @@
         });
     }
 
-    function removeHouse(groupChatRoomRef, houseRef, name, house) {
+    function removeHouse(groupChatRoomRef, houseRef, internRef, name, ID, house) {
         groupChatRoomRef.child(name).child("listOfHouses").child(house).remove();
-        var split = key.split(" ");
+        var split = house.split(" ");
         var state = split[split.length - 2];
         var zip = split[split.length - 1];
         houseRef.child(state).child(zip).child(house).once("value").then(function(snapshot) {
@@ -337,6 +337,7 @@
                 }
             });
         });
+        /*create.*/addNotification(groupChatRoomRef, internRef, name, house + " was removed from " + name.substring(1), ID);
     }
 
     function unblockUser(internRef, ID, blockID) {
