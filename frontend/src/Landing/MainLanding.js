@@ -102,7 +102,7 @@ class LandingScreen extends Component {
   ifBottomBar = (toSend) => {
     // console.log(history.location.pathname)
     // console.log(history.location.pathname.indexOf(`/landing/${this.props.type}/chat`))
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`) != 0)
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`) != 0 && history.location.pathname.indexOf(`/landing/${this.props.type}/housing`)!=0 && history.location.pathname.indexOf(`/landing/${this.props.type}/saved`)!=0)
       return <BottomBar {...toSend} />
   }
 

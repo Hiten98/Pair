@@ -25,7 +25,7 @@ class MainArea extends Component {
   }
 
   componentDidMount() {
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`)==0)
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`)==0 || history.location.pathname.indexOf(`/landing/${this.props.type}/housing`)==0 || history.location.pathname.indexOf(`/landing/${this.props.type}/saved`)==0)
       this.setState({ currPlace: 0 })
     else
       this.setState({ currPlace: 1 })
