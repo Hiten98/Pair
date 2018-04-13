@@ -7,11 +7,13 @@ import {
   Dialog,
   Slider,
   MenuItem,
-  Paper
+  Paper,
+  RadioButton,
+  RadioButtonGroup
 } from "material-ui";
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
 import Drawer from "material-ui/Drawer";
-import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
+import ExitToApp from "material-ui/svg-icons/action/exit-to-app";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import Iframe from "react-iframe";
 //import './LandingScreen.css';
@@ -33,16 +35,81 @@ class LandingScreen extends Component {
       offset: 0,
       reviews: [],
       temp: false,
+      openDialog: false,
+      radios: [],
+      radioValue: "",
+      selectedHouse: ""
     };
   }
 
-  handleURL = (url) => {
-    window.open(url, "_blank")
-  }
+  handleURL = url => {
+    window.open(url, "_blank");
+  };
 
-  handleSave = () => {
+  handleSave = address => {
+    let that = this;
+    this.setState({
+      selectedHouse: address
+    });
+    axios
+      .post("/GET-CHATROOM", {
+        userID: this.props.uid
+      })
+      .then(function(response) {
+        // Make Cards for House Listings
+        // console.log(response.data);
+        let r = [];
+        for (let ind in response.data) {
+          if (response.data[ind][0] == "3") {
+            r.push(
+              <RadioButton
+                key={ind}
+                value={response.data[ind]}
+                label={response.data[ind].substr(1)}
+              />
+            );
+          }
+        }
+        if (r.length > 0) {
+          that.setState({
+            radios: r,
+            openDialog: true
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
 
-  }
+  handleCloseDialog = () => {
+    this.setState({ openDialog: false });
+  };
+
+  handleCloseDialogWithSubmit = () => {
+    this.setState({ openDialog: false });
+    console.log(this.state.radioValue)
+    console.log(this.props.uid)
+    console.log(this.state.selectedHouse)
+    axios
+      .post("/ADD-HOUSE", {
+        name: this.state.radioValue,
+        userID: this.props.uid,
+        house: this.state.selectedHouse
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  handleRadioChange = (event, value) => {
+    this.setState({
+      radioValue: value
+    });
+  };
 
   handleOpen = () => {
     this.setState({ open: true });
@@ -109,13 +176,13 @@ class LandingScreen extends Component {
       })
       .then(function(response) {
         // Make Cards for House Listings
-        console.log(response.data);
+        // console.log(response.data);
         let tempCard = [];
 
         for (let i in response.data) {
           if (!isNaN(response.data[i])) continue;
           let details = "";
-          let reviews=[]
+          let reviews = [];
           if (
             response.data[i].bedrooms > 0 &&
             response.data[i].bedrooms != null
@@ -131,8 +198,12 @@ class LandingScreen extends Component {
           if (response.data[i].price > 0 && response.data[i].price != null)
             details += "$" + response.data[i].price;
 
-          for(let k in response.data[i].listOfReviews)
-            reviews.push(<Paper key={k}><MenuItem primaryText={response.data[i].listOfReviews[k]}/></Paper>)
+          for (let k in response.data[i].listOfReviews)
+            reviews.push(
+              <Paper key={k}>
+                <MenuItem primaryText={response.data[i].listOfReviews[k]} />
+              </Paper>
+            );
           tempCard.push(
             <Card key={i}>
               <CardHeader
@@ -143,8 +214,16 @@ class LandingScreen extends Component {
               />
 
               <CardActions style={{ marginTop: "-25px" }}>
-                <FlatButton label="Save House" secondary onClick={() => that.handleSave(response.data[i].url)}/>
-                <FlatButton label="Go to Listing" secondary onClick={() => that.handleURL(response.data[i].url)}/>
+                <FlatButton
+                  label="Save House"
+                  secondary
+                  onClick={() => that.handleSave(response.data[i].address)}
+                />
+                <FlatButton
+                  label="Go to Listing"
+                  secondary
+                  onClick={() => that.handleURL(response.data[i].url)}
+                />
               </CardActions>
 
               <CardText expandable={true} style={{ marginTop: "-20px" }}>
@@ -177,13 +256,13 @@ class LandingScreen extends Component {
       })
       .then(function(response) {
         // Make Cards for House Listings
-        console.log(response.data);
+        // console.log(response.data);
         let tempCard = [];
 
         for (let i in response.data) {
           if (!isNaN(response.data[i])) continue;
           let details = "";
-          let reviews=[]
+          let reviews = [];
           if (
             response.data[i].bedrooms > 0 &&
             response.data[i].bedrooms != null
@@ -199,8 +278,12 @@ class LandingScreen extends Component {
           if (response.data[i].price > 0 && response.data[i].price != null)
             details += "$" + response.data[i].price;
 
-          for(let k in response.data[i].listOfReviews)
-            reviews.push(<Paper key={k}><MenuItem primaryText={response.data[i].listOfReviews[k]}/></Paper>)
+          for (let k in response.data[i].listOfReviews)
+            reviews.push(
+              <Paper key={k}>
+                <MenuItem primaryText={response.data[i].listOfReviews[k]} />
+              </Paper>
+            );
           tempCard.push(
             <Card key={i}>
               <CardHeader
@@ -211,8 +294,16 @@ class LandingScreen extends Component {
               />
 
               <CardActions style={{ marginTop: "-25px" }}>
-                <FlatButton label="Save House" secondary onClick={() => that.handleSave(response.data[i].url)}/>
-                <FlatButton label="Go to Listing" secondary onClick={() => that.handleURL(response.data[i].url)}/>
+                <FlatButton
+                  label="Save House"
+                  secondary
+                  onClick={() => that.handleSave(response.data[i].address)}
+                />
+                <FlatButton
+                  label="Go to Listing"
+                  secondary
+                  onClick={() => that.handleURL(response.data[i].url)}
+                />
               </CardActions>
 
               <CardText expandable={true} style={{ marginTop: "-20px" }}>
@@ -239,6 +330,19 @@ class LandingScreen extends Component {
         label="Apply Filters"
         primary={true}
         onClick={this.handleSearch}
+      />
+    ];
+
+    const actions2 = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleCloseDialog}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        onClick={this.handleCloseDialogWithSubmit}
       />
     ];
 
@@ -329,6 +433,18 @@ class LandingScreen extends Component {
 
         {this.state.houseCards}
 
+        <Dialog
+          title="Choose the chat to save to..."
+          actions={actions2}
+          modal={false}
+          open={this.state.openDialog}
+          onRequestClose={this.handleCloseDialog}
+          autoScrollBodyContent={true}
+        >
+          <RadioButtonGroup name="shipSpeed" onChange={this.handleRadioChange}>
+            {this.state.radios}
+          </RadioButtonGroup>
+        </Dialog>
       </div>
     );
   }
