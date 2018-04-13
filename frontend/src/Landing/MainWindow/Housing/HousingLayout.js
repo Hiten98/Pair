@@ -21,16 +21,17 @@ class LandingScreen extends Component {
       minBath: 0,
       maxBath: 10,
       minPrice: 0,
-      maxPrice: 5000,
+      maxPrice: 10000,
       minSqFt: 0,
-      maxSqFt: 5000,
+      maxSqFt: 10000,
       open: false,
       houseCards: [],
       offset: 0,
       reviews: [],
       temp: false,
       location: '',
-
+      desiredPrice: '',
+      desiredRoommate: ''
     };
   }
 
@@ -99,7 +100,7 @@ class LandingScreen extends Component {
       })
       .then(function(response) {
         // Make Cards for House Listings
-        //console.log(response.data);
+        console.log(response.data);
         if (response.data.status === false) {
           //console.log("No houses found!")
           let tempCard = [];
@@ -169,11 +170,15 @@ class LandingScreen extends Component {
       userID: this.props.uid
     }).then(function(internResponse) {
       let internLocation = internResponse.data.location.split(", ");
+      //console.log(internResponse.data);
+      that.setState({ desiredPrice: internResponse.data.housing.desiredPrice });
+      that.setState({ desiredRoommate: internResponse.data.housing.desiredRoommate });
       that.setState({ location: internLocation[1] },that.addHouses);
     }).catch(function(error) {
       console.log(error);
     });
   }
+
   addHouses=()=>{
     let that=this
     // Go back to first 10 or 20 houses when search is made again with new filters
@@ -244,6 +249,18 @@ class LandingScreen extends Component {
       });
   }
 
+  showSuggestedHousing = () => {
+    //console.log(this.state.desiredPrice);
+    //console.log(this.state.desiredRoommate);
+    this.setState({ minBed: +this.state.desiredRoommate - 1 });
+    this.setState({ maxBed: +this.state.desiredRoommate + 1 });
+    this.setState({ minBath: +this.state.desiredRoommate - 1 });
+    this.setState({ maxBath: +this.state.desiredRoommate + 1 });
+    // Since Pricing ranges from 0 - 7 and 0 - 10,000, I am using increments of 1250
+    this.setState({ minPrice: +this.state.desiredPrice*1250 });
+    this.setState({ maxPrice: +this.state.desiredPrice*1250 + 1250 }, this.handleSearch);
+  }
+
   render() {
     const actions = [
       <FlatButton label="Cancel" primary={true} onClick={this.handleClose} />,
@@ -304,7 +321,7 @@ class LandingScreen extends Component {
             <p>Minimum Price:&nbsp;{this.state.minPrice}</p>
             <Slider
               min={0}
-              max={5000}
+              max={10000}
               step={100}
               value={this.state.minPrice}
               onChange={this.minPriceSlider}
@@ -313,7 +330,7 @@ class LandingScreen extends Component {
             <p>Maximum Price:&nbsp;{this.state.maxPrice}</p>
             <Slider
               min={0}
-              max={5000}
+              max={10000}
               step={100}
               value={this.state.maxPrice}
               onChange={this.maxPriceSlider}
@@ -338,6 +355,8 @@ class LandingScreen extends Component {
             />
           </div>
         </Dialog>
+
+        <RaisedButton label="Show Suggested Housing" onClick={this.showSuggestedHousing} />
 
         {this.state.houseCards}
       </div>
