@@ -16,23 +16,23 @@ class LandingScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      minBed: 5,
-      maxBed: 5,
-      minBath: 5,
-      maxBath: 5,
-      minPrice: 2500,
-      maxPrice: 2500,
-      minSqFt: 2500,
-      maxSqFt: 2500,
+      minBed: 0,
+      maxBed: 10,
+      minBath: 0,
+      maxBath: 10,
+      minPrice: 0,
+      maxPrice: 5000,
+      minSqFt: 0,
+      maxSqFt: 5000,
       open: false,
       houseCards: [],
       offset: 0,
       reviews: [],
       temp: false
-      
+
     };
   }
-  
+
   handleOpen = () => {
     this.setState({ open: true });
   };
@@ -109,16 +109,16 @@ class LandingScreen extends Component {
             response.data[i].bedrooms > 0 &&
             response.data[i].bedrooms != null
           )
-            details += response.data[i].bedrooms + " Bed • ";
+            details += +response.data[i].bedrooms + " Bed • ";
           if (
             response.data[i].bathrooms > 0 &&
             response.data[i].bathrooms != null
           )
-            details += response.data[i].bathrooms + " Bath • ";
+            details += +response.data[i].bathrooms + " Bath • ";
           if (response.data[i].sqft > 0 && response.data[i].sqft != null)
-            details += response.data[i].sqft + " sqft • ";
+            details += +response.data[i].sqft + " sqft • ";
           if (response.data[i].price > 0 && response.data[i].price != null)
-            details += "$" + response.data[i].price;
+            details += "$" + +response.data[i].price;
 
           for(let k in response.data[i].listOfReviews)
             reviews.push(<Paper key={k}><MenuItem primaryText={response.data[i].listOfReviews[k]}/></Paper>)
@@ -177,16 +177,16 @@ class LandingScreen extends Component {
             response.data[i].bedrooms > 0 &&
             response.data[i].bedrooms != null
           )
-            details += response.data[i].bedrooms + " Bed • ";
+            details += +response.data[i].bedrooms + " Bed • ";
           if (
             response.data[i].bathrooms > 0 &&
             response.data[i].bathrooms != null
           )
-            details += response.data[i].bathrooms + " Bath • ";
+            details += +response.data[i].bathrooms + " Bath • ";
           if (response.data[i].sqft > 0 && response.data[i].sqft != null)
-            details += response.data[i].sqft + " sqft • ";
+            details += +response.data[i].sqft + " sqft • ";
           if (response.data[i].price > 0 && response.data[i].price != null)
-            details += "$" + response.data[i].price;
+            details += "$" + +response.data[i].price;
 
           for(let k in response.data[i].listOfReviews)
             reviews.push(<Paper key={k}><MenuItem primaryText={response.data[i].listOfReviews[k]}/></Paper>)
