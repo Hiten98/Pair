@@ -99,55 +99,63 @@ class LandingScreen extends Component {
       })
       .then(function(response) {
         // Make Cards for House Listings
-        // console.log(response.data);
-        let tempCard = [];
+        //console.log(response.data);
+        if (response.data.status === false) {
+          //console.log("No houses found!")
+          let tempCard = [];
+          tempCard.push(<Paper><MenuItem primaryText={"No Results Found"}/></Paper>);
+          that.setState({ houseCards: tempCard });
+        } else {
 
-        for (let i in response.data) {
-          if (!isNaN(response.data[i])) continue;
-          let details = "";
-          let reviews=[]
-          if (
-            response.data[i].bedrooms > 0 &&
-            response.data[i].bedrooms != null
-          )
-            details += +response.data[i].bedrooms + " Bed • ";
-          if (
-            response.data[i].bathrooms > 0 &&
-            response.data[i].bathrooms != null
-          )
-            details += +response.data[i].bathrooms + " Bath • ";
-          if (response.data[i].sqft > 0 && response.data[i].sqft != null)
-            details += +response.data[i].sqft + " sqft • ";
-          if (response.data[i].price > 0 && response.data[i].price != null)
-            details += "$" + +response.data[i].price;
+          let tempCard = [];
 
-          for(let k in response.data[i].listOfReviews)
-            reviews.push(<Paper key={k}><MenuItem primaryText={response.data[i].listOfReviews[k]}/></Paper>)
-          tempCard.push(
-            <Card key={i}>
-              <CardHeader
-                title={response.data[i].address}
-                subtitle={details}
-                actAsExpander={true}
-                showExpandableButton={true}
-              />
+          for (let i in response.data) {
+            if (!isNaN(response.data[i])) continue;
+            let details = "";
+            let reviews=[]
+            if (
+              response.data[i].bedrooms > 0 &&
+              response.data[i].bedrooms != null
+            )
+              details += +response.data[i].bedrooms + " Bed • ";
+            if (
+              response.data[i].bathrooms > 0 &&
+              response.data[i].bathrooms != null
+            )
+              details += +response.data[i].bathrooms + " Bath • ";
+            if (response.data[i].sqft > 0 && response.data[i].sqft != null)
+              details += +response.data[i].sqft + " sqft • ";
+            if (response.data[i].price > 0 && response.data[i].price != null)
+              details += "$" + +response.data[i].price;
 
-              <CardActions style={{ marginTop: "-25px" }}>
-                <FlatButton label="Save House" secondary />
-                <FlatButton label="Go to Listing" secondary />
-              </CardActions>
+            for(let k in response.data[i].listOfReviews)
+              reviews.push(<Paper key={k}><MenuItem primaryText={response.data[i].listOfReviews[k]}/></Paper>)
+            tempCard.push(
+              <Card key={i}>
+                <CardHeader
+                  title={response.data[i].address}
+                  subtitle={details}
+                  actAsExpander={true}
+                  showExpandableButton={true}
+                />
 
-              <CardText expandable={true} style={{ marginTop: "-20px" }}>
-                <h5>Reviews: </h5>
-                {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
-              </CardText>
-              <CardActions expandable style={{ marginTop: "-20px" }}>
-                <FlatButton label="Add Review" secondary />
-              </CardActions>
-            </Card>
-          );
+                <CardActions style={{ marginTop: "-25px" }}>
+                  <FlatButton label="Save House" secondary />
+                  <FlatButton label="Go to Listing" secondary />
+                </CardActions>
+
+                <CardText expandable={true} style={{ marginTop: "-20px" }}>
+                  <h5>Reviews: </h5>
+                  {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
+                </CardText>
+                <CardActions expandable style={{ marginTop: "-20px" }}>
+                  <FlatButton label="Add Review" secondary />
+                </CardActions>
+              </Card>
+            );
+          }
+          that.setState({ houseCards: tempCard });
         }
-        that.setState({ houseCards: tempCard });
       })
       .catch(function(error) {
         console.log(error);
@@ -181,7 +189,7 @@ class LandingScreen extends Component {
       .then(function(response) {
         // Make Cards for House Listings
         // console.log(response.data);
-        console.log(response.data);
+        //console.log(response.data);
         let tempCard = [];
 
         for (let i in response.data) {
