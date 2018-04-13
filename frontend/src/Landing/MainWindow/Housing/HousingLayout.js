@@ -10,6 +10,10 @@ import {
   Paper
 } from "material-ui";
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
+import Drawer from "material-ui/Drawer";
+import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import Iframe from "react-iframe";
 //import './LandingScreen.css';
 
 class LandingScreen extends Component {
@@ -28,9 +32,16 @@ class LandingScreen extends Component {
       houseCards: [],
       offset: 0,
       reviews: [],
-      temp: false
-      
+      temp: false,
     };
+  }
+
+  handleURL = (url) => {
+    window.open(url, "_blank")
+  }
+
+  handleSave = () => {
+
   }
 
   handleOpen = () => {
@@ -98,7 +109,7 @@ class LandingScreen extends Component {
       })
       .then(function(response) {
         // Make Cards for House Listings
-        // console.log(response.data);
+        console.log(response.data);
         let tempCard = [];
 
         for (let i in response.data) {
@@ -132,8 +143,8 @@ class LandingScreen extends Component {
               />
 
               <CardActions style={{ marginTop: "-25px" }}>
-                <FlatButton label="Save House" secondary />
-                <FlatButton label="Go to Listing" secondary />
+                <FlatButton label="Save House" secondary onClick={() => that.handleSave(response.data[i].url)}/>
+                <FlatButton label="Go to Listing" secondary onClick={() => that.handleURL(response.data[i].url)}/>
               </CardActions>
 
               <CardText expandable={true} style={{ marginTop: "-20px" }}>
@@ -166,7 +177,7 @@ class LandingScreen extends Component {
       })
       .then(function(response) {
         // Make Cards for House Listings
-        // console.log(response.data);
+        console.log(response.data);
         let tempCard = [];
 
         for (let i in response.data) {
@@ -200,8 +211,8 @@ class LandingScreen extends Component {
               />
 
               <CardActions style={{ marginTop: "-25px" }}>
-                <FlatButton label="Save House" secondary />
-                <FlatButton label="Go to Listing" secondary />
+                <FlatButton label="Save House" secondary onClick={() => that.handleSave(response.data[i].url)}/>
+                <FlatButton label="Go to Listing" secondary onClick={() => that.handleURL(response.data[i].url)}/>
               </CardActions>
 
               <CardText expandable={true} style={{ marginTop: "-20px" }}>
@@ -230,8 +241,6 @@ class LandingScreen extends Component {
         onClick={this.handleSearch}
       />
     ];
-
-    // yo
 
     return (
       <div style={{ textAlign: "left" }}>
@@ -319,6 +328,7 @@ class LandingScreen extends Component {
         </Dialog>
 
         {this.state.houseCards}
+
       </div>
     );
   }
