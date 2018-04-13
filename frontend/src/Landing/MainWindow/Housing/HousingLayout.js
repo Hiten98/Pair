@@ -28,7 +28,8 @@ class LandingScreen extends Component {
       houseCards: [],
       offset: 0,
       reviews: [],
-      temp: false
+      temp: false,
+      location: '',
 
     };
   }
@@ -84,7 +85,7 @@ class LandingScreen extends Component {
     // console.log(this.state.offset)
     axios
       .post("/GET-FILTERED-HOUSES", {
-        state: "CA",
+        state: this.state.location,
         offset: this.state.offset,
         minBedrooms: this.state.minBed,
         maxBedrooms: this.state.maxBed,
@@ -154,19 +155,33 @@ class LandingScreen extends Component {
   };
 
   componentDidMount() {
+    let that=this
+    // Get Intern Location
+    axios.post("/GET-INTERN", {
+      userID: this.props.uid
+    }).then(function(internResponse) {
+      let internLocation = internResponse.data.location.split(", ");
+      that.setState({ location: internLocation[1] },that.addHouses);
+    }).catch(function(error) {
+      console.log(error);
+    });
+  }
+  addHouses=()=>{
+    let that=this
     // Go back to first 10 or 20 houses when search is made again with new filters
     this.setState({ offset: 0 });
 
     // Server Call with housing filter parameters to get first 10 or 20 houses
-    let that = this;
+
     axios
       .post("/GET-HOUSES", {
-        state: "CA",
+        state: that.state.location,
         offset: this.state.offset
       })
       .then(function(response) {
         // Make Cards for House Listings
         // console.log(response.data);
+        console.log(response.data);
         let tempCard = [];
 
         for (let i in response.data) {
