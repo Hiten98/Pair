@@ -10,7 +10,6 @@ axios.defaults.baseURL = 'https://glacial-spire-77473.herokuapp.com/'
 
 class LoginButtons extends Component {
 
-
   handleLogin = () => {
     let email = this.props.email
     let password = this.props.password
