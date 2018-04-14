@@ -9,7 +9,8 @@ import {
   MenuItem,
   Paper,
   RadioButton,
-  RadioButtonGroup
+  RadioButtonGroup,
+  TextField
 } from "material-ui";
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
 import Drawer from "material-ui/Drawer";
@@ -38,8 +39,33 @@ class LandingScreen extends Component {
       openDialog: false,
       radios: [],
       radioValue: "",
-      selectedHouse: ""
+      selectedHouse: "",
+      reviewText: ""
     };
+  }
+
+  handleReviewText = (event, newValue) => {
+    this.setState({reviewText: newValue});
+  }
+
+  handleAddReview = (address) => {
+    this.setState({
+      selectedHouse: address
+    }, () => {
+      if(address != "" || this.state.reviewText != "") {
+        axios.post("/WRITE-REVIEW", {
+          house: address,
+          review: this.state.reviewText
+        }).then((response) => {
+          console.log(response.data);
+          this.render(); 
+        }).catch((error) => {
+          console.log(error);
+        });
+      }
+      // console.log(address+this.state.reviewText)
+    }
+    );
   }
 
   handleURL = url => {
@@ -226,12 +252,21 @@ class LandingScreen extends Component {
                 />
               </CardActions>
 
-              <CardText expandable={true} style={{ marginTop: "-20px" }}>
+              <CardText expandable={true} style={{ marginTop: "-20px"}}>
                 <h5>Reviews: </h5>
                 {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
+                <TextField 
+                hintText="Type Review Here" 
+                multiLine={true} 
+                rows={2}
+                rowsMax={8}
+                fullWidth={true}
+                onChange={that.handleReviewText}
+              />
               </CardText>
+              
               <CardActions expandable style={{ marginTop: "-20px" }}>
-                <FlatButton label="Add Review" secondary />
+                <FlatButton label="Add Review" secondary onClick={() => that.handleAddReview(response.data[i].address)}/>
               </CardActions>
             </Card>
           );
@@ -306,12 +341,21 @@ class LandingScreen extends Component {
                 />
               </CardActions>
 
-              <CardText expandable={true} style={{ marginTop: "-20px" }}>
+              <CardText expandable={true} style={{ marginTop: "-20px"}}>
                 <h5>Reviews: </h5>
                 {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
+                <TextField 
+                hintText="Type Review Here" 
+                multiLine={true} 
+                rows={2}
+                rowsMax={8}
+                fullWidth={true}
+                onChange={that.handleReviewText}
+              />
               </CardText>
+              
               <CardActions expandable style={{ marginTop: "-20px" }}>
-                <FlatButton label="Add Review" secondary />
+                <FlatButton label="Add Review" secondary onClick={() => that.handleAddReview(response.data[i].address)}/>
               </CardActions>
             </Card>
           );
