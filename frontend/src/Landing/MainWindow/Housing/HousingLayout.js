@@ -52,7 +52,7 @@ class LandingScreen extends Component {
     this.setState({
       selectedHouse: address
     }, () => {
-      if(address != "" || this.state.reviewText != "") {
+      if(address != "" && this.state.reviewText != "") {
         axios.post("/WRITE-REVIEW", {
           house: address,
           review: this.state.reviewText
