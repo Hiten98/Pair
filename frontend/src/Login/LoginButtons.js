@@ -50,24 +50,6 @@ class LoginButtons extends Component {
     }
   }
 
-  componentDidMount=()=>{
-    let that=this
-    document.addEventListener('keydown', function(event) {
-      if (event.code == 'Enter' || event.code=='NumpadEnter') {
-        that.handleLogin()
-      }
-    });
-  }
-
-  componentWillUnmount=()=>{
-    let that=this
-    document.removeEventListener('keydown',function(event) {
-      if (event.code == 'Enter' || event.code=='NumpadEnter') {
-        that.handleLogin()
-      }
-    });
-  }
-
   render() {
     return (
       <div>

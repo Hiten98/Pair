@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 import emailjs from 'emailjs-com'
-import { FloatingActionButton, Dialog, TextField, RaisedButton, Snackbar, RefreshIndicator, CircularProgress, DropDownMenu, MenuItem } from 'material-ui';
+import { FloatingActionButton, Dialog, TextField, RaisedButton, Snackbar, RefreshIndicator, CircularProgress, DropDownMenu, MenuItem, DatePicker } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { Row } from 'react-bootstrap'
 //import './SearchBar.css';
@@ -18,12 +18,13 @@ class SearchBar extends Component {
       intern: '',
       refresh: false,
       locs: [],
+      endDate: '',
     }
     // console.log(props)
   }
 
   handleClose = () => {
-    this.setState({ open: false, loc:0 })
+    this.setState({ open: false, loc: 0 })
   }
 
   componentDidMount = () => {
@@ -44,9 +45,11 @@ class SearchBar extends Component {
     let that = this
     if (!(new RegExp('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}')).test(this.state.intern)) {
       alert("Please enter a valid email")
-    } else if (this.state.loc==0){
+    } else if (this.state.loc == 0) {
       alert('Please choose a valid location')
-    }else {
+    } else if (this.state.endDate == '') {
+      alert('Please add an internship end date')
+    } else {
       axios.post('/VERIFY-EMAIL-EXISTS', {
         "username": this.state.intern,
       }).then((response) => {
@@ -55,7 +58,8 @@ class SearchBar extends Component {
           axios.post('/CREATE-INTERN', {
             "username": this.state.intern,
             "location": this.state.loc,
-            "company": this.state.company
+            "company": this.state.company,
+            endDate:that.state.endDate,
           }).then((response) => {
             // console.log(response.data)
             if (response.data.userID != null) {
@@ -109,12 +113,12 @@ class SearchBar extends Component {
       "name": this.state.company,
     }).then((response) => {
       // console.log(response.data)
-      let temp=[]
-      temp.push(<MenuItem value={0} key={0} primaryText='Choose a location'/>)
-      for(let i in response.data.locations){
-        temp.push(<MenuItem value={response.data.locations[i]} key={response.data.locations[i]} primaryText={response.data.locations[i]}/>)
+      let temp = []
+      temp.push(<MenuItem value={0} key={0} primaryText='Choose a location' />)
+      for (let i in response.data.locations) {
+        temp.push(<MenuItem value={response.data.locations[i]} key={response.data.locations[i]} primaryText={response.data.locations[i]} />)
       }
-      that.setState({locs:temp})
+      that.setState({ locs: temp })
     }).catch(function (error) {
       console.log(error);
     })
@@ -124,8 +128,13 @@ class SearchBar extends Component {
     this.setState({ intern: ev.target.value })
   }
 
-  handleChange=(ev,target,value)=>{
-    this.setState({loc:value})
+  handleChange = (ev, target, value) => {
+    this.setState({ loc: value })
+  }
+
+  changeDate = (event, date) => {
+    let stringDate = (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear()
+    this.setState({ endDate: stringDate })
   }
 
   actions = [
@@ -162,6 +171,14 @@ class SearchBar extends Component {
             >
               {this.state.locs}
             </DropDownMenu>
+          </Row>
+          <Row style={{ width: '90%', marginLeft: '5%' }}>
+            <DatePicker
+              mode='landscape'
+              hintText="Add intern's end date"
+              onChange={this.changeDate}
+              minDate={new Date()}
+            />
           </Row>
           <Row style={{ width: '90%', marginLeft: '5%' }}>
             <TextField
