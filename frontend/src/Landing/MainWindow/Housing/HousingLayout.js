@@ -23,14 +23,14 @@ class LandingScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      minBed: 5,
-      maxBed: 5,
-      minBath: 5,
-      maxBath: 5,
-      minPrice: 2500,
-      maxPrice: 2500,
-      minSqFt: 2500,
-      maxSqFt: 2500,
+      minBed: 0,
+      maxBed: 10,
+      minBath: 0,
+      maxBath: 10,
+      minPrice: 0,
+      maxPrice: 10000,
+      minSqFt: 0,
+      maxSqFt: 10000,
       open: false,
       houseCards: [],
       offset: 0,
@@ -40,7 +40,10 @@ class LandingScreen extends Component {
       radios: [],
       radioValue: "",
       selectedHouse: "",
-      reviewText: ""
+      reviewText: "",
+      location: '',
+      desiredPrice: '',
+      desiredRoommate: ''
     };
   }
 
@@ -188,7 +191,7 @@ class LandingScreen extends Component {
     // console.log(this.state.offset)
     axios
       .post("/GET-FILTERED-HOUSES", {
-        state: "CA",
+        state: this.state.location,
         offset: this.state.offset,
         minBedrooms: this.state.minBed,
         maxBedrooms: this.state.maxBed,
@@ -202,36 +205,40 @@ class LandingScreen extends Component {
       })
       .then(function(response) {
         // Make Cards for House Listings
-        // console.log(response.data);
-        let tempCard = [];
 
-        for (let i in response.data) {
-          if (!isNaN(response.data[i])) continue;
-          let details = "";
-          let reviews = [];
-          if (
-            response.data[i].bedrooms > 0 &&
-            response.data[i].bedrooms != null
-          )
-            details += response.data[i].bedrooms + " Bed • ";
-          if (
-            response.data[i].bathrooms > 0 &&
-            response.data[i].bathrooms != null
-          )
-            details += response.data[i].bathrooms + " Bath • ";
-          if (response.data[i].sqft > 0 && response.data[i].sqft != null)
-            details += response.data[i].sqft + " sqft • ";
-          if (response.data[i].price > 0 && response.data[i].price != null)
-            details += "$" + response.data[i].price;
+        console.log(response.data);
+        if (response.data.status === false) {
+          //console.log("No houses found!")
+          let tempCard = [];
+          tempCard.push(<Paper><MenuItem primaryText={"No Results Found"}/></Paper>);
+          that.setState({ houseCards: tempCard });
+        } else {
 
-          for (let k in response.data[i].listOfReviews)
-            reviews.push(
-              <Paper key={k}>
-                <MenuItem primaryText={response.data[i].listOfReviews[k]} />
-              </Paper>
-            );
-          tempCard.push(
-            <Card key={i}>
+          let tempCard = [];
+
+          for (let i in response.data) {
+            if (!isNaN(response.data[i])) continue;
+            let details = "";
+            let reviews=[]
+            if (
+              response.data[i].bedrooms > 0 &&
+              response.data[i].bedrooms != null
+            )
+              details += +response.data[i].bedrooms + " Bed • ";
+            if (
+              response.data[i].bathrooms > 0 &&
+              response.data[i].bathrooms != null
+            )
+              details += +response.data[i].bathrooms + " Bath • ";
+            if (response.data[i].sqft > 0 && response.data[i].sqft != null)
+              details += +response.data[i].sqft + " sqft • ";
+            if (response.data[i].price > 0 && response.data[i].price != null)
+              details += "$" + +response.data[i].price;
+
+            for(let k in response.data[i].listOfReviews)
+              reviews.push(<Paper key={k}><MenuItem primaryText={response.data[i].listOfReviews[k]}/></Paper>)
+            tempCard.push(
+              <Card key={i}>
               <CardHeader
                 title={response.data[i].address}
                 subtitle={details}
@@ -269,9 +276,10 @@ class LandingScreen extends Component {
                 <FlatButton label="Add Review" secondary onClick={() => that.handleAddReview(response.data[i].address)}/>
               </CardActions>
             </Card>
-          );
+            );
+          }
+          that.setState({ houseCards: tempCard });
         }
-        that.setState({ houseCards: tempCard });
       })
       .catch(function(error) {
         console.log(error);
@@ -279,19 +287,37 @@ class LandingScreen extends Component {
   };
 
   componentDidMount() {
+    let that=this
+    // Get Intern Location
+    axios.post("/GET-INTERN", {
+      userID: this.props.uid
+    }).then(function(internResponse) {
+      let internLocation = internResponse.data.location.split(", ");
+      //console.log(internResponse.data);
+      that.setState({ desiredPrice: internResponse.data.housing.desiredPrice });
+      that.setState({ desiredRoommate: internResponse.data.housing.desiredRoommate });
+      that.setState({ location: internLocation[1] },that.addHouses);
+    }).catch(function(error) {
+      console.log(error);
+    });
+  }
+
+  addHouses=()=>{
+    let that=this
     // Go back to first 10 or 20 houses when search is made again with new filters
     this.setState({ offset: 0 });
 
     // Server Call with housing filter parameters to get first 10 or 20 houses
-    let that = this;
+
     axios
       .post("/GET-HOUSES", {
-        state: "CA",
+        state: that.state.location,
         offset: this.state.offset
       })
       .then(function(response) {
         // Make Cards for House Listings
         // console.log(response.data);
+        //console.log(response.data);
         let tempCard = [];
 
         for (let i in response.data) {
@@ -302,16 +328,16 @@ class LandingScreen extends Component {
             response.data[i].bedrooms > 0 &&
             response.data[i].bedrooms != null
           )
-            details += response.data[i].bedrooms + " Bed • ";
+            details += +response.data[i].bedrooms + " Bed • ";
           if (
             response.data[i].bathrooms > 0 &&
             response.data[i].bathrooms != null
           )
-            details += response.data[i].bathrooms + " Bath • ";
+            details += +response.data[i].bathrooms + " Bath • ";
           if (response.data[i].sqft > 0 && response.data[i].sqft != null)
-            details += response.data[i].sqft + " sqft • ";
+            details += +response.data[i].sqft + " sqft • ";
           if (response.data[i].price > 0 && response.data[i].price != null)
-            details += "$" + response.data[i].price;
+            details += "$" + +response.data[i].price;
 
           for (let k in response.data[i].listOfReviews)
             reviews.push(
@@ -365,6 +391,18 @@ class LandingScreen extends Component {
       .catch(function(error) {
         console.log(error);
       });
+  }
+
+  showSuggestedHousing = () => {
+    //console.log(this.state.desiredPrice);
+    //console.log(this.state.desiredRoommate);
+    this.setState({ minBed: +this.state.desiredRoommate - 1 });
+    this.setState({ maxBed: +this.state.desiredRoommate + 1 });
+    this.setState({ minBath: +this.state.desiredRoommate - 1 });
+    this.setState({ maxBath: +this.state.desiredRoommate + 1 });
+    // Since Pricing ranges from 0 - 7 and 0 - 10,000, I am using increments of 1250
+    this.setState({ minPrice: +this.state.desiredPrice*1250 });
+    this.setState({ maxPrice: +this.state.desiredPrice*1250 + 1250 }, this.handleSearch);
   }
 
   render() {
@@ -440,7 +478,7 @@ class LandingScreen extends Component {
             <p>Minimum Price:&nbsp;{this.state.minPrice}</p>
             <Slider
               min={0}
-              max={5000}
+              max={10000}
               step={100}
               value={this.state.minPrice}
               onChange={this.minPriceSlider}
@@ -449,7 +487,7 @@ class LandingScreen extends Component {
             <p>Maximum Price:&nbsp;{this.state.maxPrice}</p>
             <Slider
               min={0}
-              max={5000}
+              max={10000}
               step={100}
               value={this.state.maxPrice}
               onChange={this.maxPriceSlider}
@@ -474,6 +512,8 @@ class LandingScreen extends Component {
             />
           </div>
         </Dialog>
+
+        <RaisedButton label="Show Suggested Housing" onClick={this.showSuggestedHousing} />
 
         {this.state.houseCards}
 
