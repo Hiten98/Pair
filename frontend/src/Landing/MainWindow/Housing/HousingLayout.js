@@ -18,6 +18,7 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import FilterHouses from "./FilterHouses";
 import SaveHouseDialog from "./SaveHouseDialog";
 import MapButton from "./MapButton";
+import Pagination from './Pagination'
 //import Iframe from "react-iframe";
 //import './LandingScreen.css';
 
@@ -40,6 +41,7 @@ class LandingScreen extends Component {
       houseReviews: [],
       showMap: false,
       address: '',
+      numPages: 0,
     };
   }
 
@@ -124,6 +126,7 @@ class LandingScreen extends Component {
   };
 
   renderReviews = () => {
+    console.log(this.state.offset)
     if (this.state.temp) {
       this.handleSearch(this.state.filters)
     } else {
@@ -155,7 +158,7 @@ class LandingScreen extends Component {
   addHouses = () => {
     let that = this;
     // Go back to first 10 or 20 houses when search is made again with new filters
-    this.setState({ offset: 0, temp: false });
+    this.setState({ temp: false });
 
     // Server Call with housing filter parameters to get first 10 or 20 houses
 
@@ -169,11 +172,11 @@ class LandingScreen extends Component {
         // console.log(response.data);
         //console.log(response.data);
         let tempCard = [];
-        // console.log(response.data)
+        console.log(response.data)
         for (let i in response.data) {
           that.formatHouses(response.data[i], tempCard, i);
         }
-        that.setState({ houseCards: tempCard });
+        that.setState({ houseCards: tempCard, numPages: parseInt(response.data.number) });
       })
       .catch(function (error) {
         console.log(error);
@@ -183,7 +186,7 @@ class LandingScreen extends Component {
   handleSearch = (sendBack) => {
     // console.log(this.props);
     // Go back to first 10 or 20 houses when search is made again with new filters
-    this.setState({ offset: 0, temp: true, filters: sendBack });
+    this.setState({ temp: true, filters: sendBack });
 
     // Server Call with housing filter parameters to get first 10 or 20 houses
     let that = this;
@@ -204,7 +207,7 @@ class LandingScreen extends Component {
       .then(function (response) {
         // Make Cards for House Listings
 
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.status === false) {
           //console.log("No houses found!")
           let tempCard = [];
@@ -216,11 +219,10 @@ class LandingScreen extends Component {
           that.setState({ houseCards: tempCard });
         } else {
           let tempCard = [];
-
           for (let i in response.data) {
             that.formatHouses(response.data[i], tempCard, i);
           }
-          that.setState({ houseCards: tempCard });
+          that.setState({ houseCards: tempCard, numPages: parseInt(response.data.number) });
         }
       })
       .catch(function (error) {
@@ -304,6 +306,9 @@ class LandingScreen extends Component {
           <FilterHouses {...this.state} handleSearch={this.handleSearch} />
 
           {this.state.houseCards}
+        </Row>
+        <Row style={{ paddingLeft: '20px', paddingRight: '20px', marginTop: '10px', textAlign:'center' }}>
+          <Pagination {...this.state} changePage={(value) => this.setState({ offset: value }, this.renderReviews)} />
         </Row>
 
         <Dialog

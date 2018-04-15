@@ -10,6 +10,7 @@
     "google-maps-react": "^2.0.0",
     "lodash": "^4.17.5",
     "material-ui": "^0.20.0",
+    "material-ui-flat-pagination": "^2.1.2",
     "material-ui-icons": "^1.0.0-beta.36",
     "material-ui-password-field": "^1.4.1",
     "material-ui-toggle-icon": "^0.2.1",
