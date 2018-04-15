@@ -16,7 +16,7 @@ import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
 import Drawer from "material-ui/Drawer";
 import ExitToApp from "material-ui/svg-icons/action/exit-to-app";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import Iframe from "react-iframe";
+//import Iframe from "react-iframe";
 //import './LandingScreen.css';
 
 class LandingScreen extends Component {
@@ -43,7 +43,9 @@ class LandingScreen extends Component {
       reviewText: "",
       location: '',
       desiredPrice: '',
-      desiredRoommate: ''
+      desiredRoommate: '',
+      houseReviews: [],
+
     };
   }
 
@@ -61,7 +63,7 @@ class LandingScreen extends Component {
           review: this.state.reviewText
         }).then((response) => {
           console.log(response.data);
-          this.render(); 
+          this.render();
         }).catch((error) => {
           console.log(error);
         });
@@ -180,11 +182,45 @@ class LandingScreen extends Component {
     this.setState({ maxSqFt: value });
   };
 
+  handleExpandChange = (expanded, address) => {
+    if(expanded){
+      //do everything to get reviews and set it in the state variable
+      let that = this;
+      axios.post("/GET-REVIEWS", {
+          house: address
+        })
+        .then(function(response) {
+          console.log(response.data);
+          let tempHouseReviews=that.state.houseReviews;
+          tempHouseReviews[address]=[];
+          for(let i in response.data){
+            tempHouseReviews[address].push(<Paper key={i}><MenuItem primaryText={response.data[i]}/></Paper>)
+          that.setState({ houseReviews: tempHouseReviews },that.renderReviews);
+        }
+
+          //{reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+
+
+  };
+
+  renderReviews=()=>{
+    if(this.state.temp){
+      this.handleSearch()
+    } else {
+      this.addHouses()
+    }
+  }
+
   handleSearch = () => {
     // console.log(this.props);
     this.handleClose();
     // Go back to first 10 or 20 houses when search is made again with new filters
-    this.setState({ offset: 0 });
+    this.setState({ offset: 0 , temp:true});
 
     // Server Call with housing filter parameters to get first 10 or 20 houses
     let that = this;
@@ -219,7 +255,7 @@ class LandingScreen extends Component {
           for (let i in response.data) {
             if (!isNaN(response.data[i])) continue;
             let details = "";
-            let reviews=[]
+
             if (
               response.data[i].bedrooms > 0 &&
               response.data[i].bedrooms != null
@@ -235,10 +271,8 @@ class LandingScreen extends Component {
             if (response.data[i].price > 0 && response.data[i].price != null)
               details += "$" + +response.data[i].price;
 
-            for(let k in response.data[i].listOfReviews)
-              reviews.push(<Paper key={k}><MenuItem primaryText={response.data[i].listOfReviews[k]}/></Paper>)
             tempCard.push(
-              <Card key={i}>
+              <Card key={i} onExpandChange={(expanded)=>that.handleExpandChange(expanded, response.data[i].address)}>
               <CardHeader
                 title={response.data[i].address}
                 subtitle={details}
@@ -261,17 +295,17 @@ class LandingScreen extends Component {
 
               <CardText expandable={true} style={{ marginTop: "-20px"}}>
                 <h5>Reviews: </h5>
-                {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
-                <TextField 
-                hintText="Type Review Here" 
-                multiLine={true} 
+                {that.state.houseReviews[response.data[i].address]}
+                <TextField
+                hintText="Type Review Here"
+                multiLine={true}
                 rows={2}
                 rowsMax={8}
                 fullWidth={true}
                 onChange={that.handleReviewText}
               />
               </CardText>
-              
+
               <CardActions expandable style={{ marginTop: "-20px" }}>
                 <FlatButton label="Add Review" secondary onClick={() => that.handleAddReview(response.data[i].address)}/>
               </CardActions>
@@ -305,7 +339,7 @@ class LandingScreen extends Component {
   addHouses=()=>{
     let that=this
     // Go back to first 10 or 20 houses when search is made again with new filters
-    this.setState({ offset: 0 });
+    this.setState({ offset: 0, temp:false });
 
     // Server Call with housing filter parameters to get first 10 or 20 houses
 
@@ -323,7 +357,6 @@ class LandingScreen extends Component {
         for (let i in response.data) {
           if (!isNaN(response.data[i])) continue;
           let details = "";
-          let reviews = [];
           if (
             response.data[i].bedrooms > 0 &&
             response.data[i].bedrooms != null
@@ -339,14 +372,9 @@ class LandingScreen extends Component {
           if (response.data[i].price > 0 && response.data[i].price != null)
             details += "$" + +response.data[i].price;
 
-          for (let k in response.data[i].listOfReviews)
-            reviews.push(
-              <Paper key={k}>
-                <MenuItem primaryText={response.data[i].listOfReviews[k]} />
-              </Paper>
-            );
+
           tempCard.push(
-            <Card key={i}>
+            <Card key={i} onExpandChange={(expanded)=>that.handleExpandChange(expanded, response.data[i].address)}>
               <CardHeader
                 title={response.data[i].address}
                 subtitle={details}
@@ -369,17 +397,17 @@ class LandingScreen extends Component {
 
               <CardText expandable={true} style={{ marginTop: "-20px"}}>
                 <h5>Reviews: </h5>
-                {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
-                <TextField 
-                hintText="Type Review Here" 
-                multiLine={true} 
+                {that.state.houseReviews[response.data[i].address]}
+                <TextField
+                hintText="Type Review Here"
+                multiLine={true}
                 rows={2}
                 rowsMax={8}
                 fullWidth={true}
                 onChange={that.handleReviewText}
               />
               </CardText>
-              
+
               <CardActions expandable style={{ marginTop: "-20px" }}>
                 <FlatButton label="Add Review" secondary onClick={() => that.handleAddReview(response.data[i].address)}/>
               </CardActions>

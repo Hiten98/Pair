@@ -16,7 +16,7 @@ import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
 import Drawer from "material-ui/Drawer";
 import ExitToApp from "material-ui/svg-icons/action/exit-to-app";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import Iframe from "react-iframe";
+//import Iframe from "react-iframe";
 
 class LandingScreen extends Component {
   constructor(props) {
@@ -57,7 +57,7 @@ class LandingScreen extends Component {
           review: this.state.reviewText
         }).then((response) => {
           console.log(response.data);
-          this.render(); 
+          this.render();
         }).catch((error) => {
           console.log(error);
         });
@@ -254,16 +254,16 @@ class LandingScreen extends Component {
                <CardText expandable={true} style={{ marginTop: "-20px"}}>
                 <h5>Reviews: </h5>
                 {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
-                <TextField 
-                hintText="Type Review Here" 
-                multiLine={true} 
+                <TextField
+                hintText="Type Review Here"
+                multiLine={true}
                 rows={2}
                 rowsMax={8}
                 fullWidth={true}
                 onChange={that.handleReviewText}
               />
               </CardText>
-              
+
               <CardActions expandable style={{ marginTop: "-20px" }}>
                 <FlatButton label="Add Review" secondary onClick={() => that.handleAddReview(response.data[i].address)}/>
               </CardActions>
@@ -343,16 +343,16 @@ class LandingScreen extends Component {
               <CardText expandable={true} style={{ marginTop: "-20px"}}>
                 <h5>Reviews: </h5>
                 {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
-                <TextField 
-                hintText="Type Review Here" 
-                multiLine={true} 
+                <TextField
+                hintText="Type Review Here"
+                multiLine={true}
                 rows={2}
                 rowsMax={8}
                 fullWidth={true}
                 onChange={that.handleReviewText}
               />
               </CardText>
-              
+
               <CardActions expandable style={{ marginTop: "-20px" }}>
                 <FlatButton label="Add Review" secondary onClick={() => that.handleAddReview(response.data[i].address)}/>
               </CardActions>
