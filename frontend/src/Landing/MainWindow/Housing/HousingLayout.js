@@ -193,14 +193,14 @@ class LandingScreen extends Component {
           console.log(response.data);
           let tempHouseReviews=that.state.houseReviews;
           tempHouseReviews[address]=[];
-          tempHouseReviews[address].push(<div>Reviews:</div>);
           let count;
           for(let i in response.data){
             if (isNaN(response.data[i]))
-              tempHouseReviews[address].push(<Paper key={i}><MenuItem primaryText={response.data[i]}/></Paper>);
+              tempHouseReviews[address].unshift(<Paper key={i}><MenuItem primaryText={response.data[i]}/></Paper>);
             else
               tempHouseReviews[address].unshift("Number of Housing Groups Interested: " + response.data[i]);
           }
+          tempHouseReviews[address].unshift(<div>Reviews:</div>);
           that.setState({ houseReviews: tempHouseReviews },that.renderReviews);
 
           //{reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
