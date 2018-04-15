@@ -26,6 +26,7 @@ class DisplayProfile extends Component {
       linkedin: '',
       pic: '',
       match: '',
+      endDate: '',
       ban: false,
       temp: false,
     }
@@ -45,6 +46,7 @@ class DisplayProfile extends Component {
         linkedin: '',
         pic: '',
         match: '',
+        endDate: '',
         temp: false,
       }, this.componentDidMount)
     }
@@ -57,7 +59,7 @@ class DisplayProfile extends Component {
       axios.post("/GET-INTERN", {
         "userID": this.state.currProfile
       }).then(function (response) {
-        // console.log(response.data)
+        console.log(response.data)
         // if (!that.state.changed) {
         that.setState({
           firstname: response.data.firstName,
@@ -69,6 +71,7 @@ class DisplayProfile extends Component {
           company: response.data.company,
           location: response.data.location,
           ban: response.data.banned,
+          endDate: response.data.endDate,
         })
         // }
       }).catch(function (error) {

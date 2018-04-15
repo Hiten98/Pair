@@ -232,6 +232,11 @@ class ProfileHeader extends Component {
 
           {(this.props.props.type == 'employee') ? this.empButtons() : (this.props.props.type == 'intern') ? this.internButtons() : null}
         </div>
+        {this.props.props.type == 'employee' && this.props.currProfile != this.props.uid ?
+          <Row>
+            End Date: {this.props.endDate}
+          </Row>
+          : null}
         <PrivateChatModal {...this.state} {...this.props} closeAll={this.closeAll} />
         <GroupChatModal {...this.state} {...this.props} closeAll={this.closeAll} />
         <RemoveInternModal {...this.state} {...this.props} closeAll={this.closeAll} />
