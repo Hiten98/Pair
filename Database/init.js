@@ -92,4 +92,4 @@
     // addHouse(groupChatRoomRef, houseRef, internRef, "3Video Games", 1115, "Zimmermann Dr; HOUSTON, TX 77088");
     // removeHouse(groupChatRoomRef, houseRef, internRef, "3Video Games", 1115, "Zimmermann Dr; HOUSTON, TX 77088");
 
-    
+    // getSavedHouses(groupChatRoomRef, houseRef, "3Games", (x) => { console.log((x)); });

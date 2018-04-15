@@ -451,7 +451,7 @@
 			list = snapshot.val();
 			var size = Object.keys(list).length;
 			var i = 0;
-			for (var key in list) {
+			Object.keys(list).forEach(function(key) {
 			    if (list.hasOwnProperty(key)) {
 		    		var split = key.split(" ");
 			    	var state = split[split.length - 2];
@@ -465,7 +465,7 @@
 							callback(list);
 					});
 			    }
-			}
+			});
 		});
 	}
 
