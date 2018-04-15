@@ -453,7 +453,7 @@
 			    	var state = split[split.length - 2];
 			    	var zip = split[split.length - 1];
 					houseRef.child(state).child(zip).child(key).once("value").then(function(childSnapshot) {
-						var likes = list[key]["likes"];
+						var likes = list[key];
 						list[key] = childSnapshot.val();
 						list[key]["likes"] = likes;
 						i++;

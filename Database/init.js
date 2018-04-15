@@ -61,7 +61,7 @@
     // });
 
     // getHouses(houseRef, "NY", (x) => { document.write(JSON.stringify(x)); });
-    // getSavedHouses(groupChatRoomRef, houseRef, "3Games", (x) => { document.write(JSON.stringify(x)); });
+    // getSavedHouses(groupChatRoomRef, houseRef, "3Books", (x) => { document.write(JSON.stringify(x)); });
 
     // internRef.orderByChild("firstName").once("value").then(function(snapshot) {
     //     var list = snapshot.val();
@@ -90,4 +90,6 @@
     // getIntern(internRef, 1509, (x) => { document.write(JSON.stringify(x)); });
     
     // addHouse(groupChatRoomRef, houseRef, internRef, "3Video Games", 1115, "Zimmermann Dr; HOUSTON, TX 77088");
-    removeHouse(groupChatRoomRef, houseRef, internRef, "3Video Games", 1115, "Zimmermann Dr; HOUSTON, TX 77088");
+    // removeHouse(groupChatRoomRef, houseRef, internRef, "3Video Games", 1115, "Zimmermann Dr; HOUSTON, TX 77088");
+
+    
