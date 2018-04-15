@@ -206,6 +206,22 @@ class LandingScreen extends Component {
 
   };
 
+  handleRemoveListing = (address, chatName) => {
+    console.log(address)
+    console.log(chatName)
+    console.log(this.props.uid)
+    axios.post("/REMOVE-HOUSE", {
+      house: address,
+      name: chatName,
+      userID: this.props.uid
+    }).then((response) => {
+      console.log(response.data);
+      this.componentDidMount();
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
   getHousing = props => {
     // Go back to first 10 or 20 houses when search is made again with new filters
     this.setState({ offset: 0, houseCards: [] });
@@ -242,7 +258,7 @@ class LandingScreen extends Component {
               details += "$" + response.data[i].price;
 
             let str = "";
-            console.log(response.data[i]);
+            // console.log(response.data[i]);
             // console.log(i);
             if(response.data[i].likes[props.uid] == 1) {
               if (response.data[i].likes.likes <= 0) {
@@ -278,6 +294,11 @@ class LandingScreen extends Component {
                     label="Go to Listing"
                     secondary
                     onClick={() => that.handleURL(response.data[i].url)}
+                  />
+                  <FlatButton
+                    label="Remove Listing"
+                    secondary
+                    onClick={() => that.handleRemoveListing(i, props.state.currChatName)}
                   />
                 </CardActions>
 

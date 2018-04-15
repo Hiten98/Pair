@@ -3,6 +3,7 @@
   position: absolute;
   top:0;
   left:0;
+  overflow: hidden;
   /* margin-left:-2vw; */
 }
 

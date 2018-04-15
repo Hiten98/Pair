@@ -12,38 +12,17 @@ import SavedHousingLayout from './SavedHousing/SavedHousingLayout'
 import HousingLayout from './Housing/HousingLayout'
 
 class MainArea extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      classChat: [
-        'text-display chat-display', 'text-display'
-      ],
-      currPlace: 1,
-
-    }
-    // console.log(props)
-  }
-
-  componentDidMount() {
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`)==0 || history.location.pathname.indexOf(`/landing/${this.props.type}/housing`)==0 || history.location.pathname.indexOf(`/landing/${this.props.type}/saved`)==0)
-      this.setState({ currPlace: 0 })
-    else
-      this.setState({ currPlace: 1 })
-  }
-
-  componentWillReceiveProps=(nextProps)=>{
-
-  }
-
   render() {
     let currPlace=0
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`)==0)
-      currPlace=0
+    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`)==0
+    || history.location.pathname.indexOf(`/landing/${this.props.type}/housing`)==0 
+    || history.location.pathname.indexOf(`/landing/${this.props.type}/saved`)==0)
+      currPlace='text-display chat-display'
     else
-      currPlace=1
+      currPlace='text-display'
     return (
       <div>
-        <Row className={this.state.classChat[currPlace]}>
+        <Row className={currPlace}>
           {/* {(this.props.state.currChatName==''&&this.props.type!='company')?<h1>Please choose a chat from the chats on the left</h1>: */}
           <Switch>
             <Route path='/landing/company' render={()=><CompanyMain {...this.props}/>}/>

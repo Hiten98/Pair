@@ -159,7 +159,10 @@ class Sidebar extends Component {
         }
 
         for (let i in response.data) {
-          //console.log(response.data[i])
+          // console.log(response.data[i].charAt(0))
+          if((history.location.pathname.indexOf('/landing/intern/housing')===0||history.location.pathname.indexOf('/landing/intern/saved')===0)
+            &&(response.data[i].charAt(0)==='1'|| response.data[i].charAt(0)==='2'))
+            continue;
           let k = tempCard.length
           tempCard.push(
             <Paper zDepth={2} key={i}>
