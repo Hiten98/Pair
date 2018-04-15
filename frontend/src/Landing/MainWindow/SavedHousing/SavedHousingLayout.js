@@ -16,7 +16,7 @@ import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
 import Drawer from "material-ui/Drawer";
 import ExitToApp from "material-ui/svg-icons/action/exit-to-app";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import Iframe from "react-iframe";
+//import Iframe from "react-iframe";
 
 class LandingScreen extends Component {
   constructor(props) {
