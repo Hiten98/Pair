@@ -24,7 +24,7 @@
 		verifyUserChatroom,
 		getNotifications,
 		getReviews,
-		getHouses.
+		getHouses,
 		getSavedHouses,
 		getBlockedUsers
 	}*/
@@ -154,6 +154,7 @@
 			list["location"] = snapshot.val().location;
 			list["phone"] = snapshot.val().phone;
 			list["banned"] = snapshot.val().ban;
+			list["endDate"] = snapshot.val().endDate;
 			list["basic"] = {};
 			snapshot.child("basic").forEach(function(childSnapshot) {
 				list["basic"][childSnapshot.key] = childSnapshot.val();

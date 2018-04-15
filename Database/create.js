@@ -218,6 +218,7 @@
 			else {
 				internRef.child(ID).once("value").then(function(snapshot) {
 					item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+					addNotification(groupChatRoomRef, internRef, name, snapshot.val().firstName + " " + snapshot.val().lastName + "has been added to " + name.substring(1), ID);
 					internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
 						item += childSnapshot.val().image + "$:$";
 						internRef.child(ID).child("basic").once("value").then(function(babySnapshot) {
@@ -229,6 +230,23 @@
 				/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
 				groupChatRoomRef.child(name).child("listOfInvites").update({
 					[ID]: false
+				});
+
+				internRef.child(ID).child("listOfNotifications").once("value").then(function(infantSnapshot) {
+					if(infantSnapshot.exists()) {
+						var count = infantSnapshot.val().count;
+						count++;
+						internRef.child(ID).child("listOfNotifications").update({
+							"count": count,
+							[count]: "You have been invited to \"" + name.substring(1) + "\""
+						});
+					}
+					else {
+						internRef.child(ID).child("listOfNotifications").update({
+							"count": 1,
+							"1": "You have been invited to \"" + name.substring(1) + "\""
+						});
+					}
 				});
 			}
 		});
@@ -350,6 +368,11 @@
 	}
 
 	function addHouse(groupChatRoomRef, houseRef, internRef, name, ID, house) {
+		/*groupChatRoomRef.child(name).child("listOfHouses").child(house).once("value").then(function(snapshot) {
+			if(snapshot.exists())
+				return;
+		});*/
+
 		var split = house.split(" ");
     	var state = split[split.length - 2];
     	var zip = split[split.length - 1];
@@ -375,7 +398,8 @@
 	}
 
 	function addNotification(groupChatRoomRef, internRef, name, notification, exception = 0000) {
-		//check group exits
+		//check group exists
+		//also add other notifications
 		groupChatRoomRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				if(exception == childSnapshot.val().substring(0, 4)) {}
