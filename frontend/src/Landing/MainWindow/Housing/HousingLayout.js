@@ -193,10 +193,15 @@ class LandingScreen extends Component {
           console.log(response.data);
           let tempHouseReviews=that.state.houseReviews;
           tempHouseReviews[address]=[];
+          tempHouseReviews[address].push(<div>Reviews:</div>);
+          let count;
           for(let i in response.data){
-            tempHouseReviews[address].push(<Paper key={i}><MenuItem primaryText={response.data[i]}/></Paper>)
+            if (isNaN(response.data[i]))
+              tempHouseReviews[address].push(<Paper key={i}><MenuItem primaryText={response.data[i]}/></Paper>);
+            else
+              tempHouseReviews[address].unshift("Number of Housing Groups Interested: " + response.data[i]);
+          }
           that.setState({ houseReviews: tempHouseReviews },that.renderReviews);
-        }
 
           //{reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
         })
@@ -294,7 +299,6 @@ class LandingScreen extends Component {
               </CardActions>
 
               <CardText expandable={true} style={{ marginTop: "-20px"}}>
-                <h5>Reviews: </h5>
                 {that.state.houseReviews[response.data[i].address]}
                 <TextField
                 hintText="Type Review Here"
@@ -396,7 +400,6 @@ class LandingScreen extends Component {
               </CardActions>
 
               <CardText expandable={true} style={{ marginTop: "-20px"}}>
-                <h5>Reviews: </h5>
                 {that.state.houseReviews[response.data[i].address]}
                 <TextField
                 hintText="Type Review Here"
