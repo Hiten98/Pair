@@ -208,13 +208,22 @@ class LandingScreen extends Component {
                   <MenuItem primaryText={response.data[i].listOfReviews[k]} />
                 </Paper>
               );
+              reviews = reviews.reverse();
             }
             let str = "";
             console.log(response.data[i]);
-            if (response.data[i].likes <= 0) {
-              str = "Likes (0)";
+            if(response.data[i].likes[props.uid] == 1) {
+              if (response.data[i].likes.likes <= 0) {
+                str = "Dislike (0)";
+              } else {
+                str = "Dislike (" + response.data[i].likes.likes + ")";
+              }
             } else {
-              str = "Likes (" + response.data[i].likes + ")";
+              if (response.data[i].likes.likes <= 0) {
+                str = "Like (0)";
+              } else {
+                str = "Like (" + response.data[i].likes.likes + ")";
+              }
             }
             tempCard.push(
               <Card>

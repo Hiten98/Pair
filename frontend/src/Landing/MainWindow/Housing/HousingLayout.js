@@ -41,35 +41,40 @@ class LandingScreen extends Component {
       radioValue: "",
       selectedHouse: "",
       reviewText: "",
-      location: '',
-      desiredPrice: '',
-      desiredRoommate: ''
+      location: "",
+      desiredPrice: "",
+      desiredRoommate: ""
     };
   }
 
   handleReviewText = (event, newValue) => {
-    this.setState({reviewText: newValue});
-  }
+    this.setState({ reviewText: newValue });
+  };
 
-  handleAddReview = (address) => {
-    this.setState({
-      selectedHouse: address
-    }, () => {
-      if(address != "" && this.state.reviewText != "") {
-        axios.post("/WRITE-REVIEW", {
-          house: address,
-          review: this.state.reviewText
-        }).then((response) => {
-          console.log(response.data);
-          this.render(); 
-        }).catch((error) => {
-          console.log(error);
-        });
+  handleAddReview = address => {
+    this.setState(
+      {
+        selectedHouse: address
+      },
+      () => {
+        if (address != "" && this.state.reviewText != "") {
+          axios
+            .post("/WRITE-REVIEW", {
+              house: address,
+              review: this.state.reviewText
+            })
+            .then(response => {
+              console.log(response.data);
+              this.render();
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+        // console.log(address+this.state.reviewText)
       }
-      // console.log(address+this.state.reviewText)
-    }
     );
-  }
+  };
 
   handleURL = url => {
     window.open(url, "_blank");
@@ -117,19 +122,19 @@ class LandingScreen extends Component {
 
   handleCloseDialogWithSubmit = () => {
     this.setState({ openDialog: false });
-    console.log(this.state.radioValue)
-    console.log(this.props.uid)
-    console.log(this.state.selectedHouse)
+    console.log(this.state.radioValue);
+    console.log(this.props.uid);
+    console.log(this.state.selectedHouse);
     axios
       .post("/ADD-HOUSE", {
         name: this.state.radioValue,
         userID: this.props.uid,
         house: this.state.selectedHouse
       })
-      .then((response) => {
+      .then(response => {
         console.log(response);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
@@ -210,16 +215,19 @@ class LandingScreen extends Component {
         if (response.data.status === false) {
           //console.log("No houses found!")
           let tempCard = [];
-          tempCard.push(<Paper><MenuItem primaryText={"No Results Found"}/></Paper>);
+          tempCard.push(
+            <Paper>
+              <MenuItem primaryText={"No Results Found"} />
+            </Paper>
+          );
           that.setState({ houseCards: tempCard });
         } else {
-
           let tempCard = [];
 
           for (let i in response.data) {
             if (!isNaN(response.data[i])) continue;
             let details = "";
-            let reviews=[]
+            let reviews = [];
             if (
               response.data[i].bedrooms > 0 &&
               response.data[i].bedrooms != null
@@ -235,47 +243,59 @@ class LandingScreen extends Component {
             if (response.data[i].price > 0 && response.data[i].price != null)
               details += "$" + +response.data[i].price;
 
-            for(let k in response.data[i].listOfReviews)
-              reviews.push(<Paper key={k}><MenuItem primaryText={response.data[i].listOfReviews[k]}/></Paper>)
+            for (let k in response.data[i].listOfReviews) {
+              reviews.push(
+                <Paper key={k}>
+                  <MenuItem primaryText={response.data[i].listOfReviews[k]} />
+                </Paper>
+              );
+              reviews = reviews.reverse();
+            }
             tempCard.push(
               <Card key={i}>
-              <CardHeader
-                title={response.data[i].address}
-                subtitle={details}
-                actAsExpander={true}
-                showExpandableButton={true}
-              />
-
-              <CardActions style={{ marginTop: "-25px" }}>
-                <FlatButton
-                  label="Save House"
-                  secondary
-                  onClick={() => that.handleSave(response.data[i].address)}
+                <CardHeader
+                  title={response.data[i].address}
+                  subtitle={details}
+                  actAsExpander={true}
+                  showExpandableButton={true}
                 />
-                <FlatButton
-                  label="Go to Listing"
-                  secondary
-                  onClick={() => that.handleURL(response.data[i].url)}
-                />
-              </CardActions>
 
-              <CardText expandable={true} style={{ marginTop: "-20px"}}>
-                <h5>Reviews: </h5>
-                {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
-                <TextField 
-                hintText="Type Review Here" 
-                multiLine={true} 
-                rows={2}
-                rowsMax={8}
-                fullWidth={true}
-                onChange={that.handleReviewText}
-              />
-              </CardText>
-              
-              <CardActions expandable style={{ marginTop: "-20px" }}>
-                <FlatButton label="Add Review" secondary onClick={() => that.handleAddReview(response.data[i].address)}/>
-              </CardActions>
-            </Card>
+                <CardActions style={{ marginTop: "-25px" }}>
+                  <FlatButton
+                    label="Save House"
+                    secondary
+                    onClick={() => that.handleSave(response.data[i].address)}
+                  />
+                  <FlatButton
+                    label="Go to Listing"
+                    secondary
+                    onClick={() => that.handleURL(response.data[i].url)}
+                  />
+                </CardActions>
+
+                <CardText expandable={true} style={{ marginTop: "-20px" }}>
+                  <h5>Reviews: </h5>
+                  {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
+                  <TextField
+                    hintText="Type Review Here"
+                    multiLine={true}
+                    rows={2}
+                    rowsMax={8}
+                    fullWidth={true}
+                    onChange={that.handleReviewText}
+                  />
+                </CardText>
+
+                <CardActions expandable style={{ marginTop: "-20px" }}>
+                  <FlatButton
+                    label="Add Review"
+                    secondary
+                    onClick={() =>
+                      that.handleAddReview(response.data[i].address)
+                    }
+                  />
+                </CardActions>
+              </Card>
             );
           }
           that.setState({ houseCards: tempCard });
@@ -287,23 +307,30 @@ class LandingScreen extends Component {
   };
 
   componentDidMount() {
-    let that=this
+    let that = this;
     // Get Intern Location
-    axios.post("/GET-INTERN", {
-      userID: this.props.uid
-    }).then(function(internResponse) {
-      let internLocation = internResponse.data.location.split(", ");
-      //console.log(internResponse.data);
-      that.setState({ desiredPrice: internResponse.data.housing.desiredPrice });
-      that.setState({ desiredRoommate: internResponse.data.housing.desiredRoommate });
-      that.setState({ location: internLocation[1] },that.addHouses);
-    }).catch(function(error) {
-      console.log(error);
-    });
+    axios
+      .post("/GET-INTERN", {
+        userID: this.props.uid
+      })
+      .then(function(internResponse) {
+        let internLocation = internResponse.data.location.split(", ");
+        //console.log(internResponse.data);
+        that.setState({
+          desiredPrice: internResponse.data.housing.desiredPrice
+        });
+        that.setState({
+          desiredRoommate: internResponse.data.housing.desiredRoommate
+        });
+        that.setState({ location: internLocation[1] }, that.addHouses);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
-  addHouses=()=>{
-    let that=this
+  addHouses = () => {
+    let that = this;
     // Go back to first 10 or 20 houses when search is made again with new filters
     this.setState({ offset: 0 });
 
@@ -339,12 +366,14 @@ class LandingScreen extends Component {
           if (response.data[i].price > 0 && response.data[i].price != null)
             details += "$" + +response.data[i].price;
 
-          for (let k in response.data[i].listOfReviews)
+          for (let k in response.data[i].listOfReviews) {
             reviews.push(
               <Paper key={k}>
                 <MenuItem primaryText={response.data[i].listOfReviews[k]} />
               </Paper>
             );
+            reviews = reviews.reverse();
+          }
           tempCard.push(
             <Card key={i}>
               <CardHeader
@@ -367,21 +396,25 @@ class LandingScreen extends Component {
                 />
               </CardActions>
 
-              <CardText expandable={true} style={{ marginTop: "-20px"}}>
+              <CardText expandable={true} style={{ marginTop: "-20px" }}>
                 <h5>Reviews: </h5>
                 {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
-                <TextField 
-                hintText="Type Review Here" 
-                multiLine={true} 
-                rows={2}
-                rowsMax={8}
-                fullWidth={true}
-                onChange={that.handleReviewText}
-              />
+                <TextField
+                  hintText="Type Review Here"
+                  multiLine={true}
+                  rows={2}
+                  rowsMax={8}
+                  fullWidth={true}
+                  onChange={that.handleReviewText}
+                />
               </CardText>
-              
+
               <CardActions expandable style={{ marginTop: "-20px" }}>
-                <FlatButton label="Add Review" secondary onClick={() => that.handleAddReview(response.data[i].address)}/>
+                <FlatButton
+                  label="Add Review"
+                  secondary
+                  onClick={() => that.handleAddReview(response.data[i].address)}
+                />
               </CardActions>
             </Card>
           );
@@ -391,7 +424,7 @@ class LandingScreen extends Component {
       .catch(function(error) {
         console.log(error);
       });
-  }
+  };
 
   showSuggestedHousing = () => {
     //console.log(this.state.desiredPrice);
@@ -401,9 +434,12 @@ class LandingScreen extends Component {
     this.setState({ minBath: +this.state.desiredRoommate - 1 });
     this.setState({ maxBath: +this.state.desiredRoommate + 1 });
     // Since Pricing ranges from 0 - 7 and 0 - 10,000, I am using increments of 1250
-    this.setState({ minPrice: +this.state.desiredPrice*1250 });
-    this.setState({ maxPrice: +this.state.desiredPrice*1250 + 1250 }, this.handleSearch);
-  }
+    this.setState({ minPrice: +this.state.desiredPrice * 1250 });
+    this.setState(
+      { maxPrice: +this.state.desiredPrice * 1250 + 1250 },
+      this.handleSearch
+    );
+  };
 
   render() {
     const actions = [
@@ -513,7 +549,10 @@ class LandingScreen extends Component {
           </div>
         </Dialog>
 
-        <RaisedButton label="Show Suggested Housing" onClick={this.showSuggestedHousing} />
+        <RaisedButton
+          label="Show Suggested Housing"
+          onClick={this.showSuggestedHousing}
+        />
 
         {this.state.houseCards}
 
