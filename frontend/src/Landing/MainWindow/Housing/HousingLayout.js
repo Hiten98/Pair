@@ -68,7 +68,7 @@ class LandingScreen extends Component {
           console.log(error);
         });
       }
-    );
+    });
   };
 
   handleURL = url => {
@@ -193,7 +193,7 @@ class LandingScreen extends Component {
           tempHouseReviews[address]=[];
           let count;
           for(let i in response.data){
-            if (isNaN(response.data[i]))
+            if (i != "count")
               tempHouseReviews[address].unshift(<Paper key={i}><MenuItem primaryText={response.data[i]}/></Paper>);
             else
               tempHouseReviews[address].unshift("Number of Housing Groups Interested: " + response.data[i]);

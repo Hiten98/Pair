@@ -34,12 +34,13 @@ class LandingScreen extends Component {
       houseCards: [],
       offset: 0,
       reviews: [],
-      temp: false,
+      temp: [false,false],
       openDialog: false,
       radios: [],
       radioValue: "",
       selectedHouse: "",
-      reviewText: ""
+      reviewText: "",
+      houseReviews: [],
     };
   }
 
@@ -79,7 +80,7 @@ class LandingScreen extends Component {
               review: this.state.reviewText
             })
             .then(response => {
-              this.render();
+              this.componentDidMount()
             })
             .catch(error => {
               console.log(error);
@@ -167,6 +168,44 @@ class LandingScreen extends Component {
       this.getHousing(nextProps);
   };
 
+  handleExpandChange = (expanded, address) => {
+    // console.log(expanded);
+    if(expanded){
+      //do everything to get reviews and set it in the state variable
+      let that = this;
+      axios.post("/GET-REVIEWS", {
+          house: address
+        })
+        .then(function(response) {
+          // console.log(response.data);
+          let tempHouseReviews=that.state.houseReviews;
+          tempHouseReviews[address]=[];
+          let count;
+          for(let i in response.data){
+            if (i != "count")
+              tempHouseReviews[address].unshift(<Paper key={i}><MenuItem primaryText={response.data[i]}/></Paper>);
+            else
+              tempHouseReviews[address].unshift("Number of Housing Groups Interested: " + response.data[i]);
+          }
+          tempHouseReviews[address].unshift(<div>Reviews:</div>);
+          let tt=that.state.temp;
+          tt[address]=true;
+          that.setState({ houseReviews: tempHouseReviews, temp:tt },that.getHousing(that.props));
+
+          //{reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    } else{
+      let tt=this.state.temp;
+      tt[address]=false;
+      this.setState({temp:tt}, this.getHousing(this.props))
+    }
+
+
+  };
+
   getHousing = props => {
     // Go back to first 10 or 20 houses when search is made again with new filters
     this.setState({ offset: 0, houseCards: [] });
@@ -181,8 +220,8 @@ class LandingScreen extends Component {
       .then(function(response) {
         // Make Cards for House Listings
         let tempCard = [];
-        console.log("SAVED HOUSES:");
-        console.log(response.data);
+        // console.log("SAVED HOUSES:");
+        // console.log(response.data);
         if (response.data.status != false) {
           for (let i in response.data) {
             let details = "";
@@ -202,16 +241,9 @@ class LandingScreen extends Component {
             if (response.data[i].price > 0 && response.data[i].price != null)
               details += "$" + response.data[i].price;
 
-            for (let k in response.data[i].listOfReviews) {
-              reviews.push(
-                <Paper key={k}>
-                  <MenuItem primaryText={response.data[i].listOfReviews[k]} />
-                </Paper>
-              );
-              reviews = reviews.reverse();
-            }
             let str = "";
             console.log(response.data[i]);
+            // console.log(i);
             if(response.data[i].likes[props.uid] == 1) {
               if (response.data[i].likes.likes <= 0) {
                 str = "Dislike (0)";
@@ -225,8 +257,10 @@ class LandingScreen extends Component {
                 str = "Like (" + response.data[i].likes.likes + ")";
               }
             }
+            if(that.state.temp==undefined)
+            console.log(that.state.temp[i])
             tempCard.push(
-              <Card>
+              <Card key={i} onExpandChange={(expanded)=>that.handleExpandChange(expanded, i)} expanded={that.state.temp[i]}>
                 <CardHeader
                   title={i}
                   subtitle={details}
@@ -248,8 +282,7 @@ class LandingScreen extends Component {
                 </CardActions>
 
                 <CardText expandable={true} style={{ marginTop: "-20px" }}>
-                  <h5>Reviews: </h5>
-                  {reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
+                  {that.state.houseReviews[i]}
                   <TextField
                     hintText="Type Review Here"
                     multiLine={true}
