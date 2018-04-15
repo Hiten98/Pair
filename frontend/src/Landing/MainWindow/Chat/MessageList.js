@@ -22,7 +22,8 @@ class MessageList extends Component {
       ms: 0,
       numPrevMsgs: 0,
       numMsgs: 0,
-      newMessage: false
+      newMessage: false,
+      blockedUsers: []
     };
     this.interval = setInterval(this.tick, 500);
     // console.log(props)
@@ -51,18 +52,38 @@ class MessageList extends Component {
         .post("/GET-CHATROOM", {
           userID: this.state.uid
         })
-        .then((response) => {
+        .then(response => {
           // let chatroomList = response.data;
           if (response.data[this.state.chatroomId] != null) {
-            that.setState({
-              chatroomName: response.data[this.state.chatroomId]
-            }/*, () => console.log(that.state.chatroomName)*/);
+            that.setState(
+              {
+                chatroomName: response.data[this.state.chatroomId]
+              } /*, () => console.log(that.state.chatroomName)*/
+            );
           }
         })
         .catch(error => {
           console.log(error);
         });
     }
+
+    axios
+      .post("GET-BLOCKED-USERS", {
+        userID: this.state.uid
+      })
+      .then(response => {
+        let blockedList = [];
+        for (let blocked in response.data) {
+          blockedList.push(response.data[blocked]);
+        }
+        this.setState({
+          blockedUsers: blockedList
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
     //console.log("Chatroom Name: " + this.state.chatroomName);
     if (this.state.chatroomName != null && this.state.chatroomName != "") {
       axios
@@ -72,29 +93,37 @@ class MessageList extends Component {
         })
         .then(response => {
           if (response.data.status == false) {
-            alert('Chat room no longer available, please choose another one')
-            this.props.changeNeedToUpdate()
+            alert("Chat room no longer available, please choose another one");
+            this.props.changeNeedToUpdate();
           } else {
             let messages = response.data;
             let chatroomMessages = [];
             for (let m in messages) {
               if (m != "" && m != null && m != "number") {
                 let messageContent = messages[m].split("$:$");
-                chatroomMessages.push(
-                  <Message
-                    key={m}
-                    chat={{
-                      uid: messageContent[0],
-                      name: messageContent[1],
-                      img: messageContent[2],
-                      content: messageContent[3]
-                    }}
-                    uid={that.state.uid}
-                    name={that.state.name}
-                    image={that.state.myImg}
-                    style={{ wordWrap: "break-all" }}
-                  />
-                );
+                let flag = false;
+                for (let blocked in this.state.blockedUsers) {
+                  if (messageContent[0] == this.state.blockedUsers[blocked]) {
+                    flag = true;
+                  }
+                }
+                if (flag != true) {
+                  chatroomMessages.push(
+                    <Message
+                      key={m}
+                      chat={{
+                        uid: messageContent[0],
+                        name: messageContent[1],
+                        img: messageContent[2],
+                        content: messageContent[3]
+                      }}
+                      uid={that.state.uid}
+                      name={that.state.name}
+                      image={that.state.myImg}
+                      style={{ wordWrap: "break-all" }}
+                    />
+                  );
+                }
               }
             }
             if (that.state.chats != chatroomMessages) {
@@ -105,7 +134,7 @@ class MessageList extends Component {
                   numPrevMsgs: this.state.numMsgs,
                   numMsgs: chatroomMessages.length
                 });
-              })
+              });
             }
           }
         })
@@ -122,7 +151,10 @@ class MessageList extends Component {
       this.state.numMsgs > this.state.numPrevMsgs &&
       this.state.numPrevMsgs != 0
     ) {
-      if (this.state.chats[this.state.chats.length - 1].props.chat.uid != this.state.uid) {
+      if (
+        this.state.chats[this.state.chats.length - 1].props.chat.uid !=
+        this.state.uid
+      ) {
         this.setState({
           newMessage: true
         });
@@ -130,7 +162,7 @@ class MessageList extends Component {
         this.scrollToBottom();
       }
     }
-  }
+  };
 
   tick = () => {
     this.componentDidMount();
@@ -163,7 +195,7 @@ class MessageList extends Component {
     const { chats } = this.state;
     // console.log(chats);
     return (
-      <Row style={{ width: "101.3%" }} className='chat-overflow'>
+      <Row style={{ width: "101.3%" }} className="chat-overflow">
         <ul className="chats" ref="chats">
           {this.state.chats}
           <li
