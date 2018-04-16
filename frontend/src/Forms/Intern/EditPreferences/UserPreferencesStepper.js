@@ -76,9 +76,25 @@ class UserPreferencesStepper extends Component {
         onClick={this.handleClose}
       />
     ]
+
+    //to check if a mobile device
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    let orient = ''
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
+      orient = 'vertical'
+    } else {
+      orient = 'horizontal'
+    }
+
     return (
       <div>
-        <Stepper linear={false} activeStep={this.props.pos - 1}>
+        <Stepper
+          linear={false}
+          activeStep={this.props.pos - 1}
+          orientation={orient}
+        >
           <Step>
             <StepButton onClick={this.changeToUser}> User Details </StepButton>
           </Step>

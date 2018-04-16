@@ -14,7 +14,10 @@
 }
 
 .item {
-  margin-top:40vh;
+  position: absolute;
+  top:95vh;
+  width:93vw;
+  /* margin-top:40vh; */
   margin-bottom:10vh;
   padding-left:5vw;
   padding-right:5vw;

@@ -53,11 +53,13 @@ class LandingScreen extends Component {
       <RaisedButton
         label="Cancel"
         onClick={this.props.closeAll}
+        style={{marginBottom:'18px'}}
       />,
       <RaisedButton
         label="Create Private Chat"
         onClick={this.handleSubmit}
         {...this.ifDisabled[this.state.chat.length]}
+        style={{marginBottom:'18px'}}
       />,
     ]
     return (
@@ -70,9 +72,10 @@ class LandingScreen extends Component {
         >
           <TextField
             onChange={this.changeChatName}
-            floatingLabelText={`Enter name for chat with ${this.props.firstname} ${this.props.lastname} (will be the name for their chat too)`}
+            floatingLabelText={`Enter name for chat`}
             fullWidth
           />
+          <h5>It will be the name of their chat too</h5>
         </Dialog>
         <Snackbar
           open={this.state.open}

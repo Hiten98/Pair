@@ -22,6 +22,7 @@ class LandingScreen extends Component {
       currIntern: {},
       people: [],
       needToUpdate:false,
+      drawerOpen:true,
     }
     // try {
     //   const serializedState = localStorage.getItem('main-area')
@@ -33,6 +34,10 @@ class LandingScreen extends Component {
     //   console.log('This browser does not allow localstorage and some functionalities may be impacted')
     // }
 
+  }
+
+  changeDrawerStatus=()=>{
+    this.setState({drawerOpen:!this.state.drawerOpen})
   }
 
   componentWillUnmount = () => {
@@ -115,6 +120,7 @@ class LandingScreen extends Component {
       addPerson: this.addPerson,
       resetPeople:this.resetPeople,
       changeNeedToUpdate:this.changeNeedToUpdate,
+      changeDrawerStatus:this.changeDrawerStatus,
     }
     return (
       <div className='whole'>

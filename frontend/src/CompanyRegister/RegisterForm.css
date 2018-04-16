@@ -1,3 +1,10 @@
+.company-register-title-mobile{
+  /* position: relative;
+  left:7%; */
+  font-size: 275%;
+  width:95vw;
+}
+
 .company-register-title{
   /* position: relative;
   left:7%; */
@@ -5,7 +12,7 @@
 }
 
 @media all and (max-width:767px){
-  .form{width: 97vw;}
+  .form{width: 100vw;}
 }
 
 @media all and (min-width:768px){

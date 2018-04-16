@@ -93,7 +93,7 @@ class GetInterns extends Component {
                 {...args}
                 {...that.state.colors[parseInt(i) + tempProfileAdj]}
                 primaryText={splitted[1]}
-                secondaryText={<p>{bio.substr(0,20)}...</p>}
+                secondaryText={<p>{bio.substr(0, 20)}...</p>}
                 secondaryTextLines={1}
                 hoverColor='#F95498B0'
                 onClick={() => { that.handleClick(parseInt(i) + tempProfileAdj, splitted[0]) }}
@@ -122,9 +122,9 @@ class GetInterns extends Component {
         let score = null
 
         for (let i in response.data.score) {
-          if (parseInt(response.data.score[i]) > 80) {
+          if (parseInt(response.data.score[i]) > 66) {
             score = <div><span style={{ color: lightGreenA700 }}>{response.data.score[i]}% match &nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
-          } else if (parseInt(response.data.score[i]) > 50) {
+          } else if (parseInt(response.data.score[i]) > 33) {
             score = <div><span style={{ color: yellow800 }}>{response.data.score[i]}% match&nbsp; </span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
           } else if (parseInt(response.data.score[i]) > 0) {
             score = <div><span style={{ color: red500 }}>{response.data.score[i]}% match&nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
@@ -177,7 +177,7 @@ class GetInterns extends Component {
           <Paper zDepth={2} key={parseInt(k) + parseInt(i)} className='paper-list'>
             <ListItem
               primaryText={`${response.data[i].firstName} ${response.data[i].lastName}`}
-              onClick={() => { that.handleClick(parseInt(k)+parseInt(i), i) }}
+              onClick={() => { that.handleClick(parseInt(k) + parseInt(i), i) }}
               {...that.state.colors[parseInt(i) + parseInt(k)]}
               hoverColor='#F95498B0'
             />
@@ -213,6 +213,11 @@ class GetInterns extends Component {
 
   handleClick = (i, id) => {
     //console.log(i)
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768)
+      this.props.changeNavDrawer()
     let tempArr = this.state.colors
     tempArr[this.props.props2.currPaper] = null
     tempArr[i] = { style: { backgroundColor: '#EB347F' } }

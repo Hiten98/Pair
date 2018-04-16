@@ -1,4 +1,11 @@
 .whole{
   width:100vw;
-  margin-left:-1vw;
+  position: absolute;
+  top:0;
+  left:0;
+  /* margin-left:-2vw; */
+}
+
+@media all and (max-width:768px){
+  /* .whole{margin-left: -4vw;} */
 }

@@ -19,11 +19,11 @@ class HousingSubmitButtons extends Component {
   }
 
   backButtonSubmit = () => {
-    this.setState({ willRedirect: 1 },()=>{this.bSubmit()})
+    this.setState({ willRedirect: 1 }, () => { this.bSubmit() })
   }
 
   buttonSubmit = () => {
-    this.setState({ willRedirect: 2 },()=>{this.bSubmit()})
+    this.setState({ willRedirect: 2 }, () => { this.bSubmit() })
   }
 
   bSubmit = () => {
@@ -52,7 +52,7 @@ class HousingSubmitButtons extends Component {
         } else if (that.state.willRedirect === 2) {
           if (that.props.completed.indexOf('1') > -1 && that.props.completed.indexOf('2') > -1) {
             history.push('/landing/intern/members')
-          }else{
+          } else {
             alert('Please complete all parts of this form')
           }
         }
@@ -69,7 +69,7 @@ class HousingSubmitButtons extends Component {
     });
   }
 
-  render() {
+  returnDesktop() {
     return (
       <Row className="roommate-submit-buttons">
         <RaisedButton
@@ -92,6 +92,50 @@ class HousingSubmitButtons extends Component {
         />
       </Row>
     );
+  }
+
+  returnMobile() {
+    return (
+      <div>
+        <Row className="roommate-submit-buttons">
+          <RaisedButton
+            label="Previous"
+            sytle={{ marginTop: "20px" }}
+            primary
+            onClick={this.backButtonSubmit}
+          />
+        </Row>
+        <Row className="roommate-submit-buttons">
+          <RaisedButton
+            label="Save"
+            style={{ marginTop: "20px", marginLeft: "10px" }}
+            primary
+            onClick={this.bSubmit}
+          />
+        </Row>
+        <Row className="roommate-submit-buttons">
+          <RaisedButton
+            label="Submit"
+            style={{ marginTop: "20px", marginLeft: "10px" }}
+            primary
+            onClick={this.buttonSubmit}
+          />
+        </Row>
+      </div>
+    );
+  }
+
+  render() {
+    let width = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+    // console.log(width)
+    //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 400) {
+      return this.returnMobile();
+    } else {
+      return this.returnDesktop();
+    }
   }
 }
 

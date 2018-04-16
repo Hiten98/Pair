@@ -26,7 +26,7 @@ class Location extends Component {
 
   componentDidMount = () => {
     let items = []
-    console.log(this.props.locations)
+    // console.log(this.props.locations)
     items.push(<MenuItem value={0} key={0} primaryText='Choose a location' />)
     for (let i in this.props.locations) {
       items.push(<MenuItem value={parseInt(i) + 1} key={parseInt(i) + 1} primaryText={this.props.locations[i]} />)

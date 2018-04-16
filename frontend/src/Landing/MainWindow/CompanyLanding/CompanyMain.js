@@ -96,7 +96,7 @@ class CompanyMain extends Component {
       <div style={{overflow:'hidden'}}>
         <Row className="companyName">{this.props.uid}</Row>
         <Row style={{marginLeft:'2vw',marginRight:'2vw',overflow:'hidden'}}>
-          <Col xs={4} className="Employees" >
+          <Col xs={12} sm={4} className="Employees" >
             <List>
               <h3>Employees</h3>
               {this.state.employeeCards}
@@ -104,7 +104,7 @@ class CompanyMain extends Component {
           </Col>
           <InternList {...this.props}{...this.state} />
 
-          <Col xs={4} className="Locations" style={{overflowY:'auto'}}>
+          <Col xs={12} sm={4} className="Locations" style={{overflowY:'auto'}}>
             <List>
               <h3>Locations</h3>
               {this.state.locationCards}

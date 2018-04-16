@@ -52,7 +52,7 @@ class MessageList extends Component {
           userID: this.state.uid
         })
         .then((response) => {
-          let chatroomList = response.data;
+          // let chatroomList = response.data;
           if (response.data[this.state.chatroomId] != null) {
             that.setState({
               chatroomName: response.data[this.state.chatroomId]
@@ -106,13 +106,6 @@ class MessageList extends Component {
                   numMsgs: chatroomMessages.length
                 });
               })
-            } else {
-              that.setState({
-                chats: chatroomMessages,
-                inputText: "",
-                numPrevMsgs: this.state.numMsgs,
-                numMsgs: chatroomMessages.length
-              });
             }
           }
         })
@@ -141,14 +134,15 @@ class MessageList extends Component {
 
   tick = () => {
     this.componentDidMount();
-    this.render();
   };
 
   scrollToBottom = () => {
+    //if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent)))
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
 
   scrollToBottomInstant = () => {
+    // if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent)))
     this.messagesEnd.scrollIntoView({ behavior: "instant" });
   };
 
@@ -169,7 +163,7 @@ class MessageList extends Component {
     const { chats } = this.state;
     // console.log(chats);
     return (
-      <Row style={{ width: "101.3%", overflowX: "hidden" }}>
+      <Row style={{ width: "101.3%" }} className='chat-overflow'>
         <ul className="chats" ref="chats">
           {this.state.chats}
           <li
