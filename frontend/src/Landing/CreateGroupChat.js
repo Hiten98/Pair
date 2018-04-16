@@ -74,7 +74,7 @@ class CreateGroupChat extends Component {
       <div className='create-gc-div'>
         <RaisedButton
           secondary
-          label='Create Group Chat'
+          label='Create Group'
           onClick={this.openModal}
           className='create-gc-button'
         />

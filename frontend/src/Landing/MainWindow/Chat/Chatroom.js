@@ -40,22 +40,25 @@ class Chatroom extends Component {
 
   componentDidMount() {
     let that = this;
-    
+
     if (this.state.uid[0] == 1) {
       axios
         .post("/GET-INTERN", {
           userID: this.state.uid
         })
         .then(response => {
-          that.setState({
-            name: response.data.firstName + " " + response.data.lastName,
-            myImg: response.data.image,
-            banned: response.data.banned
-          }, () => {
-            if (this.props.state.currChatName.substring(0, 1) != 1) {
-              that.setState({ banned: false })
+          that.setState(
+            {
+              name: response.data.firstName + " " + response.data.lastName,
+              myImg: response.data.image,
+              banned: response.data.banned
+            },
+            () => {
+              if (this.props.state.currChatName.substring(0, 1) != 1) {
+                that.setState({ banned: false });
+              }
             }
-          });
+          );
         })
         .catch(error => {
           console.log(error);
@@ -67,7 +70,7 @@ class Chatroom extends Component {
         })
         .then(response => {
           that.setState({
-            name: response.data.firstName + " " + response.data.lastName,
+            name: response.data.firstName + " " + response.data.lastName
           });
         })
         .catch(error => {
@@ -135,7 +138,7 @@ class Chatroom extends Component {
 
   returnDesktop() {
     const { chats } = this.state;
-    let arrow = <i className="material-icons">&#xE163;</i>
+    let arrow = <i className="material-icons">&#xE163;</i>;
     return (
       <div style={{ overflow: "hidden" }}>
         <div className="chatroom">
@@ -145,7 +148,7 @@ class Chatroom extends Component {
             </h3>
           </Row>
           <MessageList {...this.state} {...this.props} />
-          <LeaveChatButton {...this.props}/>
+          <LeaveChatButton {...this.props} />
         </div>
 
         <div className="messages">
@@ -161,7 +164,11 @@ class Chatroom extends Component {
                   marginLeft: "-14vw",
                   position: "relative"
                 }}
-                hintText={(this.state.banned) ? "Temporary ban, please contact your company chat moderator" : "Type a message..."}
+                hintText={
+                  this.state.banned
+                    ? "Temporary ban, please contact your company chat moderator"
+                    : "Type a message..."
+                }
                 fullWidth={true}
                 multiLine={true}
                 onChange={this.handleInputTextChange}
@@ -169,9 +176,9 @@ class Chatroom extends Component {
                 disabled={this.state.banned}
               />
               <RaisedButton
-                label={arrow}
+                label="SEND"
                 secondary
-                className='SubmitButtonChat'
+                className="SubmitButtonChat"
                 disabled={this.state.banned}
                 // buttonStyle={{marginTop:'1vh', backgroundColor:'#ff4081'}}
                 onClick={e => this.submitMessage(e)}
@@ -185,12 +192,12 @@ class Chatroom extends Component {
 
   returnMobile() {
     const { chats } = this.state;
-    let arrow = <i className="material-icons">&#xE163;</i>
+    let arrow = <i className="material-icons">&#xE163;</i>;
     return (
       <div style={{ overflow: "hidden" }}>
         <div className="chatroom">
           <Row className="container-fluid">
-            <h3 style={{fontSize:'4vh'}}>
+            <h3 style={{ fontSize: "4vh" }}>
               <Col>{this.state.chatroomName.substring(1)}</Col>
             </h3>
           </Row>
@@ -210,7 +217,11 @@ class Chatroom extends Component {
                   marginLeft: "-27vw",
                   position: "relative"
                 }}
-                hintText={(this.state.banned) ? "Temporary ban, please contact your company chat moderator" : "Type a message..."}
+                hintText={
+                  this.state.banned
+                    ? "Temporary ban, please contact your company chat moderator"
+                    : "Type a message..."
+                }
                 fullWidth={true}
                 multiLine={true}
                 onChange={this.handleInputTextChange}
@@ -218,11 +229,11 @@ class Chatroom extends Component {
                 disabled={this.state.banned}
               />
               <RaisedButton
-                label={arrow}
+                label="SEND"
                 secondary
-                className='SubmitButtonChat'
+                className="SubmitButtonChat"
                 disabled={this.state.banned}
-                buttonStyle={{paddingTop:'1vh'}}
+                buttonStyle={{ paddingTop: "1vh" }}
                 onClick={e => this.submitMessage(e)}
               />
             </div>
@@ -233,12 +244,18 @@ class Chatroom extends Component {
   }
 
   render() {
-    let width = window.innerWidth
-      || document.documentElement.clientWidth
-      || document.body.clientWidth;
+    let width =
+      window.innerWidth ||
+      document.documentElement.clientWidth ||
+      document.body.clientWidth;
     // console.log(width)
     //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(
+        navigator.userAgent
+      ) ||
+      width < 768
+    ) {
       return this.returnMobile();
     } else {
       return this.returnDesktop();

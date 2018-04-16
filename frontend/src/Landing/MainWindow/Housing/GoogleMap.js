@@ -6,14 +6,18 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react'
 
 export class GoogleMap extends Component {
   render() {
-    return (
-      <Map google={this.props.google} zoom={14} style={{ width: '300px', height: '300px' }} initialCenter={{ lat: this.props.lat, lng: this.props.lng }}>
-        <Marker
-          title={this.props.address}
-          position={{ lat: this.props.lat, lng: this.props.lng }}
-        />
-      </Map>
-    );
+    console.log(this.props.lng)
+    if (this.props.lng != '') {
+      return (
+        <Map google={this.props.google} zoom={14} style={{ width: '92.5%', height: '200px', position: 'relative' }} initialCenter={{ lat: this.props.lat, lng: this.props.lng }}>
+          <Marker
+            title={this.props.address}
+            position={{ lat: this.props.lat, lng: this.props.lng }}
+          />
+        </Map>
+      );
+    } else
+      return null;
   }
 }
 

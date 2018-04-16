@@ -4,6 +4,7 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import axios from 'axios'
+import { Paper } from 'material-ui';
 //import './Notifications.css';
 
 class Notifications extends Component {
@@ -27,7 +28,10 @@ class Notifications extends Component {
         let tempCard = []
         for (let i in response.data) {
           tempCard.unshift(
-            <MenuItem primaryText={response.data[i]} key={i} />
+            <Paper key={i} style={{ width: '90%', marginLeft: '5%' }} zDepth={0}>
+              <p>{response.data[i]}</p>
+            </Paper>
+            // <MenuItem primaryText={<p>{response.data[i]}</p>} key={i} />
           )
         }
         tempCard.shift()
@@ -47,12 +51,15 @@ class Notifications extends Component {
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
           targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={this.props.closeNotifications}
+          style={{ width: '30vw', overflowX: 'hidden' }}
         >
-          <Menu>
-            {(this.state.notificationsCard.length>0)?
+          {/* <Menu> */}
+          <div style={{ marginTop: '10px', marginBottom: '10px' }}>
+            {(this.state.notificationsCard.length > 0) ?
               this.state.notificationsCard
-              :<MenuItem primaryText='No notifications' key='0' onClick={this.props.closeNotifications}/>}
-          </Menu>
+              : <MenuItem primaryText='No notifications' key='0' onClick={this.props.closeNotifications} />}
+          </div>
+          {/* </Menu> */}
         </Popover>
       </div>
     );
