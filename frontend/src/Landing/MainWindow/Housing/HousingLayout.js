@@ -45,6 +45,10 @@ class LandingScreen extends Component {
     };
   }
 
+  handleReviewText = (event, newValue) => {
+    this.setState({ reviewText: newValue });
+  };
+
   handleAddReview = (address) => {
     let that = this
     this.setState({
@@ -126,7 +130,7 @@ class LandingScreen extends Component {
   };
 
   renderReviews = () => {
-    console.log(this.state.offset)
+    // console.log(this.state.offset)
     if (this.state.temp) {
       this.handleSearch(this.state.filters)
     } else {
@@ -172,7 +176,7 @@ class LandingScreen extends Component {
         // console.log(response.data);
         //console.log(response.data);
         let tempCard = [];
-        console.log(response.data)
+        // console.log(response.data)
         for (let i in response.data) {
           that.formatHouses(response.data[i], tempCard, i);
         }
@@ -191,43 +195,40 @@ class LandingScreen extends Component {
     // Server Call with housing filter parameters to get first 10 or 20 houses
     let that = this;
     // console.log(this.state.offset)
-    axios
-      .post("/GET-FILTERED-HOUSES", {
-        state: this.props.location,
-        offset: this.state.offset,
-        minBedrooms: sendBack.minBed,
-        maxBedrooms: sendBack.maxBed,
-        minBathrooms: sendBack.minBath,
-        maxBathrooms: sendBack.maxBath,
-        minPrice: sendBack.minPrice,
-        maxPrice: sendBack.maxPrice,
-        minsqft: sendBack.minSqFt,
-        maxsqft: sendBack.maxSqFt,
-      })
-      .then(function (response) {
-        // Make Cards for House Listings
+    axios.post("/GET-FILTERED-HOUSES", {
+      state: this.props.location,
+      offset: this.state.offset,
+      minBedrooms: sendBack.minBed,
+      maxBedrooms: sendBack.maxBed,
+      minBathrooms: sendBack.minBath,
+      maxBathrooms: sendBack.maxBath,
+      minPrice: sendBack.minPrice,
+      maxPrice: sendBack.maxPrice,
+      minsqft: sendBack.minSqFt,
+      maxsqft: sendBack.maxSqFt,
+    }).then(function (response) {
+      // Make Cards for House Listings
 
-        // console.log(response.data);
-        if (response.data.status === false) {
-          //console.log("No houses found!")
-          let tempCard = [];
-          tempCard.push(
-            <Paper>
-              <MenuItem primaryText={"No Results Found"} />
-            </Paper>
-          );
-          that.setState({ houseCards: tempCard });
-        } else {
-          let tempCard = [];
-          for (let i in response.data) {
-            that.formatHouses(response.data[i], tempCard, i);
-          }
-          that.setState({ houseCards: tempCard, numPages: parseInt(response.data.number) });
+      // console.log(response.data);
+      if (response.data.status === false) {
+        //console.log("No houses found!")
+        let tempCard = [];
+        tempCard.push(
+          <Paper>
+            <MenuItem primaryText={"No Results Found"} />
+          </Paper>
+        );
+        that.setState({ houseCards: tempCard });
+      } else {
+        let tempCard = [];
+        for (let i in response.data) {
+          that.formatHouses(response.data[i], tempCard, i);
         }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+        that.setState({ houseCards: tempCard, numPages: parseInt(response.data.number) });
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
   };
 
   formatHouses = (rdata, tempCard, i) => {
@@ -284,7 +285,7 @@ class LandingScreen extends Component {
             rows={2}
             rowsMax={8}
             fullWidth={true}
-            onChange={(event, value) => this.setState({ reviewText: value })}
+            onChange={that.handleReviewText}
           />
         </CardText>
 
@@ -307,7 +308,7 @@ class LandingScreen extends Component {
 
           {this.state.houseCards}
         </Row>
-        <Row style={{ paddingLeft: '20px', paddingRight: '20px', marginTop: '10px', textAlign:'center' }}>
+        <Row style={{ paddingLeft: '20px', paddingRight: '20px', marginTop: '10px', textAlign: 'center' }}>
           <Pagination {...this.state} changePage={(value) => this.setState({ offset: value }, this.renderReviews)} />
         </Row>
 

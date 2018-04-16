@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { NavLink, Switch, Route } from "react-router-dom";
+import Pagination from '../Housing/Pagination';
+import MapButton from '../Housing/MapButton';
+import { Row } from 'react-bootstrap';
 import axios from "axios";
 import {
   RaisedButton,
@@ -22,25 +24,17 @@ class LandingScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      minBed: 5,
-      maxBed: 5,
-      minBath: 5,
-      maxBath: 5,
-      minPrice: 2500,
-      maxPrice: 2500,
-      minSqFt: 2500,
-      maxSqFt: 2500,
       open: false,
       houseCards: [],
       offset: 0,
       reviews: [],
-      temp: [false,false],
+      temp: [false, false],
       openDialog: false,
-      radios: [],
-      radioValue: "",
       selectedHouse: "",
       reviewText: "",
       houseReviews: [],
+      showMap: false,
+      address: '',
     };
   }
 
@@ -103,7 +97,7 @@ class LandingScreen extends Component {
       .post("/GET-CHATROOM", {
         userID: this.props.uid
       })
-      .then(function(response) {
+      .then(function (response) {
         // Make Cards for House Listings
         let r = [];
         for (let ind in response.data) {
@@ -124,7 +118,7 @@ class LandingScreen extends Component {
           });
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -170,37 +164,37 @@ class LandingScreen extends Component {
 
   handleExpandChange = (expanded, address) => {
     // console.log(expanded);
-    if(expanded){
+    if (expanded) {
       //do everything to get reviews and set it in the state variable
       let that = this;
       axios.post("/GET-REVIEWS", {
-          house: address
-        })
-        .then(function(response) {
+        house: address
+      })
+        .then(function (response) {
           // console.log(response.data);
-          let tempHouseReviews=that.state.houseReviews;
-          tempHouseReviews[address]=[];
+          let tempHouseReviews = that.state.houseReviews;
+          tempHouseReviews[address] = [];
           let count;
-          for(let i in response.data){
+          for (let i in response.data) {
             if (i != "count")
-              tempHouseReviews[address].unshift(<Paper key={i}><MenuItem primaryText={response.data[i]}/></Paper>);
+              tempHouseReviews[address].unshift(<Paper key={i}><MenuItem primaryText={response.data[i]} /></Paper>);
             else
               tempHouseReviews[address].unshift("Number of Housing Groups Interested: " + response.data[i]);
           }
-          tempHouseReviews[address].unshift(<div>Reviews:</div>);
-          let tt=that.state.temp;
-          tt[address]=true;
-          that.setState({ houseReviews: tempHouseReviews, temp:tt },that.getHousing(that.props));
+          tempHouseReviews[address].unshift(<div key='Reviews'>Reviews:</div>);
+          let tt = that.state.temp;
+          tt[address] = true;
+          that.setState({ houseReviews: tempHouseReviews, temp: tt }, that.getHousing(that.props));
 
           //{reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
-    } else{
-      let tt=this.state.temp;
-      tt[address]=false;
-      this.setState({temp:tt}, this.getHousing(this.props))
+    } else {
+      let tt = this.state.temp;
+      tt[address] = false;
+      this.setState({ temp: tt }, this.getHousing(this.props))
     }
 
 
@@ -222,9 +216,28 @@ class LandingScreen extends Component {
     })
   }
 
+  formatDetails=(data)=>{
+    let details="";
+    if (
+      data.bedrooms > 0 &&
+      data.bedrooms != null
+    )
+      details += data.bedrooms + " Bed • ";
+    if (
+      data.bathrooms > 0 &&
+      data.bathrooms != null
+    )
+      details += data.bathrooms + " Bath • ";
+    if (data.sqft > 0 && data.sqft != null)
+      details += data.sqft + " sqft • ";
+    if (data.price > 0 && data.price != null)
+      details += "$" + data.price;
+    return details
+  }
+
   getHousing = props => {
     // Go back to first 10 or 20 houses when search is made again with new filters
-    this.setState({ offset: 0, houseCards: [] });
+    this.setState({ houseCards: [] });
 
     // Server Call with housing filter parameters to get first 10 or 20 houses
     let that = this;
@@ -233,34 +246,20 @@ class LandingScreen extends Component {
       .post("/GET-SAVED-HOUSES", {
         name: props.state.currChatName
       })
-      .then(function(response) {
+      .then(function (response) {
         // Make Cards for House Listings
         let tempCard = [];
         // console.log("SAVED HOUSES:");
-        // console.log(response.data);
+        console.log(response.data);
         if (response.data.status != false) {
           for (let i in response.data) {
-            let details = "";
+            let details = that.formatDetails(response.data[i]);
             let reviews = [];
-            if (
-              response.data[i].bedrooms > 0 &&
-              response.data[i].bedrooms != null
-            )
-              details += response.data[i].bedrooms + " Bed • ";
-            if (
-              response.data[i].bathrooms > 0 &&
-              response.data[i].bathrooms != null
-            )
-              details += response.data[i].bathrooms + " Bath • ";
-            if (response.data[i].sqft > 0 && response.data[i].sqft != null)
-              details += response.data[i].sqft + " sqft • ";
-            if (response.data[i].price > 0 && response.data[i].price != null)
-              details += "$" + response.data[i].price;
 
             let str = "";
             // console.log(response.data[i]);
             // console.log(i);
-            if(response.data[i].likes[props.uid] == 1) {
+            if (response.data[i].likes[props.uid] == 1) {
               if (response.data[i].likes.likes <= 0) {
                 str = "Dislike (0)";
               } else {
@@ -273,10 +272,8 @@ class LandingScreen extends Component {
                 str = "Like (" + response.data[i].likes.likes + ")";
               }
             }
-            if(that.state.temp==undefined)
-            console.log(that.state.temp[i])
             tempCard.push(
-              <Card key={i} onExpandChange={(expanded)=>that.handleExpandChange(expanded, i)} expanded={that.state.temp[i]}>
+              <Card key={i} onExpandChange={(expanded) => that.handleExpandChange(expanded, i)} expanded={that.state.temp[i]}>
                 <CardHeader
                   title={i}
                   subtitle={details}
@@ -299,6 +296,11 @@ class LandingScreen extends Component {
                     label="Remove Listing"
                     secondary
                     onClick={() => that.handleRemoveListing(i, props.state.currChatName)}
+                  />
+                  <FlatButton
+                    label='Show Map'
+                    onClick={() => that.setState({ showMap: true, address: i })}
+                    secondary
                   />
                 </CardActions>
 
@@ -327,7 +329,7 @@ class LandingScreen extends Component {
         }
         that.setState({ houseCards: tempCard });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -337,34 +339,23 @@ class LandingScreen extends Component {
   }
 
   render() {
-    const actions2 = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onClick={this.handleCloseDialog}
-      />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        onClick={this.handleCloseDialogWithSubmit}
-      />
-    ];
-
     return (
       <div style={{ textAlign: "left" }}>
         {this.state.houseCards}
 
         <Dialog
-          title="Choose the chat to save to..."
-          actions={actions2}
-          modal={false}
-          open={this.state.openDialog}
-          onRequestClose={this.handleCloseDialog}
-          autoScrollBodyContent={true}
+          open={this.state.showMap}
+          onRequestClose={() => this.setState({ showMap: false, address: '' })}
+          actions={[
+            <RaisedButton
+              label='Close'
+              onClick={() => this.setState({ showMap: false, address: '' })}
+            />
+          ]}
         >
-          <RadioButtonGroup name="shipSpeed" onChange={this.handleRadioChange}>
-            {this.state.radios}
-          </RadioButtonGroup>
+          <div style={{ height: '200px' }}>
+            {this.state.showMap ? <MapButton address={this.state.address} /> : null}
+          </div>
         </Dialog>
       </div>
     );
