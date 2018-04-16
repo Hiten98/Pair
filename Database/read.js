@@ -19,8 +19,14 @@
 		compareInterns,
 		getImage,
 		getAdmin,
+		getAdminCompanies,
 		getInvite,
-		verifyUserChatroom
+		verifyUserChatroom,
+		getNotifications,
+		getReviews,
+		getHouses,
+		getSavedHouses,
+		getBlockedUsers
 	}*/
 
 	function getMasterListOfInterns(internRef, company, callback) {
@@ -35,6 +41,8 @@
     				master[key]["email"] = childSnapshot.val().email;
     				master[key]["location"] = childSnapshot.val().lcoation;
     				master[key]["phone"] = childSnapshot.val().phone;
+    				master[key]["endDate"] = childSnapshot.val().endDate;
+    				master[key]["startDate"] = childSnapshot.val().startDate;
     			}
     		});
     		callback(master);
@@ -57,6 +65,7 @@
 					childSnapshot.child("listOfEmployees").forEach(function(babySnapshot) {
 						json["employees"][babySnapshot.key] = babySnapshot.val();
 					});
+					json["verified"] = snapshot.val().verified;
 				}
 			});
 			callback(json);
@@ -77,6 +86,7 @@
 			snapshot.child("listOfEmployees").forEach(function(childSnapshot) {
 				json["employees"][childSnapshot.key] = childSnapshot.val();
 			});
+			json["verified"] = snapshot.val().verified;
 			callback(json);
 		});
 	}
@@ -145,6 +155,8 @@
 			list["location"] = snapshot.val().location;
 			list["phone"] = snapshot.val().phone;
 			list["banned"] = snapshot.val().ban;
+			list["endDate"] = snapshot.val().endDate;
+			list["startDate"] = snapshot.val().startDate;
 			list["basic"] = {};
 			snapshot.child("basic").forEach(function(childSnapshot) {
 				list["basic"][childSnapshot.key] = childSnapshot.val();
@@ -164,6 +176,12 @@
 			var i = 0;
 			snapshot.child("listOfChatRooms").forEach(function(childSnapshot) {
 				list["listOfChatRooms"][i] = childSnapshot.val();
+				i++;
+			});
+			i = 0;
+			list["listOfBlockedUsers"] = {};
+			snapshot.child("listOfBlockedUsers").forEach(function(childSnapshot) {
+				list["listOfBlockedUsers"][i] = childSnapshot.val();
 				i++;
 			});
 			callback(list);
@@ -341,6 +359,18 @@
 		});
 	}
 
+	function getAdminCompanies(adminRef, callback) {
+		var list = {};
+		var i = 0;
+		adminRef.child(4000).child("listOfCompanies").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
+			callback(list);
+		});
+	}
+
 	function getInvite(chatRoomRef, name, ID, callback) {
 		chatRoomRef.child(name).child("listOfInvites").child(ID).once("value").then(function(snapshot) {
 			callback(snapshot.val());
@@ -369,7 +399,86 @@
 	        	callback(flag);
 	    	});
 	    }
+	    else if(ID.charAt(0) == '2' && name.charAt(0) == '4') {
+			relevantRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
+				snapshot.forEach(function(childSnapshot) {
+	            	if(childSnapshot.val().startsWith(ID)) {
+						flag = true;
+	            	}
+	            });
+	        	callback(flag);
+	    	});
+	    }
 	    else {
 			callback(false);
 	    }
+	}
+
+	function getNotifications(internRef, ID, callback) {
+		var list = {};
+		internRef.child(ID).child("listOfNotifications").once("value").then(function(snapshot) {
+			list = snapshot.val();
+			callback(list);
+		});
+	}
+
+	function getReviews(houseRef, house, callback) {
+		var split = house.split(" ");
+    	var state = split[split.length - 2];
+    	var zip = split[split.length - 1];
+		var list = {};
+		var i = 0;
+		houseRef.child(state).child(zip).child(house).child("listOfReviews").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
+			houseRef.child(state).child(zip).child(house).once("value").then(function(babySnapshot) {
+				list["count"] = babySnapshot.val().count;
+				callback(list);
+			});
+		});
+	}
+
+	function getHouses(houseRef, state, callback) {
+		houseRef.child(state).once("value").then(function(snapshot) {
+			callback(snapshot.val());
+		});
+	}
+
+	function getSavedHouses(groupChatRoomRef, houseRef, name, callback) {
+		var list = {};
+		//orderByChild("likes")
+		groupChatRoomRef.child(name).child("listOfHouses").once("value").then(function(snapshot) {
+			list = snapshot.val();
+			var size = Object.keys(list).length;
+			var i = 0;
+			Object.keys(list).forEach(function(key) {
+			    if (list.hasOwnProperty(key)) {
+		    		var split = key.split(" ");
+			    	var state = split[split.length - 2];
+			    	var zip = split[split.length - 1];
+					houseRef.child(state).child(zip).child(key).once("value").then(function(childSnapshot) {
+						var likes = list[key];
+						list[key] = childSnapshot.val();
+						list[key]["likes"] = likes;
+						i++;
+						if(i == size)
+							callback(list);
+					});
+			    }
+			});
+		});
+	}
+
+	function getBlockedUsers(internRef, ID, callback) {
+		var list = {};
+		var i = 0;
+		internRef.child(ID).child("listOfBlockedUsers").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				list[i] = childSnapshot.val();
+				i++;
+			});
+			callback(list);
+		});
 	}

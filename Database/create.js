@@ -16,13 +16,18 @@
 		createPrivateChat,
 		createEmployeeChat,
 		addMessageToChat,
-		createComplaint
+		createComplaint,
+		createHouse,
+		addHouse,
+		addNotification,
+		writeReview,
+		blockUser
 	}*/
 
 	//var update = require('./update.js');
 	//var create = require('./create.js');
 
-	function createCompany(companyRef, companyName, email, password, listOfLocations = "novalue", listOfEmployees = []) {
+	function createCompany(adminRef, companyRef, companyName, email, password, listOfLocations = "novalue", listOfEmployees = []) {
       companyRef.update({
         [companyName]: "novalue"
       });
@@ -32,11 +37,13 @@
         "email": email,
         "password": password,
         "listOfLocations": listOfLocations,
-        "listOfEmployees": listOfEmployees
+        "listOfEmployees": listOfEmployees,
+        "verified": "pending"
       });
+      /*update.*/getSnapshot(adminRef, 4000, "listOfCompanies", companyName);
     }
 
-    function createIntern(internRef, id, email, company, location = "novalue") {
+    function createIntern(internRef, id, email, company, endDate, startDate, location = "novalue") {
 	  	internRef.update({
 	   		[id]:"novalue"
 	  	});
@@ -45,6 +52,8 @@
 	  		"company": company,
 	    	"location": location,
 	    	"listOfChatRooms": [2 + location, 1 + company + ", " + location],
+	    	"endDate": endDate,
+	    	"startDate": startDate,
 	    	"ban": false
 	    });
 	    internRef.child(id).child("images").update({
@@ -210,6 +219,7 @@
 			else {
 				internRef.child(ID).once("value").then(function(snapshot) {
 					item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
+					addNotification(groupChatRoomRef, internRef, name, snapshot.val().firstName + " " + snapshot.val().lastName + "has been added to " + name.substring(1), ID);
 					internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
 						item += childSnapshot.val().image + "$:$";
 						internRef.child(ID).child("basic").once("value").then(function(babySnapshot) {
@@ -221,6 +231,23 @@
 				/*update.*/getSnapshot(internRef, ID, "listOfChatRooms", name);
 				groupChatRoomRef.child(name).child("listOfInvites").update({
 					[ID]: false
+				});
+
+				internRef.child(ID).child("listOfNotifications").once("value").then(function(infantSnapshot) {
+					if(infantSnapshot.exists()) {
+						var count = infantSnapshot.val().count;
+						count++;
+						internRef.child(ID).child("listOfNotifications").update({
+							"count": count,
+							[count]: "You have been invited to \"" + name.substring(1) + "\""
+						});
+					}
+					else {
+						internRef.child(ID).child("listOfNotifications").update({
+							"count": 1,
+							"1": "You have been invited to \"" + name.substring(1) + "\""
+						});
+					}
 				});
 			}
 		});
@@ -324,5 +351,89 @@
 
 	function createComplaint(employeeRef, ID, complaint, complaintee, complainter, CID) {
 		/*update.*/getSnapshot(employeeRef, ID, "listOfComplaints", CID + "$:$" + complainter + "$:$" + complaintee + "$:$" + complaint);
+	}
+
+	function createHouse(houseRef, address, state, zip, price, sqft, bedrooms, bathrooms, url, image) {
+		houseRef.child(state).child(zip).update({
+			[address]: "novalue"
+		});
+		houseRef.child(state).child(zip).child(address).update({
+			"count": 0,
+			"bedrooms": bedrooms,
+			"bathrooms": bathrooms,
+			"url": url,
+			"price": price,
+			"sqft": sqft,
+			"image": image
+		});
+	}
+
+	function addHouse(groupChatRoomRef, houseRef, internRef, name, ID, house) {
+		/*groupChatRoomRef.child(name).child("listOfHouses").child(house).once("value").then(function(snapshot) {
+			if(snapshot.exists())
+				return;
+		});*/
+
+		var split = house.split(" ");
+    	var state = split[split.length - 2];
+    	var zip = split[split.length - 1];
+		houseRef.child(state).child(zip).child(house).once("value").then(function(snapshot) {
+			var count = snapshot.val().count;
+			count++;
+			houseRef.child(state).child(zip).child(house).update({
+				"count": count,
+				[count]: name
+			});
+			for(var i = 1; i < count; i++) {
+				/*create.*/addNotification(groupChatRoomRef, internRef, snapshot.val()[i], "Another group \"" + snapshot.val()[i].substring(1) + "\" added " + house + " to the housing list");
+			}
+		});
+
+		groupChatRoomRef.child(name).child("listOfHouses").update({
+			[house]: "novalue"
+		});
+		groupChatRoomRef.child(name).child("listOfHouses").child(house).update({
+			"likes": 0
+		});
+		/*create.*/addNotification(groupChatRoomRef, internRef, name, house + " was added to " + name.substring(1), ID);
+	}
+
+	function addNotification(groupChatRoomRef, internRef, name, notification, exception = 0000) {
+		//check group exists
+		//also add other notifications
+		groupChatRoomRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				if(exception == childSnapshot.val().substring(0, 4)) {}
+				else {
+					internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").once("value").then(function(babySnapshot) {
+						if(babySnapshot.exists()) {
+							var count = babySnapshot.val().count;
+							count++;
+							internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").update({
+								"count": count,
+								[count]: notification
+							});
+						}
+						else {
+							internRef.child(childSnapshot.val().substring(0, 4)).child("listOfNotifications").update({
+								"count": 1,
+								"1": notification
+							});
+						}
+					});
+				}
+			});
+		});
+	}
+
+	function writeReview(houseRef, house, review) {
+		var split = house.split(" ");
+		var state = split[split.length - 2];
+		var zip = split[split.length - 1];
+		/*update.*/getSnapshot(houseRef.child(state).child(zip), house, "listOfReviews", review);
+	}
+
+	function blockUser(internRef, ID, blockID) {
+		getSnapshot(internRef, ID, "listOfBlockedUsers", blockID);
 	}
 
