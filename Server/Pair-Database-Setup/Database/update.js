@@ -17,10 +17,12 @@
       acceptCompany,
       denyCompany,
       likeHouse,
-      removeHouse
+      removeHouse,
+      unblockUser
   }
 
   var update = require('./update.js');
+  var create = require('./create.js');
 
   function getSnapshot(relevantRef, childName, itemName, newValue) {
     var ref = relevantRef.child(childName).child(itemName);
@@ -108,8 +110,8 @@
   }
 
   function removeIntern(internRef, chatRoomRef, ID) {
-      var rooms = [];
-      internRef.child(ID).child("listOfChatRooms").once("value").then(function(snapshot) {
+    var rooms = [];
+    internRef.child(ID).child("listOfChatRooms").once("value").then(function(snapshot) {
           snapshot.forEach(function(childSnapshot) {
               rooms.push(childSnapshot.val());
           });
@@ -174,6 +176,9 @@
                   return true;
               }
           });
+      });
+      internRef.child(ID).once("value").then(function(snapshot) {
+          addNotification(groupChatRoomRef, internRef, name, snapshot.val().firstName + " " + snapshot.val().lastName + " has left " + name.substringg(1), ID);
       });
   }
 
@@ -270,6 +275,7 @@
       chatRoomRef.child(name).child("listOfInvites").update({
           [ID]: true
       });
+      // create.addNotification(chatRoomRef, )
   }
 
   function acceptCompany(adminRef, companyRef, name) {
@@ -313,15 +319,27 @@
       });
   }
 
-  function removeHouse(groupChatRoomRef, houseRef, name, house) {
-        groupChatRoomRef.child(name).child("listOfHouses").child(house).remove();
-        var split = key.split(" ");
-        var state = split[split.length - 2];
-        var zip = split[split.length - 1];
-        houseRef.child(state).child(zip).child(house).once("value").then(function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                if(childSnapshot.val() == name)
-                    houseRef.child(state).child(zip).child(house).child(childSnapshot.key).remove();
-            });
-        });
-    }
+  function removeHouse(groupChatRoomRef, houseRef, internRef, name, ID, house) {
+      groupChatRoomRef.child(name).child("listOfHouses").child(house).remove();
+      var split = house.split(" ");
+      var state = split[split.length - 2];
+      var zip = split[split.length - 1];
+      houseRef.child(state).child(zip).child(house).once("value").then(function(snapshot) {
+          snapshot.forEach(function(childSnapshot) {
+              if(childSnapshot.val() == name) {
+                  houseRef.child(state).child(zip).child(house).child(childSnapshot.key).remove();
+                  return true;
+              }
+          });
+      });
+      create.addNotification(groupChatRoomRef, internRef, name, house + " was removed from " + name.substring(1), ID);
+  }
+
+  function unblockUser(internRef, ID, blockID) {
+      internRef.child(ID).child("listOfBlockedUsers").once("value").then(function(snapshot) {
+          snapshot.forEach(function(childSnapshot) {
+              if(childSnapshot.val() == blockID)
+                  internRef.child(ID).child("listOfBlockedUsers").child(childSnapshot.key).remove();
+          });
+      });
+  }
