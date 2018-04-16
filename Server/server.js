@@ -626,7 +626,8 @@ app.post('/CREATE-INTERN', function (req, res) {
   console.log(uid);
   var location = req.body.location;
   var company = req.body.company;
-  create.createIntern(internRef, uid, req.body.username, company, location);
+  var endDate = req.body.endDate;
+  create.createIntern(internRef, uid, req.body.username, company, endDate, location);
   create.createBasicPreferences(internRef, uid, "undefined", "undefined", "undefined", "undefined", "undefined", "undefined");
   create.createRoommatePreferences(internRef, uid, "undefined", "undefined", "undefined", "undefined", "undefined", "undefined", "undefined", "undefined", "undefined", "undefined");
   create.createHousingPreferences(internRef, uid, "undefined", "undefined", "undefined", "undefined");
@@ -1307,6 +1308,10 @@ app.post('/REMOVE-FROM-CHAT', function (req, res) {
   else
   {
     update.removeFromChat(correctRef, internRef, name, uid);
+    read.getIntern(internRef, uid, (x) => {
+      create.addNotification(correctRef, internRef, x.firstName + " " + x.lastName + " has left " + name + " chat.");
+    })
+
     res.json({
       "status": true
     });
@@ -1755,7 +1760,7 @@ app.post('/GET-FILTERED-HOUSES', function (req, res) {
     var offset = parseInt(offsetString, 10);
 
     var temp = {};
-    temp["number"] = filteredHouses[state]["number"];
+    temp["number"] = filteredHouses["number"];
 
     var max = 20;
     var start = offset*20 + 1;
@@ -1778,7 +1783,7 @@ app.post('/GET-FILTERED-HOUSES', function (req, res) {
 
       var j = 1;
       for (var i = start; i < (start+max); i++) {
-        temp[j] = filteredHouses[state][i];
+        temp[j] = filteredHouses[i];
         j++;
       }
       temp["included"] = j-1;
@@ -1838,22 +1843,85 @@ app.post('/GET-FILTERED-HOUSES', function (req, res) {
   }
 });
 
-//remove a saved house:
+// remove a saved house:
 app.post('/REMOVE-HOUSE', function (req, res) {
   console.log("request received for removing house");
   console.log(req.body);
   var house = req.body.house;
   var name = req.body.name;
-  update.removeHouse(groupChatRoomRef, houseRef, name, house);
+  var uid = req.body.userID;
+  update.removeHouse(groupChatRoomRef, houseRef, internRef, name, uid, house);
   res.json({
     "status": true
   })
 });
 
+// get blocked users
+app.post('/GET-BLOCKED-USERS', function (req, res) {
+  console.log('Recieved request for getting blocked users');
+  console.log(req.body);
+  var uid = req.body.userID;
+  read.getBlockedUsers(internRef, uid, (x) => {
+    res.send(x);
+  });
+})
+
+// get a list of saved houses:
+app.post('/GET-SAVED-HOUSES', function (req, res) {
+  console.log('Received request for getting saved houses');
+  console.log(req.body);
+  var name = req.body.name;
+  read.getSavedHouses(groupChatRoomRef, houseRef, name, (x) => {
+    // res.send(x);
+    var arr = [];
+    var i = 0;
+    for (var addr in x) {
+      arr[i] = x[addr];
+      arr[i]["addressTemp"] = addr;
+      i = i + 1;
+    }
+    arr.sort( function (a, b) {
+      return parseInt(a.likes.likes,10) - parseInt(b,10)
+    });
+    var ordered = {};
+    for (var index in arr) {
+      ordered[arr[index]["addressTemp"]] = {};
+      for (var attr in arr[index]) {
+        ordered[arr[index]["addressTemp"]][attr] = arr[index][attr];
+      }
+    }
+    res.send(ordered)
+  });
+})
+
+//block an intern by another intern
+app.post('/BLOCK-USER', function (req, res) {
+  console.log('Request recieved for blocking an intern');
+  console.log(req.body);
+  create.blockUser(internRef, blocker, blocking);
+  var blocker = req.body.blocker;
+  var blocking = req.body.blocking;
+  res.json({
+    "status": true
+  });
+})
+
+//unblock an intern
+app.post('/UNBLOCK-USER', function (req, res) {
+  console.log('request received for unblocking user');
+  console.log(req.body);
+  var blocker = req.body.blocker;
+  var blocking = req.body.blocking;
+  update.unblockUser(internRef, blocker, blocking);
+  res.json({
+    'status': true
+  })
+})
+
 // check for filters
 function checkFilters(house, filters) {
   if(isNaN(house.sqft) || house.sqft == "") {
-    return true;
+    return false;
   }
   var minsqft = parseFloat(filters.minsqft);
   var maxsqft = parseFloat(filters.maxsqft);
