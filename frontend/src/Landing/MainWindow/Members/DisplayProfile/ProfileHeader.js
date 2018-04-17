@@ -9,6 +9,7 @@ import ReportIntern from './ReportIntern'
 import axios from 'axios'
 import history from '../../../../history';
 import RemoveInternGroup from './RemoveInternGroup';
+import BlockUser from './BlockUser';
 //import './ProfileHeader.css';
 
 class ProfileHeader extends Component {
@@ -114,18 +115,18 @@ class ProfileHeader extends Component {
     if (this.props.uid != this.props.currProfile) {
       return (
         <Row className='row-div'>
-          <Col xs={6} style={{ textAlign: 'left' }}>
-            {this.privateChatButton()}
-          </Col>
-          <Col xs={6} style={{ textAlign: 'left' }}>
-            {(this.props.currProfile.substring(0, 1) == 1) ? <RaisedButton
+          {/* Adds the private chat */}
+          {this.privateChatButton()}
+
+          {/* adds the add to group chat */}
+          {(this.props.currProfile.substring(0, 1) == 1) ?
+            <RaisedButton
               label='Add to Group Chat'
               onClick={this.groupChat}
               secondary
-              fullWidth
               className='link'
+              style={{ float: 'left' }}
             /> : null}
-          </Col>
         </Row>
       )
     }
@@ -139,7 +140,7 @@ class ProfileHeader extends Component {
           label='Create Private Chat'
           onClick={this.privateChat}
           className='link'
-          fullWidth
+          style={{ float: 'left' }}
         />
       )
     }
@@ -174,37 +175,40 @@ class ProfileHeader extends Component {
   }
 
   secondLine = () => {
-    let amt = 0
     let thing = []
+    //checks to see if the profile is their own and if it is then add the edit profile button
     if (this.props.uid == this.props.currProfile) {
-      amt += 8
       thing.push(
-        <Col xs={8} key={1}>
-          <RaisedButton secondary label="Edit Profile" onClick={this.editProfile} className='links' />
-        </Col>
-      )
-    }
-    thing.push(<ReportIntern {...this.props}{...this.state} />)
-    if (this.props.currProfile != this.props.uid && this.props.props.type == 'intern' && this.props.currProfile.substring(0, 1) != 2) {
-      amt += 6
-    }
-    if (this.props.props.state.currChatName.charAt(0) == 3 && this.props.currProfile != this.props.uid) {
-      amt += 6
-      thing.push(
-        <Col xs={6} style={{ textAlign: 'left' }} key={3}>
-          <RaisedButton
-            label='Remove from Group Chat'
-            onClick={this.leaveChat}
-            secondary
-            fullWidth
-            className='link'
-          />
-        </Col>
+        <RaisedButton
+          secondary
+          label="Edit Profile"
+          onClick={this.editProfile}
+          className='links'
+          style={{ float: 'left' }}
+          key='edit'
+        />
       )
     }
 
-    if (amt < 12) {
-      thing.push(<Col xs={12 - amt} key={4}></Col>)
+    //check to see if the profile is another intern's and if it is then add the block items
+    if (this.props.uid !== this.props.currProfile && this.props.currProfile.charAt(0) === '1')
+      thing.push(<BlockUser {...this.props} key='block'/>)
+
+    //will check to see if the profile is another intern's and if it is then add the report button
+    thing.push(<ReportIntern {...this.props}{...this.state} key='report' />)
+
+    //will check to see if the profile is another intern's and if it is then add the remove from group chat button
+    if (this.props.props.state.currChatName.charAt(0) == 3 && this.props.currProfile != this.props.uid) {
+      thing.push(
+        <RaisedButton
+          label='Remove from Group Chat'
+          onClick={this.leaveChat}
+          secondary
+          style={{ float: 'left' }}
+          className='link'
+          key='removegchat'
+        />
+      )
     }
     return thing
   }
@@ -213,27 +217,34 @@ class ProfileHeader extends Component {
     return (
       <div>
         <Row>
+          {/* Displays the profile pic */}
           {this.displayPic()}
+
+          {/* displays the stuff next to the profile picture */}
           <Col xs={(this.props.pic != null && this.props.pic != 'undefined') ? 8 : 12}>
             <Row>
               <span style={{ fontSize: '60px' }}>{`${this.props.firstname} ${this.props.lastname}`}</span>
             </Row>
             {(this.props.props.type == 'intern') ?
               <Row style={{ marginLeft: '-1.8vw' }}>
-                <Col xs={4}>{this.props.match}</Col>
-              </Row> : <div></div>
+                {this.props.match}
+              </Row> : null
             }
           </Col>
         </Row>
-        <div style={{ marginLeft: '-2%' }}>
+
+        <div>
+          {/* displays the edit profile, report intern, and remove from group chat */}
           <Row style={{ marginTop: '10px' }}>
             {this.secondLine()}
           </Row>
+
 
           {(this.props.props.type == 'employee') ? this.empButtons() : (this.props.props.type == 'intern') ? this.internButtons() : null}
         </div>
         {this.props.props.type == 'employee' && this.props.currProfile != this.props.uid ?
           <Row>
+            Start Date: {this.props.startDate}&nbsp;&nbsp;&nbsp;
             End Date: {this.props.endDate}
           </Row>
           : null}

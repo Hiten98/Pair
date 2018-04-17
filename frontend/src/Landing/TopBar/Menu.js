@@ -21,7 +21,7 @@ class Menu extends Component {
 
   signOut = () => {
     try {
-      localStorage.removeItem('app')
+      localStorage.removeItem('pair-app')
     } catch (err) {
       //console.log('This browser does not allow localstorage and some functionalities may be impacted')
     }

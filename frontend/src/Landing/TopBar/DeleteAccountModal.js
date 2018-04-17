@@ -34,7 +34,7 @@ class DeleteAccountModal extends Component {
       //console.log(response.data)
       if (response.data.status) {
         try {
-          localStorage.removeItem('app')
+          localStorage.removeItem('pair-app')
         } catch (err) {
           //console.log('This browser does not allow localstorage and some functionalities may be impacted')
         }

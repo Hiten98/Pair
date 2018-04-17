@@ -19,7 +19,7 @@ class App extends Component {
       locations: null,
     }
     try {
-      const serializedState = localStorage.getItem('app')
+      const serializedState = localStorage.getItem('pair-app')
       if (serializedState !== null) {
         this.state = JSON.parse(serializedState)
         //console.log(this.state)
@@ -45,7 +45,7 @@ class App extends Component {
   saveState = () => {
     try {
       const serializedState = JSON.stringify(this.state)
-      localStorage.setItem('app', serializedState)
+      localStorage.setItem('pair-app', serializedState)
     } catch (err) {
       console.log('This browser does not allow localstorage and some functionalities may be impacted')
     }

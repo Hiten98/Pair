@@ -3,7 +3,7 @@ import { NavLink, Switch, Route } from 'react-router-dom'
 import { RaisedButton, Dialog, TextField, DropDownMenu, MenuItem, Snackbar } from 'material-ui';
 import { Row, Col } from 'react-bootstrap'
 import axios from 'axios'
-//import './ReportIntern.css';
+// import './DisplayProfile.css';
 
 class ReportIntern extends Component {
   constructor(props) {
@@ -51,21 +51,21 @@ class ReportIntern extends Component {
 
   openModal = () => {
     // console.log(this.props)
-    this.setState({ open: true, uid: this.props.currProfile, fromPerson:`${this.props.props.state.currIntern.firstName} ${this.props.props.state.currIntern.lastName}` })
-      axios.post('/GET-INTERN', {
-        userID: this.props.currProfile
-      }).then((response) => {
-        // console.log(response.data)
-        that.setState({ toPerson: `${response.data.firstName} ${response.data.lastName}` })
-      }).catch((error) => {
-        console.log(error);
-      });
+    this.setState({ open: true, uid: this.props.currProfile, fromPerson: `${this.props.props.state.currIntern.firstName} ${this.props.props.state.currIntern.lastName}` })
+    axios.post('/GET-INTERN', {
+      userID: this.props.currProfile
+    }).then((response) => {
+      // console.log(response.data)
+      that.setState({ toPerson: `${response.data.firstName} ${response.data.lastName}` })
+    }).catch((error) => {
+      console.log(error);
+    });
     let that = this
     this.setState({ chatName: this.props.props.state.currChatName, moduid: 0 })
     if (this.props.props.state.currChatName.charAt(0) == 1) {
       axios.post('/GET-MODS-IN-CHATROOM', {
         chatroomName: this.props.props.state.currChatName,
-        userID:this.props.currProfile
+        userID: this.props.currProfile
       }).then((response) => {
         // console.log(response.data)
         let tempList = []
@@ -118,17 +118,15 @@ class ReportIntern extends Component {
   render() {
     // console.log(this.state)
     return (
-      <div> 
+      <div style={{ float: 'left' }} className='link'>
         {(this.props.currProfile != this.props.uid && this.props.props.type == 'intern' && this.props.currProfile.substring(0, 1) != 2) ?
-          <Col xs={6}>
-            <RaisedButton
-              secondary
-              fullWidth
-              label='Report'
-              onClick={this.openModal}
-            />
-          </Col> :
-          <div></div>}
+          <RaisedButton
+            secondary
+            fullWidth
+            label='Report'
+            onClick={this.openModal}
+          />
+          : null}
         <Dialog
           title={`Report ${this.state.toPerson}?`}
           modal
