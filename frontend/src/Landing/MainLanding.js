@@ -63,7 +63,7 @@ class LandingScreen extends Component {
         smoke = response.data.roommate.smoke
         that.setState({ currIntern: response.data })
       }).then(() => {
-        if (name == '' || distance == '' || smoke == '') {
+        if (name == 'undefined' || distance == 'undefined' || smoke == 'undefined') {
           alert('Please fill out all pages of the form before continuing to the application')
           history.push('/register/intern/preferences/user-details')
         }

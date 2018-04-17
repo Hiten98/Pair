@@ -14,7 +14,6 @@ import {
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
 import Drawer from "material-ui/Drawer";
 import ExitToApp from "material-ui/svg-icons/action/exit-to-app";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import FilterHouses from "./FilterHouses";
 import SaveHouseDialog from "./SaveHouseDialog";
 import MapButton from "./MapButton";
@@ -59,8 +58,9 @@ class LandingScreen extends Component {
           house: address,
           review: this.state.reviewText
         }).then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data.status) {
+            alert('Review successfully submitted')
             that.setState({ reviewText: '' }, () => that.handleExpandChange(true, address));
           }
         }).catch((error) => {
@@ -196,7 +196,7 @@ class LandingScreen extends Component {
     let that = this;
     // console.log(this.state.offset)
     axios.post("/GET-FILTERED-HOUSES", {
-      state: this.props.location,
+      state: this.state.location,
       offset: this.state.offset,
       minBedrooms: sendBack.minBed,
       maxBedrooms: sendBack.maxBed,
@@ -209,7 +209,7 @@ class LandingScreen extends Component {
     }).then(function (response) {
       // Make Cards for House Listings
 
-      // console.log(response.data);
+      console.log(response.data);
       if (response.data.status === false) {
         //console.log("No houses found!")
         let tempCard = [];
@@ -275,6 +275,11 @@ class LandingScreen extends Component {
             onClick={() => this.setState({ showMap: true, address: rdata.address })}
             secondary
           />
+          <FlatButton
+            label='Dismiss'
+            secondary
+            onClick={() => this.dismissHouse(i)}
+          />
         </CardActions>
 
         <CardText expandable={true} style={{ marginTop: "-20px" }}>
@@ -298,6 +303,18 @@ class LandingScreen extends Component {
         </CardActions>
       </Card>
     );
+  }
+
+  dismissHouse=(key)=>{
+    let tempCard=this.state.houseCards;
+    for(let i in tempCard){
+      if(tempCard[i].key===key){
+        // console.log(i)
+        tempCard.splice(i,1);
+        this.setState({houseCards:[]},()=>this.setState({houseCards:tempCard}));
+        return;
+      }
+    }
   }
 
   render() {

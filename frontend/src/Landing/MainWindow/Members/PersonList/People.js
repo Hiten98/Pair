@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Paper, ListItem, Avatar, List, Drawer, RaisedButton } from 'material-ui'
-import { NavLink, Switch, Route } from 'react-router-dom'
+import { Paper, ListItem, Avatar, List, Drawer } from 'material-ui'
 import { Col } from 'react-bootstrap'
-import axios from 'axios'
 import './People.css';
 import PersonIcon from '../../../../images/account.svg'
 import GetInterns from './GetInterns'

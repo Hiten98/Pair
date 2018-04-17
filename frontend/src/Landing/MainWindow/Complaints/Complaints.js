@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { NavLink, Switch, Route } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
-import { TextField, ListItem, List, RaisedButton, Card, CardActions, CardText, CardHeader } from "material-ui";
+import { Row } from "react-bootstrap";
+import { RaisedButton, Card, CardActions, CardText, CardHeader } from "material-ui";
 import axios from "axios";
 import "./Complaints.css";
 

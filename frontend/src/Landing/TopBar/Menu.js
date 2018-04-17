@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
-import { Row } from 'react-bootstrap'
 import { IconMenu, MenuItem, IconButton, ToolbarGroup, FlatButton } from 'material-ui'
-import bars from '../../images/bars.png'
 import history from '../../history'
 import ChangePasswordModal from './ChangePasswordModal'
 import DeleteAccountModal from './DeleteAccountModal'
@@ -21,7 +18,7 @@ class Menu extends Component {
 
   signOut = () => {
     try {
-      localStorage.removeItem('app')
+      localStorage.removeItem('pair-app')
     } catch (err) {
       //console.log('This browser does not allow localstorage and some functionalities may be impacted')
     }

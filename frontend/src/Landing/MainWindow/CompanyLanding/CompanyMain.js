@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
-import history from '../../../history'
 import { Row, Col } from 'react-bootstrap'
 import axios from 'axios'
 import { List, ListItem, Paper } from 'material-ui'
@@ -36,10 +34,9 @@ class CompanyMain extends Component {
       let tempCard = []
       for (let i in response.data.employees) {
         let temp = parseInt(i) % 2;
+        let backgroundColor = 'white';
         if (temp != 0)
-          var backgroundColor = '#D3D3D3'
-        else
-          var backgroundColor = 'white'
+          backgroundColor = '#D3D3D3';
         tempCard.push(
           <Paper zDepth={2} key={i}>
             <ListItem
@@ -56,10 +53,9 @@ class CompanyMain extends Component {
       tempCard = []
       for (let i in response.data.locations) {
         let temp = parseInt(i) % 2;
+        let backgroundColor = 'white';
         if (temp != 0)
-          var backgroundColor = '#D3D3D3'
-        else
-          var backgroundColor = 'white'
+          backgroundColor = '#D3D3D3';
         tempCard.push(
           <Paper zDepth={2} key={i}>
             <ListItem
@@ -93,9 +89,9 @@ class CompanyMain extends Component {
 
   render() {
     return (
-      <div style={{overflow:'hidden'}}>
+      <div style={{ overflow: 'hidden' }}>
         <Row className="companyName">{this.props.uid}</Row>
-        <Row style={{marginLeft:'2vw',marginRight:'2vw',overflow:'hidden'}}>
+        <Row style={{ marginLeft: '2vw', marginRight: '2vw', overflow: 'hidden' }}>
           <Col xs={12} sm={4} className="Employees" >
             <List>
               <h3>Employees</h3>
@@ -104,7 +100,7 @@ class CompanyMain extends Component {
           </Col>
           <InternList {...this.props}{...this.state} />
 
-          <Col xs={12} sm={4} className="Locations" style={{overflowY:'auto'}}>
+          <Col xs={12} sm={4} className="Locations" style={{ overflowY: 'auto' }}>
             <List>
               <h3>Locations</h3>
               {this.state.locationCards}

@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import { Dialog, RaisedButton } from 'material-ui';
-import axios from 'axios'
 //import './InviteChat.css';
 
 class InviteChat extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   actions = [
     <RaisedButton
       label="No"

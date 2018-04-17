@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RaisedButton, Dialog, TextField, Snackbar } from 'material-ui'
+import { RaisedButton, Dialog, Snackbar } from 'material-ui'
 import { grey800, black } from 'material-ui/styles/colors';
 import { Row } from 'react-bootstrap'
 import axios from 'axios'
@@ -34,7 +34,7 @@ class DeleteAccountModal extends Component {
       //console.log(response.data)
       if (response.data.status) {
         try {
-          localStorage.removeItem('app')
+          localStorage.removeItem('pair-app')
         } catch (err) {
           //console.log('This browser does not allow localstorage and some functionalities may be impacted')
         }

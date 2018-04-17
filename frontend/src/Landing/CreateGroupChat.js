@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
-import { Col } from 'react-bootstrap'
 import { RaisedButton, Dialog, TextField, Snackbar } from 'material-ui';
 import axios from 'axios'
 //import './CreateGroupChat.css';

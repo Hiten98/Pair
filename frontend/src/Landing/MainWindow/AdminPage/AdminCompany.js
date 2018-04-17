@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import history from '../../../history';
 import axios from 'axios'
 import { Card, CardHeader, CardText, CardActions, RaisedButton } from 'material-ui';

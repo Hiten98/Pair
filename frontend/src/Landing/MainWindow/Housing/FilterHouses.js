@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { RaisedButton, Dialog, Slider, FlatButton, } from 'material-ui';
-import { Row } from 'react-bootstrap';
-import axios from 'axios';
 //import './FilterHouses.css';
 
 class FilterHouses extends Component {

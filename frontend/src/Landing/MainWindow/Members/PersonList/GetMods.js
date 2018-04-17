@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import { Avatar, ListItem, Paper } from 'material-ui'
 import axios from 'axios'
 //import './GetMods.css';
@@ -40,7 +39,6 @@ class GetMods extends Component {
     }).then(function (response) {
       if (response.data.status != false) {
         let tempmod = []
-        let tempUid = []
         let profileAdj = 100
         // console.log(response.data)
         for (let i in response.data) {

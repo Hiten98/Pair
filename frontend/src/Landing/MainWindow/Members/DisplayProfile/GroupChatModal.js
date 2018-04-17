@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import { Dialog, RaisedButton, DropDownMenu, MenuItem, Snackbar } from 'material-ui';
 import axios from 'axios'
 //import './LandingScreen.css';

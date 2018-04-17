@@ -1,23 +1,16 @@
 import React, { Component } from "react";
-import Pagination from '../Housing/Pagination';
 import MapButton from '../Housing/MapButton';
-import { Row } from 'react-bootstrap';
 import axios from "axios";
 import {
   RaisedButton,
   FlatButton,
   Dialog,
-  Slider,
   MenuItem,
   Paper,
   RadioButton,
-  RadioButtonGroup,
   TextField
 } from "material-ui";
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
-import Drawer from "material-ui/Drawer";
-import ExitToApp from "material-ui/svg-icons/action/exit-to-app";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 //import Iframe from "react-iframe";
 
 class LandingScreen extends Component {
@@ -174,7 +167,6 @@ class LandingScreen extends Component {
           // console.log(response.data);
           let tempHouseReviews = that.state.houseReviews;
           tempHouseReviews[address] = [];
-          let count;
           for (let i in response.data) {
             if (i != "count")
               tempHouseReviews[address].unshift(<Paper key={i}><MenuItem primaryText={response.data[i]} /></Paper>);
@@ -250,11 +242,10 @@ class LandingScreen extends Component {
         // Make Cards for House Listings
         let tempCard = [];
         // console.log("SAVED HOUSES:");
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.status != false) {
           for (let i in response.data) {
             let details = that.formatDetails(response.data[i]);
-            let reviews = [];
 
             let str = "";
             // console.log(response.data[i]);

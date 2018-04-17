@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
-import { Row, Col, DropdownButton, MenuItem } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { TextField, RaisedButton } from "material-ui";
 import "./Chatroom.css";
 import axios from "axios";
-import Message from "./Message";
 import MessageList from "./MessageList";
 import LeaveChatButton from "./LeaveChatButton";
 
@@ -83,7 +81,6 @@ class Chatroom extends Component {
         userID: this.state.uid
       })
       .then(response => {
-        let chatroomList = response.data;
         if (response.data[this.state.chatroomId] != null) {
           that.setState({ chatroomName: response.data[this.state.chatroomId] });
         }

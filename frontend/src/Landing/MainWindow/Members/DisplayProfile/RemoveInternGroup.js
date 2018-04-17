@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import { RaisedButton, Dialog, Snackbar } from 'material-ui';
 import axios from 'axios'
 //import './RemoveInternGroup.css';

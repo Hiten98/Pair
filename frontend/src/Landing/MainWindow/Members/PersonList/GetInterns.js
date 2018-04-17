@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 import { Avatar, Paper, ListItem } from 'material-ui'
 import { lightGreenA700, yellow800, red500 } from 'material-ui/styles/colors';
@@ -52,7 +51,7 @@ class GetInterns extends Component {
       // console.log(props.props.state.currChatName)
       if (response.data.status == false) {
         alert('No longer in this room, please choose a different chat room')
-        props.props.changeNeedToUpdate
+        props.props.changeNeedToUpdate()
       } else {
         let tempintern = []
         let tempUid = []

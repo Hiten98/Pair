@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { RaisedButton, Dialog, TextField, Snackbar } from 'material-ui'
+import { RaisedButton, Dialog, Snackbar } from 'material-ui'
 import { grey800, black } from 'material-ui/styles/colors';
 import { Row } from 'react-bootstrap'
 import axios from 'axios'
-import emailjs from 'emailjs-com'
 import Password from '../../Forms/Intern/Password';
 //import './ChangePasswordModal.css';
 
