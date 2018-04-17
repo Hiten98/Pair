@@ -20,7 +20,7 @@ class MapButton extends Component {
 
   componentDidMount = () => {
     let that = this
-    console.log(this.props.address)
+    // console.log(this.props.address)
     let geocodeApiKey = 'AIzaSyDCc_iTN4KNj7Fr3yNI7gCHSzDG8AyWQ0Q'
     let startAddress = this.props.address
     let tempAddress = startAddress.split(' ').join('+')

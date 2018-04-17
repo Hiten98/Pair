@@ -59,8 +59,9 @@ class LandingScreen extends Component {
           house: address,
           review: this.state.reviewText
         }).then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data.status) {
+            alert('Review successfully submitted')
             that.setState({ reviewText: '' }, () => that.handleExpandChange(true, address));
           }
         }).catch((error) => {
@@ -209,7 +210,7 @@ class LandingScreen extends Component {
     }).then(function (response) {
       // Make Cards for House Listings
 
-      // console.log(response.data);
+      console.log(response.data);
       if (response.data.status === false) {
         //console.log("No houses found!")
         let tempCard = [];

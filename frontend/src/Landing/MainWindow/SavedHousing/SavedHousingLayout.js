@@ -250,7 +250,7 @@ class LandingScreen extends Component {
         // Make Cards for House Listings
         let tempCard = [];
         // console.log("SAVED HOUSES:");
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.status != false) {
           for (let i in response.data) {
             let details = that.formatDetails(response.data[i]);

@@ -55,7 +55,7 @@ class InternList extends Component {
     axios.post('/GET-MASTER-LIST-COMPANY', {
       "companyName": this.props.uid
     }).then(function (response) {
-      // console.log(response.data);
+      console.log(response.data);
 
       // Make Cards for INTERNS
       let tempCard = []
@@ -76,7 +76,7 @@ class InternList extends Component {
                 <div>
                   {response.data[i].email}
                   <br />
-                  <span style={{ color: (this.checkDate(response.data[i].endDate)) ? '#4CAF50' : '#C62828' }}>
+                  <span style={{ color: (that.checkDate(response.data[i].endDate)) ? '#4CAF50' : '#C62828' }}>
                     {`${response.data[i].startDate} to ${response.data[i].endDate}`}
                   </span>
                 </div>
@@ -97,6 +97,8 @@ class InternList extends Component {
   }
 
   checkDate = (toCheck) => {
+    if(toCheck==undefined)
+      return false;
     let splitted = toCheck.split('-')
     if (splitted[2] > this.state.year) {
       return true
