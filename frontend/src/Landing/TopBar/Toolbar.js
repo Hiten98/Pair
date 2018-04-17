@@ -22,8 +22,8 @@ class TopBar extends Component {
       currPage = 'saved'
     } else if (!history.location.pathname.indexOf(`/landing/${props.type}/housing`)) {
       currPage = 'housing'
-    } else if(!history.location.pathname.indexOf('/landing/company')){
-      currPage='Company'
+    } else if (!history.location.pathname.indexOf('/landing/company')) {
+      currPage = 'Company'
     }
     a[currPage] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '56px' } }
     this.state = {
@@ -31,6 +31,7 @@ class TopBar extends Component {
       navDrawer: false,
       colors: a,
       notificationVisible: false,
+      isNew: false,
     }
     // console.log(props)
   }
@@ -75,8 +76,8 @@ class TopBar extends Component {
   checkMobileNotifications = () => {
     if (this.props.type == 'intern') {
       return {
-        iconElementRight: <i className="material-icons md-light">&#xE7F4;</i>,
-        onRightIconButtonClick: ((event) => { this.setState({ anchorEl: event.currentTarget, notificationVisible: true, }) })
+        iconElementRight: this.state.isNew ? <i className="material-icons md-light md-36">&#xE7F4;</i> : <i className="material-icons md-light md-36">&#xE7F5;</i>,
+        onRightIconButtonClick: ((event, props, value) => { this.setState({ anchorEl: event.currentTarget, notificationVisible: true, isNew: false });})
       }
     }
     else {
@@ -141,7 +142,7 @@ class TopBar extends Component {
             <MobileMenu {...this.props} closeDrawer={this.handleMobileChange} />
           </Menu>
         </Drawer>
-        <Notifications {...this.props} notificationVisible={this.state.notificationVisible} closeNotifications={this.closeNotifications} />
+        <Notifications {...this.props} notificationVisible={this.state.notificationVisible} closeNotifications={this.closeNotifications} changeIcon={() => this.setState({ isNew: true })} />
       </Row>
     )
   }
