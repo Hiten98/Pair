@@ -13,6 +13,7 @@ class Menu extends Component {
       deleteOpen: false,
       passOpen: false,
       notificationVisible: false,
+      isNew: false,
     }
   }
 
@@ -49,11 +50,18 @@ class Menu extends Component {
             this.setState({
               anchorEl: event.currentTarget,
               notificationVisible: true,
+              isNew: false,
             });
           }}
-          icon={<i className="material-icons md-light md-36">&#xE7F4;</i>}
+          icon={this.state.isNew ? <i className="material-icons md-light md-36">&#xE7F4;</i> : <i className="material-icons md-light md-36">&#xE7F5;</i>}
         /> : null}
-        <Notifications {...this.props} anchorEl={this.state.anchorEl} notificationVisible={this.state.notificationVisible} closeNotifications={this.closeNotifications} />
+        <Notifications
+          {...this.props}
+          anchorEl={this.state.anchorEl}
+          notificationVisible={this.state.notificationVisible}
+          closeNotifications={this.closeNotifications}
+          changeIcon={() => this.setState({ isNew: true })}
+        />
 
         <DeleteAccountModal deleteOpen={this.state.deleteOpen} deleteAccount={this.deleteAccount} uid={this.props.uid} />
         <ChangePasswordModal passOpen={this.state.passOpen} changePass={this.changePass} uid={this.props.uid} />

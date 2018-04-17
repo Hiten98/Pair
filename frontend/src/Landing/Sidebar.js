@@ -72,7 +72,7 @@ class Sidebar extends Component {
           tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
           that.setState({ colors: tempArr }, that.changeColors)
           that.props.changeChat(parseInt(i), name, type)
-        } else if (response.data.invite_status) {
+        } else {
           that.setState({ open: true, chatToAccept: name, index: i, type: type })
         }
       }).catch(function (error) {
