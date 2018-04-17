@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
-import { Row, Col } from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 import './BottomBar.css';
-import { RaisedButton } from 'material-ui'
-import PasswordField from 'material-ui-password-field'
 import AddLocationModal from './AddLocationModal'
 import AddEmployeeModal from './AddEmployeeModal'
 import axios from 'axios'

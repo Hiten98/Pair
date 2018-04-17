@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
-import { Row } from 'react-bootstrap'
-import { IconMenu, MenuItem, IconButton, ToolbarGroup } from 'material-ui'
-import bars from '../../images/bars.png'
+import { MenuItem } from 'material-ui'
 import history from '../../history'
 import ChangePasswordModal from './ChangePasswordModal'
 import DeleteAccountModal from './DeleteAccountModal'
@@ -27,23 +24,23 @@ class Menu extends Component {
   }
 
   goToProfile = () => {
-    this.props.closeDrawer(null,'members')
+    this.props.closeDrawer(null, 'members')
     history.push(`/landing/${this.props.type}/members`)
   }
 
   deleteAccount = () => {
-    this.props.closeDrawer(null,null)
+    this.props.closeDrawer(null, null)
     this.setState({ deleteOpen: !this.state.deleteOpen })
   }
 
   changePass = () => {
-    this.props.closeDrawer(null,null)
+    this.props.closeDrawer(null, null)
     this.setState({ passOpen: !this.state.passOpen })
   }
 
   render() {
     return (
-      <div style={{fontSize: '150%', textAlign:'left'}}>
+      <div style={{ fontSize: '150%', textAlign: 'left' }}>
         <DeleteAccountModal deleteOpen={this.state.deleteOpen} deleteAccount={this.deleteAccount} uid={this.props.uid} />
         <ChangePasswordModal passOpen={this.state.passOpen} changePass={this.changePass} uid={this.props.uid} />
         {(this.props.type != "admin" && this.props.type != "company") ? <MenuItem onClick={this.goToProfile} value="" primaryText='Profile' /> : null}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
-import { Col, Row } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 import { RaisedButton } from 'material-ui';
 import RemoveInternModal from './RemoveInternModal'
 import PrivateChatModal from './PrivateChatModal'

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
-import { RaisedButton } from 'material-ui'
 import { Col, Row } from 'react-bootstrap'
 import axios from 'axios'
 import { lightGreenA700, yellow800, red500 } from 'material-ui/styles/colors';

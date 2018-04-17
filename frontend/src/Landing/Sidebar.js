@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
-import { Col, Row } from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 import wordLogo from '../images/word_no_logo.png'
-import { List, ListItem, Subheader, Paper, Drawer } from 'material-ui'
+import { List, ListItem, Paper, Drawer } from 'material-ui'
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble'
 import CreateGroupChat from './CreateGroupChat'
 import axios from 'axios'

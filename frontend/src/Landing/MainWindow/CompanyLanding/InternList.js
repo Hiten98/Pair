@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 import { Paper, List, ListItem, RaisedButton, Dialog, Snackbar } from 'material-ui'
 import { Col } from 'react-bootstrap'
@@ -61,10 +60,6 @@ class InternList extends Component {
       let tempCard = []
       for (let i in response.data) {
         let temp = parseInt(i) % 2;
-        if (temp != 0)
-          var backgroundColor = '#D3D3D3'
-        else
-          var backgroundColor = 'white'
         let name = response.data[i].firstName + ' ' + response.data[i].lastName
         if (response.data[i].firstName == 'undefined')
           name = '*Intern has not accepted yet*'
@@ -82,7 +77,6 @@ class InternList extends Component {
                 </div>
               }
               secondaryTextLines={2}
-              //style={{background:backgroundColor }}
               hoverColor='#F95498B0'
               onClick={() => that.removeInternModal(i)}
             />

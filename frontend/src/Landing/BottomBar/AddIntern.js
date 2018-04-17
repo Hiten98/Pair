@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 import emailjs from 'emailjs-com'
-import { FloatingActionButton, Dialog, TextField, RaisedButton, Snackbar, RefreshIndicator, CircularProgress, DropDownMenu, MenuItem, DatePicker } from 'material-ui';
+import { FloatingActionButton, Dialog, TextField, RaisedButton, Snackbar, CircularProgress, DropDownMenu, MenuItem, DatePicker } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { Row } from 'react-bootstrap'
 //import './SearchBar.css';

@@ -14,7 +14,6 @@ import {
 import { Card, CardActions, CardHeader, CardText } from "material-ui/Card";
 import Drawer from "material-ui/Drawer";
 import ExitToApp from "material-ui/svg-icons/action/exit-to-app";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import FilterHouses from "./FilterHouses";
 import SaveHouseDialog from "./SaveHouseDialog";
 import MapButton from "./MapButton";

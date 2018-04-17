@@ -32,11 +32,9 @@ class InternCreation extends Component {
       // console.log('hi')
       history.push('/')
     } else {
-      let that = this
       let name = ''
       let distance = ''
       let smoke = ''
-      let status=''
       axios.post('/GET-INTERN', {
         userID: this.userID
       }).then(function (response) {

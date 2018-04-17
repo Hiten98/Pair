@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import {Row,Col} from 'react-bootstrap'
 //import './CompanyInformation.css';
 

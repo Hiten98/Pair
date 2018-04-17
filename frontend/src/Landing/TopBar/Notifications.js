@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import Popover from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import axios from 'axios'
 import { Paper } from 'material-ui';

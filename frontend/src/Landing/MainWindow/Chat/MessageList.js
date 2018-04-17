@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
-import { Row, Col, DropdownButton, MenuItem } from "react-bootstrap";
-import { TextField, Snackbar } from "material-ui";
+import { Row } from "react-bootstrap";
+import { Snackbar } from "material-ui";
 import "./Chatroom.css";
 import axios from "axios";
 import Message from "./Message";

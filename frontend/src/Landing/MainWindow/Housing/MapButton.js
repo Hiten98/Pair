@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import GoogleMap from './GoogleMap'
-import { RaisedButton } from 'material-ui';
 
 
 //To make this work, the address must be passed in as a prop called address

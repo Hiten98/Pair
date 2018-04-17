@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
-import { Row, Col } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 import MenuTop from './Menu'
 import MobileMenu from './MobileMenu'
 import './Toolbar.css';
-import { RaisedButton, Tabs, Tab, Toolbar, ToolbarGroup, DropDownMenu, MenuItem, IconMenu, IconButton, AppBar, Drawer, Menu, Paper, ListItem, } from 'material-ui';
+import { Toolbar, ToolbarGroup, MenuItem, AppBar, Drawer, Menu, ListItem, } from 'material-ui';
 import Notifications from './Notifications'
 import history from '../../history';
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import { RaisedButton, Dialog, TextField, DropDownMenu, MenuItem, Snackbar } from 'material-ui';
-import { Row, Col } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 import axios from 'axios'
 // import './DisplayProfile.css';
 

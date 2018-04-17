@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Switch, Route } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import { RaisedButton } from 'material-ui';
 import RemoveInternModal from './RemoveInternModal'
@@ -226,7 +225,7 @@ class ProfileHeader extends Component {
               <span style={{ fontSize: '60px' }}>{`${this.props.firstname} ${this.props.lastname}`}</span>
             </Row>
             {(this.props.props.type == 'intern') ?
-              <Row style={{ marginLeft: '-1.8vw' }}>
+              <Row style={{ marginLeft: '-17px' }}>
                 {this.props.match}
               </Row> : null
             }

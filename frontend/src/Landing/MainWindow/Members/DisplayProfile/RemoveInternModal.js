@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
-import {NavLink, Switch, Route} from 'react-router-dom'
 import { Dialog, RaisedButton } from 'material-ui';
 import axios from 'axios'
 //import './LandingScreen.css';
 
 class LandingScreen extends Component {
-  constructor(props){
-    super(props)
-    // console.log(props)
-  }
-
-  removeIntern=()=>{
-    let that=this
+  removeIntern = () => {
+    let that = this
     axios.post("/REMOVE-USER", {
       "userID": this.props.currProfile
     }).then(function (response) {
-      if(response.data.status){
+      if (response.data.status) {
         that.props.closeAll()
-        that.props.changeSelected(that.props.uid,0)
-      } else{
+        that.props.changeSelected(that.props.uid, 0)
+      } else {
         alert('Error, please try again')
       }
     }).catch(function (error) {
@@ -27,16 +21,16 @@ class LandingScreen extends Component {
   }
 
   render() {
-    let actions=[
+    let actions = [
       <RaisedButton
         label='No, I am not sure'
         onClick={this.props.closeAll}
-        style={{marginBottom:'18px'}}
+        style={{ marginBottom: '18px' }}
       />,
       <RaisedButton
         label="Yes, I'm sure"
         onClick={this.removeIntern}
-        style={{marginBottom:'18px'}}
+        style={{ marginBottom: '18px' }}
       />
     ]
     //console.log(this.props)

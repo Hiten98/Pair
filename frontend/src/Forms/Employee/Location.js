@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Col } from 'react-bootstrap'
 import { DropDownMenu, MenuItem } from 'material-ui'
-import history from '../../history'
 import './Location.css';
 
 class Location extends Component {
