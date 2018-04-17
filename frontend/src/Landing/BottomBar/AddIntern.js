@@ -187,13 +187,13 @@ class SearchBar extends Component {
             <DatePicker
               hintText="Add intern's start date"
               onChange={this.changeStartDate}
-              minDate={new Date()}
             />
           </Row>
           <Row style={{ width: '90%', marginLeft: '5%' }}>
             <DatePicker
               hintText="Add intern's end date"
               onChange={this.changeEndDate}
+              minDate={new Date()}
             />
           </Row>
           <Row style={{ width: '90%', marginLeft: '5%' }}>

@@ -197,7 +197,7 @@ class LandingScreen extends Component {
     let that = this;
     // console.log(this.state.offset)
     axios.post("/GET-FILTERED-HOUSES", {
-      state: this.props.location,
+      state: this.state.location,
       offset: this.state.offset,
       minBedrooms: sendBack.minBed,
       maxBedrooms: sendBack.maxBed,
