@@ -126,8 +126,8 @@
                 rooms.push(childSnapshot.val());
             });
             internRef.child(ID).remove();
-            var ref;
             rooms.forEach(function(entry) {
+                let ref;
                 if(entry[0] == 1)
                     ref = chatRoomRef.child("Company");
                 else if(entry[0] == 2)
