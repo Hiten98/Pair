@@ -19,6 +19,7 @@ class SearchBar extends Component {
       refresh: false,
       locs: [],
       endDate: '',
+      startDate:'',
     }
     // console.log(props)
   }
@@ -47,7 +48,9 @@ class SearchBar extends Component {
       alert("Please enter a valid email")
     } else if (this.state.loc == 0) {
       alert('Please choose a valid location')
-    } else if (this.state.endDate == '') {
+    } else if (this.state.startDate == '') {
+      alert('Please add an internship start date')
+    }else if (this.state.endDate == '') {
       alert('Please add an internship end date')
     } else {
       axios.post('/VERIFY-EMAIL-EXISTS', {
@@ -60,6 +63,7 @@ class SearchBar extends Component {
             "location": this.state.loc,
             "company": this.state.company,
             endDate:that.state.endDate,
+            startDate:that.state.startDate,
           }).then((response) => {
             // console.log(response.data)
             if (response.data.userID != null) {
@@ -132,9 +136,16 @@ class SearchBar extends Component {
     this.setState({ loc: value })
   }
 
-  changeDate = (event, date) => {
-    let stringDate = (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear()
-    this.setState({ endDate: stringDate })
+  changeStartDate=(event, date)=>{
+    this.setState({startDate:this.changeDate(date)});
+  }
+
+  changeEndDate=(event, date)=>{
+    this.setState({endDate:this.changeDate(date)});
+  }
+
+  changeDate = (date) => {
+    return (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear();
   }
 
   actions = [
@@ -174,10 +185,15 @@ class SearchBar extends Component {
           </Row>
           <Row style={{ width: '90%', marginLeft: '5%' }}>
             <DatePicker
-              mode='landscape'
-              hintText="Add intern's end date"
-              onChange={this.changeDate}
+              hintText="Add intern's start date"
+              onChange={this.changeStartDate}
               minDate={new Date()}
+            />
+          </Row>
+          <Row style={{ width: '90%', marginLeft: '5%' }}>
+            <DatePicker
+              hintText="Add intern's end date"
+              onChange={this.changeEndDate}
             />
           </Row>
           <Row style={{ width: '90%', marginLeft: '5%' }}>

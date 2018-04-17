@@ -275,6 +275,11 @@ class LandingScreen extends Component {
             onClick={() => this.setState({ showMap: true, address: rdata.address })}
             secondary
           />
+          <FlatButton
+            label='Dismiss'
+            secondary
+            onClick={() => this.dismissHouse(i)}
+          />
         </CardActions>
 
         <CardText expandable={true} style={{ marginTop: "-20px" }}>
@@ -298,6 +303,18 @@ class LandingScreen extends Component {
         </CardActions>
       </Card>
     );
+  }
+
+  dismissHouse=(key)=>{
+    let tempCard=this.state.houseCards;
+    for(let i in tempCard){
+      if(tempCard[i].key===key){
+        // console.log(i)
+        tempCard.splice(i,1);
+        this.setState({houseCards:[]},()=>this.setState({houseCards:tempCard}));
+        return;
+      }
+    }
   }
 
   render() {

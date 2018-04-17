@@ -77,7 +77,7 @@ class InternList extends Component {
                   {response.data[i].email}
                   <br />
                   <span style={{ color: (this.checkDate(response.data[i].endDate)) ? '#4CAF50' : '#C62828' }}>
-                    {`End Date: ${response.data[i].endDate}`}
+                    {`${response.data[i].startDate} to ${response.data[i].endDate}`}
                   </span>
                 </div>
               }
