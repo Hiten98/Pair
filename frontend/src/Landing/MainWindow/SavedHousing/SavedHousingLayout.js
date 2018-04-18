@@ -170,10 +170,11 @@ class LandingScreen extends Component {
           for (let i in response.data) {
             if (i != "count")
               tempHouseReviews[address].unshift(<Paper key={i}><MenuItem primaryText={response.data[i]} /></Paper>);
-            else
-              tempHouseReviews[address].unshift("Number of Housing Groups Interested: " + parseInt(response.data[i])-1);
+            else {
+              tempHouseReviews[address].unshift(<div key='Reviews'>Reviews:</div>);
+              tempHouseReviews[address].unshift(<div key='count'>Number of Housing Groups Interested: {response.data[i] - 1}</div>);
+            }
           }
-          tempHouseReviews[address].unshift(<div key='Reviews'>Reviews:</div>);
           let tt = that.state.temp;
           tt[address] = true;
           that.setState({ houseReviews: tempHouseReviews, temp: tt }, that.getHousing(that.props));
@@ -208,8 +209,8 @@ class LandingScreen extends Component {
     })
   }
 
-  formatDetails=(data)=>{
-    let details="";
+  formatDetails = (data) => {
+    let details = "";
     if (
       data.bedrooms > 0 &&
       data.bedrooms != null

@@ -108,17 +108,18 @@ class HousingLayout extends Component {
         house: address
       })
         .then(function (response) {
-          console.log(response.data);
+          // console.log(response.data);
           let tempHouseReviews = that.state.houseReviews;
           tempHouseReviews[address] = [];
           let count;
           for (let i in response.data) {
             if (i != "count")
               tempHouseReviews[address].unshift(<Paper key={i}><MenuItem primaryText={response.data[i]} /></Paper>);
-            else
+            else{
+              tempHouseReviews[address].unshift(<div key='Reviews'>Reviews:</div>);
               tempHouseReviews[address].unshift("Number of Housing Groups Interested: " + response.data[i]);
+            }
           }
-          tempHouseReviews[address].unshift(<div key='Reviews'>Reviews:</div>);
           that.setState({ houseReviews: tempHouseReviews }, that.renderReviews);
 
           //{reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
