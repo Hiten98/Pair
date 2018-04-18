@@ -19,9 +19,9 @@ import SaveHouseDialog from "./SaveHouseDialog";
 import MapButton from "./MapButton";
 import Pagination from './Pagination'
 //import Iframe from "react-iframe";
-//import './LandingScreen.css';
+//import './HousingLayout.css';
 
-class LandingScreen extends Component {
+class HousingLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -214,7 +214,7 @@ class LandingScreen extends Component {
         //console.log("No houses found!")
         let tempCard = [];
         tempCard.push(
-          <Paper>
+          <Paper key='none'>
             <MenuItem primaryText={"No Results Found"} />
           </Paper>
         );
@@ -349,4 +349,4 @@ class LandingScreen extends Component {
   }
 }
 
-export default LandingScreen;
+export default HousingLayout;

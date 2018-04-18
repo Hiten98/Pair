@@ -14,6 +14,7 @@ class Menu extends Component {
       passOpen: false,
       notificationVisible: false,
       isNew: false,
+      open: false,
     }
   }
 
@@ -28,14 +29,15 @@ class Menu extends Component {
 
   goToProfile = () => {
     history.push(`/landing/${this.props.type}/members`)
+    this.setState({ open: false })
   }
 
   deleteAccount = () => {
-    this.setState({ deleteOpen: !this.state.deleteOpen })
+    this.setState({ deleteOpen: !this.state.deleteOpen, open: false })
   }
 
   changePass = () => {
-    this.setState({ passOpen: !this.state.passOpen })
+    this.setState({ passOpen: !this.state.passOpen, open: false })
   }
 
   closeNotifications = () => {
@@ -67,7 +69,9 @@ class Menu extends Component {
         <ChangePasswordModal passOpen={this.state.passOpen} changePass={this.changePass} uid={this.props.uid} />
         <IconMenu
           iconButtonElement={<IconButton><i className="material-icons md-light md-36">&#xE8FE;</i></IconButton>}
-          onChange={this.handleMenu}
+          open={this.state.open}
+          onRequestChange={() => this.setState({ open: false })}
+          onClick={() => this.setState({ open: true })}
           style={{ marginLeft: '20px' }}
         >
           {(this.props.type != "admin" && this.props.type != "company") ? <div><MenuItem onClick={this.goToProfile} primaryText='Profile' />

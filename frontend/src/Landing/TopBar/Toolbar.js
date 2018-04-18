@@ -34,11 +34,32 @@ class TopBar extends Component {
       isNew: false,
     }
     // console.log(props)
+    this.interval = setInterval(this.checkThings, 1000);
   }
 
-  componentDidMount=()=>{
-    console.log('hi')
+  checkThings = () => {
+    let a = []
+    let currPage = 'chat'
+    if (!history.location.pathname.indexOf(`/landing/${this.props.type}/members`)) {
+      currPage = 'members'
+    } else if (!history.location.pathname.indexOf(`/landing/${this.props.type}/complaints`)) {
+      currPage = 'complaints'
+    } else if (!history.location.pathname.indexOf(`/landing/${this.props.type}/companies`)) {
+      currPage = 'companies'
+    } else if (!history.location.pathname.indexOf(`/landing/${this.props.type}/saved`)) {
+      currPage = 'saved'
+    } else if (!history.location.pathname.indexOf(`/landing/${this.props.type}/housing`)) {
+      currPage = 'housing'
+    } else if (!history.location.pathname.indexOf('/landing/company')) {
+      currPage = 'Company'
+    }
+    a[currPage] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '56px' } }
+    this.setState({ value: currPage, colors: a })
   }
+
+  componentWillUnmount = () => {
+    clearInterval(this.interval);
+  };
 
   closeNotifications = () => {
     this.setState({ notificationVisible: false })
@@ -81,7 +102,7 @@ class TopBar extends Component {
     if (this.props.type == 'intern') {
       return {
         iconElementRight: this.state.isNew ? <i className="material-icons md-light md-36">&#xE7F4;</i> : <i className="material-icons md-light md-36">&#xE7F5;</i>,
-        onRightIconButtonClick: ((event, props, value) => { this.setState({ anchorEl: event.currentTarget, notificationVisible: true, isNew: false });})
+        onRightIconButtonClick: ((event, props, value) => { this.setState({ anchorEl: event.currentTarget, notificationVisible: true, isNew: false }); })
       }
     }
     else {
