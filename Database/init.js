@@ -94,4 +94,7 @@
 
     // getSavedHouses(groupChatRoomRef, houseRef, "3Games", (x) => { document.write((JSON.stringify(x))); });
 
-    removeIntern(internRef, chatRoomRef, 1750)
+    // removeIntern(internRef, chatRoomRef, 1750)
+
+    // getReviews(houseRef, "11 Franklin St UNIT 602; San Francisco, CA 94102", (x) => { document.write(JSON.stringify(x)); });
+    

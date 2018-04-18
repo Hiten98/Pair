@@ -219,7 +219,7 @@
 			else {
 				internRef.child(ID).once("value").then(function(snapshot) {
 					item += snapshot.val().firstName + " " + snapshot.val().lastName + "$:$";
-					addNotification(groupChatRoomRef, internRef, name, snapshot.val().firstName + " " + snapshot.val().lastName + "has been added to " + name.substring(1), ID);
+					addNotification(groupChatRoomRef, internRef, name, snapshot.val().firstName + " " + snapshot.val().lastName + " has been added to " + name.substring(1), ID);
 					internRef.child(ID).child("images").once("value").then(function(childSnapshot) {
 						item += childSnapshot.val().image + "$:$";
 						internRef.child(ID).child("basic").once("value").then(function(babySnapshot) {
