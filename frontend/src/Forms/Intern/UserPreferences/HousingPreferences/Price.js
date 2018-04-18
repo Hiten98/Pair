@@ -6,9 +6,9 @@ import { DropDownMenu, MenuItem } from 'material-ui'
 class Price extends Component {
 
   render() {
-    let labels = ['0-249', '250-499', '500-749', '750-999', '1000-1249', '1250-1499', '1500+']
+    let labels = ['0-1250', '1250-2500', '2500-3750', '3750-5000', '5000-6250', '6250-7500', '7500-8750','8750-10000']
     let items = []
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 1; i <= 8; i++) {
       items.push(<MenuItem value={`${i}`} key={i} primaryText={labels[i - 1]} />)
     }
 

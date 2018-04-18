@@ -209,8 +209,8 @@ class LandingScreen extends Component {
     }).then(function (response) {
       // Make Cards for House Listings
 
-      console.log(response.data);
-      if (response.data.status === false) {
+      // console.log(response.data);
+      if (response.data.status === false || response.data.included === 0) {
         //console.log("No houses found!")
         let tempCard = [];
         tempCard.push(

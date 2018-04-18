@@ -25,8 +25,8 @@ class FilterHouses extends Component {
     //console.log(this.state.desiredRoommate);
     // Since Pricing ranges from 0 - 7 and 0 - 10,000, I am using increments of 1250
     this.setState({
-      maxPrice: +this.props.desiredPrice * 1250 + 1250,
-      minPrice: +this.props.desiredPrice * 1250,
+      maxPrice: +this.props.desiredPrice * 1250,
+      minPrice: +this.props.desiredPrice * 1250 - 1250,
       maxBath: +this.props.desiredRoommate + 1,
       minBath: +this.props.desiredRoommate - 1,
       maxBed: +this.props.desiredRoommate + 1,
@@ -111,7 +111,7 @@ class FilterHouses extends Component {
       />
     ];
     return (
-      <div>
+      <div style={{ paddingBottom: '5px' }}>
         <RaisedButton label="Filters" onClick={this.handleOpen} />
         <RaisedButton
           label="Show Suggested Housing"
