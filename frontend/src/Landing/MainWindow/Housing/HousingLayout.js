@@ -322,7 +322,7 @@ class HousingLayout extends Component {
     return (
       <div style={{ textAlign: "left" }}>
         <Row style={{ paddingLeft: '20px', paddingRight: '20px', marginTop: '10px' }}>
-          <FilterHouses {...this.state} handleSearch={this.handleSearch} />
+          <FilterHouses {...this.state} handleSearch={this.handleSearch} addHouses={this.addHouses}/>
 
           {this.state.houseCards}
         </Row>

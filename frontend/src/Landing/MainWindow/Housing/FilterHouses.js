@@ -117,6 +117,10 @@ class FilterHouses extends Component {
           label="Show Suggested Housing"
           onClick={this.showSuggestedHousing}
         />
+        <RaisedButton
+          label='Clear Filters'
+          onClick={this.props.addHouses}
+        />
         <Dialog
           actions={actions}
           autoScrollBodyContent
