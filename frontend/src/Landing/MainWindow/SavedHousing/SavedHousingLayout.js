@@ -171,7 +171,7 @@ class LandingScreen extends Component {
             if (i != "count")
               tempHouseReviews[address].unshift(<Paper key={i}><MenuItem primaryText={response.data[i]} /></Paper>);
             else
-              tempHouseReviews[address].unshift("Number of Housing Groups Interested: " + response.data[i]);
+              tempHouseReviews[address].unshift("Number of Housing Groups Interested: " + parseInt(response.data[i])-1);
           }
           tempHouseReviews[address].unshift(<div key='Reviews'>Reviews:</div>);
           let tt = that.state.temp;

@@ -36,6 +36,10 @@ class TopBar extends Component {
     // console.log(props)
   }
 
+  componentDidMount=()=>{
+    console.log('hi')
+  }
+
   closeNotifications = () => {
     this.setState({ notificationVisible: false })
   }

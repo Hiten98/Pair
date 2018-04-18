@@ -108,7 +108,7 @@ class LandingScreen extends Component {
         house: address
       })
         .then(function (response) {
-          // console.log(response.data);
+          console.log(response.data);
           let tempHouseReviews = that.state.houseReviews;
           tempHouseReviews[address] = [];
           let count;
