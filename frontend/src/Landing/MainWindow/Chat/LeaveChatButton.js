@@ -9,15 +9,15 @@ class LeaveChatButton extends Component {
     this.state = {
       open: false,
       currChat: '',
-      sopen:false,
-      pChat:'',
+      sopen: false,
+      pChat: '',
     }
     // console.log(props)
   }
 
   componentWillReceiveProps = (nextProps) => {
     if (this.state.currChat != nextProps.state.currChatName) {
-      this.setState({ pChat:this.state.currChat, currChat: nextProps.state.currChatName })
+      this.setState({ pChat: this.state.currChat, currChat: nextProps.state.currChatName })
     }
   }
 
@@ -48,8 +48,8 @@ class LeaveChatButton extends Component {
     });
   }
 
-  handleRequestClose=()=>{
-    this.setState({sopen:false})
+  handleRequestClose = () => {
+    this.setState({ sopen: false })
   }
 
   returnDesktop() {
@@ -130,10 +130,14 @@ class LeaveChatButton extends Component {
       || document.body.clientWidth;
     // console.log(width)
     //console.log(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent))
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
-      return this.returnMobile();
+    if (this.state.currChat.charAt(0) != 1 && this.state.currChat.charAt(0) != 2) {
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini|Mobile/i.test(navigator.userAgent) || width < 768) {
+        return this.returnMobile();
+      } else {
+        return this.returnDesktop();
+      }
     } else {
-      return this.returnDesktop();
+      return null;
     }
   }
 }
