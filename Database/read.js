@@ -448,7 +448,6 @@
 
 	function getSavedHouses(groupChatRoomRef, houseRef, name, callback) {
 		var list = {};
-		//orderByChild("likes")
 		groupChatRoomRef.child(name).child("listOfHouses").once("value").then(function(snapshot) {
 			list = snapshot.val();
 			var size = Object.keys(list).length;
