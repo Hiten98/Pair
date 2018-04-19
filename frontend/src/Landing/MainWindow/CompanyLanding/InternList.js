@@ -54,7 +54,7 @@ class InternList extends Component {
     axios.post('/GET-MASTER-LIST-COMPANY', {
       "companyName": this.props.uid
     }).then(function (response) {
-      console.log(response.data);
+      // console.log(response.data);
 
       // Make Cards for INTERNS
       let tempCard = []

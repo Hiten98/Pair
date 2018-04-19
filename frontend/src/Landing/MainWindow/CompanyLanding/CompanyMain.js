@@ -27,7 +27,7 @@ class CompanyMain extends Component {
     axios.post('/GET-COMPANY-FROM-NAME', {
       "name": companyName
     }).then(function (response) {
-      console.log(response.data);
+      // console.log(response.data);
       that.setState({ pin: response.data.pin })
 
       //Make Cards for Employees

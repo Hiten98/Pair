@@ -64,7 +64,7 @@ class AddLocationModal extends Component {
   }
 
   checkDisabled=()=>{
-    if(this.props.verified!='true'){
+    if(this.props.verified!=true){
       return {disabled:true}
     } else {
       return null

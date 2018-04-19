@@ -67,7 +67,9 @@ class AddEmployeeModal extends Component {
   }
 
   checkDisabled=()=>{
-    if(this.props.verified!='true'){
+    // console.log(this.props.verified)
+    // console.log(this.props.verified!=true)
+    if(this.props.verified!=true){
       return {disabled:true}
     } else {
       return null
