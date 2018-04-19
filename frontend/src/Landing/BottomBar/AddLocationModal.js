@@ -63,6 +63,14 @@ class AddLocationModal extends Component {
 
   }
 
+  checkDisabled=()=>{
+    if(this.props.verified!='true'){
+      return {disabled:true}
+    } else {
+      return null
+    }
+  }
+
   styles = {
     underlineStyle: {
       borderColor: black,
@@ -94,6 +102,7 @@ class AddLocationModal extends Component {
           primary
           onClick={this.handleOpen}
           style={{ marginTop: '5%' }}
+          {...this.checkDisabled()}
         />
         <Dialog
           title='Add Location'

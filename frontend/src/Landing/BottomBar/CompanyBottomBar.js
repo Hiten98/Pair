@@ -49,7 +49,7 @@ class BottomBar extends Component {
           {this.state.verified!='true'?<p style={{marginTop:'5%'}}>Add employee is disabled until an admin reviews and accepts your company</p>:null}
         </Col>
         <Col xsHidden sm={4} className="addLocation">
-          <AddLocationModal companyName={this.props.uid} />
+          <AddLocationModal companyName={this.props.uid} {...this.state}/>
         </Col>
       </div>
     );
