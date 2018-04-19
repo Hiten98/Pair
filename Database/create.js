@@ -369,38 +369,37 @@
 	}
 
 	function addHouse(groupChatRoomRef, houseRef, internRef, name, ID, house) {
-		/*groupChatRoomRef.child(name).child("listOfHouses").child(house).once("value").then(function(snapshot) {
+		groupChatRoomRef.child(name).child("listOfHouses").child(house).once("value").then(function(snapshot) {
 			if(snapshot.exists())
 				return;
-		});*/
-
-		var split = house.split(" ");
-    	var state = split[split.length - 2];
-    	var zip = split[split.length - 1];
-		houseRef.child(state).child(zip).child(house).once("value").then(function(snapshot) {
-			var count = snapshot.val().count;
-			count++;
-			houseRef.child(state).child(zip).child(house).update({
-				"count": count,
-				[count]: name
+			var split = house.split(" ");
+	    	var state = split[split.length - 2];
+	    	var zip = split[split.length - 1];
+			houseRef.child(state).child(zip).child(house).once("value").then(function(snapshot) {
+				var count = snapshot.val().count;
+				count++;
+				houseRef.child(state).child(zip).child(house).update({
+					"count": count,
+					[count]: name
+				});
+				for(var i = 1; i < count; i++) {
+					/*create.*/addNotification(groupChatRoomRef, internRef, snapshot.val()[i], "Another group \"" + snapshot.val()[i].substring(1) + "\" added " + house + " to the housing list");
+				}
 			});
-			for(var i = 1; i < count; i++) {
-				/*create.*/addNotification(groupChatRoomRef, internRef, snapshot.val()[i], "Another group \"" + snapshot.val()[i].substring(1) + "\" added " + house + " to the housing list");
-			}
+
+			groupChatRoomRef.child(name).child("listOfHouses").update({
+				[house]: "novalue"
+			});
+			groupChatRoomRef.child(name).child("listOfHouses").child(house).update({
+				"likes": 0
+			});
+			/*create.*/addNotification(groupChatRoomRef, internRef, name, house + " was added to " + name.substring(1), ID);
 		});
 
-		groupChatRoomRef.child(name).child("listOfHouses").update({
-			[house]: "novalue"
-		});
-		groupChatRoomRef.child(name).child("listOfHouses").child(house).update({
-			"likes": 0
-		});
-		/*create.*/addNotification(groupChatRoomRef, internRef, name, house + " was added to " + name.substring(1), ID);
+			
 	}
 
 	function addNotification(groupChatRoomRef, internRef, name, notification, exception = 0000) {
-		//check group exists
-		//also add other notifications
 		groupChatRoomRef.child(name).child("listOfUsers").once("value").then(function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				if(exception == childSnapshot.val().substring(0, 4)) {}
