@@ -41,6 +41,7 @@ class HousingLayout extends Component {
       showMap: false,
       address: '',
       numPages: 0,
+      expanded:[false, false],
     };
   }
 
@@ -61,7 +62,7 @@ class HousingLayout extends Component {
           // console.log(response.data);
           if (response.data.status) {
             alert('Review successfully submitted')
-            that.setState({ reviewText: '' }, () => that.handleExpandChange(true, address));
+            that.handleExpandChange(true, address);
           }
         }).catch((error) => {
           console.log(error);
@@ -106,27 +107,30 @@ class HousingLayout extends Component {
       let that = this;
       axios.post("/GET-REVIEWS", {
         house: address
-      })
-        .then(function (response) {
-          // console.log(response.data);
-          let tempHouseReviews = that.state.houseReviews;
-          tempHouseReviews[address] = [];
-          let count;
-          for (let i in response.data) {
-            if (i != "count")
-              tempHouseReviews[address].unshift(<Paper key={i}><MenuItem primaryText={response.data[i]} /></Paper>);
-            else{
-              tempHouseReviews[address].unshift(<div key='Reviews'>Reviews:</div>);
-              tempHouseReviews[address].unshift("Number of Housing Groups Interested: " + response.data[i]);
-            }
+      }).then(function (response) {
+        // console.log(response.data);
+        let tempHouseReviews = that.state.houseReviews;
+        tempHouseReviews[address] = [];
+        for (let i in response.data) {
+          if (i != "count")
+            tempHouseReviews[address].unshift(<Paper key={i}><MenuItem primaryText={response.data[i]} /></Paper>);
+          else {
+            tempHouseReviews[address].unshift(<div key='Reviews'>Reviews:</div>);
+            tempHouseReviews[address].unshift("Number of Housing Groups Interested: " + response.data[i]);
           }
-          that.setState({ houseReviews: tempHouseReviews }, that.renderReviews);
+        }
+        let tt = that.state.expanded;
+          tt[address] = true;
+        that.setState({ houseReviews: tempHouseReviews, expanded:tt }, that.renderReviews);
 
-          //{reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        //{reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }else {
+      let tt = this.state.expanded;
+      tt[address] = false;
+      this.setState({ expanded: tt }, this.renderReviews)
     }
   };
 
@@ -163,7 +167,7 @@ class HousingLayout extends Component {
   addHouses = () => {
     let that = this;
     // Go back to first 10 or 20 houses when search is made again with new filters
-    this.setState({ temp: false });
+    this.setState({ temp: false, houseCards: [] });
 
     // Server Call with housing filter parameters to get first 10 or 20 houses
 
@@ -191,7 +195,7 @@ class HousingLayout extends Component {
   handleSearch = (sendBack) => {
     // console.log(this.props);
     // Go back to first 10 or 20 houses when search is made again with new filters
-    this.setState({ temp: true, filters: sendBack });
+    this.setState({ temp: true, filters: sendBack, houseCards: [] });
 
     // Server Call with housing filter parameters to get first 10 or 20 houses
     let that = this;
@@ -252,7 +256,7 @@ class HousingLayout extends Component {
       details += "$" + +rdata.price;
 
     tempCard.push(
-      <Card key={i} onExpandChange={(expanded) => that.handleExpandChange(expanded, rdata.address)}>
+      <Card key={i} onExpandChange={(expanded) => that.handleExpandChange(expanded, rdata.address)} expanded={that.state.expanded[rdata.address]}>
         <CardHeader
           title={rdata.address}
           subtitle={details}
@@ -306,13 +310,13 @@ class HousingLayout extends Component {
     );
   }
 
-  dismissHouse=(key)=>{
-    let tempCard=this.state.houseCards;
-    for(let i in tempCard){
-      if(tempCard[i].key===key){
+  dismissHouse = (key) => {
+    let tempCard = this.state.houseCards;
+    for (let i in tempCard) {
+      if (tempCard[i].key === key) {
         // console.log(i)
-        tempCard.splice(i,1);
-        this.setState({houseCards:[]},()=>this.setState({houseCards:tempCard}));
+        tempCard.splice(i, 1);
+        this.setState({ houseCards: [] }, () => this.setState({ houseCards: tempCard }));
         return;
       }
     }
@@ -322,7 +326,7 @@ class HousingLayout extends Component {
     return (
       <div style={{ textAlign: "left" }}>
         <Row style={{ paddingLeft: '20px', paddingRight: '20px', marginTop: '10px' }}>
-          <FilterHouses {...this.state} handleSearch={this.handleSearch} addHouses={this.addHouses}/>
+          <FilterHouses {...this.state} handleSearch={this.handleSearch} addHouses={this.addHouses} />
 
           {this.state.houseCards}
         </Row>

@@ -55,11 +55,10 @@ class LandingScreen extends Component {
   };
 
   handleAddReview = address => {
-    this.setState(
-      {
+    let that=this;
+    this.setState({
         selectedHouse: address
-      },
-      () => {
+      },() => {
         if (address != "" && this.state.reviewText != "") {
           axios
             .post("/WRITE-REVIEW", {
@@ -67,7 +66,7 @@ class LandingScreen extends Component {
               review: this.state.reviewText
             })
             .then(response => {
-              this.componentDidMount()
+              that.handleExpandChange(true,address);
             })
             .catch(error => {
               console.log(error);
@@ -162,8 +161,7 @@ class LandingScreen extends Component {
       let that = this;
       axios.post("/GET-REVIEWS", {
         house: address
-      })
-        .then(function (response) {
+      }).then(function (response) {
           // console.log(response.data);
           let tempHouseReviews = that.state.houseReviews;
           tempHouseReviews[address] = [];
@@ -180,8 +178,7 @@ class LandingScreen extends Component {
           that.setState({ houseReviews: tempHouseReviews, temp: tt }, that.getHousing(that.props));
 
           //{reviews.length > 1 ? reviews : <h5>No Reviews</h5>}
-        })
-        .catch(function (error) {
+        }).catch(function (error) {
           console.log(error);
         });
     } else {
