@@ -1,15 +1,28 @@
 :root{
-  /* --hpink:#EB347F;
-  --l1:#D8DBE2;
-  --l2:#A9BCD0;
-  --l3:#58A4B0;
-  --vblue:#50C2C4;
-  --hc:rgba(249, 84, 153, 0.69); */
-  --color1:#ECECEB;
+  /* 1 */
+  /* --color1:#ECECEB;
   --color2:#63BCD5;
   --color3:#2A6393;
   --color4:#888875;
-  --color5:#273132;
+  --color5:#273132;  */
+  /* 3 */
+  /* --color1:#FAFAFA;
+  --color2:#8B8A97;
+  --color3:#1EB1F5;
+  --color4:#686E75;
+  --color5:#26394A; */
+  /* 1 */
+  /* --color1:#EEF0E9;
+  --color2:#9294BF;
+  --color3:#8C5E8D;
+  --color4:#8D6EA1;
+  --color5:#3F2160; */
+  /* 1 */
+  --color1:#ECECEB;
+  --color2:#63BCD5;
+  --color3:#2A6393;
+  --color4:#6284AD;
+  --color5:#273132; 
   /*overflow: hidden;*/
 }
 
