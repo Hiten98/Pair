@@ -14,9 +14,8 @@ import HousingLayout from './Housing/HousingLayout'
 class MainArea extends Component {
   render() {
     let currPlace=0
-    if (history.location.pathname.indexOf(`/landing/${this.props.type}/chat`)==0
-    || history.location.pathname.indexOf(`/landing/${this.props.type}/housing`)==0 
-    || history.location.pathname.indexOf(`/landing/${this.props.type}/saved`)==0)
+    if (history.location.pathname.indexOf(`/landing/employee`) == 0 
+    || history.location.pathname.indexOf(`/landing/intern`)==0)
       currPlace='text-display chat-display'
     else
       currPlace='text-display'

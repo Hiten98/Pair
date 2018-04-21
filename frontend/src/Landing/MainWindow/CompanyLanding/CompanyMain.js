@@ -33,15 +33,10 @@ class CompanyMain extends Component {
       //Make Cards for Employees
       let tempCard = []
       for (let i in response.data.employees) {
-        let temp = parseInt(i) % 2;
-        let backgroundColor = 'white';
-        if (temp != 0)
-          backgroundColor = '#D3D3D3';
         tempCard.push(
           <Paper zDepth={2} key={i}>
             <ListItem
               primaryText={response.data.employees[i]}
-              style={{ background: backgroundColor }}
               disabled={true}
             />
           </Paper>
@@ -52,15 +47,10 @@ class CompanyMain extends Component {
       // Make Cards for Locations
       tempCard = []
       for (let i in response.data.locations) {
-        let temp = parseInt(i) % 2;
-        let backgroundColor = 'white';
-        if (temp != 0)
-          backgroundColor = '#D3D3D3';
         tempCard.push(
           <Paper zDepth={2} key={i}>
             <ListItem
               primaryText={response.data.locations[i]}
-              style={{ background: backgroundColor }}
               disabled={true}
             />
           </Paper>

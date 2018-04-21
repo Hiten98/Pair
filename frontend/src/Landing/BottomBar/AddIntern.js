@@ -163,7 +163,7 @@ class SearchBar extends Component {
       <div>
         <FloatingActionButton
           onClick={this.openModal}
-          style={{ position: 'absolute', bottom: '15px', right: '3vw' }}
+          style={{ position: 'absolute', bottom: '15px', right: '40%' }}
           secondary
         >
           <ContentAdd />
@@ -207,7 +207,7 @@ class SearchBar extends Component {
               style={{ position: 'absolute', top: '40%', left: '45%' }}
               size={80}
               thickness={8}
-              color='#50C2C4'
+              color='var(--color4)'
             /> : <div></div>}
         </Dialog>
         <Snackbar

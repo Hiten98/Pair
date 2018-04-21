@@ -12,7 +12,7 @@ class AdminCompany extends Component {
       deniedCompanies: [],
     }
     // console.log(props)
-    if (props.type != 'admin' && props.uid != '') {
+    if (props.type!='' && props.type != 'admin') {
       alert('Error: You don\'t have the required permissions')
       history.push('/')
     }

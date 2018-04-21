@@ -6,7 +6,7 @@ import axios from 'axios'
 import emailjs from 'emailjs-com'
 //import './ForgotPasswordModal.css';
 
-axios.defaults.baseURL = 'https://glacial-spire-77473.herokuapp.com/'
+
 
 class AddEmployeeModal extends Component {
   constructor(props) {

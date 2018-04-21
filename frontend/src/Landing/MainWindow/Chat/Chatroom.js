@@ -6,7 +6,7 @@ import axios from "axios";
 import MessageList from "./MessageList";
 import LeaveChatButton from "./LeaveChatButton";
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+
 
 class Chatroom extends Component {
   constructor(props) {

@@ -5,8 +5,6 @@ import history from '../../../../history'
 import axios from 'axios'
 import './RoommateSubmitButtons.css';
 
-axios.defaults.baseURL = 'http://https://glacial-spire-77473.herokuapp.com/'
-
 class RoommateSubmitButtons extends Component {
   constructor(props) {
     super(props)

@@ -1,5 +1,5 @@
 .list-column{
-  height: calc(100vh - 57px - 80px);
+  height: calc(100vh - 57px);
   overflow-y: auto;
   border-right-style: solid;
   overflow-x: hidden;
@@ -8,7 +8,7 @@
 .actual-list{
   overflow-x: hidden;
   overflow-y: auto;
-  height: calc(90vh - 57px - 80px);
+  height: calc(90vh - 57px);
 }
 
 .paper-list{
@@ -22,5 +22,5 @@
   display:flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--l3);
+  background-color: var(--color2);
 }

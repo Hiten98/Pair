@@ -10,7 +10,7 @@ import PicUpload from './PicUpload'
 import axios from 'axios'
 //import './UserDetailsForm.css';
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+
 
 //NEEDS TESTING
 

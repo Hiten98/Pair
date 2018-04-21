@@ -25,7 +25,7 @@ class TopBar extends Component {
     } else if (!history.location.pathname.indexOf('/landing/company')) {
       currPage = 'Company'
     }
-    a[currPage] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '56px' } }
+    a[currPage] = { style: { backgroundColor: 'var(--color2)', color: 'var(--color1)', fontSize: '21px', height: '56px' } }
     this.state = {
       value: currPage,
       navDrawer: false,
@@ -53,7 +53,7 @@ class TopBar extends Component {
     } else if (!history.location.pathname.indexOf('/landing/company')) {
       currPage = 'Company'
     }
-    a[currPage] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '56px' } }
+    a[currPage] = { style: { backgroundColor: 'var(--color2)', color: 'var(--color1)', fontSize: '21px', height: '56px' } }
     this.setState({ value: currPage, colors: a })
   }
 
@@ -70,7 +70,7 @@ class TopBar extends Component {
       <ListItem
         primaryText={title}
         onClick={() => { this.handleChange(null, null, value) }}
-        hoverColor='#F95498B0'
+        // hoverColor='#F95498B0'
         style={{ color: 'white', fontSize: '21px', height: '56px' }}
         {...this.state.colors[value]}
       />
@@ -80,7 +80,7 @@ class TopBar extends Component {
   handleChange = (ev, key, value) => {
     // console.log(ev)
     let a = []
-    a[value] = { style: { backgroundColor: '#EB347F', color: 'white', fontSize: '21px', height: '56px' } }
+    a[value] = { style: { backgroundColor: 'var(--color2)', color: 'var(--color1)', fontSize: '21px', height: '56px' } }
     this.setState({ value: value, colors: a })
     this.props.changeNeedToUpdate()
     if (history.location.pathname.indexOf(`/landing/${this.props.type}/${value}`))
@@ -113,8 +113,8 @@ class TopBar extends Component {
   returnDesktop = () => {
     return (
       <Row className="tool-bar">
-        <Toolbar style={{ backgroundColor: "#50C2C4", }}>
-          <ToolbarGroup>
+        <Toolbar style={{ backgroundColor: "var(--color3)", }}>
+          <ToolbarGroup firstChild>
             {(this.props.type == "employee" || this.props.type == "intern") ? this.createTab("Chat", "chat") : <div></div>}
             {(this.props.type == "employee" || this.props.type == "intern") ? this.createTab("Members", "members") : <div></div>}
             {(this.props.type == "intern") ? this.createTab("Housing", "housing") : <div></div>}
@@ -133,7 +133,7 @@ class TopBar extends Component {
     return (
       <Row className='tool-bar'>
         <AppBar
-          style={{ height: "8vh", backgroundColor: "#50C2C4", }}
+          style={{ height: "8vh", backgroundColor: "var(--color3)", }}
           //iconClassNameLeft='md-36'
           title={<span>{this.state.value.charAt(0).toUpperCase() + this.state.value.substr(1)}<i className="material-icons">&#xE313;</i></span>}
           onTitleClick={() => { this.setState({ navDrawer: true }) }}

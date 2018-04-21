@@ -7,7 +7,6 @@
   text-align: left;
   margin-top:60px;
   font-size: 26px;
-  color:rgb(255, 255, 255);
   vertical-align: 50%;
 }
 
@@ -18,4 +17,9 @@
 
 @media all and (max-width:767px){
   .logo{margin-top: 22vh;}
+  .info{color:var(--color5);}
+}
+
+@media all and (min-width:768px){
+  .info{color:var(--color1);}
 }

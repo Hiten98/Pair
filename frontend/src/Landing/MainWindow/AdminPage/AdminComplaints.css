@@ -14,8 +14,8 @@ p {
 
 .complaints {
   font-family: 'Roboto', sans-serif;
-  background-color: var(--vblue);
-  color: #fff;
+  background-color: var(--color2);
+  color: var(--color1);
   margin: 0;
   height: 80px;
   font-size: 60px;

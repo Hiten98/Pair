@@ -11,7 +11,7 @@ class People extends Component {
     super(props)
     let tempArr = []
     // console.log(props.props2.currPaper)
-    tempArr[props.currPaper] = { style: { backgroundColor: '#EB347F' } }
+    tempArr[props.currPaper] = { style: { backgroundColor: 'var(--color2)' } }
     this.state = {
       modNum: 0,
       colors: tempArr,
@@ -24,7 +24,7 @@ class People extends Component {
   handleClick = (i, id) => {
     let tempArr = this.state.colors
     tempArr[this.props.currPaper] = null
-    tempArr[i] = { style: { backgroundColor: '#EB347F' } }
+    tempArr[i] = { style: { backgroundColor: 'var(--color2)' } }
     this.setState({ colors: tempArr }, this.changeColors)
     this.props.changeSelected(id, i)
     this.changeNavDrawer()
@@ -40,7 +40,7 @@ class People extends Component {
           leftAvatar={this.state.myProfile[0].props.children.props.leftAvatar}
           primaryText={this.state.myProfile[0].props.children.props.primaryText}
           onClick={this.state.myProfile[0].props.children.props.onClick}
-          hoverColor='#F95498B0'
+          // hoverColor='#F95498B0'
           {...that.state.colors[0]}
         />
       </Paper>
@@ -53,7 +53,7 @@ class People extends Component {
       let tempArr = []
       // console.log(props.props2.currPaper)
       tempArr[this.props.currPaper] = null
-      tempArr[nextProps.currPaper] = { style: { backgroundColor: '#EB347F' } }
+      tempArr[nextProps.currPaper] = { style: { backgroundColor: 'var(--color2)' } }
       this.setState({ colors: tempArr }, this.changeColors)
     }
     if (this.props.props.state.currChatName != nextProps.props.state.currChatName) {
@@ -82,7 +82,7 @@ class People extends Component {
       <Paper zDepth={2} key={0} className='paper-list' style={{ position: 'sticky' }}>
         <ListItem
           {...args}
-          hoverColor='#F95498B0'
+          // hoverColor='#F95498B0'
           primaryText='My Profile'
           onClick={() => { this.handleClick(0, this.props.props.uid) }}
           {...this.state.colors[0]}

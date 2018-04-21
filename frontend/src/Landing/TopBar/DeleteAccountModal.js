@@ -6,7 +6,7 @@ import axios from 'axios'
 import history from '../../history'
 //import './DeleteAccountModal.css';
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+
 
 class DeleteAccountModal extends Component {
   constructor(props) {

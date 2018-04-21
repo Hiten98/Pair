@@ -14,8 +14,6 @@ import ThemBringPet from './ThemBringPet'
 import RoommateSubmitButtons from './RoommateSubmitButtons'
 //import './RoommatePreferencesForm.css'
 
-axios.defaults.baseURL='http://https://glacial-spire-77473.herokuapp.com/'
-
 //NEEDS TESTING
 
 class RoommatePreferencesForm extends Component{

@@ -1,6 +1,6 @@
 .text-display{
   height:calc(100vh - 57px - 80px);
-  background-color: aliceblue;
+  background-color: var(--color1);
   overflow-y: auto;
   overflow-x: hidden;
 }

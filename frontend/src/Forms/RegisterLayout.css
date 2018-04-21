@@ -1,5 +1,6 @@
 .mid-col{
-  background-color: #58A4B0;
+  background-color: var(--color2);
+  /* color:var(--color1); */
   padding-bottom: 3vh;
   padding-left:3vw;
   padding-right: 3vw;

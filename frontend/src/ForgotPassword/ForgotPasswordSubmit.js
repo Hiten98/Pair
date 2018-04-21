@@ -4,9 +4,6 @@ import { Row } from 'react-bootstrap'
 import history from '../history'
 import axios from 'axios'
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
-//TEST TO MAKE SURE THIS WORKS WITH BOTH EMPLOYEES AND INTERNS
-
 class ForgotPasswordSubmit extends Component {
   constructor(props){
     super(props)

@@ -8,7 +8,7 @@ class GetMods extends Component {
     super(props)
     let tempArr = []
     // console.log(props.props2.currPaper)
-    tempArr[props.props2.currPaper] = { style: { backgroundColor: '#EB347F' } }
+    tempArr[props.props2.currPaper] = { style: { backgroundColor: 'var(--color2)' } }
     this.state = {
       mods: [],
       colors: tempArr,
@@ -27,7 +27,7 @@ class GetMods extends Component {
       let tempArr = []
       // console.log(props.props2.currPaper)
       tempArr[this.props.props2.currPaper] = null
-      tempArr[nextProps.props2.currPaper] = { style: { backgroundColor: '#EB347F' } }
+      tempArr[nextProps.props2.currPaper] = { style: { backgroundColor: 'var(--color2)' } }
       this.setState({ colors: tempArr }, this.changeColors)
     }
   }
@@ -79,7 +79,7 @@ class GetMods extends Component {
                 primaryText={splitted[1]}
                 secondaryText={<p>{bio.substr(0, 20)}...</p>}
                 secondaryTextLines={1}
-                hoverColor='#F95498B0'
+                // hoverColor='#F95498B0'
                 onClick={() => { that.handleClick(parseInt(i) + tempProfileAdj, splitted[0]) }}
               />
             </Paper>
@@ -105,7 +105,7 @@ class GetMods extends Component {
             secondaryText={this.state.mods[i].props.children.props.secondaryText}
             secondaryTextLines={1}
             onClick={this.state.mods[i].props.children.props.onClick}
-            hoverColor='#F95498B0'
+            // hoverColor='#F95498B0'
             {...that.state.colors[this.state.mods[i].key]}
           />
         </Paper>
@@ -122,7 +122,7 @@ class GetMods extends Component {
       this.props.changeNavDrawer()
     let tempArr = this.state.colors
     tempArr[this.props.props2.currPaper] = null
-    tempArr[i] = { style: { backgroundColor: '#EB347F' } }
+    tempArr[i] = { style: { backgroundColor: 'var(--color2)' } }
     this.setState({ colors: tempArr }, this.changeColors)
     this.props.props2.changeSelected(id, i)
   }
@@ -131,7 +131,7 @@ class GetMods extends Component {
     if (this.props.props.state.currChatName.charAt(0) == 1 && this.state.mods.length > 0) {
       return (
         <div>
-          <Paper zDepth={2} key={-1} className='paper-list title-list' style={{ backgroundColor: '#50C2C4' }}><h4>Moderators</h4></Paper>
+          <Paper zDepth={2} key={-1} className='paper-list title-list' style={{ backgroundColor: 'var(--color3)', color:'var(--color1)' }}><h4>Moderators</h4></Paper>
           {this.state.mods}
         </div>
       )

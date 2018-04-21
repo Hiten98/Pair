@@ -9,7 +9,7 @@ class GetInterns extends Component {
     super(props)
     let tempArr = []
     // console.log(props.props2.currPaper)
-    tempArr[props.props2.currPaper] = { style: { backgroundColor: '#EB347F' } }
+    tempArr[props.props2.currPaper] = { style: { backgroundColor: 'var(--color2)' } }
     this.state = {
       interns: [],
       uidList: [],
@@ -35,7 +35,7 @@ class GetInterns extends Component {
       let tempArr = []
       // console.log(props.props2.currPaper)
       tempArr[this.props.props2.currPaper] = null
-      tempArr[nextProps.props2.currPaper] = { style: { backgroundColor: '#EB347F' } }
+      tempArr[nextProps.props2.currPaper] = { style: { backgroundColor: 'var(--color2)' } }
       this.setState({ colors: tempArr }, this.changeColors)
     }
   }
@@ -94,7 +94,7 @@ class GetInterns extends Component {
                 primaryText={splitted[1]}
                 secondaryText={<p>{bio.substr(0, 20)}...</p>}
                 secondaryTextLines={1}
-                hoverColor='#F95498B0'
+                // hoverColor='#F95498B0'
                 onClick={() => { that.handleClick(parseInt(i) + tempProfileAdj, splitted[0]) }}
               />
             </Paper>
@@ -138,7 +138,7 @@ class GetInterns extends Component {
                 secondaryText={score}
                 secondaryTextLines={1}
                 onClick={tempintern[parseInt(i)].props.children.props.onClick}
-                hoverColor='#F95498B0'
+                // hoverColor='#F95498B0'
                 {...that.state.colors[tempintern[i].key]}
               />
             </Paper>
@@ -178,7 +178,7 @@ class GetInterns extends Component {
               primaryText={`${response.data[i].firstName} ${response.data[i].lastName}`}
               onClick={() => { that.handleClick(parseInt(k) + parseInt(i), i) }}
               {...that.state.colors[parseInt(i) + parseInt(k)]}
-              hoverColor='#F95498B0'
+              // hoverColor='#F95498B0'
             />
           </Paper>
         )
@@ -201,7 +201,7 @@ class GetInterns extends Component {
             secondaryText={this.state.interns[i].props.children.props.secondaryText}
             secondaryTextLines={1}
             onClick={this.state.interns[i].props.children.props.onClick}
-            hoverColor='#F95498B0'
+            // hoverColor='#F95498B0'
             {...that.state.colors[this.state.interns[i].key]}
           />
         </Paper>
@@ -219,7 +219,7 @@ class GetInterns extends Component {
       this.props.changeNavDrawer()
     let tempArr = this.state.colors
     tempArr[this.props.props2.currPaper] = null
-    tempArr[i] = { style: { backgroundColor: '#EB347F' } }
+    tempArr[i] = { style: { backgroundColor: 'var(--color2)' } }
     this.setState({ colors: tempArr }, this.changeColors)
     this.props.props2.changeSelected(id, i)
   }
@@ -228,7 +228,7 @@ class GetInterns extends Component {
     if (this.props.props.state.currChatName.charAt(0) == 1 && this.state.interns.length > 0) {
       return (
         <div>
-          <Paper zDepth={2} key={-1} className='paper-list title-list' style={{ backgroundColor: '#50C2C4' }}><h4>Interns</h4></Paper>
+          <Paper zDepth={2} key={-1} className='paper-list title-list' style={{ backgroundColor: 'var(--color3)', color:'var(--color1)' }}><h4>Interns</h4></Paper>
           {this.state.interns}
         </div>
       )

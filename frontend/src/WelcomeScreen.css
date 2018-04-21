@@ -1,7 +1,7 @@
 .forms{
   vertical-align: middle;
-  background-color: var(--l1);
-  background-image: linear-gradient(-45deg,var(--hpink),/*var(--l1),var(--l2),*/var(--l3),var(--vblue)); 
+  background-color: var(--color1);
+  /* background-image: linear-gradient(-225deg,var(--color1),var(--l1),var(--l2),var(--color4),var(--color5));  */
   height:100vh;
 }
 
@@ -21,8 +21,4 @@
   margin-bottom:10vh;
   padding-left:5vw;
   padding-right:5vw;
-}
-
-.wholePage {
-
 }

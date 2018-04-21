@@ -5,8 +5,6 @@ import history from '../history'
 import axios from 'axios'
 //import './RegisterButtons.css';
 
-axios.defaults.baseURL = 'https://glacial-spire-77473.herokuapp.com/'
-
 class RegisterButtons extends Component {
 
 

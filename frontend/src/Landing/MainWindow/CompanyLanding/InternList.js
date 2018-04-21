@@ -77,7 +77,7 @@ class InternList extends Component {
                 </div>
               }
               secondaryTextLines={2}
-              hoverColor='#F95498B0'
+              // hoverColor='#F95498B0'
               onClick={() => that.removeInternModal(i)}
             />
           </Paper>

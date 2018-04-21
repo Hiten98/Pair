@@ -10,15 +10,16 @@ import AddLocationModal from './BottomBar/AddLocationModal'
 import AddEmployeeModal from './BottomBar/AddEmployeeModal'
 import './Sidebar.css';
 import history from '../history';
+import AddIntern from './BottomBar/AddIntern';
 import LeaveChatButton from './MainWindow/Chat/LeaveChatButton';
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+
 
 class Sidebar extends Component {
   constructor(props) {
     super(props)
     let tempArr = []
-    tempArr[parseInt(props.state.currChat)] = { style: { backgroundColor: '#EB347F' } }
+    tempArr[parseInt(props.state.currChat)] = { style: { backgroundColor: 'var(--color2)', } }
     this.state = {
       cards: [],
       colors: tempArr,
@@ -31,10 +32,6 @@ class Sidebar extends Component {
     }
     // console.log(props)
   }
-
-  stylePressed = '#EB347F'
-
-  styleNoPressed = 'white'
 
   closeModal = () => {
     let that = this
@@ -69,7 +66,7 @@ class Sidebar extends Component {
         if (response.data.invite_status != false) {
           let tempArr = that.state.colors
           tempArr[parseInt(that.props.state.currChat)] = null
-          tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
+          tempArr[parseInt(i)] = { style: { backgroundColor: 'var(--color2)' } }
           that.setState({ colors: tempArr }, that.changeColors)
           that.props.changeChat(parseInt(i), name, type)
         } else {
@@ -81,7 +78,7 @@ class Sidebar extends Component {
     } else {
       let tempArr = that.state.colors
       tempArr[parseInt(that.props.state.currChat)] = null
-      tempArr[parseInt(i)] = { style: { backgroundColor: '#EB347F' } }
+      tempArr[parseInt(i)] = { style: { backgroundColor: 'var(--color2)' } }
       that.setState({ colors: tempArr }, that.changeColors)
       that.props.changeChat(parseInt(i), name, type)
     }
@@ -96,7 +93,7 @@ class Sidebar extends Component {
       if (response.data.status) {
         let tempArr = that.state.colors
         tempArr[parseInt(that.props.state.currChat)] = null
-        tempArr[parseInt(that.state.index)] = { style: { backgroundColor: '#EB347F' } }
+        tempArr[parseInt(that.state.index)] = { style: { backgroundColor: 'var(--color2)' } }
         that.setState({ colors: tempArr }, that.changeColors)
         that.props.changeChat(parseInt(that.state.index), that.state.chatToAccept, that.state.type)
       } else {
@@ -116,14 +113,14 @@ class Sidebar extends Component {
     for (let i in this.state.cards) {
       // console.log(this.state.cards[i])
       tempCard.push(
-        <Paper zDepth={2} key={i}>
+        <Paper zDepth={2} key={i} className='color-pages'>
           <ListItem
             primaryText={this.state.cards[i].props.children.props.primaryText}
             className={this.state.cards[i].props.children.props.className}
             rightIcon={<CommunicationChatBubble />}
             onClick={this.state.cards[i].props.children.props.onClick}
             value={i}
-            hoverColor='#F95498B0'
+            // hoverColor=''
             {...that.state.colors[i]}
           />
 
@@ -151,12 +148,6 @@ class Sidebar extends Component {
         "userID": this.props.uid
       }).then(function (response) {
         // console.log(response.data)
-        let tempPushed = []
-        for (let i in response.data) {
-          tempPushed.push(that.styleNoPressed)
-          that.setState({ pressed: tempPushed })
-        }
-
         for (let i in response.data) {
           // console.log(response.data[i].charAt(0))
           if((history.location.pathname.indexOf('/landing/intern/housing')===0||history.location.pathname.indexOf('/landing/intern/saved')===0)
@@ -164,14 +155,14 @@ class Sidebar extends Component {
             continue;
           let k = tempCard.length
           tempCard.push(
-            <Paper zDepth={2} key={i}>
+            <Paper zDepth={2} key={i} className='color-pages'>
               <ListItem
                 primaryText={response.data[i].substring(1)}
                 className={response.data[i]}
                 rightIcon={<CommunicationChatBubble />}
                 onClick={() => that.handleClick(k, response.data[i], response.data[i].substring(0, 1))}
                 value={i}
-                hoverColor='#F95498B0'
+                // hoverColor='#F95498B0'
                 {...that.state.colors[k]}
               />
 
@@ -203,14 +194,14 @@ class Sidebar extends Component {
       // console.log('hi')
       let k = tempCard.length
       tempCard.push(
-        <Paper zDepth={2} key={that.state.cards.length}>
+        <Paper zDepth={2} key={that.state.cards.length} className='color-pages'>
           <ListItem
             primaryText='Intern Master List'
             className='0Intern Master List'
             rightIcon={<CommunicationChatBubble />}
             onClick={() => this.handleClick(k, '0Intern Master List', 0)}
             value={0}
-            hoverColor='#F95498B0'
+            // hoverColor='#F95498B0'
             {...this.state.colors[k]}
           />
         </Paper>
@@ -225,7 +216,7 @@ class Sidebar extends Component {
         <div className='img-div'>
           <img src={wordLogo} alt="logo" className='no-word-logo' />
         </div>
-        <hr />
+        <hr className='divider-desktop'/>
         <div className='sidebar-list'>
           <List style={{ marginTop: '-8px' }}>
             {this.state.cards}
@@ -234,7 +225,7 @@ class Sidebar extends Component {
 
         <InviteChat {...this.props} {...this.state} closeModal={this.closeModal} acceptedChat={this.acceptedChat} />
 
-        {(this.props.type != "admin" && this.props.type != "company") ? <CreateGroupChat {...this.props} /> : <div></div>}
+        {(this.props.type == 'intern') ? <CreateGroupChat {...this.props} /> : (this.props.type=='employee')?<AddIntern {...this.props}/>:null}
       </Col>
     );
   }
@@ -264,7 +255,7 @@ class Sidebar extends Component {
           <div>
             {(this.props.type != "admin" && this.props.type != "company") ? <LeaveChatButton {...this.props} {...this.state} /> : null}
             <br />
-            {(this.props.type != "admin" && this.props.type != "company") ? <CreateGroupChat {...this.props} /> : null}
+            {(this.props.type == 'intern') ? <CreateGroupChat {...this.props} /> : (this.props.type=='employee')?<AddIntern {...this.props}/>:null}
           </div>
           {(this.props.type == 'company') ?
             <div style={{ marginTop: '-80vh' }}>

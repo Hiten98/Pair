@@ -1,5 +1,5 @@
 .side-bar{
-  background-color: var(--l3);
+  background-color: var(--color3);
   height: 100vh;
   text-align: left;
   overflow: hidden;
@@ -20,6 +20,8 @@
   height:calc(100vh - 80px);
   overflow-x: hidden;
   overflow-y: auto;
+  position: relative;
+  top:40px;
 }
 
 @media all and (max-width:767px){
@@ -38,4 +40,16 @@
     text-align: center;
     margin-left: -6%;
   }
+}
+
+.color-pages{
+  background-color: var(--color1);
+  color:var(--color5);
+}
+
+.divider-desktop{
+  width:100vw;
+  position: absolute;
+  top:36px;
+  left:-20px;
 }

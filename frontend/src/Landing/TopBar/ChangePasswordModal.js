@@ -6,7 +6,7 @@ import axios from 'axios'
 import Password from '../../Forms/Intern/Password';
 //import './ChangePasswordModal.css';
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+
 
 class ChangePasswordModal extends Component {
   constructor(props) {

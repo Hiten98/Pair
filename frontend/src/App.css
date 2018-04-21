@@ -1,41 +1,23 @@
 :root{
-  --hpink:#EB347F;
+  /* --hpink:#EB347F;
   --l1:#D8DBE2;
   --l2:#A9BCD0;
   --l3:#58A4B0;
   --vblue:#50C2C4;
-  --hc:rgba(249, 84, 153, 0.69);
+  --hc:rgba(249, 84, 153, 0.69); */
+  --color1:#ECECEB;
+  --color2:#63BCD5;
+  --color3:#2A6393;
+  --color4:#888875;
+  --color5:#273132;
   /*overflow: hidden;*/
 }
 
 .App {
   text-align: center;
   width:100vw;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  color:var(--color5);
+  /* background-color: var(--color4) */
 }
 
 ::-webkit-scrollbar {

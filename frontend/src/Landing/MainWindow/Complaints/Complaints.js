@@ -4,7 +4,7 @@ import { RaisedButton, Card, CardActions, CardText, CardHeader } from "material-
 import axios from "axios";
 import "./Complaints.css";
 
-axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
+
 
 class Complaints extends Component {
   constructor(props) {

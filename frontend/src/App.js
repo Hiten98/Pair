@@ -7,7 +7,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { black } from 'material-ui/styles/colors';
 import RegisterLayout from './Forms/RegisterLayout'
+import axios from 'axios';
 import './App.css';
+
+axios.defaults.baseURL = "https://glacial-spire-77473.herokuapp.com/";
 
 class App extends Component {
   constructor(props) {
@@ -31,7 +34,15 @@ class App extends Component {
 
   muiTheme = getMuiTheme({
     palette: {
-      primary1Color: black,
+      primary1Color: 'var(--color3)',
+      accent1Color:'var(--color4)',
+      textColor:'var(--color5)',
+      alternateTextColor:'var(--color1)',
+      canvasColor:'var(--color1)',
+    },
+    avatar:{
+      color:'var(--color1)',
+      backgroundColor:'var(--color4)'
     }
   });
 

@@ -7,7 +7,7 @@
 }
 
 .topBar{
-  background-color: black;
+  background-color: var(--color3);
   margin-left: 0vw;
   margin-bottom: 8vh;
 }
