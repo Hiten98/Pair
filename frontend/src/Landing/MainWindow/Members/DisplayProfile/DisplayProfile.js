@@ -45,6 +45,7 @@ class DisplayProfile extends Component {
         pic: '',
         match: '',
         endDate: '',
+        startDate: '',
         temp: false,
       }, this.componentDidMount)
     }
@@ -70,6 +71,7 @@ class DisplayProfile extends Component {
           location: response.data.location,
           ban: response.data.banned,
           endDate: response.data.endDate,
+          startDate: response.data.startDate,
         })
         // }
       }).catch(function (error) {

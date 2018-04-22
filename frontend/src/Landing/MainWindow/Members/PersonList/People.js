@@ -145,7 +145,7 @@ class People extends Component {
         <ListItem
           primaryText="Change Person"
           onClick={() => { this.setState({ personDrawer: true }) }}
-          style={{ position: 'absolute', bottom: '2vh', }}
+          style={{ position: 'absolute', bottom: '0vh', backgroundColor:'var(--color3)', color:'var(--color1)', width:'100%' }}
         />
       </div>
     );

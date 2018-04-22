@@ -66,7 +66,6 @@ class ProfileHeader extends Component {
               label='ban'
               onClick={this.ban}
               secondary
-              fullWidth
               className='link'
             />
           }
@@ -74,7 +73,6 @@ class ProfileHeader extends Component {
             label='Remove Intern from company'
             onClick={this.removeIntern}
             secondary
-            fullWidth
             className='link'
           />
         </div>
@@ -190,7 +188,7 @@ class ProfileHeader extends Component {
     }
 
     //check to see if the profile is another intern's and if it is then add the block items
-    if (this.props.uid !== this.props.currProfile && this.props.currProfile.charAt(0) === '1')
+    if (this.props.uid !== this.props.currProfile && this.props.currProfile.charAt(0) === '1' && this.props.uid.charAt(0)==='1')
       thing.push(<BlockUser {...this.props} key='block'/>)
 
     //will check to see if the profile is another intern's and if it is then add the report button
@@ -241,11 +239,11 @@ class ProfileHeader extends Component {
 
           {(this.props.props.type == 'employee') ? this.empButtons() : (this.props.props.type == 'intern') ? this.internButtons() : null}
         </div>
-        {this.props.props.type == 'employee' && this.props.currProfile != this.props.uid ?
-          <Row>
+        {this.props.props.type == 'employee' && this.props.currProfile != this.props.uid && this.props.currProfile.charAt(0) == '1'?
+          <h4 style={{marginLeft:'-15px', marginBottom:'-10px'}}>
             Start Date: {this.props.startDate}&nbsp;&nbsp;&nbsp;
             End Date: {this.props.endDate}
-          </Row>
+          </h4>
           : null}
         <PrivateChatModal {...this.state} {...this.props} closeAll={this.closeAll} />
         <GroupChatModal {...this.state} {...this.props} closeAll={this.closeAll} />
