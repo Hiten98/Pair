@@ -37,7 +37,7 @@ class ProfileHeader extends Component {
   empButtons = () => {
     if (this.props.uid != this.props.currProfile) {
       return (
-        <div>
+        <div style={{marginBottom:'-10px'}}>
           <div style={{ marginLeft: '-14px' }}>
             {this.privateChatButton()}
           </div>
@@ -111,7 +111,7 @@ class ProfileHeader extends Component {
     // console.log(this.props)
     if (this.props.uid != this.props.currProfile) {
       return (
-        <Row className='row-div'>
+        <Row className='row-div' style={{marginBottom:'-20px'}}>
           {/* Adds the private chat */}
           {this.privateChatButton()}
 
@@ -223,7 +223,7 @@ class ProfileHeader extends Component {
               <span style={{ fontSize: '60px' }}>{`${this.props.firstname} ${this.props.lastname}`}</span>
             </Row>
             {(this.props.props.type == 'intern') ?
-              <Row style={{ marginLeft: '-17px' }}>
+              <Row style={{ marginLeft: '-17px', marginBottom:'10px' }}>
                 {this.props.match}
               </Row> : null
             }
@@ -232,7 +232,7 @@ class ProfileHeader extends Component {
 
         <div>
           {/* displays the edit profile, report intern, and remove from group chat */}
-          <Row style={{ marginTop: '10px' }}>
+          <Row style={{marginBottom:'-10px'}}>
             {this.secondLine()}
           </Row>
 
