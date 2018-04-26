@@ -48,7 +48,7 @@ class ForgotPasswordModal extends Component {
         console.log(response.data)
         if (response.data.status) {
 
-          let url = "http://localhost:3000/register/forgot/" + response.data.userID;
+          let url = "https://pair-ab7d0.firebaseapp.com/register/forgot/" + response.data.userID;
           emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
 
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Avatar, Paper, ListItem } from 'material-ui'
-import { lightGreenA700, yellow800, red500 } from 'material-ui/styles/colors';
 //import './LandingScreen.css';
 
 class GetInterns extends Component {
@@ -122,13 +121,13 @@ class GetInterns extends Component {
 
         for (let i in response.data.score) {
           if (parseInt(response.data.score[i]) > 66) {
-            score = <div><span style={{ color: lightGreenA700 }}>{response.data.score[i]}% match &nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: '#388E3C' }}>{response.data.score[i]}% match &nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
           } else if (parseInt(response.data.score[i]) > 33) {
-            score = <div><span style={{ color: yellow800 }}>{response.data.score[i]}% match&nbsp; </span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: '#FDD835' }}>{response.data.score[i]}% match&nbsp; </span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
           } else if (parseInt(response.data.score[i]) > 0) {
-            score = <div><span style={{ color: red500 }}>{response.data.score[i]}% match&nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
+            score = <div><span style={{ color: '#D32F2F' }}>{response.data.score[i]}% match&nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
           } else {
-            score = score = <div><span style={{ color: red500 }}>{0}% match&nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
+            score = score = <div><span style={{ color: '#D32F2F' }}>{0}% match&nbsp;</span> {tempintern[parseInt(i)].props.children.props.secondaryText}</div>
           }
           tempArr.push(
             <Paper zDepth={2} key={tempintern[i].key} className='paper-list'>

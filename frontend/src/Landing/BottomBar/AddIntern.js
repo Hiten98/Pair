@@ -69,7 +69,7 @@ class SearchBar extends Component {
               that.setState({ refresh: true })
               // console.log("Success! ID CREATED:" + response.data.userID);
 
-              let url = "http://localhost:3000/register/intern/creation/" + response.data.userID;
+              let url = "https://pair-ab7d0.firebaseapp.com/register/intern/creation/" + response.data.userID;
               emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
 
               emailjs.send("default_service", "welcome_to_pair", {

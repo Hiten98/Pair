@@ -44,7 +44,7 @@ class AddEmployeeModal extends Component {
     } else {
       //Get pin
 
-      let url = "http://localhost:3000/home/register";
+      let url = "https://pair-ab7d0.firebaseapp.com/home/register";
       emailjs.init("user_he0zBgUrFvMqcqcm0LHMN");
 
 

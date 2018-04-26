@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap'
 import axios from 'axios'
-import { lightGreenA700, yellow800, red500 } from 'material-ui/styles/colors';
 import Links from './Links.js'
 import ProfileHeader from './ProfileHeader'
 import CompanyInformation from './CompanyInformation'
@@ -86,14 +85,14 @@ class DisplayProfile extends Component {
         }).then(function (response) {
           let score = ''
           if (parseInt(response.data.score[0]) > 66) {
-            score = <span style={{ color: lightGreenA700, fontSize: '20px', }}>{response.data.score[0]}% match </span>
+            score = <span style={{ color: '#388E3C', fontSize: '20px', }}>{response.data.score[0]}% match </span>
           } else if (parseInt(response.data.score[0]) > 33) {
-            score = <span style={{ color: yellow800, fontSize: '20px', }}>{response.data.score[0]}% match </span>
+            score = <span style={{ color: '#FDD835', fontSize: '20px', }}>{response.data.score[0]}% match </span>
           } else if (parseInt(response.data.score[0]) >= 0) {
-            score = <span style={{ color: red500, fontSize: '20px', }}>{response.data.score[0]}% match </span>
+            score = <span style={{ color: '#D32F2F', fontSize: '20px', }}>{response.data.score[0]}% match </span>
           } else {
             // console.log("Will");
-            score = <span style={{ color: red500, fontSize: '20px', }}>{0}% match </span>
+            score = <span style={{ color: '#D32F2F', fontSize: '20px', }}>{0}% match </span>
           }
           that.setState({ match: score })
         }).catch(function (error) {
