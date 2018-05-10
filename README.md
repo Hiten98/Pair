@@ -1,6 +1,6 @@
 # Pair
 
-A webapp created for our CS307 software engineering class at Purdue University.
+A webapp created for our CS307 software engineering class at Purdue University. The frontend is written in javascript using the React framework and the elements are from material-ui, the server is written in javacript using nodejs and expressjs, and the database is in firebase. The app is also hosted in firebase with a shortened link at the end of the readme
 
 It is a webapp that is supposed to help interns find other interns to live with during their time at their internship. 
 
