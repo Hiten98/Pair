@@ -1,3 +1,5 @@
+To make this website work if it was git cloned, you must add a file in src/base.js that is in the form of src/baseExample.js which holds the firebase database information. We removed base.js because we felt that it was a security risk to our app if it was still in the repository.
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
